@@ -57,10 +57,30 @@ npm run dev
 
 ### 4. Deploy
 
+Manual deploy:
+
 ```bash
 npm run build
 firebase deploy
 ```
+
+### 5. CI/CD (GitHub Actions)
+
+Pushes and merges to `main` automatically deploy the site to Firebase Hosting via `.github/workflows/deploy.yml`.
+
+Add these **repository secrets** in GitHub (`Settings → Secrets and variables → Actions`):
+
+| Secret | Value |
+|--------|-------|
+| `FIREBASE_SERVICE_ACCOUNT` | Full JSON from Firebase Console → Project settings → Service accounts → Generate new private key |
+| `VITE_FIREBASE_API_KEY` | Same as your local `.env` |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Same as your local `.env` |
+| `VITE_FIREBASE_PROJECT_ID` | Same as your local `.env` |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Same as your local `.env` |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Same as your local `.env` |
+| `VITE_FIREBASE_APP_ID` | Same as your local `.env` |
+
+The service account needs the **Firebase Hosting Admin** role (Firebase Console → IAM, or it is included when generated from the Firebase service accounts page).
 
 ## Usage
 
