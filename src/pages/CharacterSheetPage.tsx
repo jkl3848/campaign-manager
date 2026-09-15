@@ -34,10 +34,11 @@ export function CharacterSheetPage() {
   const canEdit = isDm || isOwner;
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-4xl mx-auto">
       <CharacterSheet
         character={character}
         canEdit={!!canEdit}
+        isDm={!!isDm}
         onSave={(c) => saveCharacter(campaignId!, c)}
         onUploadImage={
           canEdit

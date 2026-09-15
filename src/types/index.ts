@@ -16,6 +16,16 @@ export interface Ability {
   cost?: string;
 }
 
+export interface DomainCard {
+  id: string;
+  domainId: string;
+  level: number;
+  name: string;
+  description: string;
+  type?: string;
+  recallCost?: number;
+}
+
 export interface Attack {
   name: string;
   range: string;
@@ -36,24 +46,33 @@ export interface Character {
   playerId: string;
   playerName: string;
   name: string;
-  pronouns?: string;
   imageUrl?: string;
   ancestryId: string;
   communityId: string;
   classId: string;
   subclassId: string;
+  transformationId?: string;
   traits: Traits;
+  level: number;
   hp: { current: number; max: number };
   stress: { current: number; max: number };
   hope: number;
   evasion: number;
+  armorId?: string;
   armorScore: number;
   armorName?: string;
+  armorSlots: { marked: number; max: number };
+  damageThresholds: { major: number; severe: number };
   weaponName?: string;
   weaponDamage?: string;
   weaponTrait?: TraitId;
+  hopeFeature?: string;
   abilities: Ability[];
+  feats: Ability[];
+  domainCards: DomainCard[];
+  experiences: string[];
   inventory: InventoryItem[];
+  description?: string;
   notes?: string;
   createdAt: number;
   updatedAt: number;

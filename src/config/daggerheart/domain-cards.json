@@ -1,0 +1,20 @@
+[
+  { "id": "arcana-raw-power", "domain": "arcana", "level": 1, "name": "Channel Raw Power", "type": "spell", "recallCost": 2, "description": "Once per long rest, place a domain card in your vault and gain a burst of magical energy." },
+  { "id": "arcana-arcane-sense", "domain": "arcana", "level": 1, "name": "Arcane Sense", "type": "spell", "recallCost": 1, "description": "Sense the presence of magical people and objects within Close range." },
+  { "id": "blade-no-mercy", "domain": "blade", "level": 1, "name": "No Mercy", "type": "ability", "recallCost": 1, "description": "Deal extra damage to marked targets." },
+  { "id": "blade-weapon-mastery", "domain": "blade", "level": 1, "name": "Weapon Mastery", "type": "ability", "recallCost": 1, "description": "Gain expertise with your chosen weapon type." },
+  { "id": "bone-track", "domain": "bone", "level": 1, "name": "Track", "type": "ability", "recallCost": 1, "description": "Follow trails and identify creatures by their signs." },
+  { "id": "bone-survivalist", "domain": "bone", "level": 1, "name": "Survivalist", "type": "ability", "recallCost": 1, "description": "Gain +2 to Instinct rolls when navigating or surviving in the wild." },
+  { "id": "codex-prepared", "domain": "codex", "level": 1, "name": "Prepared", "type": "ability", "recallCost": 1, "description": "Take an additional domain card of your level or lower from a domain you have access to." },
+  { "id": "codex-minor-illusion", "domain": "codex", "level": 1, "name": "Minor Illusion", "type": "spell", "recallCost": 1, "description": "Create a minor visual illusion no larger than yourself within Close range." },
+  { "id": "grace-rally", "domain": "grace", "level": 1, "name": "Rally", "type": "ability", "recallCost": 2, "description": "Spend 3 Hope to give an ally a Hope." },
+  { "id": "grace-performance", "domain": "grace", "level": 1, "name": "Performance", "type": "ability", "recallCost": 1, "description": "Use Presence to inspire, entertain, or manipulate crowds." },
+  { "id": "midnight-cunning", "domain": "midnight", "level": 1, "name": "Cunning Action", "type": "ability", "recallCost": 1, "description": "Move or hide as a free action." },
+  { "id": "midnight-sneak-attack", "domain": "midnight", "level": 1, "name": "Sneak Attack", "type": "ability", "recallCost": 1, "description": "Deal extra damage when attacking from hiding." },
+  { "id": "sage-wild-sense", "domain": "sage", "level": 1, "name": "Wild Sense", "type": "ability", "recallCost": 1, "description": "Sense disturbances in the natural world nearby." },
+  { "id": "sage-beastform", "domain": "sage", "level": 1, "name": "Beastform", "type": "spell", "recallCost": 2, "description": "Transform into a creature of your tier or lower." },
+  { "id": "splendor-prayer", "domain": "splendor", "level": 1, "name": "Prayer", "type": "spell", "recallCost": 2, "description": "Spend Hope to heal an ally." },
+  { "id": "splendor-divine-shield", "domain": "splendor", "level": 1, "name": "Divine Shield", "type": "spell", "recallCost": 1, "description": "Protect an ally with a barrier of holy light." },
+  { "id": "valor-frontline", "domain": "valor", "level": 1, "name": "Frontline", "type": "ability", "recallCost": 1, "description": "Mark an enemy to draw their attention." },
+  { "id": "valor-shield-bash", "domain": "valor", "level": 1, "name": "Shield Bash", "type": "ability", "recallCost": 1, "description": "Knock an enemy back with your shield." }
+]

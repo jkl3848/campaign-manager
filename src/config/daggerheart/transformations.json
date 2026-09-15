@@ -1,0 +1,38 @@
+[
+  {
+    "id": "vampire",
+    "name": "Vampire",
+    "description": "Undead creature of the night, sustained by blood.",
+    "abilities": [
+      { "name": "Bloodlust", "description": "Regain HP when you deal damage to a living creature." },
+      { "name": "Sunlight Weakness", "description": "Take extra damage when exposed to direct sunlight." }
+    ]
+  },
+  {
+    "id": "werewolf",
+    "name": "Werewolf",
+    "description": "Cursed shapeshifter bound to the moon.",
+    "abilities": [
+      { "name": "Beast Form", "description": "Transform under the full moon into a powerful wolf form." },
+      { "name": "Pack Instinct", "description": "Gain advantage on tracking and intimidation." }
+    ]
+  },
+  {
+    "id": "lich",
+    "name": "Lich",
+    "description": "An undead spellcaster who cheated death through dark magic.",
+    "abilities": [
+      { "name": "Phylactery", "description": "Your soul is bound to an object; you cannot truly die while it exists." },
+      { "name": "Necrotic Touch", "description": "Your unarmed strikes deal necrotic damage." }
+    ]
+  },
+  {
+    "id": "changeling",
+    "name": "Changeling",
+    "description": "A being who can alter their appearance at will.",
+    "abilities": [
+      { "name": "Shapeshift", "description": "Assume the appearance of any humanoid you have seen." },
+      { "name": "Uncanny Valley", "description": "Close inspection may reveal your true nature." }
+    ]
+  }
+]

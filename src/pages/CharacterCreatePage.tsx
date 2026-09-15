@@ -19,8 +19,9 @@ export function CharacterCreatePage() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-slate-100 mb-6">Create Character</h1>
+    <div className="max-w-4xl mx-auto">
+      <h1 className="font-serif text-3xl font-bold text-amber-100 mb-2">Create Character</h1>
+      <p className="text-slate-400 mb-6">Forge your hero, step by step.</p>
       <CharacterCreator
         campaignId={campaignId}
         playerId={playerId}

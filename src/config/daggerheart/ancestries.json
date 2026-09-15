@@ -3,108 +3,126 @@
     "id": "clank",
     "name": "Clank",
     "description": "Mechanical beings of clockwork and soul.",
-    "traitBonus": { "trait": "strength", "value": 1 }
+    "traitBonus": { "trait": "strength", "value": 1 },
+    "abilities": ["Immune to poison and disease.", "Do not need to eat or breathe."]
   },
   {
     "id": "drakona",
     "name": "Drakona",
     "description": "Dragon-blooded humanoids with scaled heritage.",
-    "traitBonus": { "trait": "instinct", "value": 1 }
+    "traitBonus": { "trait": "instinct", "value": 1 },
+    "abilities": ["Resistance to fire damage.", "A fearsome presence that unsettles lesser creatures."]
   },
   {
     "id": "dwarf",
     "name": "Dwarf",
     "description": "Sturdy folk of mountain and stone.",
-    "traitBonus": { "trait": "strength", "value": 1 }
+    "traitBonus": { "trait": "strength", "value": 1 },
+    "abilities": ["Darkvision.", "Advantage on rolls to resist being moved or knocked down."]
   },
   {
     "id": "elf",
     "name": "Elf",
     "description": "Long-lived beings attuned to magic and nature.",
-    "traitBonus": { "trait": "finesse", "value": 1 }
+    "traitBonus": { "trait": "finesse", "value": 1 },
+    "abilities": ["Keen senses — notice hidden details others miss.", "Trance instead of sleep; remain semi-aware."]
   },
   {
     "id": "faerie",
     "name": "Faerie",
     "description": "Otherworldly beings of glamour and trickery.",
-    "traitBonus": { "trait": "presence", "value": 1 }
+    "traitBonus": { "trait": "presence", "value": 1 },
+    "abilities": ["Minor illusion magic.", "Advantage on rolls to charm or deceive."]
   },
   {
     "id": "faun",
     "name": "Faun",
     "description": "Hoofed folk of the wild places.",
-    "traitBonus": { "trait": "instinct", "value": 1 }
+    "traitBonus": { "trait": "instinct", "value": 1 },
+    "abilities": ["Sure-footed on any natural terrain.", "Can communicate with forest animals."]
   },
   {
     "id": "firbolg",
     "name": "Firbolg",
     "description": "Gentle giants connected to the natural world.",
-    "traitBonus": { "trait": "knowledge", "value": 1 }
+    "traitBonus": { "trait": "knowledge", "value": 1 },
+    "abilities": ["Speak with plants and beasts.", "Can turn invisible in natural settings once per rest."]
   },
   {
     "id": "fungril",
     "name": "Fungril",
     "description": "Mycelial beings who communicate through spores.",
-    "traitBonus": { "trait": "knowledge", "value": 1 }
+    "traitBonus": { "trait": "knowledge", "value": 1 },
+    "abilities": ["Spore communication with other Fungril over long distances.", "Immune to spores and fungal toxins."]
   },
   {
     "id": "galapa",
     "name": "Galapa",
     "description": "Turtle-folk with ancient wisdom.",
-    "traitBonus": { "trait": "knowledge", "value": 1 }
+    "traitBonus": { "trait": "knowledge", "value": 1 },
+    "abilities": ["Natural armor — +1 to armor score.", "Can hold breath for hours underwater."]
   },
   {
     "id": "giant",
     "name": "Giant",
     "description": "Towering beings of immense strength.",
-    "traitBonus": { "trait": "strength", "value": 1 }
+    "traitBonus": { "trait": "strength", "value": 1 },
+    "abilities": ["Reach — attack enemies one range step farther.", "Carry double normal capacity."]
   },
   {
     "id": "goblin",
     "name": "Goblin",
     "description": "Small, clever, and fiercely loyal.",
-    "traitBonus": { "trait": "finesse", "value": 1 }
+    "traitBonus": { "trait": "finesse", "value": 1 },
+    "abilities": ["Nimble escape — disengage as a free action.", "Pack tactics with nearby allies."]
   },
   {
     "id": "halfling",
     "name": "Halfling",
     "description": "Small folk with big hearts and quick feet.",
-    "traitBonus": { "trait": "agility", "value": 1 }
+    "traitBonus": { "trait": "agility", "value": 1 },
+    "abilities": ["Lucky — reroll one failed roll per session.", "Naturally stealthy despite size."]
   },
   {
     "id": "human",
     "name": "Human",
     "description": "Adaptable and ambitious.",
-    "traitBonus": { "trait": "any", "value": 1 }
+    "traitBonus": { "trait": "any", "value": 1 },
+    "abilities": ["Versatile — gain +1 to any trait of your choice.", "Learn one additional language."]
   },
   {
     "id": "infernis",
     "name": "Infernis",
     "description": "Beings touched by infernal power.",
-    "traitBonus": { "trait": "presence", "value": 1 }
+    "traitBonus": { "trait": "presence", "value": 1 },
+    "abilities": ["Darkvision.", "Resistance to fire damage."]
   },
   {
     "id": "katari",
     "name": "Katari",
     "description": "Feline humanoids with keen senses.",
-    "traitBonus": { "trait": "agility", "value": 1 }
+    "traitBonus": { "trait": "agility", "value": 1 },
+    "abilities": ["Always land on your feet — no fall damage from heights under 30ft.", "Keen hearing and smell."]
   },
   {
     "id": "orc",
     "name": "Orc",
     "description": "Powerful warriors with fierce traditions.",
-    "traitBonus": { "trait": "strength", "value": 1 }
+    "traitBonus": { "trait": "strength", "value": 1 },
+    "abilities": ["Relentless — when reduced to 0 HP, stay up for one more turn.", "Intimidating battle cry."]
   },
   {
     "id": "ribbet",
     "name": "Ribbet",
     "description": "Amphibious folk of marsh and pond.",
-    "traitBonus": { "trait": "agility", "value": 1 }
+    "traitBonus": { "trait": "agility", "value": 1 },
+    "abilities": ["Amphibious — breathe air and water.", "Powerful leap — jump three times normal distance."]
   },
   {
     "id": "simiah",
     "name": "Simiah",
     "description": "Primate-folk known for curiosity.",
-    "traitBonus": { "trait": "instinct", "value": 1 }
+    "traitBonus": { "trait": "instinct", "value": 1 },
+    "abilities": ["Prehensile tail or feet for climbing.", "Advantage on rolls to use tools or solve puzzles."]
   }
 ]
