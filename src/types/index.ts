@@ -1,5 +1,40 @@
 export type TraitId = 'agility' | 'strength' | 'finesse' | 'instinct' | 'presence' | 'knowledge';
 
+export type Tier = 1 | 2 | 3;
+
+export type SubclassStage = 'foundation' | 'specialization' | 'mastery';
+
+export interface ExperienceEntry {
+  name: string;
+  bonus: number;
+}
+
+export interface MulticlassInfo {
+  classId: string;
+  domainId: string;
+  subclassId: string;
+}
+
+export interface LevelUpChoiceData {
+  traits?: [TraitId, TraitId];
+  experienceIndices?: [number, number];
+  domainCardId?: string;
+  hpAmount?: number;
+  stressAmount?: number;
+  multiclass?: MulticlassInfo;
+}
+
+export interface LevelUpChoice {
+  advancementId: string;
+  tier: Tier;
+  data?: LevelUpChoiceData;
+}
+
+export interface PendingLevelUp {
+  targetLevel: number;
+  initiatedAt: number;
+}
+
 export interface Traits {
   agility: number;
   strength: number;
@@ -70,7 +105,19 @@ export interface Character {
   abilities: Ability[];
   feats: Ability[];
   domainCards: DomainCard[];
-  experiences: string[];
+  /** @deprecated Use experienceEntries */
+  experiences?: string[];
+  experienceEntries: ExperienceEntry[];
+  proficiency: number;
+  /** Extra damage threshold bonus from advancements */
+  thresholdBonus: number;
+  markedTraits: TraitId[];
+  /** Marked advancement slots keyed as "tier:advancementId" */
+  advancementSlots: Record<string, number>;
+  disabledAdvancements: string[];
+  subclassStage: SubclassStage;
+  multiclass?: MulticlassInfo;
+  pendingLevelUp?: PendingLevelUp;
   inventory: InventoryItem[];
   description?: string;
   notes?: string;
@@ -179,6 +226,7 @@ export interface DiceRoll {
   isCrit: boolean;
   hopeGain: 'player' | 'dm' | 'none';
   label?: string;
+  secret?: boolean;
   timestamp: number;
 }
 

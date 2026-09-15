@@ -67,11 +67,16 @@ export function CharacterCreator({
   const [transformationId, setTransformationId] = useState(existing?.transformationId ?? '');
   const [characterTraits, setCharacterTraits] = useState<Traits>(existing?.traits ?? { ...DEFAULT_TRAITS });
   const [humanBonusTrait, setHumanBonusTrait] = useState<TraitId | ''>('');
-  const [experiences, setExperiences] = useState<[string, string]>(
-    existing?.experiences?.length === 2
-      ? [existing.experiences[0] ?? '', existing.experiences[1] ?? '']
-      : ['', ''],
-  );
+  const [experiences, setExperiences] = useState<[string, string]>(() => {
+    if (existing?.experienceEntries?.length) {
+      const entries = existing.experienceEntries.filter((e) => e.name.trim());
+      return [entries[0]?.name ?? '', entries[1]?.name ?? ''];
+    }
+    if (existing?.experiences?.length === 2) {
+      return [existing.experiences[0] ?? '', existing.experiences[1] ?? ''];
+    }
+    return ['', ''];
+  });
   const [selectedDomainCardIds, setSelectedDomainCardIds] = useState<string[]>(
     existing?.domainCards?.map((c) => c.id) ?? [],
   );
@@ -187,7 +192,14 @@ export function CharacterCreator({
       })),
       feats: existing?.feats ?? [],
       domainCards,
-      experiences,
+      experienceEntries: experiences.map((name) => ({ name, bonus: 2 })),
+      proficiency: existing?.proficiency ?? 1,
+      thresholdBonus: existing?.thresholdBonus ?? 0,
+      markedTraits: existing?.markedTraits ?? [],
+      advancementSlots: existing?.advancementSlots ?? {},
+      disabledAdvancements: existing?.disabledAdvancements ?? [],
+      subclassStage: existing?.subclassStage ?? 'foundation',
+      multiclass: existing?.multiclass,
       inventory: existing?.inventory ?? [],
       description: description || undefined,
       createdAt: existing?.createdAt ?? Date.now(),

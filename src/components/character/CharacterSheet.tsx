@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import type { Character, InventoryItem, Ability, DomainCard } from '../../types';
+import { useState, useEffect } from 'react';
+import type { Character, InventoryItem, DomainCard, Ability } from '../../types';
+import { LevelUpWizard } from './LevelUpWizard';
+import { canInitiateLevelUp, cancelLevelUp, initiateLevelUp } from '../../lib/levelUp';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card } from '../ui/Card';
@@ -14,7 +16,9 @@ import transformations from '../../config/daggerheart/transformations.json';
 import domains from '../../config/daggerheart/domains.json';
 import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
 import { normalizeCharacter } from '../../lib/characterNormalize';
-import { computeArmorStats } from '../../lib/characterArmor';
+import { CharacterSheetSession } from './CharacterSheetSession';
+
+export type CharacterSheetLayout = 'full' | 'session';
 
 interface CharacterSheetProps {
   character: Character;
@@ -22,7 +26,10 @@ interface CharacterSheetProps {
   onUploadImage?: (file: File) => Promise<string>;
   canEdit?: boolean;
   isDm?: boolean;
+  /** @deprecated Use layout="session" instead */
   compact?: boolean;
+  layout?: CharacterSheetLayout;
+  onTraitRoll?: (traitName: string, modifier: number) => void;
 }
 
 export function CharacterSheet({
@@ -32,11 +39,17 @@ export function CharacterSheet({
   canEdit = true,
   isDm = false,
   compact = false,
+  layout = 'full',
+  onTraitRoll,
 }: CharacterSheetProps) {
   const [char, setChar] = useState(() => normalizeCharacter(character));
   const [saving, setSaving] = useState(false);
+  const [showLevelUpWizard, setShowLevelUpWizard] = useState(false);
   const [newItem, setNewItem] = useState('');
-  const [newFeat, setNewFeat] = useState({ name: '', description: '' });
+
+  useEffect(() => {
+    setChar(normalizeCharacter(character));
+  }, [character]);
 
   const cls = classes.find((c) => c.id === char.classId);
   const ancestry = ancestries.find((a) => a.id === char.ancestryId);
@@ -63,15 +76,29 @@ export function CharacterSheet({
     update({ hope: Math.max(0, char.hope + delta) });
   };
 
-  const adjustLevel = (delta: number) => {
-    const newLevel = Math.max(1, Math.min(10, char.level + delta));
-    const armorStats = computeArmorStats(char.armorId ?? 'none', newLevel);
-    update({
-      level: newLevel,
-      damageThresholds: armorStats.damageThresholds,
-      armorSlots: { ...char.armorSlots, max: armorStats.armorSlots.max },
-      armorScore: armorStats.armorScore,
-    });
+  const handleDmLevelUp = async () => {
+    if (!canInitiateLevelUp(char)) return;
+    const updated = initiateLevelUp(char);
+    setChar(updated);
+    setSaving(true);
+    await onSave({ ...updated, updatedAt: Date.now() });
+    setSaving(false);
+  };
+
+  const handleCancelLevelUp = async () => {
+    const updated = cancelLevelUp(char);
+    setChar(updated);
+    setSaving(true);
+    await onSave({ ...updated, updatedAt: Date.now() });
+    setSaving(false);
+  };
+
+  const handleLevelUpComplete = async (updated: Character) => {
+    setChar(updated);
+    setShowLevelUpWizard(false);
+    setSaving(true);
+    await onSave(updated);
+    setSaving(false);
   };
 
   const toggleArmorSlot = (index: number) => {
@@ -93,13 +120,6 @@ export function CharacterSheet({
     };
     update({ inventory: [...char.inventory, item] });
     setNewItem('');
-  };
-
-  const addFeat = () => {
-    if (!newFeat.name.trim()) return;
-    const feat: Ability = { id: crypto.randomUUID(), ...newFeat };
-    update({ feats: [...char.feats, feat] });
-    setNewFeat({ name: '', description: '' });
   };
 
   const addDomainCard = (cardId: string) => {
@@ -129,37 +149,79 @@ export function CharacterSheet({
       )
     : [];
 
-  if (compact) {
+  const effectiveLayout = compact ? 'session' : layout;
+
+  if (effectiveLayout === 'session') {
     return (
-      <div className="space-y-3 text-sm">
-        <div className="flex items-center gap-3">
-          {char.imageUrl && (
-            <img src={char.imageUrl} alt={char.name} className="h-12 w-12 rounded-lg object-cover ring-2 ring-amber-900/50" />
-          )}
-          <div>
-            <p className="font-bold text-slate-100">{char.name}</p>
-            <p className="text-xs text-amber-400">Level {char.level} {cls?.name}</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-2">
-          <StatBadge label="HP" value={`${char.hp.current}/${char.hp.max}`} color="red" />
-          <StatBadge label="Stress" value={`${char.stress.current}/${char.stress.max}`} color="yellow" />
-          <StatBadge label="Hope" value={String(char.hope)} color="sky" />
-        </div>
-        <div className="flex flex-wrap gap-1">
-          {traits.map((t) => (
-            <span key={t.id} className="rounded bg-slate-800 px-1.5 py-0.5 text-xs">
-              {t.name}: {char.traits[t.id as keyof typeof char.traits] >= 0 ? '+' : ''}
-              {char.traits[t.id as keyof typeof char.traits]}
-            </span>
-          ))}
-        </div>
-      </div>
+      <CharacterSheetSession
+        char={char}
+        canEdit={canEdit}
+        isDm={isDm}
+        saving={saving}
+        cls={cls}
+        ancestry={ancestry}
+        community={community}
+        transformation={transformation}
+        subclass={subclass}
+        hopeFeature={hopeFeature}
+        availableDomainCardsForDm={availableDomainCardsForDm}
+        onAdjustHp={adjustHp}
+        onAdjustStress={adjustStress}
+        onAdjustHope={adjustHope}
+        onToggleArmorSlot={toggleArmorSlot}
+        onUpdateNotes={(notes) => update({ notes })}
+        onSave={handleSave}
+        onDmLevelUp={handleDmLevelUp}
+        onCancelLevelUp={handleCancelLevelUp}
+        onLevelUpComplete={handleLevelUpComplete}
+        onAddDomainCard={addDomainCard}
+        newItem={newItem}
+        onNewItemChange={setNewItem}
+        onAddInventoryItem={addInventoryItem}
+        onTraitRoll={onTraitRoll}
+      />
     );
   }
 
   return (
     <div className="space-y-5">
+      {char.pendingLevelUp && (
+        <div className="rounded-xl border border-amber-600/50 bg-amber-950/30 p-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-serif text-lg font-bold text-amber-200">
+                Level Up Available!
+              </p>
+              <p className="text-sm text-slate-300">
+                {isDm ? 'You initiated a level up to' : 'Your DM has granted a level up to'}{' '}
+                <span className="font-bold text-amber-300">Level {char.pendingLevelUp.targetLevel}</span>.
+                {canEdit ? ' Complete your advancement choices to finalize.' : ' Waiting for the player to complete.'}
+              </p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              {canEdit && (
+                <Button onClick={() => setShowLevelUpWizard(true)}>
+                  Complete Level Up
+                </Button>
+              )}
+              {isDm && (
+                <Button variant="ghost" size="sm" onClick={handleCancelLevelUp} disabled={saving}>
+                  Cancel
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showLevelUpWizard && char.pendingLevelUp && (
+        <LevelUpWizard
+          character={char}
+          onComplete={handleLevelUpComplete}
+          onCancel={() => setShowLevelUpWizard(false)}
+        />
+      )}
+
       <div className="sheet-header p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
           <div className="shrink-0">
@@ -190,9 +252,24 @@ export function CharacterSheet({
               <h1 className="font-serif text-3xl font-bold text-amber-50">{char.name}</h1>
             )}
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <LevelBadge level={char.level} onAdjust={isDm ? adjustLevel : undefined} />
+              <LevelBadge level={char.level} />
+              {isDm && canInitiateLevelUp(char) && (
+                <Button size="sm" onClick={handleDmLevelUp} disabled={saving}>
+                  Level Up
+                </Button>
+              )}
               {cls && <Tag label={cls.name} />}
               {subclass && <Tag label={subclass.name} variant="subtle" />}
+              {char.multiclass && (
+                <Tag
+                  label={`MC: ${classes.find((c) => c.id === char.multiclass!.classId)?.name ?? char.multiclass.classId}`}
+                  variant="accent"
+                />
+              )}
+            </div>
+            <div className="mt-2 flex items-center gap-2">
+              <span className="text-xs text-slate-500">Proficiency</span>
+              <ProficiencyDots filled={char.proficiency} max={6} />
             </div>
             <div className="mt-2 flex flex-wrap gap-2 text-xs">
               {ancestry && <Tag label={ancestry.name} variant="subtle" />}
@@ -284,15 +361,31 @@ export function CharacterSheet({
       {/* Traits */}
       <SheetSection title="Traits">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-6">
-          {traits.map((t) => (
-            <div key={t.id} className="rounded-lg bg-slate-900/60 p-3 text-center">
-              <p className="text-sm text-slate-300">{t.name}</p>
-              <p className="text-xl font-bold text-amber-400">
-                {char.traits[t.id as keyof typeof char.traits] >= 0 ? '+' : ''}
-                {char.traits[t.id as keyof typeof char.traits]}
-              </p>
-            </div>
-          ))}
+          {traits.map((t) => {
+            const traitId = t.id as keyof typeof char.traits;
+            const marked = char.markedTraits.includes(traitId);
+            const val = char.traits[traitId];
+            const clickable = !!onTraitRoll;
+            const Tag = clickable ? 'button' : 'div';
+            return (
+              <Tag
+                key={t.id}
+                type={clickable ? 'button' : undefined}
+                onClick={clickable ? () => onTraitRoll(t.name, val) : undefined}
+                className={`rounded-lg bg-slate-900/60 p-3 text-center ${marked ? 'ring-2 ring-amber-600/50' : ''} ${
+                  clickable ? 'cursor-pointer transition-colors hover:bg-slate-800/80 hover:ring-1 hover:ring-amber-600/30' : ''
+                }`}
+                title={clickable ? `Roll ${t.name}` : undefined}
+              >
+                <p className="text-sm text-slate-300">{t.name}</p>
+                <p className="text-xl font-bold text-amber-400">
+                  {val >= 0 ? '+' : ''}
+                  {val}
+                </p>
+                {marked && <p className="mt-1 text-[10px] text-amber-500">marked</p>}
+              </Tag>
+            );
+          })}
         </div>
       </SheetSection>
 
@@ -336,18 +429,6 @@ export function CharacterSheet({
         <AbilityList abilities={char.abilities} />
       </SheetSection>
 
-      <SheetSection title="Feats">
-        <AbilityList abilities={char.feats} emptyText="No feats yet." />
-        {isDm && (
-          <AddAbilityForm
-            value={newFeat}
-            onChange={setNewFeat}
-            onAdd={addFeat}
-            placeholder="Feat name"
-          />
-        )}
-      </SheetSection>
-
       <div className="grid gap-4 md:grid-cols-2">
         {ancestry && (
           <SheetSection title="Ancestry">
@@ -381,14 +462,14 @@ export function CharacterSheet({
         </SheetSection>
       )}
 
-      {char.experiences.some((e) => e.trim()) && (
+      {char.experienceEntries.some((e) => e.name.trim()) && (
         <SheetSection title="Experiences">
-          <p className="mb-3 text-xs text-slate-500">Spend Hope to add +2 to a related roll.</p>
+          <p className="mb-3 text-xs text-slate-500">Spend Hope to add your Experience bonus to a related roll.</p>
           <div className="grid gap-3 md:grid-cols-2">
-            {char.experiences.filter((e) => e.trim()).map((exp) => (
-              <div key={exp} className="rounded-lg bg-slate-900/60 p-3">
-                <p className="font-medium text-amber-200">{exp}</p>
-                <p className="mt-1 text-xs text-slate-400">+2 modifier</p>
+            {char.experienceEntries.filter((e) => e.name.trim()).map((exp) => (
+              <div key={exp.name} className="rounded-lg bg-slate-900/60 p-3">
+                <p className="font-medium text-amber-200">{exp.name}</p>
+                <p className="mt-1 text-xs text-slate-400">+{exp.bonus} modifier</p>
               </div>
             ))}
           </div>
@@ -458,44 +539,27 @@ function AbilityList({ abilities, emptyText }: { abilities: Ability[]; emptyText
   );
 }
 
-function AddAbilityForm({
-  value,
-  onChange,
-  onAdd,
-  placeholder,
-}: {
-  value: { name: string; description: string };
-  onChange: (v: { name: string; description: string }) => void;
-  onAdd: () => void;
-  placeholder: string;
-}) {
+function LevelBadge({ level }: { level: number }) {
   return (
-    <div className="mt-3 space-y-2 border-t border-slate-700/40 pt-3">
-      <Input
-        value={value.name}
-        onChange={(e) => onChange({ ...value, name: e.target.value })}
-        placeholder={placeholder}
-      />
-      <Input
-        value={value.description}
-        onChange={(e) => onChange({ ...value, description: e.target.value })}
-        placeholder="Description"
-      />
-      <Button size="sm" variant="secondary" onClick={onAdd}>Add</Button>
+    <div className="inline-flex items-center rounded-full border border-amber-700/50 bg-amber-950/40 px-3 py-1">
+      <span className="font-serif text-sm font-bold text-amber-300">Level {level}</span>
     </div>
   );
 }
 
-function LevelBadge({ level, onAdjust }: { level: number; onAdjust?: (delta: number) => void }) {
+function ProficiencyDots({ filled, max }: { filled: number; max: number }) {
   return (
-    <div className="inline-flex items-center gap-1 rounded-full border border-amber-700/50 bg-amber-950/40 px-3 py-1">
-      {onAdjust && (
-        <button type="button" onClick={() => onAdjust(-1)} className="text-amber-400 hover:text-amber-200">−</button>
-      )}
-      <span className="font-serif text-sm font-bold text-amber-300">Level {level}</span>
-      {onAdjust && (
-        <button type="button" onClick={() => onAdjust(1)} className="text-amber-400 hover:text-amber-200">+</button>
-      )}
+    <div className="flex gap-1">
+      {Array.from({ length: max }).map((_, i) => (
+        <span
+          key={i}
+          className={`h-3 w-3 rounded-full border ${
+            i < filled
+              ? 'border-amber-500 bg-amber-500'
+              : 'border-slate-600 bg-transparent'
+          }`}
+        />
+      ))}
     </div>
   );
 }
@@ -538,20 +602,6 @@ function ResourceTracker({
           <button type="button" onClick={() => onAdjust(1)} className="text-slate-400 hover:text-slate-200">+</button>
         )}
       </div>
-    </div>
-  );
-}
-
-function StatBadge({ label, value, color }: { label: string; value: string; color: string }) {
-  const colors: Record<string, string> = {
-    red: 'text-red-400',
-    yellow: 'text-yellow-400',
-    sky: 'text-sky-400',
-  };
-  return (
-    <div className="rounded bg-slate-900/50 p-2 text-center">
-      <p className="text-xs text-slate-500">{label}</p>
-      <p className={`font-bold ${colors[color]}`}>{value}</p>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { getPlayerSession } from '../../lib/playerSession';
 import { Button } from '../ui/Button';
@@ -6,6 +6,8 @@ import { Button } from '../ui/Button';
 export function Layout() {
   const { user, logout } = useAuth();
   const { campaignId } = useParams();
+  const location = useLocation();
+  const isLiveSession = /\/session\/[^/]+$/.test(location.pathname);
   const playerSession = getPlayerSession();
   const isDm = !!user;
   const isPlayer = !!playerSession && playerSession.campaignId === campaignId;
@@ -54,7 +56,7 @@ export function Layout() {
           </div>
         </div>
       </nav>
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className={isLiveSession ? '' : 'max-w-7xl mx-auto px-4 py-6'}>
         <Outlet />
       </main>
     </div>

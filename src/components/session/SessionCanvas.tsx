@@ -10,6 +10,7 @@ interface SessionCanvasProps {
   onElementsChange: (elements: CanvasElement[]) => void;
   onMapUpload?: (file: File) => Promise<void>;
   readOnly?: boolean;
+  fullscreen?: boolean;
 }
 
 export function SessionCanvas({
@@ -18,7 +19,9 @@ export function SessionCanvas({
   onElementsChange,
   onMapUpload,
   readOnly = false,
+  fullscreen = false,
 }: SessionCanvasProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [tool, setTool] = useState<Tool>('pen');
   const [color, setColor] = useState('#f59e0b');
@@ -27,28 +30,7 @@ export function SessionCanvas({
   const [currentPath, setCurrentPath] = useState<{ x: number; y: number }[]>([]);
   const mapInputRef = useRef<HTMLInputElement>(null);
 
-  const redraw = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (mapImageUrl) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        drawElements(ctx);
-      };
-      img.src = mapImageUrl;
-    } else {
-      ctx.fillStyle = '#1e293b';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      drawElements(ctx);
-    }
-  }, [elements, mapImageUrl]);
-
-  const drawElements = (ctx: CanvasRenderingContext2D) => {
+  const drawElements = useCallback((ctx: CanvasRenderingContext2D) => {
     for (const el of elements) {
       if (el.type === 'path') {
         const points = el.data.points as { x: number; y: number }[];
@@ -71,11 +53,51 @@ export function SessionCanvas({
         ctx.fillText(el.data.text as string, el.data.x as number, el.data.y as number);
       }
     }
-  };
+  }, [elements]);
+
+  const redraw = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (mapImageUrl) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        drawElements(ctx);
+      };
+      img.src = mapImageUrl;
+    } else {
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      drawElements(ctx);
+    }
+  }, [drawElements, mapImageUrl]);
 
   useEffect(() => {
     redraw();
   }, [redraw]);
+
+  useEffect(() => {
+    if (!fullscreen) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const resize = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+      redraw();
+    };
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(container);
+    resize();
+    return () => ro.disconnect();
+  }, [fullscreen, redraw]);
 
   const getPos = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current!;
@@ -141,52 +163,73 @@ export function SessionCanvas({
     }
   };
 
+  const toolbar = !readOnly && (
+    <div
+      className={
+        fullscreen
+          ? 'absolute top-3 z-10 flex flex-wrap items-center gap-1.5 rounded-lg border border-slate-700/60 bg-slate-950/80 px-2 py-1.5 backdrop-blur-md'
+          : 'flex flex-wrap gap-2 items-center'
+      }
+      style={fullscreen ? { left: 'calc(var(--dm-panel-width, 0px) + 12px)' } : undefined}
+    >
+      <Button variant={tool === 'pen' ? 'primary' : 'ghost'} size="sm" onClick={() => setTool('pen')}>
+        Draw
+      </Button>
+      <input
+        type="color"
+        value={color}
+        onChange={(e) => setColor(e.target.value)}
+        className="h-7 w-7 cursor-pointer rounded"
+        title="Color"
+      />
+      <input
+        type="range"
+        min={1}
+        max={10}
+        value={lineWidth}
+        onChange={(e) => setLineWidth(parseInt(e.target.value))}
+        className="w-16"
+        title="Line width"
+      />
+      <Button variant="ghost" size="sm" onClick={handleClear}>
+        Clear
+      </Button>
+      {onMapUpload && (
+        <>
+          <input
+            ref={mapInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleMapUpload}
+          />
+          <Button variant="secondary" size="sm" onClick={() => mapInputRef.current?.click()}>
+            Map
+          </Button>
+        </>
+      )}
+    </div>
+  );
+
+  if (fullscreen) {
+    return (
+      <div ref={containerRef} className="absolute inset-0">
+        {toolbar}
+        <canvas
+          ref={canvasRef}
+          className="h-full w-full cursor-crosshair bg-slate-900"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-2">
-      {!readOnly && (
-        <div className="flex flex-wrap gap-2 items-center">
-          <Button
-            variant={tool === 'pen' ? 'primary' : 'ghost'}
-            size="sm"
-            onClick={() => setTool('pen')}
-          >
-            Draw
-          </Button>
-          <input
-            type="color"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-            className="w-8 h-8 rounded cursor-pointer"
-            title="Color"
-          />
-          <input
-            type="range"
-            min={1}
-            max={10}
-            value={lineWidth}
-            onChange={(e) => setLineWidth(parseInt(e.target.value))}
-            className="w-20"
-            title="Line width"
-          />
-          <Button variant="ghost" size="sm" onClick={handleClear}>
-            Clear Drawings
-          </Button>
-          {onMapUpload && (
-            <>
-              <input
-                ref={mapInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleMapUpload}
-              />
-              <Button variant="secondary" size="sm" onClick={() => mapInputRef.current?.click()}>
-                Upload Map
-              </Button>
-            </>
-          )}
-        </div>
-      )}
+      {toolbar}
       <canvas
         ref={canvasRef}
         width={900}

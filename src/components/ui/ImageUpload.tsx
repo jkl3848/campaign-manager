@@ -47,7 +47,6 @@ export function ImageUpload({ currentUrl, onUpload, label = 'Upload Image' }: Im
       >
         {uploading ? 'Uploading...' : label}
       </Button>
-      <p className="text-xs text-slate-500">Max 1MB, auto-compressed</p>
     </div>
   );
 }
