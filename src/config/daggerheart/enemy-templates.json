@@ -1,0 +1,75 @@
+[
+  {
+    "id": "goblin-scout",
+    "name": "Goblin Scout",
+    "tier": 1,
+    "hp": 3,
+    "stress": 2,
+    "evasion": 12,
+    "difficulty": 10,
+    "damageThresholds": { "minor": 4, "major": 8 },
+    "attacks": [
+      { "name": "Rusty Dagger", "range": "Melee", "damage": "d6", "trait": "finesse" }
+    ],
+    "abilities": [
+      { "name": "Scurry", "description": "Move without provoking opportunity attacks." }
+    ],
+    "tags": ["goblin", "skirmisher"]
+  },
+  {
+    "id": "skeleton-warrior",
+    "name": "Skeleton Warrior",
+    "tier": 1,
+    "hp": 4,
+    "stress": 3,
+    "evasion": 10,
+    "difficulty": 11,
+    "damageThresholds": { "minor": 5, "major": 9 },
+    "attacks": [
+      { "name": "Shortsword", "range": "Melee", "damage": "d8", "trait": "strength" }
+    ],
+    "abilities": [
+      { "name": "Undead Fortitude", "description": "When reduced to 0 HP, roll d6. On 5+, stay at 1 HP once." }
+    ],
+    "tags": ["undead", "soldier"]
+  },
+  {
+    "id": "bandit-captain",
+    "name": "Bandit Captain",
+    "tier": 2,
+    "hp": 6,
+    "stress": 4,
+    "evasion": 11,
+    "difficulty": 13,
+    "damageThresholds": { "minor": 7, "major": 12 },
+    "attacks": [
+      { "name": "Scimitar", "range": "Melee", "damage": "d10", "trait": "agility" },
+      { "name": "Crossbow", "range": "Far", "damage": "d8", "trait": "finesse" }
+    ],
+    "abilities": [
+      { "name": "Command", "description": "An ally within Close range can immediately make an attack." },
+      { "name": "Parry", "description": "When hit, spend 1 Stress to reduce damage by 1d6." }
+    ],
+    "tags": ["humanoid", "leader"]
+  },
+  {
+    "id": "young-dragon",
+    "name": "Young Dragon",
+    "tier": 3,
+    "hp": 10,
+    "stress": 5,
+    "evasion": 10,
+    "difficulty": 15,
+    "damageThresholds": { "minor": 10, "major": 18 },
+    "attacks": [
+      { "name": "Bite", "range": "Melee", "damage": "d12", "trait": "strength" },
+      { "name": "Claw", "range": "Melee", "damage": "d10", "trait": "strength" },
+      { "name": "Fire Breath", "range": "Far", "damage": "2d8", "trait": "knowledge" }
+    ],
+    "abilities": [
+      { "name": "Wing Buffet", "description": "Knock all adjacent targets back to Close range." },
+      { "name": "Terrifying Presence", "description": "All enemies within Far range must mark Stress." }
+    ],
+    "tags": ["dragon", "boss"]
+  }
+]

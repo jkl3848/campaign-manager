@@ -1,0 +1,42 @@
+[
+  {
+    "id": "highborne",
+    "name": "Highborne",
+    "description": "Raised among nobility and privilege."
+  },
+  {
+    "id": "loreborne",
+    "name": "Loreborne",
+    "description": "Raised among scholars and libraries."
+  },
+  {
+    "id": "orderborne",
+    "name": "Orderborne",
+    "description": "Raised within structured institutions."
+  },
+  {
+    "id": "ridgeborne",
+    "name": "Ridgeborne",
+    "description": "Raised in mountainous frontier lands."
+  },
+  {
+    "id": "seaborne",
+    "name": "Seaborne",
+    "description": "Raised on ships and coastal towns."
+  },
+  {
+    "id": "slyborne",
+    "name": "Slyborne",
+    "description": "Raised in the shadows of cities."
+  },
+  {
+    "id": "underborne",
+    "name": "Underborne",
+    "description": "Raised in underground communities."
+  },
+  {
+    "id": "wildborne",
+    "name": "Wildborne",
+    "description": "Raised in untamed wilderness."
+  }
+]

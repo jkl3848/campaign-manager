@@ -1,0 +1,146 @@
+[
+  {
+    "id": "bard",
+    "name": "Bard",
+    "description": "A charismatic performer who inspires allies.",
+    "domains": ["grace", "codex"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "subclasses": [
+      { "id": "troubadour", "name": "Troubadour", "description": "A wandering performer." },
+      { "id": "wordsmith", "name": "Wordsmith", "description": "A master of language and lore." }
+    ],
+    "classFeatures": [
+      { "id": "rally", "name": "Rally", "description": "Spend 3 Hope to give an ally a Hope." }
+    ]
+  },
+  {
+    "id": "druid",
+    "name": "Druid",
+    "description": "A guardian of nature who shapeshifts and heals.",
+    "domains": ["sage", "arcana"],
+    "startingHp": 6,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "subclasses": [
+      { "id": "warden", "name": "Warden of the Elements", "description": "Commands elemental forces." },
+      { "id": "land", "name": "Warden of Renewal", "description": "Heals and restores life." }
+    ],
+    "classFeatures": [
+      { "id": "beastform", "name": "Beastform", "description": "Transform into an animal form." }
+    ]
+  },
+  {
+    "id": "guardian",
+    "name": "Guardian",
+    "description": "A stalwart defender who protects allies.",
+    "domains": ["valor", "blade"],
+    "startingHp": 7,
+    "startingStress": 6,
+    "startingEvasion": 9,
+    "subclasses": [
+      { "id": "stalwart", "name": "Stalwart", "description": "An immovable shield." },
+      { "id": "vengeance", "name": "Vengeance", "description": "Strikes back at those who harm allies." }
+    ],
+    "classFeatures": [
+      { "id": "frontline", "name": "Frontline", "description": "Mark an enemy to draw their attention." }
+    ]
+  },
+  {
+    "id": "ranger",
+    "name": "Ranger",
+    "description": "A skilled hunter and tracker.",
+    "domains": ["bone", "sage"],
+    "startingHp": 6,
+    "startingStress": 6,
+    "startingEvasion": 11,
+    "subclasses": [
+      { "id": "beastbound", "name": "Beastbound", "description": "Bonds with an animal companion." },
+      { "id": "wayfinder", "name": "Wayfinder", "description": "Master of terrain and navigation." }
+    ],
+    "classFeatures": [
+      { "id": "mark", "name": "Mark Target", "description": "Mark a target for bonus damage." }
+    ]
+  },
+  {
+    "id": "rogue",
+    "name": "Rogue",
+    "description": "A cunning operative who strikes from shadows.",
+    "domains": ["midnight", "grace"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 12,
+    "subclasses": [
+      { "id": "nightwalker", "name": "Nightwalker", "description": "Moves unseen through darkness." },
+      { "id": "syndicate", "name": "Syndicate", "description": "Connected to criminal networks." }
+    ],
+    "classFeatures": [
+      { "id": "cunning", "name": "Cunning Action", "description": "Move or hide as a free action." }
+    ]
+  },
+  {
+    "id": "seraph",
+    "name": "Seraph",
+    "description": "A divine warrior channeling holy power.",
+    "domains": ["splendor", "valor"],
+    "startingHp": 7,
+    "startingStress": 6,
+    "startingEvasion": 9,
+    "subclasses": [
+      { "id": "winged", "name": "Winged Sentinel", "description": "Bears wings of light." },
+      { "id": "prayer", "name": "Prayer Warrior", "description": "Channels divine wrath." }
+    ],
+    "classFeatures": [
+      { "id": "prayer", "name": "Prayer", "description": "Spend Hope to heal an ally." }
+    ]
+  },
+  {
+    "id": "sorcerer",
+    "name": "Sorcerer",
+    "description": "Innate magic flows through their veins.",
+    "domains": ["arcana", "midnight"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "subclasses": [
+      { "id": "elemental", "name": "Elemental Origin", "description": "Magic tied to an element." },
+      { "id": "primal", "name": "Primal Origin", "description": "Raw, untamed magical power." }
+    ],
+    "classFeatures": [
+      { "id": "arcane", "name": "Arcane Sense", "description": "Sense magical auras nearby." }
+    ]
+  },
+  {
+    "id": "warrior",
+    "name": "Warrior",
+    "description": "A master of weapons and combat.",
+    "domains": ["blade", "bone"],
+    "startingHp": 7,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "subclasses": [
+      { "id": "call", "name": "Call of the Brave", "description": "Leads from the front." },
+      { "id": "call2", "name": "Call of the Slayer", "description": "Specializes in killing blows." }
+    ],
+    "classFeatures": [
+      { "id": "no-mercy", "name": "No Mercy", "description": "Deal extra damage to marked targets." }
+    ]
+  },
+  {
+    "id": "wizard",
+    "name": "Wizard",
+    "description": "A studious spellcaster of arcane arts.",
+    "domains": ["codex", "splendor"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "subclasses": [
+      { "id": "school", "name": "School of Knowledge", "description": "Master of learned magic." },
+      { "id": "war", "name": "School of War", "description": "Magic optimized for battle." }
+    ],
+    "classFeatures": [
+      { "id": "prepared", "name": "Prepared Spells", "description": "Prepare spells from your grimoire." }
+    ]
+  }
+]

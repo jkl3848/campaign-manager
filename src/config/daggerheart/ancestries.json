@@ -1,0 +1,110 @@
+[
+  {
+    "id": "clank",
+    "name": "Clank",
+    "description": "Mechanical beings of clockwork and soul.",
+    "traitBonus": { "trait": "strength", "value": 1 }
+  },
+  {
+    "id": "drakona",
+    "name": "Drakona",
+    "description": "Dragon-blooded humanoids with scaled heritage.",
+    "traitBonus": { "trait": "instinct", "value": 1 }
+  },
+  {
+    "id": "dwarf",
+    "name": "Dwarf",
+    "description": "Sturdy folk of mountain and stone.",
+    "traitBonus": { "trait": "strength", "value": 1 }
+  },
+  {
+    "id": "elf",
+    "name": "Elf",
+    "description": "Long-lived beings attuned to magic and nature.",
+    "traitBonus": { "trait": "finesse", "value": 1 }
+  },
+  {
+    "id": "faerie",
+    "name": "Faerie",
+    "description": "Otherworldly beings of glamour and trickery.",
+    "traitBonus": { "trait": "presence", "value": 1 }
+  },
+  {
+    "id": "faun",
+    "name": "Faun",
+    "description": "Hoofed folk of the wild places.",
+    "traitBonus": { "trait": "instinct", "value": 1 }
+  },
+  {
+    "id": "firbolg",
+    "name": "Firbolg",
+    "description": "Gentle giants connected to the natural world.",
+    "traitBonus": { "trait": "knowledge", "value": 1 }
+  },
+  {
+    "id": "fungril",
+    "name": "Fungril",
+    "description": "Mycelial beings who communicate through spores.",
+    "traitBonus": { "trait": "knowledge", "value": 1 }
+  },
+  {
+    "id": "galapa",
+    "name": "Galapa",
+    "description": "Turtle-folk with ancient wisdom.",
+    "traitBonus": { "trait": "knowledge", "value": 1 }
+  },
+  {
+    "id": "giant",
+    "name": "Giant",
+    "description": "Towering beings of immense strength.",
+    "traitBonus": { "trait": "strength", "value": 1 }
+  },
+  {
+    "id": "goblin",
+    "name": "Goblin",
+    "description": "Small, clever, and fiercely loyal.",
+    "traitBonus": { "trait": "finesse", "value": 1 }
+  },
+  {
+    "id": "halfling",
+    "name": "Halfling",
+    "description": "Small folk with big hearts and quick feet.",
+    "traitBonus": { "trait": "agility", "value": 1 }
+  },
+  {
+    "id": "human",
+    "name": "Human",
+    "description": "Adaptable and ambitious.",
+    "traitBonus": { "trait": "any", "value": 1 }
+  },
+  {
+    "id": "infernis",
+    "name": "Infernis",
+    "description": "Beings touched by infernal power.",
+    "traitBonus": { "trait": "presence", "value": 1 }
+  },
+  {
+    "id": "katari",
+    "name": "Katari",
+    "description": "Feline humanoids with keen senses.",
+    "traitBonus": { "trait": "agility", "value": 1 }
+  },
+  {
+    "id": "orc",
+    "name": "Orc",
+    "description": "Powerful warriors with fierce traditions.",
+    "traitBonus": { "trait": "strength", "value": 1 }
+  },
+  {
+    "id": "ribbet",
+    "name": "Ribbet",
+    "description": "Amphibious folk of marsh and pond.",
+    "traitBonus": { "trait": "agility", "value": 1 }
+  },
+  {
+    "id": "simiah",
+    "name": "Simiah",
+    "description": "Primate-folk known for curiosity.",
+    "traitBonus": { "trait": "instinct", "value": 1 }
+  }
+]

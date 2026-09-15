@@ -1,0 +1,8 @@
+[
+  { "id": "agility", "name": "Agility", "abbreviation": "AGI" },
+  { "id": "strength", "name": "Strength", "abbreviation": "STR" },
+  { "id": "finesse", "name": "Finesse", "abbreviation": "FIN" },
+  { "id": "instinct", "name": "Instinct", "abbreviation": "INS" },
+  { "id": "presence", "name": "Presence", "abbreviation": "PRE" },
+  { "id": "knowledge", "name": "Knowledge", "abbreviation": "KNO" }
+]

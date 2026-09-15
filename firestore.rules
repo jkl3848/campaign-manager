@@ -1,0 +1,58 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isCampaignDm(campaignId) {
+      return isAuthenticated() &&
+        get(/databases/$(database)/documents/campaigns/$(campaignId)).data.dmId == request.auth.uid;
+    }
+
+    match /campaigns/{campaignId} {
+      allow read: if true;
+
+      allow create: if isAuthenticated() &&
+        request.resource.data.dmId == request.auth.uid &&
+        request.resource.data.id == campaignId;
+
+      allow update, delete: if isCampaignDm(campaignId);
+
+      match /characters/{docId} {
+        allow read: if true;
+        allow create, update: if true;
+        allow delete: if isCampaignDm(campaignId);
+      }
+
+      match /enemies/{docId} {
+        allow read: if true;
+        allow write: if isCampaignDm(campaignId);
+      }
+
+      match /npcs/{docId} {
+        allow read: if true;
+        allow write: if isCampaignDm(campaignId);
+      }
+
+      match /encounters/{docId} {
+        allow read: if true;
+        allow write: if isCampaignDm(campaignId);
+      }
+
+      match /sessions/{docId} {
+        allow read: if true;
+        allow create: if isCampaignDm(campaignId);
+        allow update: if true;
+        allow delete: if isCampaignDm(campaignId);
+      }
+
+      match /diceLog/{docId} {
+        allow read: if true;
+        allow create: if true;
+        allow update, delete: if isCampaignDm(campaignId);
+      }
+    }
+  }
+}
