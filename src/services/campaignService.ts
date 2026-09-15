@@ -17,8 +17,10 @@ import { generateInviteCode } from '../lib/playerSession';
 import { compressImage } from '../lib/images';
 import type { Campaign, Character, Enemy, Npc, Encounter, Session, DiceRoll } from '../types';
 
-function stripUndefined<T extends Record<string, unknown>>(obj: T): T {
-  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as T;
+function stripUndefined<T extends object>(obj: T): T {
+  return Object.fromEntries(
+    Object.entries(obj as Record<string, unknown>).filter(([, v]) => v !== undefined),
+  ) as T;
 }
 
 export async function createCampaign(name: string, dmId: string, description?: string): Promise<Campaign> {
