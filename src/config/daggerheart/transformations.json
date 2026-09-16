@@ -35,8 +35,8 @@
     ]
   },
   {
-    "id": "unstableform",
-    "name": "Unstable Form",
+    "id": "unstable",
+    "name": "Unstable",
     "description": "A being who can alter their appearance at will.",
     "abilities": [
       { "name": "Change Shape", "description": "During a rest, you can use a downtime move to swap your current ancestry with another. When you do, describe how your appearance changes." },

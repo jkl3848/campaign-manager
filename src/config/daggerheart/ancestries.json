@@ -91,9 +91,9 @@
     "abilities": ["Versatile — gain +1 to any trait of your choice.", "Learn one additional language."]
   },
   {
-    "id": "blazing",
-    "name": "Blazing",
-    "description": "Beings touched by blazing Draft power.",
+    "id": "infernal",
+    "name": "Infernal",
+    "description": "Beings touched by burning Draft power.",
     "traitBonus": { "trait": "presence", "value": 1 },
     "abilities": ["Darkvision.", "Resistance to fire damage."]
   },
