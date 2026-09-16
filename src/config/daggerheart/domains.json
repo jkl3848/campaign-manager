@@ -1,8 +1,8 @@
 [
-  { "id": "arcana", "name": "Arcana", "description": "Raw magical power." },
   { "id": "blade", "name": "Blade", "description": "Martial combat prowess." },
   { "id": "bone", "name": "Bone", "description": "Instinct and survival." },
   { "id": "codex", "name": "Codex", "description": "Knowledge and lore." },
+  { "id": "draft", "name": "Draft", "description": "Raw Draft power." },
   { "id": "grace", "name": "Grace", "description": "Social charm and agility." },
   { "id": "midnight", "name": "Midnight", "description": "Shadow and deception." },
   { "id": "sage", "name": "Sage", "description": "Nature and healing." },
