@@ -81,45 +81,6 @@
       }
     ]
   },
-
-  {
-    "id": "field_medic",
-    "name": "Field Medic",
-    "description": "A trained physician with the ability to cure wounds and protect others.",
-    "domains": ["splendor", "valor"],
-    "startingHp": 7,
-    "startingStress": 6,
-    "startingEvasion": 9,
-    "hopeFeature": "Life Support — Spend 3 Hope to clear a Hit Point on an ally within Close range..",
-    "subclasses": [
-      {
-        "id": "medivac",
-        "name": "Medivac",
-        "castingTrait": "strength",
-        "description": "Bears wings of light and soars above the battlefield.",
-        "features": [
-          "You can fly. While flying, you can do the following: - Mark a Stress to pick up and carry another willing creature approximately your size or smaller. - Spend a Hope to deal an extra 1d8 damage on a successful attack."
-        ]
-      },
-      {
-        "id": "prayer",
-        "name": "Combat Medic",
-        "castingTrait": "strength",
-        "description": "Channels wrath through intense training.",
-        "features": [
-          "When you have an equipped weapon with a range of Melee or Very Close, it can fly from your hand to attack an adversary within Close range and then return to you. You can mark a Stress to target an additional adversary within range with the same attack roll.",
-          "Once per long rest, touch a creature and clear 2 Hit Points or 2 Stress from them."
-        ]
-      }
-    ],
-    "classFeatures": [
-      {
-        "id": "support",
-        "name": "Support Dice",
-        "description": "At the beginning of each session, roll a number of d4s equal to your subclass’s Spellcast trait and place them on your character sheet in the space provided. These are your Support Dice. You can spend any number of Support Dice to aid yourself or an ally within Far range. You can use a spent die’s value to reduce incoming damage, add to a roll’s result after the roll is made, or gain Hope equal to the result. At the end of each session, clear all unspent Support Dice."
-      }
-    ]
-  },
   {
     "id": "grim",
     "name": "Grim",
@@ -194,6 +155,45 @@
         "id": "unstoppable",
         "name": "Unstoppable",
         "description": "Once per long rest, you can become Unstoppable. You gain an Unstoppable Die. At level 1, your Unstoppable Die is a d4. Place it on your character sheet in the space provided, starting with the 1 value facing up. After you make a damage roll that deals 1 or more Hit Points to a target, increase the Unstoppable Die value by one. When the die’s value would exceed its maximum value or when the scene ends, remove the die and drop out of Unstoppable. At level 5, your Unstoppable Die increases to a d6. While Unstoppable, you gain the following benefits: - You reduce the severity of physical damage by one threshold (Severe to Major, Major to Minor, Minor to None). - You add the current value of the Unstoppable Die to your damage roll. - You can’t be Restrained or Vulnerable. > ***Tip:*** *If your Unstoppable Die is a d4 and the 4 is currently facing up, you remove the die the next time you would increase it. However, if your Unstoppable Die has increased to a d6 and the 4 is currently facing up, you’ll turn it to 5 the next time you would increase it. In this case, you’ll remove the die after you would need to increase it higher than 6."
+      }
+    ]
+  },
+
+  {
+    "id": "Healer",
+    "name": "Healer",
+    "description": "A trained physician with the ability to cure wounds and protect others.",
+    "domains": ["splendor", "valor"],
+    "startingHp": 7,
+    "startingStress": 6,
+    "startingEvasion": 9,
+    "hopeFeature": "Life Support — Spend 3 Hope to clear a Hit Point on an ally within Close range..",
+    "subclasses": [
+      {
+        "id": "starna_doctor",
+        "name": "Starna Doctor",
+        "castingTrait": "strength",
+        "description": "Bears wings of light and soars above the battlefield.",
+        "features": [
+          "You can fly. While flying, you can do the following: - Mark a Stress to pick up and carry another willing creature approximately your size or smaller. - Spend a Hope to deal an extra 1d8 damage on a successful attack."
+        ]
+      },
+      {
+        "id": "prayer",
+        "name": "Combat Medic",
+        "castingTrait": "strength",
+        "description": "Channels wrath through intense training.",
+        "features": [
+          "When you have an equipped weapon with a range of Melee or Very Close, it can fly from your hand to attack an adversary within Close range and then return to you. You can mark a Stress to target an additional adversary within range with the same attack roll.",
+          "Once per long rest, touch a creature and clear 2 Hit Points or 2 Stress from them."
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "support",
+        "name": "Support Dice",
+        "description": "At the beginning of each session, roll a number of d4s equal to your subclass’s Spellcast trait and place them on your character sheet in the space provided. These are your Support Dice. You can spend any number of Support Dice to aid yourself or an ally within Far range. You can use a spent die’s value to reduce incoming damage, add to a roll’s result after the roll is made, or gain Hope equal to the result. At the end of each session, clear all unspent Support Dice."
       }
     ]
   },

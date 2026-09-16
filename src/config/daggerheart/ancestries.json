@@ -93,7 +93,7 @@
   {
     "id": "blazing",
     "name": "Blazing",
-    "description": "Beings touched by blazing power.",
+    "description": "Beings touched by blazing Draft power.",
     "traitBonus": { "trait": "presence", "value": 1 },
     "abilities": ["Darkvision.", "Resistance to fire damage."]
   },
