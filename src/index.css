@@ -24,3 +24,56 @@ body {
   background: #475569;
   border-radius: 3px;
 }
+
+.game-card {
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+}
+
+.game-card-selected .game-card-inner {
+  border-color: rgb(251 191 36 / 0.8);
+}
+
+@keyframes slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.25s ease-out;
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-popup-in {
+  animation: popup-in 0.2s ease-out;
+}
+
+.sheet-section {
+  background: linear-gradient(135deg, rgb(15 23 42 / 0.9), rgb(30 41 59 / 0.6));
+  border: 1px solid rgb(71 85 105 / 0.5);
+  border-radius: 0.75rem;
+}
+
+.sheet-header {
+  background: linear-gradient(to right, rgb(15 23 42), rgb(30 27 20 / 0.8));
+  border: 1px solid rgb(120 53 15 / 0.4);
+  border-radius: 1rem;
+}
+
+.domain-card-tile {
+  transition: transform 0.2s ease-out;
+}
+
+.domain-card-tile:hover {
+  z-index: 10;
+}

@@ -1,0 +1,80 @@
+{
+  "advancements": [
+    {
+      "id": "trait-increase",
+      "name": "Increase Character Traits",
+      "description": "Choose two unmarked character traits and gain a permanent +1 bonus to them. You can't increase these stats again until the next tier.",
+      "totalSlots": 4,
+      "pickCost": 1
+    },
+    {
+      "id": "hp-slot",
+      "name": "Add Hit Point Slots",
+      "description": "Permanently add 1 or more Hit Point slots.",
+      "totalSlots": 4,
+      "pickCost": 1
+    },
+    {
+      "id": "stress-slot",
+      "name": "Add Stress Slots",
+      "description": "Permanently add 1 or more Stress slots.",
+      "totalSlots": 4,
+      "pickCost": 1
+    },
+    {
+      "id": "experience-boost",
+      "name": "Increase Experience",
+      "description": "Choose two Experiences and gain a permanent +1 bonus to both.",
+      "totalSlots": 4,
+      "pickCost": 1
+    },
+    {
+      "id": "domain-card",
+      "name": "Additional Domain Card",
+      "description": "Choose an additional domain card at or below your level for your class's domains. If multiclassed, select a card at or below half your level from your multiclass domain.",
+      "totalSlots": 4,
+      "pickCost": 1
+    },
+    {
+      "id": "evasion",
+      "name": "Increase Evasion",
+      "description": "Gain a permanent +1 bonus to your Evasion.",
+      "totalSlots": 2,
+      "pickCost": 1
+    },
+    {
+      "id": "subclass-upgrade",
+      "name": "Upgraded Subclass Card",
+      "description": "Take the next card for your subclass — specialization if you only have the foundation, mastery if you have specialization. Crosses out this tier's multiclass option.",
+      "totalSlots": 1,
+      "pickCost": 1
+    },
+    {
+      "id": "proficiency",
+      "name": "Increase Proficiency",
+      "description": "Fill in one open Proficiency circle and increase your weapon's damage dice by 1. Requires both level-up picks.",
+      "totalSlots": 2,
+      "pickCost": 2
+    },
+    {
+      "id": "multiclass",
+      "name": "Multiclass",
+      "description": "Choose an additional class and domain, gain its class feature, and take a foundation subclass card. Crosses out upgraded subclass and other multiclass options. Requires both level-up picks.",
+      "totalSlots": 1,
+      "pickCost": 2
+    },
+    {
+      "id": "thresholds",
+      "name": "Increase Damage Thresholds",
+      "description": "Increase all damage thresholds by 1.",
+      "totalSlots": 2,
+      "pickCost": 1
+    }
+  ],
+  "tierAdvancements": {
+    "1": ["trait-increase", "hp-slot", "stress-slot", "experience-boost", "domain-card", "evasion", "subclass-upgrade", "proficiency", "multiclass", "thresholds"],
+    "2": ["trait-increase", "hp-slot", "stress-slot", "experience-boost", "domain-card", "evasion", "subclass-upgrade", "proficiency", "multiclass", "thresholds"],
+    "3": ["trait-increase", "hp-slot", "stress-slot", "experience-boost", "domain-card", "evasion", "subclass-upgrade", "proficiency", "multiclass", "thresholds"]
+  },
+  "milestoneLevels": [2, 5, 8]
+}

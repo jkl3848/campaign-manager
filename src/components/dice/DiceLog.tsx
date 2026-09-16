@@ -2,16 +2,19 @@ import type { DiceRoll } from '../../types';
 
 interface DiceLogProps {
   rolls: DiceRoll[];
+  isDm?: boolean;
 }
 
-export function DiceLog({ rolls }: DiceLogProps) {
-  if (rolls.length === 0) {
+export function DiceLog({ rolls, isDm = false }: DiceLogProps) {
+  const visibleRolls = rolls.filter((r) => !r.secret || isDm);
+
+  if (visibleRolls.length === 0) {
     return <p className="text-slate-500 text-sm italic">No rolls yet this session.</p>;
   }
 
   return (
-    <div className="space-y-2 max-h-64 overflow-y-auto">
-      {rolls.map((roll) => (
+    <div className="space-y-2">
+      {visibleRolls.map((roll) => (
         <div
           key={roll.id}
           className="flex items-center justify-between text-sm bg-slate-900/50 rounded-lg px-3 py-2"
@@ -19,6 +22,9 @@ export function DiceLog({ rolls }: DiceLogProps) {
           <div>
             <span className="font-medium text-slate-200">{roll.rollerName}</span>
             {roll.label && <span className="text-slate-400 ml-2">— {roll.label}</span>}
+            {roll.secret && (
+              <span className="text-purple-400/70 ml-2 text-xs">(secret)</span>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <span className="text-slate-400">

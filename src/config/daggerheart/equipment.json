@@ -10,10 +10,11 @@
     { "id": "wand", "name": "Wand", "damage": "d6", "range": "Far", "trait": "knowledge" }
   ],
   "armor": [
-    { "id": "none", "name": "Unarmored", "score": 0, "description": "No armor." },
-    { "id": "leather", "name": "Leather Armor", "score": 1, "description": "Light protection." },
-    { "id": "chain", "name": "Chain Mail", "score": 2, "description": "Medium protection." },
-    { "id": "plate", "name": "Plate Armor", "score": 3, "description": "Heavy protection." }
+    { "id": "none", "name": "Unarmored", "score": 0, "thresholdMajor": 0, "thresholdSevere": 0, "description": "No armor. Major threshold equals level; Severe equals 2× level." },
+    { "id": "gambeson", "name": "Gambeson Armor", "score": 3, "thresholdMajor": 5, "thresholdSevere": 11, "description": "Flexible: +1 to Evasion." },
+    { "id": "leather", "name": "Leather Armor", "score": 3, "thresholdMajor": 6, "thresholdSevere": 13, "description": "Light protection." },
+    { "id": "chain", "name": "Chainmail Armor", "score": 4, "thresholdMajor": 7, "thresholdSevere": 15, "description": "Heavy: −1 to Evasion." },
+    { "id": "plate", "name": "Full Plate Armor", "score": 4, "thresholdMajor": 8, "thresholdSevere": 17, "description": "Very Heavy: −2 to Evasion; −1 to Agility." }
   ],
   "items": [
     { "id": "rope", "name": "Rope (50ft)", "description": "Standard adventuring rope." },

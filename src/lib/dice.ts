@@ -1,3 +1,5 @@
+import type { DiceRoll } from '../types';
+
 export interface RollResult {
   white: number;
   black: number;
@@ -18,6 +20,32 @@ export function rollDaggerheart(modifier = 0): RollResult {
   else if (black > white) hopeGain = 'dm';
 
   return { white, black, modifier, total, isCrit, hopeGain };
+}
+
+export function createDiceRoll(params: {
+  campaignId: string;
+  sessionId: string;
+  rollerName: string;
+  modifier?: number;
+  label?: string;
+  secret?: boolean;
+}): DiceRoll {
+  const result = rollDaggerheart(params.modifier ?? 0);
+  return {
+    id: crypto.randomUUID(),
+    campaignId: params.campaignId,
+    sessionId: params.sessionId,
+    rollerName: params.rollerName,
+    white: result.white,
+    black: result.black,
+    modifier: result.modifier,
+    total: result.total,
+    isCrit: result.isCrit,
+    hopeGain: result.hopeGain,
+    label: params.label,
+    secret: params.secret ? true : undefined,
+    timestamp: Date.now(),
+  };
 }
 
 export function parseDiceNotation(notation: string): number {

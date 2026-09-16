@@ -55,7 +55,7 @@ export function CharactersPage() {
                     <h3 className="font-semibold text-slate-100">{c.name}</h3>
                     <p className="text-sm text-slate-400">{c.playerName}</p>
                     <p className="text-xs text-slate-500">
-                      HP {c.hp.current}/{c.hp.max} · Hope {c.hope}
+                      Lv.{c.level ?? 1} · HP {c.hp.current}/{c.hp.max} · Hope {c.hope}
                     </p>
                   </div>
                 </div>

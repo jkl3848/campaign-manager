@@ -2,41 +2,49 @@
   {
     "id": "highborne",
     "name": "Highborne",
-    "description": "Raised among nobility and privilege."
+    "description": "Raised among nobility and privilege.",
+    "feature": "You carry yourself with authority. Gain +1 to Presence when interacting with the upper class."
   },
   {
     "id": "loreborne",
     "name": "Loreborne",
-    "description": "Raised among scholars and libraries."
+    "description": "Raised among scholars and libraries.",
+    "feature": "You have access to academic networks. Gain +1 to Knowledge when researching or recalling lore."
   },
   {
     "id": "orderborne",
     "name": "Orderborne",
-    "description": "Raised within structured institutions."
+    "description": "Raised within structured institutions like temples or militias.",
+    "feature": "You understand hierarchy and protocol. Allies gain +1 to morale when you lead."
   },
   {
     "id": "ridgeborne",
     "name": "Ridgeborne",
-    "description": "Raised in mountainous frontier lands."
+    "description": "Raised in mountainous frontier lands.",
+    "feature": "Hardy and sure-footed. Ignore difficult terrain in mountains and high altitude effects."
   },
   {
     "id": "seaborne",
     "name": "Seaborne",
-    "description": "Raised on ships and coastal towns."
+    "description": "Raised on ships and coastal towns.",
+    "feature": "At home on the water. Gain +1 to Agility on ships and when swimming."
   },
   {
     "id": "slyborne",
     "name": "Slyborne",
-    "description": "Raised in the shadows of cities."
+    "description": "Raised in the shadows of cities.",
+    "feature": "You know the back alleys and hidden routes. Gain +1 to Finesse when moving unseen in urban areas."
   },
   {
     "id": "underborne",
     "name": "Underborne",
-    "description": "Raised in underground communities."
+    "description": "Raised in underground communities.",
+    "feature": "Darkvision and an innate sense of direction underground. Never lost in caves or tunnels."
   },
   {
     "id": "wildborne",
     "name": "Wildborne",
-    "description": "Raised in untamed wilderness."
+    "description": "Raised in untamed wilderness.",
+    "feature": "You read the land like a book. Gain +1 to Instinct when foraging, hunting, or navigating wild terrain."
   }
 ]
