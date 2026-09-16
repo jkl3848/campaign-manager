@@ -1,5 +1,48 @@
 [
   {
+    "id": "artificer",
+    "name": "Artificer",
+    "description": "Manipulate the Draft into technological marvels and constructs.",
+    "domains": ["codex", "midnight"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 11,
+    "hopeFeature": "Masterpiece — Spend 3 Hope to select one of the following effects. It lasts until the end of the scene: • Enhance – Choose one of your domain cards. Any roll and damage associated with it has a bonus of a d4. This bonus increases with your Proficiency. • Mass Production – donate a copy of one of your Domain Cards to another character. They can use it as one of theirs. If a roll is required, they use your Traits.",
+    "subclasses": [
+      {
+        "id": "crafter",
+        "name": "Crafter",
+        "castingTrait": "knowledge",
+        "description": "A master of creating and enhancing items.",
+        "features": [
+          "Each Long Rest, you can build something that will be helpful to you or your team. Choose an Experience attached to this new instrument and the Owner of such Instrument. The Experience can be totally new. The Owner can use that Experience as if it were their own (bonus of +2). This Instrument needs to be recharged or rebuilt every night. You can only have 1 Instrument active."
+        ]
+      },
+      {
+        "id": "alchemist",
+        "name": "Alchemist",
+        "castingTrait": "knowledge",
+        "description": "A master of potions and poisons, able to create powerful concoctions.",
+        "features": [
+          "With a few minutes of craft and spending 2 Hopes, you can heal yourself or someone else, clearing a Hit Point or Stress.",
+          "As a Short Rest Action, you can create 1 vial of Poison. As a Long Rest Action, create 1d4 vials instead. You or an ally can poison a target by using a poisoned weapon (1 vial is consumed for 1 successful strike) or by ingestion. A Poisoned creature takes 1d10 direct damage each time they act."
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "gadgets",
+        "name": "Gadgets",
+        "description": "You can perform harmless, subtle effects associated with your craft at will. For example, you can change an object’s color or create a smell through alchemy, light a candle with a device, cause a tiny object to float using magnetism, illuminate a room with a Draft light, or repair a small object."
+      },
+      {
+        "id": "improvise",
+        "name": "Improvise",
+        "description": "You can spend a Hope to add half of your Proficiency, rounded up, to an Action Roll for which you don’t have other bonuses (this doesn’t include Traits)."
+      }
+    ]
+  },
+  {
     "id": "bard",
     "name": "Bard",
     "description": "A charismatic performer who inspires allies through song, story, and sheer force of personality.",
@@ -7,52 +50,112 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "Rally — Spend 3 Hope to give an ally a Hope.",
+    "hopeFeature": "Make a Scene — Spend 3 Hope to temporarily Distract a target within Close range, giving them a -2 penalty to their Difficulty.",
     "subclasses": [
       {
         "id": "troubadour",
         "name": "Troubadour",
+        "castingTrait": "presence",
         "description": "A wandering performer who carries tales from town to town.",
-        "features": ["Gain +1 to Presence rolls when performing.", "Once per rest, inspire an ally to reroll a failed roll."]
+        "features": [
+          "You can play three different types of songs, once each per long rest; describe how you perform for others to gain the listed benefit: - **Relaxing Song:** You and all allies within Close range clear a Hit Point. - **Epic Song:** Make a target within Close range temporarily Vulnerable. - **Heartbreaking Song:** You and all allies within Close range gain a Hope.",
+          "Once per rest, inspire an ally to reroll a failed roll."
+        ]
       },
       {
         "id": "wordsmith",
         "name": "Wordsmith",
+        "castingTrait": "presence",
         "description": "A master of language and lore who wields words as weapons.",
-        "features": ["Your words can inflict Stress on enemies.", "Gain access to Codex domain cards at level 1."]
+        "features": [
+          "Once per long rest, you can give a heartfelt, inspiring speech. All allies within Far range clear 2 Stress.",
+          "After you make an action roll to impress, persuade, or offend someone, you can spend a Hope to add a d4 to the roll."
+        ]
       }
     ],
     "classFeatures": [
-      { "id": "rally", "name": "Rally", "description": "Spend 3 Hope to give an ally a Hope." },
-      { "id": "performance", "name": "Performance", "description": "Use Presence to inspire, entertain, or manipulate crowds." }
+      {
+        "id": "rally",
+        "name": "Rally",
+        "description": "Once per session, describe how you rally the party and give yourself and each of your allies a Rally Die. At level 1, your Rally Die is a d6. A PC can spend their Rally Die to roll it, adding the result to their action roll, reaction roll, damage roll, or to clear a number of Stress equal to the result. At the end of each session, clear all unspent Rally Dice. At level 5, your Rally Die increases to a d8."
+      }
+    ]
+  },
+
+  {
+    "id": "field_medic",
+    "name": "Field Medic",
+    "description": "A trained physician with the ability to cure wounds and protect others.",
+    "domains": ["splendor", "valor"],
+    "startingHp": 7,
+    "startingStress": 6,
+    "startingEvasion": 9,
+    "hopeFeature": "Life Support — Spend 3 Hope to clear a Hit Point on an ally within Close range..",
+    "subclasses": [
+      {
+        "id": "medivac",
+        "name": "Medivac",
+        "castingTrait": "strength",
+        "description": "Bears wings of light and soars above the battlefield.",
+        "features": [
+          "You can fly. While flying, you can do the following: - Mark a Stress to pick up and carry another willing creature approximately your size or smaller. - Spend a Hope to deal an extra 1d8 damage on a successful attack."
+        ]
+      },
+      {
+        "id": "prayer",
+        "name": "Combat Medic",
+        "castingTrait": "strength",
+        "description": "Channels wrath through intense training.",
+        "features": [
+          "When you have an equipped weapon with a range of Melee or Very Close, it can fly from your hand to attack an adversary within Close range and then return to you. You can mark a Stress to target an additional adversary within range with the same attack roll.",
+          "Once per long rest, touch a creature and clear 2 Hit Points or 2 Stress from them."
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "support",
+        "name": "Support Dice",
+        "description": "At the beginning of each session, roll a number of d4s equal to your subclass’s Spellcast trait and place them on your character sheet in the space provided. These are your Support Dice. You can spend any number of Support Dice to aid yourself or an ally within Far range. You can use a spent die’s value to reduce incoming damage, add to a roll’s result after the roll is made, or gain Hope equal to the result. At the end of each session, clear all unspent Support Dice."
+      }
     ]
   },
   {
-    "id": "druid",
-    "name": "Druid",
-    "description": "A guardian of nature who shapeshifts, heals, and commands the wild.",
-    "domains": ["sage", "arcana"],
-    "startingHp": 6,
+    "id": "grim",
+    "name": "Grim",
+    "description": "Time in the Hollow has left its mark on you, granting you strange powers.",
+    "domains": ["blade", "bone"],
+    "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "Beastform — Transform into an animal form.",
+    "hopeFeature": "Wicked Lash — Spend 3 Hope when you deal damage with an attack to add a bonus equal to the attack roll’s Fear die result.",
     "subclasses": [
       {
-        "id": "warden",
-        "name": "Warden of the Elements",
-        "description": "Commands elemental forces of fire, water, earth, and air.",
-        "features": ["Channel elemental damage through nature magic.", "Resistance to one element of your choice."]
+        "id": "tormented",
+        "name": "Tormented",
+        "castingTrait": "strength",
+        "description": "You are haunted by the darkness of the Hollow.",
+        "features": [
+          "Once per rest, you can spend a Hope to teleport within Melee range of a Branded target that is within Far range of you.",
+          "When an adversary successfully attacks you, you can mark a Stress and roll 1d4. You add the result to each of your damage thresholds against the damage from the attack."
+        ]
       },
       {
-        "id": "land",
-        "name": "Warden of Renewal",
-        "description": "Heals and restores life to wounded allies and blighted land.",
-        "features": ["Heal 1d4 HP to an ally as an action.", "Purify corrupted natural spaces."]
+        "id": "scourged",
+        "name": "Scourged",
+        "castingTrait": "strength",
+        "description": "Unleash vengeance upon those who have wronged you.",
+        "features": [
+          "If you would mark an Armor Slot to reduce incoming damage by one threshold, you can instead forgo the damage reduction, mark the Armor Slot, and deal d8 Draft damage to them, using your Proficiency."
+        ]
       }
     ],
     "classFeatures": [
-      { "id": "beastform", "name": "Beastform", "description": "Transform into an animal form." },
-      { "id": "wild-sense", "name": "Wild Sense", "description": "Sense disturbances in the natural world nearby." }
+      {
+        "id": "dreaded-mark",
+        "name": "Dreaded Mark",
+        "description": "When you successfully hit an adversary with an attack or Spellcast Roll, you can spend a Hope to temporarily Brand them. While Branded, they are Vulnerable. When a Branded adversary makes an attack roll against you, you can spend a Hope to force the attack roll to be made with disadvantage."
+      }
     ]
   },
   {
@@ -63,24 +166,79 @@
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 9,
-    "hopeFeature": "Frontline — Mark an enemy to draw their attention.",
+    "hopeFeature": "Frontline Tank — Spend 3 Hope to clear 2 Armor Slots.",
     "subclasses": [
       {
         "id": "stalwart",
         "name": "Stalwart",
+        "castingTrait": null,
         "description": "An immovable shield who absorbs punishment for the party.",
-        "features": ["Reduce incoming damage by 1 when marking an enemy.", "+1 max HP per level."]
+        "features": [
+          "Gain a permanent +1 bonus to your damage thresholds.",
+          "When you take physical damage, you can mark an additional Armor Slot to reduce the severity."
+        ]
       },
       {
         "id": "vengeance",
         "name": "Vengeance",
+        "castingTrait": null,
         "description": "Strikes back fiercely at those who harm allies.",
-        "features": ["When an ally takes damage, make a free counterattack.", "Deal +1 damage to enemies who hit your allies."]
+        "features": [
+          "Gain an additional Stress slot.",
+          "When an adversary within Melee range succeeds on an attack against you, you can mark 2 Stress to force the attacker to mark a Hit Point."
+        ]
       }
     ],
     "classFeatures": [
-      { "id": "frontline", "name": "Frontline", "description": "Mark an enemy to draw their attention." },
-      { "id": "shield-bash", "name": "Shield Bash", "description": "Knock an enemy back with your shield." }
+      {
+        "id": "unstoppable",
+        "name": "Unstoppable",
+        "description": "Once per long rest, you can become Unstoppable. You gain an Unstoppable Die. At level 1, your Unstoppable Die is a d4. Place it on your character sheet in the space provided, starting with the 1 value facing up. After you make a damage roll that deals 1 or more Hit Points to a target, increase the Unstoppable Die value by one. When the die’s value would exceed its maximum value or when the scene ends, remove the die and drop out of Unstoppable. At level 5, your Unstoppable Die increases to a d6. While Unstoppable, you gain the following benefits: - You reduce the severity of physical damage by one threshold (Severe to Major, Major to Minor, Minor to None). - You add the current value of the Unstoppable Die to your damage roll. - You can’t be Restrained or Vulnerable. > ***Tip:*** *If your Unstoppable Die is a d4 and the 4 is currently facing up, you remove the die the next time you would increase it. However, if your Unstoppable Die has increased to a d6 and the 4 is currently facing up, you’ll turn it to 5 the next time you would increase it. In this case, you’ll remove the die after you would need to increase it higher than 6."
+      }
+    ]
+  },
+
+  {
+    "id": "herbalist",
+    "name": "Herbalist",
+    "description": "A student of nature who's long exposure to the Draft gives them command of the wild.",
+    "domains": ["sage", "draft"],
+    "startingHp": 6,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "hopeFeature": "Adapt — Spend 3 Hope to transform into a Beastform without marking a Stress. When you do, choose one trait to raise by +1 until you drop out of that Beastform.",
+    "subclasses": [
+      {
+        "id": "warden",
+        "name": "Warden of the Elements",
+        "castingTrait": "instinct",
+        "description": "Commands elemental forces of fire, water, earth, and air.",
+        "features": [
+          "Mark a Stress to Channel one of the following elements until you take Severe damage or until your next rest: - **Fire:** When an adversary within Melee range deals damage to you, they take 1d10 Draft damage. - **Earth:** Gain a bonus to your damage thresholds equal to your Proficiency. - **Water:** When you deal damage to an adversary within Melee range, all other adversaries within Very Close range must mark a Stress. - **Air:** You can hover, gaining advantage on Agility Rolls."
+        ]
+      },
+      {
+        "id": "land",
+        "name": "Warden of Renewal",
+        "castingTrait": "instinct",
+        "description": "Heals and restores life to wounded allies and blighted land.",
+        "features": [
+          "Once per long rest, you can create a space of natural serenity within Close range. When you spend a few minutes resting within the space, clear Stress equal to your Instinct, distributed as you choose between you and your allies.",
+          "Touch a creature and spend 3 Hope. That creature clears 1d4 Hit Points."
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "beastform",
+        "name": "Beastform",
+        "description": "Mark a Stress to transform into a creature of your tier or lower from the Beastform list. You can drop out of this form at any time. While transformed, you can’t use weapons or cast spells from domain cards, but you can still use other features or abilities you have access to. Spells you cast before you transform stay active and last for their normal duration, and you can talk and communicate as normal. Additionally, you gain the Beastform’s features, add their Evasion bonus to your Evasion, and use the trait specified in their statistics for your attack. While you’re in a Beastform, your armor becomes part of your body and you mark Armor Slots as usual; when you drop out of a Beastform, those marked Armor Slots remain marked. If you mark your last Hit Point, you automatically drop out of this form."
+      },
+      {
+        "id": "wild-sense",
+        "name": "Wild Sense",
+        "description": "You can perform harmless, subtle effects that involve nature—such as causing a flower to rapidly grow, summoning a slight gust of wind, or starting a campfire—at will."
+      }
     ]
   },
   {
@@ -91,24 +249,34 @@
     "startingHp": 6,
     "startingStress": 6,
     "startingEvasion": 11,
-    "hopeFeature": "Mark Target — Mark a target for bonus damage.",
+    "hopeFeature": "Hold Them Off — Spend 3 Hope when you succeed on an attack with a weapon to use that same roll against two additional adversaries within range of the attack.",
     "subclasses": [
       {
         "id": "beastbound",
         "name": "Beastbound",
+        "castingTrait": "agility",
         "description": "Bonds deeply with an animal companion who fights at their side.",
-        "features": ["Gain a loyal animal companion.", "Share senses with your companion within Far range."]
+        "features": [
+          "You have an animal companion of your choice (at the GM’s discretion). They stay by your side unless you tell them otherwise. Take the Ranger Companion sheet. When you level up your character, choose a level-up option for your companion from this sheet as well."
+        ]
       },
       {
         "id": "wayfinder",
         "name": "Wayfinder",
+        "castingTrait": "agility",
         "description": "Master of terrain and navigation who never loses their way.",
-        "features": ["Always know true north and nearest water source.", "Travel twice as fast through familiar terrain."]
+        "features": [
+          "When you make a damage roll, you can mark a Stress to gain a +1 bonus to your Proficiency. Additionally, when you deal Severe damage to an adversary, they must mark a Stress.",
+          "When you’re traveling to a place you’ve previously visited or you carry an object that has been at the location before, you can identify the shortest, most direct path to your destination."
+        ]
       }
     ],
     "classFeatures": [
-      { "id": "mark", "name": "Mark Target", "description": "Mark a target for bonus damage." },
-      { "id": "track", "name": "Track", "description": "Follow trails and identify creatures by their signs." }
+      {
+        "id": "rangers_focus",
+        "name": "Ranger's Focus",
+        "description": "Spend a Hope and make an attack against a target. On a success, deal your attack’s normal damage and temporarily make the attack’s target your Focus. Until this feature ends or you make a different creature your Focus, you gain the following benefits against your Focus: - You know precisely what direction they are in. - When you deal damage to them, they must mark a Stress. - When you fail an attack against them, you can end your Ranger’s Focus feature to reroll your Duality Dice."
+      }
     ]
   },
   {
@@ -119,80 +287,124 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 12,
-    "hopeFeature": "Cunning Action — Move or hide as a free action.",
+    "hopeFeature": "Rogue's Dodge — Spend 3 Hope to gain a +2 bonus to your Evasion until the next time an attack succeeds against you. Otherwise, this bonus lasts until your next rest.",
     "subclasses": [
       {
         "id": "nightwalker",
         "name": "Nightwalker",
+        "castingTrait": "finesse",
         "description": "Moves unseen through darkness, a ghost in the night.",
-        "features": ["Invisible in dim light or darkness while stationary.", "Silent movement regardless of surface."]
+        "features": [
+          "You can move from shadow to shadow. When you move into an area of darkness or a shadow cast by another creature or object, you can **mark a Stress** to disappear from where you are and reappear inside another shadow within Far range. When you reappear, you are Cloaked."
+        ]
       },
       {
         "id": "syndicate",
         "name": "Syndicate",
+        "castingTrait": "finesse",
         "description": "Connected to criminal networks with eyes everywhere.",
-        "features": ["Contacts in every major city.", "Gain intel on targets through underworld connections."]
+        "features": [
+          "When you arrive in a prominent town or environment, you know somebody who calls this place home. Give them a name, note how you think they could be useful, and choose one fact from the following list: - They owe me a favor, but they’ll be hard to find. - They’re going to ask for something in exchange. - They’re always in a great deal of trouble. - We used to be together. It’s a long story. - We didn’t part on great terms."
+        ]
       }
     ],
     "classFeatures": [
-      { "id": "cunning", "name": "Cunning Action", "description": "Move or hide as a free action." },
-      { "id": "sneak-attack", "name": "Sneak Attack", "description": "Deal extra damage when attacking from hiding." }
-    ]
-  },
-  {
-    "id": "seraph",
-    "name": "Seraph",
-    "description": "A divine warrior channeling holy power to smite evil.",
-    "domains": ["splendor", "valor"],
-    "startingHp": 7,
-    "startingStress": 6,
-    "startingEvasion": 9,
-    "hopeFeature": "Prayer — Spend Hope to heal an ally.",
-    "subclasses": [
       {
-        "id": "winged",
-        "name": "Winged Sentinel",
-        "description": "Bears wings of light and soars above the battlefield.",
-        "features": ["Limited flight for short distances.", "Radiate light that harms undead and shadow creatures."]
+        "id": "cloaked",
+        "name": "Cloaked",
+        "description": "Any time you would be Hidden, you are instead Cloaked. In addition to the benefits of the Hidden condition, while Cloaked you remain unseen if you are stationary when an adversary moves to where they would normally see you. After you make an attack or end a move within line of sight of an adversary, you are no longer Cloaked."
       },
       {
-        "id": "prayer",
-        "name": "Prayer Warrior",
-        "description": "Channels divine wrath through fervent prayer.",
-        "features": ["Smite deals radiant damage.", "Your prayers can banish minor demons."]
+        "id": "sneak-attack",
+        "name": "Sneak Attack",
+        "description": "When you succeed on an attack while Cloaked or while an ally is within Melee range of your target, add a number of d6s equal to your tier to your damage roll. - Level 1 → Tier 1 - Levels 2–4 → Tier 2 - Levels 5–7 → Tier 3 - Levels 8–10 → Tier 4"
       }
-    ],
-    "classFeatures": [
-      { "id": "prayer", "name": "Prayer", "description": "Spend Hope to heal an ally." },
-      { "id": "divine-shield", "name": "Divine Shield", "description": "Protect an ally with a barrier of holy light." }
     ]
   },
   {
-    "id": "sorcerer",
-    "name": "Sorcerer",
-    "description": "Innate magic flows through their veins, raw and untamed.",
-    "domains": ["arcana", "midnight"],
+    "id": "scholar",
+    "name": "Scholar",
+    "description": "A student who masters Draft arts through rigorous study.",
+    "domains": ["codex", "splendor"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 11,
+    "hopeFeature": "Not This Time — Spend 3 Hope to force an adversary within Far range to reroll an attack or damage roll.",
+    "subclasses": [
+      {
+        "id": "school",
+        "name": "School of Knowledge",
+        "castingTrait": "knowledge",
+        "description": "Master of learned Draft and Seed theory.",
+        "features": [
+          "Take an additional domain card of your level or lower from a domain you have access to.",
+          "When you Utilize an Experience, you can mark a Stress instead of spending a Hope. If you do, double your Experience modifier for that roll."
+        ]
+      },
+      {
+        "id": "war",
+        "name": "School of War",
+        "castingTrait": "knowledge",
+        "description": "Draft power optimized for the chaos of battle.",
+        "features": [
+          "You’ve focused your studies on becoming an unconquerable force on the battlefield. Gain an additional Hit Point slot.",
+          "When you succeed with Fear on an attack roll, you deal an extra 1d10 Draft damage."
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "prestidigitation",
+        "name": "Prestidigitation",
+        "description": "You can perform harmless, subtle effects at will. For example, you can change an object’s color, create a smell, light a candle, cause a tiny object to float, illuminate a room, or repair a small object."
+      },
+      {
+        "id": "strange-patterns",
+        "name": "Strange Patterns",
+        "description": "Choose a number between 1 and 12. When you roll that number on a Duality Die, gain a Hope or clear a Stress. You can change this number when you take a long rest."
+      }
+    ]
+  },
+  {
+    "id": "seeded",
+    "name": "Seeded",
+    "description": "Those who are most affected by the Seed, but have survived and gained strange powers.",
+    "domains": ["draft", "midnight"],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "Arcane Sense — Sense magical auras nearby.",
+    "hopeFeature": "TBD — Spend 3 Hope to reroll any number of your damage dice on an attack that deals Draft damage.",
     "subclasses": [
       {
         "id": "elemental",
         "name": "Elemental Origin",
-        "description": "Magic tied to a primal element — fire, ice, storm, or stone.",
-        "features": ["Cast spells of your chosen element without components.", "Resistance to your element."]
+        "castingTrait": "instinct",
+        "description": "Draft tied to a primal element — fire, ice, storm, or stone.",
+        "features": [
+          "Choose one of the following elements at character creation: air, earth, fire, lightning, water. You can shape this element into harmless effects. Additionally, spend a Hope and describe how your control over this element helps an action roll you’re about to make, then either gain a +2 bonus to the roll or a +3 bonus to the roll’s damage."
+        ]
       },
       {
         "id": "primal",
-        "name": "Primal Origin",
-        "description": "Raw, untamed magical power that surges unpredictably.",
-        "features": ["Critical spell hits trigger wild magic surges.", "Spend Stress to boost spell damage."]
+        "name": "Alien Origin",
+        "castingTrait": "instinct",
+        "description": "Raw, untamed Draft power that surges unpredictably.",
+        "features": [
+          "Your alien origin allows you to modify the essence of Draft itself. After you cast a spell or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following: - Extend the spell or attack’s reach by one range - Gain a +2 bonus to the action roll’s result - Double a damage die of your choice - Hit an additional target within range"
+        ]
       }
     ],
     "classFeatures": [
-      { "id": "arcane", "name": "Arcane Sense", "description": "Sense magical auras nearby." },
-      { "id": "innate-cast", "name": "Innate Casting", "description": "Cast spells through instinct rather than study." }
+      {
+        "id": "draft-sense",
+        "name": "Draft Sense",
+        "description": "You can sense the presence of Seeded creatures and objects within Close range."
+      },
+      {
+        "id": "minor-illusion",
+        "name": "Minor Illusion",
+        "description": "Make a Spellcast Roll (10). On a success, you create a minor visual illusion no larger than yourself within Close range. This illusion is convincing to anyone at Close range or farther."
+      }
     ]
   },
   {
@@ -202,53 +414,40 @@
     "domains": ["blade", "bone"],
     "startingHp": 7,
     "startingStress": 6,
-    "startingEvasion": 10,
-    "hopeFeature": "No Mercy — Deal extra damage to marked targets.",
+    "startingEvasion": 11,
+    "hopeFeature": "No Mercy — Spend 3 Hope to gain a +1 bonus to your attack rolls until your next rest.",
     "subclasses": [
       {
         "id": "call",
         "name": "Call of the Brave",
+        "castingTrait": null,
         "description": "Leads from the front, inspiring courage in allies.",
-        "features": ["Allies within Close range gain +1 to attack rolls.", "You cannot be frightened."]
+        "features": [
+          "When you fail a roll with Fear, you gain a Hope.",
+          "Once per long rest, before you attempt something incredibly dangerous or face off against a foe who clearly outmatches you, describe what ritual you perform or preparations you make. When you do, clear 2 Stress and gain 2 Hope."
+        ]
       },
       {
         "id": "call2",
         "name": "Call of the Slayer",
+        "castingTrait": null,
         "description": "Specializes in killing blows against powerful foes.",
-        "features": ["Deal double damage on killing blows.", "Track and identify monster weaknesses."]
+        "features": [
+          "You gain a pool of dice called Slayer Dice. On a roll with Hope, you can place a d6 on this card instead of gaining a Hope, adding the die to the pool. You can store a number of Slayer Dice equal to your Proficiency. When you make an attack roll or damage roll, you can spend any number of these Slayer Dice, rolling them and adding their result to the roll. At the end of each session, clear any unspent Slayer Dice on this card and gain a Hope per die cleared."
+        ]
       }
     ],
     "classFeatures": [
-      { "id": "no-mercy", "name": "No Mercy", "description": "Deal extra damage to marked targets." },
-      { "id": "weapon-mastery", "name": "Weapon Mastery", "description": "Gain expertise with your chosen weapon type." }
-    ]
-  },
-  {
-    "id": "wizard",
-    "name": "Wizard",
-    "description": "A studious spellcaster who masters arcane arts through rigorous study.",
-    "domains": ["codex", "splendor"],
-    "startingHp": 5,
-    "startingStress": 6,
-    "startingEvasion": 10,
-    "hopeFeature": "Prepared Spells — Prepare spells from your grimoire.",
-    "subclasses": [
       {
-        "id": "school",
-        "name": "School of Knowledge",
-        "description": "Master of learned magic and arcane theory.",
-        "features": ["Identify any magical item on inspection.", "Prepare one extra spell per rest."]
+        "id": "attack-of-opportunity",
+        "name": "Attack of Opportunity",
+        "description": "If an adversary within Melee range attempts to leave that range, make a reaction roll using a trait of your choice against their Difficulty. Choose one effect on a success, or two if you critically succeed: - They can’t move from where they are. - You deal damage to them equal to your primary weapon’s damage. - You move with them."
       },
       {
-        "id": "war",
-        "name": "School of War",
-        "description": "Magic optimized for the chaos of battle.",
-        "features": ["Cast damaging spells as reactions.", "Spells ignore half cover."]
+        "id": "combat-training",
+        "name": "Combat Training",
+        "description": "You ignore burden when equipping weapons. When you deal physical damage, you gain a bonus to your damage roll equal to your level."
       }
-    ],
-    "classFeatures": [
-      { "id": "prepared", "name": "Prepared Spells", "description": "Prepare spells from your grimoire." },
-      { "id": "arcane-recovery", "name": "Arcane Recovery", "description": "Recover spent spell slots during a short rest." }
     ]
   }
 ]

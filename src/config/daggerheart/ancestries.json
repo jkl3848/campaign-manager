@@ -1,8 +1,8 @@
 [
   {
-    "id": "clank",
-    "name": "Clank",
-    "description": "Mechanical beings of clockwork and soul.",
+    "id": "automaton",
+    "name": "Automaton",
+    "description": "Mechanical beings of clockwork.",
     "traitBonus": { "trait": "strength", "value": 1 },
     "abilities": ["Immune to poison and disease.", "Do not need to eat or breathe."]
   },
@@ -23,16 +23,16 @@
   {
     "id": "elf",
     "name": "Elf",
-    "description": "Long-lived beings attuned to magic and nature.",
+    "description": "Long-lived beings attuned to Draft and nature.",
     "traitBonus": { "trait": "finesse", "value": 1 },
     "abilities": ["Keen senses — notice hidden details others miss.", "Trance instead of sleep; remain semi-aware."]
   },
   {
     "id": "faerie",
     "name": "Faerie",
-    "description": "Otherworldly beings of glamour and trickery.",
+    "description": "Starna beings of glamour and trickery.",
     "traitBonus": { "trait": "presence", "value": 1 },
-    "abilities": ["Minor illusion magic.", "Advantage on rolls to charm or deceive."]
+    "abilities": ["Minor illusion.", "Advantage on rolls to charm or deceive."]
   },
   {
     "id": "faun",
@@ -44,7 +44,7 @@
   {
     "id": "firbolg",
     "name": "Firbolg",
-    "description": "Gentle giants connected to the natural world.",
+    "description": "Gentle giants, originally from Starna, connected to the natural world.",
     "traitBonus": { "trait": "knowledge", "value": 1 },
     "abilities": ["Speak with plants and beasts.", "Can turn invisible in natural settings once per rest."]
   },
@@ -91,9 +91,9 @@
     "abilities": ["Versatile — gain +1 to any trait of your choice.", "Learn one additional language."]
   },
   {
-    "id": "infernis",
-    "name": "Infernis",
-    "description": "Beings touched by infernal power.",
+    "id": "blazing",
+    "name": "Blazing",
+    "description": "Beings touched by blazing power.",
     "traitBonus": { "trait": "presence", "value": 1 },
     "abilities": ["Darkvision.", "Resistance to fire damage."]
   },
@@ -121,7 +121,7 @@
   {
     "id": "simiah",
     "name": "Simiah",
-    "description": "Primate-folk known for curiosity.",
+    "description": "Primate-like beings known for curiosity.",
     "traitBonus": { "trait": "instinct", "value": 1 },
     "abilities": ["Prehensile tail or feet for climbing.", "Advantage on rolls to use tools or solve puzzles."]
   }
