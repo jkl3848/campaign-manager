@@ -17,15 +17,6 @@
     ]
   },
   {
-    "id": "ravenous",
-    "name": "Ravenous",
-    "description": "The Draft takes from them, so they must take from others.",
-    "abilities": [
-      { "name": "Draft Grip", "description": "Make an attack using a trait of your choice against a target within Very Close range. On a success, deal d6 physical damage using your Proficiency." },
-      { "name": "Drain", "description": "On a successful “Draft Grip” attack against a creature that can bleed, you can mark a Stress to drain. Place a number of tokens on this card equal to the number of Hit Points the target marks. You can hold up to 6 tokens at a time. Before you make an action roll, you can spend a token to make your Fear Die a d20. When you take a long rest, remove a token. While there are no tokens on this card, you make action and reaction rolls with disadvantage." }
-    ]
-  },
-  {
     "id": "trapped",
     "name": "Trapped",
     "description": "A being who came close to death, but the Draft keeps them alive.",
@@ -41,15 +32,6 @@
     "abilities": [
       { "name": "Change Shape", "description": "During a rest, you can use a downtime move to swap your current ancestry with another. When you do, describe how your appearance changes." },
       { "name": "Only Skin Deep", "description": "You gain the benefit of only one of your chosen ancestry’s features, which you select when you choose the ancestry. You can use a downtime move to choose a different feature from that ancestry." }
-    ]
-  },
-  {
-    "id": "untamed",
-    "name": "Untamed",
-    "description": "Unstable shapeshifter bound to the moon.",
-    "abilities": [
-      { "name": "Wolf Form", "description": " When you mark 1 or more Hit Points, you can mark a Stress to enter your Wolf Form. While in this form, you gain a 1d10 bonus to attack and damage rolls. When you roll with Hope while in Wolf Form, you must mark a Stress. Your Wolf Form lasts until you go into your “Howling Rampage” or take a rest." },
-      { "name": "Howling Rampage", "description": "When you mark your last Stress while in Wolf Form, you go into a rampage. Roll a number of d20s equal to your tier and deal that much physical damage to all creatures within Very Close range, then drop out of Wolf Form." }
     ]
   }
 ]
