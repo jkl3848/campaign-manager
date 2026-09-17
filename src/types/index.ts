@@ -232,8 +232,16 @@ export interface DiceRoll {
   campaignId: string;
   sessionId: string;
   rollerName: string;
+  /** Duality (2d12) hope die. Unused for standard NdS rolls. */
   white: number;
+  /** Duality (2d12) fear die. Unused for standard NdS rolls. */
   black: number;
+  /** Individual faces for standard NdS rolls (absent on duality rolls). */
+  results?: number[];
+  /** Die size for standard rolls (4/6/8/10/12/20). */
+  sides?: number;
+  /** Number of dice for standard rolls. */
+  count?: number;
   modifier: number;
   total: number;
   isCrit: boolean;

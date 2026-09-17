@@ -1,4 +1,5 @@
 import type { DiceRoll } from '../../types';
+import { formatDiceNotation, isDualityRoll } from '../../lib/dice';
 
 interface DiceLogProps {
   rolls: DiceRoll[];
@@ -27,10 +28,19 @@ export function DiceLog({ rolls, isDm = false }: DiceLogProps) {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-slate-400">
-              <span className="text-slate-200">{roll.white}</span>/
-              <span className="text-slate-500">{roll.black}</span>
-            </span>
+            {isDualityRoll(roll) ? (
+              <span className="text-slate-400">
+                <span className="text-slate-200">{roll.white}</span>/
+                <span className="text-slate-500">{roll.black}</span>
+              </span>
+            ) : (
+              <span className="text-slate-400">
+                <span className="text-slate-500">
+                  {formatDiceNotation(roll.count ?? 1, roll.sides ?? 20)}
+                </span>{' '}
+                <span className="text-slate-300">{roll.results?.join(', ')}</span>
+              </span>
+            )}
             <span className="font-bold text-amber-400">{roll.total}</span>
             {roll.isCrit && <span className="text-red-400 text-xs font-bold">CRIT</span>}
             {roll.hopeGain === 'player' && (
