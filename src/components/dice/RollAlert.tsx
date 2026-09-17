@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type { DiceRoll } from '../../types';
+import { formatDiceNotation, isDualityRoll } from '../../lib/dice';
 import { D12Die } from './D12Die';
 
 interface RollAlertProps {
@@ -16,6 +17,8 @@ export function RollAlert({ roll, onDismiss }: RollAlertProps) {
 
   if (!roll) return null;
 
+  const duality = isDualityRoll(roll);
+
   return (
     <div className="pointer-events-none absolute inset-x-0 top-16 z-50 flex justify-center px-4">
       <div
@@ -28,21 +31,44 @@ export function RollAlert({ roll, onDismiss }: RollAlertProps) {
           {roll.secret && (
             <p className="text-[10px] uppercase tracking-wider text-purple-400/80">Secret roll</p>
           )}
+          {!duality && roll.count && roll.sides && (
+            <p className="text-[10px] uppercase tracking-wider text-slate-500">
+              {formatDiceNotation(roll.count, roll.sides)}
+            </p>
+          )}
         </div>
 
-        <div className="flex items-center justify-center gap-6">
-          <D12Die value={roll.white} color="white" size="sm" />
+        {duality ? (
+          <div className="flex items-center justify-center gap-6">
+            <D12Die value={roll.white} color="white" size="sm" />
+            <div className="text-center">
+              <p className="text-3xl font-bold text-amber-400">{roll.total}</p>
+              {roll.modifier !== 0 && (
+                <p className="text-xs text-slate-500">
+                  {roll.white} + {roll.black} {roll.modifier > 0 ? '+' : ''}
+                  {roll.modifier}
+                </p>
+              )}
+            </div>
+            <D12Die value={roll.black} color="black" size="sm" />
+          </div>
+        ) : (
           <div className="text-center">
             <p className="text-3xl font-bold text-amber-400">{roll.total}</p>
-            {roll.modifier !== 0 && (
-              <p className="text-xs text-slate-500">
-                {roll.white} + {roll.black} {roll.modifier > 0 ? '+' : ''}
-                {roll.modifier}
+            {roll.results && (
+              <p className="mt-1 text-xs text-slate-400">
+                {roll.results.join(' + ')}
+                {roll.modifier !== 0 && (
+                  <>
+                    {' '}
+                    {roll.modifier > 0 ? '+' : ''}
+                    {roll.modifier}
+                  </>
+                )}
               </p>
             )}
           </div>
-          <D12Die value={roll.black} color="black" size="sm" />
-        </div>
+        )}
 
         <div className="mt-3 flex items-center justify-center gap-3 text-xs">
           {roll.isCrit && <span className="font-bold text-red-400 animate-pulse">CRITICAL!</span>}

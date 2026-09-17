@@ -117,6 +117,7 @@ export function LiveSessionPage() {
         rollerName: name,
         modifier,
         label: traitName,
+        isDm,
       }),
     );
   };
