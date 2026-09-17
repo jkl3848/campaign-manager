@@ -93,6 +93,109 @@
     ]
   },
   {
+    "id": "assassin",
+    "name": "Assassin",
+    "description": "A precise killer who marks a target and ends the fight before it begins.",
+    "domains": ["blade", "midnight"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 12,
+    "hopeFeature": "Deadly Determination: Spend 3 Hope to clear 2 Stress.",
+    "subclasses": [
+      {
+        "id": "executioners-guild",
+        "name": "Executioners Guild",
+        "castingTrait": "agility",
+        "description": "A specialist in swift, decisive kills.",
+        "foundation": [
+          {
+            "id": "first-strike",
+            "name": "First Strike",
+            "description": "The first time in a scene you succeed on an attack, you deal double damage."
+          },
+          {
+            "id": "ambush",
+            "name": "Ambush",
+            "description": "Your “Marked for Death” feature uses d6s instead of d4s."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "death-strike",
+            "name": "Death Strike",
+            "description": "When you deal Severe damage to a creature, you can mark a Stress to force them to mark an additional Hit Point."
+          },
+          {
+            "id": "scorpions-poise",
+            "name": "Scorpion’s Poise",
+            "description": "You gain a +2 bonus to your Evasion against attacks made by a creature you’ve Marked for Death."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "true-strike",
+            "name": "True Strike",
+            "description": "Once per long rest when you fail an attack, you can spend a Hope to make it a success instead."
+          },
+          {
+            "id": "backstab",
+            "name": "Backstab",
+            "description": "Your “Marked for Death” feature uses d8s instead of d6s."
+          }
+        ]
+      },
+      {
+        "id": "poisoners-guild",
+        "name": "Poisoners Guild",
+        "castingTrait": "knowledge",
+        "description": "A specialist who crafts toxins to weaken and finish targets.",
+        "foundation": [
+          {
+            "id": "toxic-concoctions",
+            "name": "Toxic Concoctions",
+            "description": "Mark a Stress to place 1d4+1 tokens on this card. When you make a successful weapon attack, you can spend a token to afflict the target with a poison. You know these poisons: - **Ghost Petal:** The target becomes temporarily Vulnerable. - **Grave Spore:** The target must also mark a Stress. - **Leech Weed:** You deal an extra 1d6 damage on this attack. When you take a long rest, clear all unspent tokens."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "poison-compendium",
+            "name": "Poison Compendium",
+            "description": "You also know these poisons: - **Midnight Vine:** The target has disadvantage on attack rolls until it marks a Stress to clear this condition. - **Gorgon Root:** The target becomes temporarily Restrained."
+          },
+          {
+            "id": "twin-fang",
+            "name": "Twin Fang",
+            "description": "When you afflict a target Marked for Death with a poison you know, you can spend an additional token to also inflict the effect of a second poison you know."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "venomancer",
+            "name": "Venomancer",
+            "description": "You also know these poisons: - **Blight Seed:** The target gains a -3 penalty to their damage thresholds until the end of the scene. This effect can’t stack. - **Fear Leaf:** You deal extra damage equal to the result of your Fear Die on this attack. - **Corpse Thorn:** The target gains disadvantage on reaction rolls until the end of the scene."
+          },
+          {
+            "id": "adders-blessing",
+            "name": "Adder’s Blessing",
+            "description": "You are immune to poisons and other toxins."
+          }
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "marked-for-death",
+        "name": "Marked for Death",
+        "description": "On a successful weapon attack, you can mark a Stress to make the target Marked for Death. When you deal damage to a target you’ve Marked for Death, add a number of d4s equal to your tier to the damage roll. You can have only one adversary Marked for Death at a time. This condition lasts until you take a rest, the current adversary Marked for Death is defeated, or the GM spends a number of Fear equal to your tier to clear it."
+      },
+      {
+        "id": "get-in-get-out",
+        "name": "Get In & Get Out",
+        "description": "Spend a Hope to ask the GM for a quick or inconspicuous way into or out of a place you can see. The next roll you make that acts on this information has advantage."
+      }
+    ]
+  },
+  {
     "id": "bard",
     "name": "Bard",
     "description": "A charismatic performer who inspires allies through song, story, and sheer force of personality.",
@@ -167,6 +270,244 @@
         "id": "rally",
         "name": "Rally",
         "description": "Once per session, describe how you rally the party and give yourself and each of your allies a Rally Die. At level 1, your Rally Die is a d6. A PC can spend their Rally Die to roll it, adding the result to their action roll, reaction roll, damage roll, or to clear a number of Stress equal to the result. At the end of each session, clear all unspent Rally Dice. At level 5, your Rally Die increases to a d8."
+      }
+    ]
+  },
+  {
+    "id": "deep-seeded",
+    "name": "Deep Seeded",
+    "description": "Intentional exposure to the Seed gives power at the cost of vitality.",
+    "domains": ["blood", "bone"],
+    "startingHp": 6,
+    "startingStress": 6,
+    "startingEvasion": 11,
+    "hopeFeature": "Maledict: Spend 3 Hope when an adversary succeeds on an attack roll within Close range to make them reroll with disadvantage.",
+    "subclasses": [
+      {
+        "id": "dimension-walker",
+        "name": "Dimension Walker",
+        "castingTrait": "agility",
+        "description": "WSlips between physical dimensions.",
+        "foundation": [
+          {
+            "id": "shadowed-grit",
+            "name": "Shadowed Grit",
+            "description": "When you succeed on an Action Roll with Fear, you can spend a Hope to clear a Stress."
+          },
+          {
+            "id": "veilwalker",
+            "name": "Veilwalker",
+            "description": "You can briefly slip into the realm between worlds. Mark a Stress to move up to Close range through creatures and objects."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "veilstalker",
+            "name": "Veilstalker",
+            "description": "When you use your Veilwalker feature, you can now move to a location within Far range, and you have advantage on the next action roll you make in this scene."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "horror-honed",
+            "name": "Horror Honed",
+            "description": "You cannot be made Vulnerable unless all your Stress is marked."
+          },
+          {
+            "id": "spectral-form",
+            "name": "Spectral Form",
+            "description": "Once per long rest, when you would mark your last Hit Point, you can mark a Stress and enter your Dimensional Form instead. While in this form, you can move through physical matter and have resistance to physical damage. Additionally, when you would mark a Hit Point, you mark a Stress instead. You drop out of this form if your last Stress is marked or you clear a Hit Point."
+          }
+        ]
+      },
+      {
+        "id": "mutant",
+        "name": "Mutant",
+        "castingTrait": "agility",
+        "description": "Enhances their body with mutagenic toxins.",
+        "foundation": [
+          {
+            "id": "mutagens",
+            "name": "Mutagens",
+            "description": "You employ mutagenic toxins created to enhance your abilities. When you finish a rest, you can drink one such toxin to gain its effects, which last until you finish your next rest. These effects include a +1 bonus to one trait of your choice, a -1 penalty to a different trait of your choice, and your choice of one of the following benefits: - **Celerity:** If you are Restrained or Vulnerable, you can mark a Stress to end the condition on yourself. - **Durable:** Your Armor Score increases by 2. - **Hunter’s Senses:** You have advantage on any action roll you make to track a creature, and you can see in complete darkness."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "improved-mutagens",
+            "name": "Improved Mutagens",
+            "description": "When you choose a mutagen benefit, your options also include the following: - **Nerves of Steel:** Whenever you must mark a Stress, you can spend 2 Hope instead. - **Rapidity:** Your Evasion increases by 1. - **Ironskin:** Your Severe damage threshold increases by a number equal to your Proficiency."
+          },
+          {
+            "id": "volatile-toxins",
+            "name": "Volatile Toxins",
+            "description": "You can choose two mutagen benefits instead of one. If you do, mark a Hit Point that can't be cleared until you finish your next rest."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "mastered-mutagens",
+            "name": "Mastered Mutagens",
+            "description": "The trait bonus and penalty you get from your Mutagens feature changes to +2 and -2, respectively. When you choose a mutagen benefit, your options also include the following: - **Aetherblood:** Within your line of sight, you can see creatures and objects that are invisible, and visual illusions appear transparent to you. If a creature or an object within your line of sight has been transformed by magic, you can see its true form. - **Fury:** When you make an attack roll, you can mark a Stress to gain a bonus to the roll equal to your Proficiency. - **Steelflesh:** Your Major damage threshold increases by a number equal to your Proficiency."
+          }
+        ]
+      },
+      {
+        "id": "untamed",
+        "name": "Untamed",
+        "castingTrait": "strength",
+        "description": "Channels a beast within.",
+        "foundation": [
+          {
+            "id": "hybrid-form",
+            "name": "Hybrid Form",
+            "description": "You can take on a animalistic Hybrid Form. Mark a Stress to enter that form until all your Stress is marked or the scene ends. While in the form, you gain a 1d4 bonus to your action and damage rolls."
+          },
+          {
+            "id": "the-beast-within",
+            "name": "The Beast Within",
+            "description": "When you gain a Hope while in Hybrid Form, you also mark a Stress."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "bestial-focus",
+            "name": "Bestial Focus",
+            "description": "Once per rest, you can place a domain card into your vault, then clear a number of Stress equal to the card’s Recall Cost."
+          },
+          {
+            "id": "feral-empowerment",
+            "name": "Feral Empowerment",
+            "description": "The bonus die from your Hybrid Form increases to 1d6."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "apex-hunter",
+            "name": "Apex Hunter",
+            "description": "The bonus die from your Hybrid Form increases to 1d8."
+          },
+          {
+            "id": "regeneration",
+            "name": "Regeneration",
+            "description": "When you succeed with Hope while in your Hybrid Form, roll a d4. If the result is higher than your current number of unmarked Hit Points, clear a Hit Point."
+          }
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "crimson-rite",
+        "name": "Crimson Rite",
+        "description": "Mark a Hit Point to enhance one of your active weapons with power until the end of your next rest or you use this feature again. When you succeed on an attack with the enhanced weapon, it deals an extra 1d4 magic damage. This extra damage increases to 2d4 at level 2, 3d4 at level 5, and 4d4 at level 8."
+      },
+      {
+        "id": "grim-psychometry",
+        "name": "Grim Psychometry",
+        "description": "Make a Draftcast Roll (12) to inspect a location within Very Close range. On a success, you have a vision of the last creature that committed violence there. Until you take a long rest or use this feature again, you have advantage on action rolls to track them or recall information about them."
+      }
+    ]
+  },
+  {
+    "id": "brawler",
+    "name": "Brawler",
+    "description": "A close-quarters fighter who turns fists, grit, and momentum into weapons.",
+    "domains": ["valor", "bone"],
+    "startingHp": 6,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "hopeFeature": "Square Up: Spend 3 Hope to intimidate a target within Close range, making them temporarily Vulnerable.",
+    "subclasses": [
+      {
+        "id": "juggernaut",
+        "name": "Juggernaut",
+        "castingTrait": null,
+        "description": "An unstoppable force of close-range violence.",
+        "foundation": [
+          {
+            "id": "rugged",
+            "name": "Rugged",
+            "description": "Gain a permanent +3 bonus to your Severe damage threshold."
+          },
+          {
+            "id": "overwhelm",
+            "name": "Overwhelm",
+            "description": "When you succeed on an attack against a target, you can spend a Hope to throw the target within Close range or to force them to mark a Stress."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "surrounded",
+            "name": "Surrounded",
+            "description": "When you make an attack with a Melee weapon, you can spend any number of Hope to target an equal number of additional creatures within Melee range."
+          },
+          {
+            "id": "eye-for-an-eye",
+            "name": "Eye for an Eye",
+            "description": "Once per rest when an adversary within Melee range forces you to mark any number of Hit Points, you can mark a Stress to force them to mark the same number of Hit Points."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "pummeljoy",
+            "name": "Pummeljoy",
+            "description": "When you critically succeed on a Melee weapon attack, you gain an additional Hope, clear an additional Stress, and gain a +1 bonus to your Proficiency for that attack."
+          },
+          {
+            "id": "not-done-yet",
+            "name": "Not Done Yet",
+            "description": "When you take Severe damage, you can gain a Hope or clear a Stress."
+          }
+        ]
+      },
+      {
+        "id": "martial-artist",
+        "name": "Martial Artist",
+        "castingTrait": null,
+        "description": "Channels inner resolve into shifting martial stances.",
+        "foundation": [
+          {
+            "id": "stance-fighter",
+            "name": "Stance Fighter",
+            "description": "You can channel your inner resolve to shift into martial stances that grant you special benefits in combat. Take the Martial Stances sheet and choose two martial stances from Tier 1. Each time you level up your character, choose an additional stance from your tier or lower."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "keen-defenses",
+            "name": "Keen Defenses",
+            "description": "When you’re targeted by an attack, you can spend a Focus to gain a bonus to your Evasion equal to your tier against the attack."
+          },
+          {
+            "id": "focus-cannon",
+            "name": "Focus Cannon",
+            "description": "Spend a Focus to make an Instinct Roll against an adversary within Far range. On a success, deal d20+3 magic damage using your Proficiency."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "limit-breaker",
+            "name": "Limit Breaker",
+            "description": "Once per rest, you can perform an unbelievable feat of athletic prowess, such as running across water, leaping between distant rooftops, or scaling a building without needing to roll. When you do, gain a Hope and clear a Stress."
+          },
+          {
+            "id": "flow-state",
+            "name": "Flow State",
+            "description": "You can mark a Stress instead of spending a Focus to shift into a different stance. Additionally, you can spend a Focus instead of marking a Stress to start a combo strike."
+          }
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "i-am-the-weapon",
+        "name": "I Am The Weapon",
+        "description": "Your barehanded attacks are as strong as any blade. You have a primary weapon called Brawler’s Strike equipped while you have no other Active Weapons. It uses a trait of your choice, has Melee range, and deals d8+d6 physical damage using your Proficiency (both the d8 and d6 scale off your Proficiency). While this weapon is active, you gain a +1 bonus to your Evasion."
+      },
+      {
+        "id": "combo-strike",
+        "name": "Combo Strike",
+        "description": "After rolling damage on a successful attack with a Melee weapon, you can mark a Stress to start a combo strike. When you do, roll your Combo Die and note the result, then continue rolling your Combo Die until the result of your latest roll is lower than the roll that preceded it. You deal extra damage equal to the total of all rolled Combo Die results on this attack. The results can’t be modified by any means. Your Combo Die starts as a d4. Once per tier, you can increase your Combo Die by one step as a level advancement option."
       }
     ]
   },
@@ -881,6 +1222,114 @@
         "id": "minor-illusion",
         "name": "Minor Illusion",
         "description": "Make a Draftcast Roll (10). On a success, you create a minor visual illusion no larger than yourself within Close range. This illusion is convincing to anyone at Close range or farther."
+      }
+    ]
+  },
+  {
+    "id": "experiment",
+    "name": "Experiment",
+    "description": "A caster who owes their power to another.",
+    "domains": ["dread", "grace"],
+    "startingHp": 5,
+    "startingStress": 6,
+    "startingEvasion": 11,
+    "hopeFeature": "P Boon: When you fail a roll, you can spend 3 Hope to reroll with advantage.",
+    "subclasses": [
+      {
+        "id": "pact-of-the-endless",
+        "name": "Pact of the Endless",
+        "castingTrait": "presence",
+        "description": "Cloaks themselves in a terrifying aspect.",
+        "foundation": [
+          {
+            "id": "mantle",
+            "name": "Mantle",
+            "description": "Spend a Research to cloak yourself in a terrifying aspect that lasts until you take Severe damage or the scene ends. While this effect is active, you gain a bonus to your damage thresholds equal to your tier and have advantage on action rolls to intimidate a target."
+          },
+          {
+            "id": "deathless-embrace",
+            "name": "Deathless Embrace",
+            "description": "Once per rest, spend any number of Research to roll an equal number of Patron Dice. For each result of 4 or higher, clear a Hit Point."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "harrowing-invocation",
+            "name": "Harrowing Invocation",
+            "description": "When an adversary targets you or an ally within Very Close range with an attack, you can spend a Research to give them disadvantage on the roll. If the adversary fails the roll, they must also mark a Stress."
+          },
+          {
+            "id": "damage-sink",
+            "name": "Damage Sink",
+            "description": "Once per rest, you can spend a Research to halve incoming damage."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "dark-aegis",
+            "name": "Dark Aegis",
+            "description": "Once per long rest when you would take damage, you can spend a Research instead of marking Hit Points."
+          },
+          {
+            "id": "draining-bane",
+            "name": "Draining Bane",
+            "description": "When an adversary targets you or an ally within Very Close range with an attack, you can spend a Research to Drain them. When you do, they must mark a Stress, and you can clear a Stress. While Drained, the target uses a d12 instead of a d20 for attack rolls (including for advantage or disadvantage) until they fail a roll."
+          }
+        ]
+      },
+      {
+        "id": "pact-of-the-wrathful",
+        "name": "Pact of the Wrathful",
+        "castingTrait": "presence",
+        "description": "Destroys those who act against them.",
+        "foundation": [
+          {
+            "id": "fury",
+            "name": "Fury",
+            "description": "Spend a Research to imbue your attacks with Draft power until you deal Severe damage or the scene ends. When you roll damage while this effect is active, you also roll a number of Patron Dice equal to your tier and add their total to the damage dealt."
+          },
+          {
+            "id": "deadly-vengeance",
+            "name": "Deadly Vengeance",
+            "description": "When you mark any number of Hit Points from an attack, you can spend a Research to roll an equal number of Experiment Dice. For each result of 4 or higher, the attacker marks a Hit Point."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "menacing-reach",
+            "name": "Menacing Reach",
+            "description": "Spend a Research to increase the range of your primary weapon by one step (such as Melee to Very Close or Very Close to Close) to a maximum of Very Far range. This effect ends when you make a successful attack with that weapon."
+          },
+          {
+            "id": "diminish-my-foes",
+            "name": "Diminish My Foes",
+            "description": "When you succeed with Hope on an action roll against a target, you can spend any number of Research to force the target to mark an equal number of Stress."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "fearsome-attack",
+            "name": "Fearsome Attack",
+            "description": "Spend a Research to reroll any number of your damage dice. You can continue spending Research to use this feature on the same damage roll."
+          },
+          {
+            "id": "otherworldly-ire",
+            "name": "Otherworldly Ire",
+            "description": "Once per rest when you take damage, you can spend any number of Research to roll that many Research Dice and target a number of creatures within Close range equal to the highest result. Each target must mark a Hit Point."
+          }
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "scientific-pact",
+        "name": "Scientific Pact",
+        "description": "You have committed yourself to an itelligent researcher, by they synthetic, humanoid or starna in exchange for power. Write their name on your character sheet, then work with your GM to determine their sphere of influence (such as Nature, Chaos, Wisdom, Mischief, Love, War, Justice, or Death). Before making an action roll that relates to your research's sphere of influence, you can spend a Research to call upon their aid, rolling your Patron Die and adding its result to the total. Your Research Die starts at a d6 and increases to a d8 at level 5."
+      },
+      {
+        "id": "research",
+        "name": "Research",
+        "description": "You start with 3 Research. You can use a downtime move to collect Research for the researcher. Describe how and gain Research equal to your Spellcast trait. Additionally, when you succeed on an action roll with Hope, you can choose to gain a Research instead of a Hope."
       }
     ]
   },
