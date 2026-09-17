@@ -1,39 +1,52 @@
-import classes from '../config/daggerheart/classes.json';
-import type { Character, SubclassStage } from '../types';
+import classes from "../config/daggerheart/classes.json";
+import type { Character, SubclassStage } from "../types";
+
+export interface SubclassFeature {
+  id: string;
+  name: string;
+  description: string;
+}
 
 export type SubclassConfig = {
   id: string;
   name: string;
   description: string;
-  foundation: string[];
-  specialization: string[];
-  mastery: string[];
+  foundation: SubclassFeature[];
+  specialization: SubclassFeature[];
+  mastery: SubclassFeature[];
 };
 
-export const SUBCLASS_STAGES: SubclassStage[] = ['foundation', 'specialization', 'mastery'];
+export const SUBCLASS_STAGES: SubclassStage[] = [
+  "foundation",
+  "specialization",
+  "mastery",
+];
 
 export function stageLabel(stage: SubclassStage): string {
   return stage.charAt(0).toUpperCase() + stage.slice(1);
 }
 
 export function nextSubclassStage(stage: SubclassStage): SubclassStage | null {
-  if (stage === 'foundation') return 'specialization';
-  if (stage === 'specialization') return 'mastery';
+  if (stage === "foundation") return "specialization";
+  if (stage === "specialization") return "mastery";
   return null;
 }
 
 export function minLevelForStage(stage: SubclassStage): number {
-  if (stage === 'specialization') return 5;
-  if (stage === 'mastery') return 8;
+  if (stage === "specialization") return 5;
+  if (stage === "mastery") return 8;
   return 1;
 }
 
-export function featuresForStage(subclass: SubclassConfig, stage: SubclassStage): string[] {
+export function featuresForStage(
+  subclass: SubclassConfig,
+  stage: SubclassStage,
+): SubclassFeature[] {
   return subclass[stage] ?? [];
 }
 
 export interface SubclassTrack {
-  source: 'primary' | 'multiclass';
+  source: "primary" | "multiclass";
   classId: string;
   subclassId: string;
   name: string;
@@ -41,9 +54,14 @@ export interface SubclassTrack {
   subclass: SubclassConfig;
 }
 
-export function findSubclass(classId: string, subclassId: string): SubclassConfig | undefined {
+export function findSubclass(
+  classId: string,
+  subclassId: string,
+): SubclassConfig | undefined {
   const cls = classes.find((c) => c.id === classId);
-  return cls?.subclasses.find((s) => s.id === subclassId) as SubclassConfig | undefined;
+  return cls?.subclasses.find((s) => s.id === subclassId) as
+    | SubclassConfig
+    | undefined;
 }
 
 export function getSubclassTracks(char: Character): SubclassTrack[] {
@@ -51,24 +69,27 @@ export function getSubclassTracks(char: Character): SubclassTrack[] {
   const primary = findSubclass(char.classId, char.subclassId);
   if (primary) {
     tracks.push({
-      source: 'primary',
+      source: "primary",
       classId: char.classId,
       subclassId: primary.id,
       name: primary.name,
-      stage: char.subclassStage ?? 'foundation',
+      stage: char.subclassStage ?? "foundation",
       subclass: primary,
     });
   }
 
   if (char.multiclass) {
-    const multiclass = findSubclass(char.multiclass.classId, char.multiclass.subclassId);
+    const multiclass = findSubclass(
+      char.multiclass.classId,
+      char.multiclass.subclassId,
+    );
     if (multiclass) {
       tracks.push({
-        source: 'multiclass',
+        source: "multiclass",
         classId: char.multiclass.classId,
         subclassId: multiclass.id,
         name: multiclass.name,
-        stage: char.multiclass.subclassStage ?? 'foundation',
+        stage: char.multiclass.subclassStage ?? "foundation",
         subclass: multiclass,
       });
     }
@@ -78,15 +99,18 @@ export function getSubclassTracks(char: Character): SubclassTrack[] {
 }
 
 export function hasMastery(char: Character): boolean {
-  return getSubclassTracks(char).some((track) => track.stage === 'mastery');
+  return getSubclassTracks(char).some((track) => track.stage === "mastery");
 }
 
-export function getSubclassUpgradeTargets(char: Character, newLevel: number): SubclassTrack[] {
+export function getSubclassUpgradeTargets(
+  char: Character,
+  newLevel: number,
+): SubclassTrack[] {
   return getSubclassTracks(char).filter((track) => {
     const next = nextSubclassStage(track.stage);
     if (!next) return false;
     if (newLevel < minLevelForStage(next)) return false;
-    if (next === 'mastery' && hasMastery(char)) return false;
+    if (next === "mastery" && hasMastery(char)) return false;
     return true;
   });
 }

@@ -3,10 +3,7 @@
     "id": "artificer",
     "name": "Artificer",
     "description": "Manipulate the Draft into technological marvels and constructs.",
-    "domains": [
-      "codex",
-      "midnight"
-    ],
+    "domains": ["codex", "midnight"],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -18,10 +15,26 @@
         "castingTrait": "knowledge",
         "description": "A master of creating and enhancing items.",
         "foundation": [
-          "Each Long Rest, you can build something that will be helpful to you or your team. Choose an Experience attached to this new instrument and the Owner of such Instrument. The Experience can be totally new. The Owner can use that Experience as if it were their own (bonus of +2). This Instrument needs to be recharged or rebuilt every night. You can only have 1 Instrument active."
+          {
+            "id": "dedicated-instrument",
+            "name": "Dedicated Instrument",
+            "description": "Each Long Rest, you can build something that will be helpful to you or your team. Choose an Experience attached to this new instrument and the Owner of such Instrument. The Experience can be totally new. The Owner can use that Experience as if it were their own (bonus of +2). This Instrument needs to be recharged or rebuilt every night. You can only have 1 Instrument active."
+          }
         ],
-        "specialization": ["The Dedicated Instruments can now be dedicated to one of the following: Experience, Evasion, Trait. If Evasion or Trait is chosen, it provides a bonus of +1. If Experience is selected, the bonus is +3. You can now have up to 2 instruments active at the same time."],
-        "mastery": ["You can start new Projects to create exceptional technology able to replicate any Domain Card (up to your level). Choose a Domain Card (even if it’s not available to you) and describe how your technology is going to replicate it. You start a Project with a Countdown equal to the Card Level. Once completed, your Technology is ready. Only you can use it, and any cost needs to be supplied as usual. If it replicates a Draft ability, it uses your Draftcast Trait. You can have only 1 Technology active and need to dismantle any active Technology before starting a new “Master Crafter” Project."]
+        "specialization": [
+          {
+            "id": "improved-instrument",
+            "name": "Improved Instrument",
+            "description": "The Dedicated Instruments can now be dedicated to one of the following: Experience, Evasion, Trait. If Evasion or Trait is chosen, it provides a bonus of +1. If Experience is selected, the bonus is +3. You can now have up to 2 instruments active at the same time."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "master-crafter",
+            "name": "Master Crafter",
+            "description": "You can start new Projects to create exceptional technology able to replicate any Domain Card (up to your level). Choose a Domain Card (even if it’s not available to you) and describe how your technology is going to replicate it. You start a Project with a Countdown equal to the Card Level. Once completed, your Technology is ready. Only you can use it, and any cost needs to be supplied as usual. If it replicates a Draft ability, it uses your Draftcast Trait. You can have only 1 Technology active and need to dismantle any active Technology before starting a new “Master Crafter” Project."
+          }
+        ]
       },
       {
         "id": "alchemist",
@@ -29,11 +42,41 @@
         "castingTrait": "knowledge",
         "description": "A master of potions and poisons, able to create powerful concoctions.",
         "foundation": [
-          "With a few minutes of craft and spending 2 Hopes, you can heal yourself or someone else, clearing a Hit Point or Stress.",
-          "As a Short Rest Action, you can create 1 vial of Poison. As a Long Rest Action, create 1d4 vials instead. You or an ally can poison a target by using a poisoned weapon (1 vial is consumed for 1 successful strike) or by ingestion. A Poisoned creature takes 1d10 direct damage each time they act."
+          {
+            "id": "healing-potion",
+            "name": "Healing Potion",
+            "description": "With a few minutes of craft and spending 2 Hopes, you can heal yourself or someone else, clearing a Hit Point or Stress."
+          },
+          {
+            "id": "poison",
+            "name": "Poison",
+            "description": "As a Short Rest Action, you can create 1 vial of Poison. As a Long Rest Action, create 1d4 vials instead. You or an ally can poison a target by using a poisoned weapon (1 vial is consumed for 1 successful strike) or by ingestion. A Poisoned creature takes 1d10 direct damage each time they act."
+          }
         ],
-        "specialization": ["Each time you heal someone with your Healing Potion, they clear both a Hit Point and a Stress.", "With a few minutes of craft and spending 2 Hopes, you can create a special solution. When injected, the target marks a Stress and obtains a +1 to a Trait of your choosing until the end of the scene. Stress marked this way cannot be cleared until the bonus persists (it is not cleared automatically)."],
-        "mastery": ["You create a special solution that works only on your body. You no longer age and suffer the effects of time on your body. You also became immune to physical conditions that would alter your body, unless you choose to be affected. This feature doesn't turn you impervious to damage or conditions that would actively be consequent to received damage, such as dismemberment, incineration, and so on. The final decision on what has an effect and what has not is up to the GM.", "You obtain the Sage Domain Card Forager. Instead of collecting items around you, you craft potions. This Card follows the normal restrictions of Loadout and Vault management."]
+        "specialization": [
+          {
+            "id": "secret-formula",
+            "name": "Secret Formula",
+            "description": "Each time you heal someone with your Healing Potion, they clear both a Hit Point and a Stress."
+          },
+          {
+            "id": "boosting-injection",
+            "name": "Boosting Injection",
+            "description": "With a few minutes of craft and spending 2 Hopes, you can create a special solution. When injected, the target marks a Stress and obtains a +1 to a Trait of your choosing until the end of the scene. Stress marked this way cannot be cleared until the bonus persists (it is not cleared automatically)."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "everlasting",
+            "name": "Everlasting",
+            "description": "You create a special solution that works only on your body. You no longer age and suffer the effects of time on your body. You also became immune to physical conditions that would alter your body, unless you choose to be affected. This feature doesn't turn you impervious to damage or conditions that would actively be consequent to received damage, such as dismemberment, incineration, and so on. The final decision on what has an effect and what has not is up to the GM."
+          },
+          {
+            "id": "prolific-alchemist",
+            "name": "Prolific Alchemist",
+            "description": "You obtain the Sage Domain Card Forager. Instead of collecting items around you, you craft potions. This Card follows the normal restrictions of Loadout and Vault management."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -53,10 +96,7 @@
     "id": "bard",
     "name": "Bard",
     "description": "A charismatic performer who inspires allies through song, story, and sheer force of personality.",
-    "domains": [
-      "grace",
-      "codex"
-    ],
+    "domains": ["grace", "codex"],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -68,11 +108,26 @@
         "castingTrait": "presence",
         "description": "A wandering performer who carries tales from town to town.",
         "foundation": [
-          "You can play three different types of songs, once each per long rest; describe how you perform for others to gain the listed benefit: - **Relaxing Song:** You and all allies within Close range clear a Hit Point. - **Epic Song:** Make a target within Close range temporarily Vulnerable. - **Heartbreaking Song:** You and all allies within Close range gain a Hope.",
-          "Once per rest, inspire an ally to reroll a failed roll."
+          {
+            "id": "gifted-performer",
+            "name": "Gifted Performer",
+            "description": "You can play three different types of songs, once each per long rest; describe how you perform for others to gain the listed benefit: - **Relaxing Song:** You and all allies within Close range clear a Hit Point. - **Epic Song:** Make a target within Close range temporarily Vulnerable. - **Heartbreaking Song:** You and all allies within Close range gain a Hope."
+          }
         ],
-        "specialization": ["Your rallying songs steel the courage of those who listen. When you give a Rally Die to an ally, they can gain a Hope or clear a Stress."],
-        "mastery": ["You are among the greatest of your craft and your skill is boundless. You can perform each of your “Gifted Performer” feature’s songs twice per long rest."]
+        "specialization": [
+          {
+            "id": "maestro",
+            "name": "Maestro",
+            "description": "Your rallying songs steel the courage of those who listen. When you give a Rally Die to an ally, they can gain a Hope or clear a Stress."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "virtuoso",
+            "name": "Virtuoso",
+            "description": "You are among the greatest of your craft and your skill is boundless. You can perform each of your “Gifted Performer” feature’s songs twice per long rest."
+          }
+        ]
       },
       {
         "id": "wordsmith",
@@ -80,11 +135,31 @@
         "castingTrait": "presence",
         "description": "A master of language and lore who wields words as weapons.",
         "foundation": [
-          "Once per long rest, you can give a heartfelt, inspiring speech. All allies within Far range clear 2 Stress.",
-          "After you make an action roll to impress, persuade, or offend someone, you can spend a Hope to add a d4 to the roll."
+          {
+            "id": "rousing-speech",
+            "name": "Rousing Speech",
+            "description": "Once per long rest, you can give a heartfelt, inspiring speech. All allies within Far range clear 2 Stress."
+          },
+          {
+            "id": "heart-of-a-poet",
+            "name": "Heart of a Poet",
+            "description": "After you make an action roll to impress, persuade, or offend someone, you can spend a Hope to add a d4 to the roll."
+          }
         ],
-        "specialization": ["Your moving words boost morale. Once per session, when you encourage an ally, you can do one of the following: - Allow them to find a mundane object or tool they need. - Help an Ally without spending Hope. - Give them an additional downtime move during their next rest."],
-        "mastery": ["Your Rally Die increases to a d10. Additionally, when you Help an Ally, you can narrate the moment as if you were writing the tale of their heroism in a memoir. When you do, roll a d10 as your advantage die."]
+        "specialization": [
+          {
+            "id": "eloquent",
+            "name": "Eloquent",
+            "description": "Your moving words boost morale. Once per session, when you encourage an ally, you can do one of the following: - Allow them to find a mundane object or tool they need. - Help an Ally without spending Hope. - Give them an additional downtime move during their next rest."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "epic-poetry",
+            "name": "Epic Poetry",
+            "description": "Your Rally Die increases to a d10. Additionally, when you Help an Ally, you can narrate the moment as if you were writing the tale of their heroism in a memoir. When you do, roll a d10 as your advantage die."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -99,10 +174,7 @@
     "id": "grim",
     "name": "Grim",
     "description": "Time in the Hollow has left its mark on you, granting you strange powers.",
-    "domains": [
-      "blade",
-      "dread"
-    ],
+    "domains": ["blade", "dread"],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -114,11 +186,36 @@
         "castingTrait": "strength",
         "description": "You are haunted by the darkness of the Hollow.",
         "foundation": [
-          "Once per rest, you can spend a Hope to teleport within Melee range of a Branded target that is within Far range of you.",
-          "When an adversary successfully attacks you, you can mark a Stress and roll 1d4. You add the result to each of your damage thresholds against the damage from the attack."
+          {
+            "id": "hunt",
+            "name": "Hunt",
+            "description": "Once per rest, you can spend a Hope to teleport within Melee range of a Branded target that is within Far range of you."
+          },
+          {
+            "id": "baleful-persistence",
+            "name": "Baleful Persistence",
+            "description": "When an adversary successfully attacks you, you can mark a Stress and roll 1d4. You add the result to each of your damage thresholds against the damage from the attack."
+          }
         ],
-        "specialization": ["Once per rest, when you kill a Branded adversary, you can clear a Stress or gain a Hope.", "When you deal damage to an adversary, you can spend 2 Hope and make a Draftcast Roll (15). On a success, you make a terrifying noise and the target receives a permanent penalty to its damage thresholds equal to your Draftcast Trait. This ability can only effect one adversary at a time."],
-        "mastery": ["Once per long rest, when you roll a success with Fear against an adversary, you may mark 2 Stress and prevent the GM from taking their turn after this roll, and keep the turn on the Player side as if it were a success with Hope. Additionally, the GM cannot spend additional Fear to spotlight an adversary until you or another player either fails a roll or succeeds with Fear."]
+        "specialization": [
+          {
+            "id": "quench-the-thirst",
+            "name": "Quench the Thirst",
+            "description": "Once per rest, when you kill a Branded adversary, you can clear a Stress or gain a Hope."
+          },
+          {
+            "id": "shriek",
+            "name": "Shriek",
+            "description": "When you deal damage to an adversary, you can spend 2 Hope and make a Draftcast Roll (15). On a success, you make a terrifying noise and the target receives a permanent penalty to its damage thresholds equal to your Draftcast Trait. This ability can only effect one adversary at a time."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "even-the-odds",
+            "name": "Even the Odds",
+            "description": "Once per long rest, when you roll a success with Fear against an adversary, you may mark 2 Stress and prevent the GM from taking their turn after this roll, and keep the turn on the Player side as if it were a success with Hope. Additionally, the GM cannot spend additional Fear to spotlight an adversary until you or another player either fails a roll or succeeds with Fear."
+          }
+        ]
       },
       {
         "id": "scourged",
@@ -126,10 +223,31 @@
         "castingTrait": "strength",
         "description": "Unleash vengeance upon those who have wronged you.",
         "foundation": [
-          "If you would mark an Armor Slot to reduce incoming damage by one threshold, you can instead forgo the damage reduction, mark the Armor Slot, and deal d8 Draft damage to them, using your Proficiency."
+          {
+            "id": "pay-the-price",
+            "name": "Pay the Price",
+            "description": "If you would mark an Armor Slot to reduce incoming damage by one threshold, you can instead forgo the damage reduction, mark the Armor Slot, and deal d8 Draft damage to them, using your Proficiency."
+          }
         ],
-        "specialization": ["When you successfully deal Major damage or higher to an adversary, you can mark a Stress to temporarily Shudder them as well as any adversaries within Very Close range of them. While Shuddered, they suffer an additional 1d6 physical damage from the next successful attack made against them. If any adversaries affected by Shudder are also Branded, the additional damage dealt to them increases to 1d8."],
-        "mastery": ["Once per long rest, you can enter into a wrathful state. This transformation lasts until the current scene ends, you take Severe damage or higher, or you make a Death Move. Whilst transformed, you gain the following benefits: Your Foundation feature can be used once without expending an Armor Slot. Your Specialization feature’s damage die increases to 1d10. Branded and Shuddered adversaries take 1d12 instead., You have advantage on all attack rolls.", "Whenever you make an attack roll with advantage, you critically succeed if the advantage die matches the result of your Fear die."]
+        "specialization": [
+          {
+            "id": "none-none-specialization-1-specialization-1",
+            "name": "Shuddering Strike",
+            "description": "When you successfully deal Major damage or higher to an adversary, you can mark a Stress to temporarily Shudder them as well as any adversaries within Very Close range of them. While Shuddered, they suffer an additional 1d6 physical damage from the next successful attack made against them. If any adversaries affected by Shudder are also Branded, the additional damage dealt to them increases to 1d8."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "avatar-of-wrath",
+            "name": "Avatar of Wrath",
+            "description": "Once per long rest, you can enter into a wrathful state. This transformation lasts until the current scene ends, you take Severe damage or higher, or you make a Death Move. Whilst transformed, you gain the following benefits: Your Foundation feature can be used once without expending an Armor Slot. Your Specialization feature’s damage die increases to 1d10. Branded and Shuddered adversaries take 1d12 instead., You have advantage on all attack rolls."
+          },
+          {
+            "id": "terrible-fate",
+            "name": "Terrible Fate",
+            "description": "Whenever you make an attack roll with advantage, you critically succeed if the advantage die matches the result of your Fear die."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -144,10 +262,7 @@
     "id": "guardian",
     "name": "Guardian",
     "description": "A stalwart defender who stands between danger and those they protect.",
-    "domains": [
-      "valor",
-      "blade"
-    ],
+    "domains": ["valor", "blade"],
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 9,
@@ -159,11 +274,41 @@
         "castingTrait": null,
         "description": "An immovable shield who absorbs punishment for the party.",
         "foundation": [
-          "Gain a permanent +1 bonus to your damage thresholds.",
-          "When you take physical damage, you can mark an additional Armor Slot to reduce the severity."
+          {
+            "id": "unwavering",
+            "name": "Unwavering",
+            "description": "Gain a permanent +1 bonus to your damage thresholds."
+          },
+          {
+            "id": "iron-will",
+            "name": "Iron Will",
+            "description": "When you take physical damage, you can mark an additional Armor Slot to reduce the severity."
+          }
         ],
-        "specialization": ["Gain a permanent +2 bonus to your damage thresholds.", "When an ally within Very Close range takes damage, you can mark an Armor Slot to reduce the severity by one threshold." ],
-        "mastery": ["Gain a permanent +3 bonus to your damage thresholds.", "When an ally within Close range has 2 or fewer Hit Points and would take damage, you can mark a Stress to sprint to their side and take the damage instead."]
+        "specialization": [
+          {
+            "id": "unrelenting",
+            "name": "Unrelenting",
+            "description": "Gain a permanent +2 bonus to your damage thresholds."
+          },
+          {
+            "id": "partners-in-arms",
+            "name": "Partners-in-Arms",
+            "description": "When an ally within Very Close range takes damage, you can mark an Armor Slot to reduce the severity by one threshold."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "undaunted",
+            "name": "Undaunted",
+            "description": "Gain a permanent +3 bonus to your damage thresholds."
+          },
+          {
+            "id": "loyal-protector",
+            "name": "Loyal Protector",
+            "description": "When an ally within Close range has 2 or fewer Hit Points and would take damage, you can mark a Stress to sprint to their side and take the damage instead."
+          }
+        ]
       },
       {
         "id": "vengeance",
@@ -171,11 +316,31 @@
         "castingTrait": null,
         "description": "Strikes back fiercely at those who harm allies.",
         "foundation": [
-          "Gain an additional Stress slot.",
-          "When an adversary within Melee range succeeds on an attack against you, you can mark 2 Stress to force the attacker to mark a Hit Point."
+          {
+            "id": "at-ease",
+            "name": "At Ease",
+            "description": "Gain an additional Stress slot."
+          },
+          {
+            "id": "revenge",
+            "name": "Revenge",
+            "description": "When an adversary within Melee range succeeds on an attack against you, you can mark 2 Stress to force the attacker to mark a Hit Point."
+          }
         ],
-        "specialization": ["When an adversary damages an ally within Melee range, you gain a +1 bonus to your Proficiency for the next successful attack you make against that adversary."],
-        "mastery": ["Spend 2 Hope to Prioritize an adversary until your next rest. When you make an attack against your Prioritized adversary, you can swap the results of your Hope and Fear Dice. You can only Prioritize one adversary at a time."]
+        "specialization": [
+          {
+            "id": "act-of-reprisal",
+            "name": "Act of Reprisal",
+            "description": "When an adversary damages an ally within Melee range, you gain a +1 bonus to your Proficiency for the next successful attack you make against that adversary."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "nemesis",
+            "name": "Nemesis",
+            "description": "Spend 2 Hope to Prioritize an adversary until your next rest. When you make an attack against your Prioritized adversary, you can swap the results of your Hope and Fear Dice. You can only Prioritize one adversary at a time."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -190,10 +355,7 @@
     "id": "Healer",
     "name": "Healer",
     "description": "A trained physician with the ability to cure wounds and protect others.",
-    "domains": [
-      "splendor",
-      "valor"
-    ],
+    "domains": ["splendor", "valor"],
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 9,
@@ -205,10 +367,31 @@
         "castingTrait": "strength",
         "description": "Bears wings of light and soars above the battlefield.",
         "foundation": [
-          "You can fly. While flying, you can do the following: - Mark a Stress to pick up and carry another willing creature approximately your size or smaller. - Spend a Hope to deal an extra 1d8 damage on a successful attack."
+          {
+            "id": "wings-of-the-stars",
+            "name": "Wings of the Stars",
+            "description": "You can fly. While flying, you can do the following: - Mark a Stress to pick up and carry another willing creature approximately your size or smaller. - Spend a Hope to deal an extra 1d8 damage on a successful attack."
+          }
         ],
-        "specialization": ["Your supernatural visage strikes awe and fear. While flying, you have advantage on Presence Rolls. When you succeed with Hope on a Presence Roll, you can remove a Fear from the GM’s Fear pool instead of gaining Hope."],
-        "mastery": ["Gain a permanent +4 bonus to your Severe damage threshold.", "While flying, you deal an extra 1d12 damage instead of 1d8 from your “Wings of Light” feature."]
+        "specialization": [
+          {
+            "id": "ethereal-visage",
+            "name": "Ethereal Visage",
+            "description": "Your supernatural visage strikes awe and fear. While flying, you have advantage on Presence Rolls. When you succeed with Hope on a Presence Roll, you can remove a Fear from the GM’s Fear pool instead of gaining Hope."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "ascendant",
+            "name": "Ascendant",
+            "description": "Gain a permanent +4 bonus to your Severe damage threshold."
+          },
+          {
+            "id": "power-of-the-stars",
+            "name": "Power of the Stars",
+            "description": "While flying, you deal an extra 1d12 damage instead of 1d8 from your “Wings of the Stars” feature."
+          }
+        ]
       },
       {
         "id": "prayer",
@@ -216,11 +399,31 @@
         "castingTrait": "strength",
         "description": "Channels wrath through intense training.",
         "foundation": [
-          "When you have an equipped weapon with a range of Melee or Very Close, it can fly from your hand to attack an adversary within Close range and then return to you. You can mark a Stress to target an additional adversary within range with the same attack roll.",
-          "Once per long rest, touch a creature and clear 2 Hit Points or 2 Stress from them."
+          {
+            "id": "seed-weapon",
+            "name": "Seed Weapon",
+            "description": "When you have an equipped weapon with a range of Melee or Very Close, it can fly from your hand to attack an adversary within Close range and then return to you. You can mark a Stress to target an additional adversary within range with the same attack roll."
+          },
+          {
+            "id": "sparing-touch",
+            "name": "Sparing Touch",
+            "description": "Once per long rest, touch a creature and clear 2 Hit Points or 2 Stress from them."
+          }
         ],
-        "specialization": ["When you roll your Support Dice, you can roll an additional die and discard the lowest result. Additionally, you can use your “Sparing Touch” feature twice instead of once per long rest."],
-        "mastery": ["When you roll damage for your “Spirit Weapon” feature, if any of the die results match, double the value of each matching die. For example, if you roll two 5s, they count as two 10s."]
+        "specialization": [
+          {
+            "id": "devout",
+            "name": "Devout",
+            "description": "When you roll your Support Dice, you can roll an additional die and discard the lowest result. Additionally, you can use your “Sparing Touch” feature twice instead of once per long rest."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "sacred-resonance",
+            "name": "Seeded Resonance",
+            "description": "When you roll damage for your “Seed Weapon” feature, if any of the die results match, double the value of each matching die. For example, if you roll two 5s, they count as two 10s."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -235,10 +438,7 @@
     "id": "herbalist",
     "name": "Herbalist",
     "description": "A student of nature who's long exposure to the Draft gives them command of the wild.",
-    "domains": [
-      "sage",
-      "draft"
-    ],
+    "domains": ["sage", "draft"],
     "startingHp": 6,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -250,10 +450,26 @@
         "castingTrait": "instinct",
         "description": "Commands elemental forces of fire, water, earth, and air.",
         "foundation": [
-          "Mark a Stress to Channel one of the following elements until you take Severe damage or until your next rest: - **Fire:** When an adversary within Melee range deals damage to you, they take 1d10 Draft damage. - **Earth:** Gain a bonus to your damage thresholds equal to your Proficiency. - **Water:** When you deal damage to an adversary within Melee range, all other adversaries within Very Close range must mark a Stress. - **Air:** You can hover, gaining advantage on Agility Rolls."
+          {
+            "id": "elemental-incarnation",
+            "name": "Elemental Incarnation",
+            "description": "Mark a Stress to Channel one of the following elements until you take Severe damage or until your next rest: - **Fire:** When an adversary within Melee range deals damage to you, they take 1d10 Draft damage. - **Earth:** Gain a bonus to your damage thresholds equal to your Proficiency. - **Water:** When you deal damage to an adversary within Melee range, all other adversaries within Very Close range must mark a Stress. - **Air:** You can hover, gaining advantage on Agility Rolls."
+          }
         ],
-        "specialization": [],
-        "mastery": []
+        "specialization": [
+          {
+            "id": "elemental-aura",
+            "name": "Elemental Aura",
+            "description": "Once per rest while Channeling, you can assume an aura matching your element. The aura affects targets within Close range until your Channeling ends. - **Fire:** When an adversary marks 1 or more Hit Points, they must also mark a Stress. - **Earth:** Your allies gain a +1 bonus to Strength. - **Water:** When an adversary deals damage to you, you can mark a Stress to move them anywhere within Very Close range of where they are. - **Air:** When you or an ally takes damage from an attack beyond Melee range, reduce the damage by 1d8."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "elemental-domain",
+            "name": "Elemental Domain",
+            "description": "You further embody your element. While Channeling, you gain the following benefit: - **Fire:** You gain a +1 bonus to your Proficiency for attacks and spells that deal damage. - **Earth:** When you would mark Hit Points, roll a d6 per Hit Point marked. For each result of 6, reduce the number of Hit Points you mark by 1. - **Water:** When an attack against you succeeds, you can mark a Stress to make the attacker temporarily Vulnerable. - **Air:** You gain a +1 bonus to your Evasion and can fly."
+          }
+        ]
       },
       {
         "id": "land",
@@ -261,11 +477,36 @@
         "castingTrait": "instinct",
         "description": "Heals and restores life to wounded allies and blighted land.",
         "foundation": [
-          "Once per long rest, you can create a space of natural serenity within Close range. When you spend a few minutes resting within the space, clear Stress equal to your Instinct, distributed as you choose between you and your allies.",
-          "Touch a creature and spend 3 Hope. That creature clears 1d4 Hit Points."
+          {
+            "id": "clarity-of-nature",
+            "name": "Clarity of Nature",
+            "description": "Once per long rest, you can create a space of natural serenity within Close range. When you spend a few minutes resting within the space, clear Stress equal to your Instinct, distributed as you choose between you and your allies."
+          },
+          {
+            "id": "regeneration",
+            "name": "Regeneration",
+            "description": "Touch a creature and spend 3 Hope. That creature clears 1d4 Hit Points."
+          }
         ],
-        "specialization": [],
-        "mastery": []
+        "specialization": [
+          {
+            "id": "regenerative-reach",
+            "name": "Regenerative Reach",
+            "description": "You can target creatures within Very Close range with your “Regeneration” feature."
+          },
+          {
+            "id": "wardens-protection",
+            "name": "Warden’s Protection",
+            "description": "Once per long rest, spend 2 Hope to clear 2 Hit Points on 1d4 allies within Close range."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "defender",
+            "name": "Defender",
+            "description": "Your animal transformation embodies a healing guardian spirit. When you’re in Beastform and an ally within Close range marks 2 or more Hit Points, you can mark a Stress to reduce the number of Hit Points they mark by 1."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -285,10 +526,7 @@
     "id": "ranger",
     "name": "Ranger",
     "description": "A skilled hunter and tracker who thrives in the wilderness.",
-    "domains": [
-      "bone",
-      "sage"
-    ],
+    "domains": ["bone", "sage"],
     "startingHp": 6,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -300,10 +538,36 @@
         "castingTrait": "agility",
         "description": "Bonds deeply with an animal companion who fights at their side.",
         "foundation": [
-          "You have an animal companion of your choice (at the GM’s discretion). They stay by your side unless you tell them otherwise. Take the Ranger Companion sheet. When you level up your character, choose a level-up option for your companion from this sheet as well."
+          {
+            "id": "companion",
+            "name": "Companion",
+            "description": "You have an animal companion of your choice (at the GM’s discretion). They stay by your side unless you tell them otherwise. Take the Ranger Companion sheet. When you level up your character, choose a level-up option for your companion from this sheet as well."
+          }
         ],
-        "specialization": ["Choose an additional level-up option for your companion.", "When an adversary attacks you while they’re within your companion’s Melee range, you gain a +2 bonus to your Evasion against the attack."],
-        "mastery": ["Choose two additional level-up options for your companion.", "Once per long rest, when the damage from an attack would mark your companion’s last Stress or your last Hit Point and you’re within Close range of each other, you or your companion can rush to the other’s side and take that damage instead."]
+        "specialization": [
+          {
+            "id": "expert-training",
+            "name": "Expert Training",
+            "description": "Choose an additional level-up option for your companion."
+          },
+          {
+            "id": "battle-bonded",
+            "name": "Battle-Bonded",
+            "description": "When an adversary attacks you while they’re within your companion’s Melee range, you gain a +2 bonus to your Evasion against the attack."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "advanced-training",
+            "name": "Advanced Training",
+            "description": "Choose two additional level-up options for your companion."
+          },
+          {
+            "id": "loyal-friend",
+            "name": "Loyal Friend",
+            "description": "Once per long rest, when the damage from an attack would mark your companion’s last Stress or your last Hit Point and you’re within Close range of each other, you or your companion can rush to the other’s side and take that damage instead."
+          }
+        ]
       },
       {
         "id": "wayfinder",
@@ -311,11 +575,31 @@
         "castingTrait": "agility",
         "description": "Master of terrain and navigation who never loses their way.",
         "foundation": [
-          "When you make a damage roll, you can mark a Stress to gain a +1 bonus to your Proficiency. Additionally, when you deal Severe damage to an adversary, they must mark a Stress.",
-          "When you’re traveling to a place you’ve previously visited or you carry an object that has been at the location before, you can identify the shortest, most direct path to your destination."
+          {
+            "id": "ruthless-predator",
+            "name": "Ruthless Predator",
+            "description": "When you make a damage roll, you can mark a Stress to gain a +1 bonus to your Proficiency. Additionally, when you deal Severe damage to an adversary, they must mark a Stress."
+          },
+          {
+            "id": "path-forward",
+            "name": "Path Forward",
+            "description": "When you’re traveling to a place you’ve previously visited or you carry an object that has been at the location before, you can identify the shortest, most direct path to your destination."
+          }
         ],
-        "specialization": ["When your Focus makes an attack against you, you gain a +2 bonus to your Evasion against the attack."],
-        "mastery": ["Before you make an attack roll against your Focus, you can spend a Hope. On a successful attack, you remove a Fear from the GM’s Fear pool."]
+        "specialization": [
+          {
+            "id": "elusive-predator",
+            "name": "Elusive Predator",
+            "description": "When your Focus makes an attack against you, you gain a +2 bonus to your Evasion against the attack."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "apex-predator",
+            "name": "Apex Predator",
+            "description": "Before you make an attack roll against your Focus, you can spend a Hope. On a successful attack, you remove a Fear from the GM’s Fear pool."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -330,10 +614,7 @@
     "id": "rogue",
     "name": "Rogue",
     "description": "A cunning operative who strikes from shadows and never fights fair.",
-    "domains": [
-      "midnight",
-      "grace"
-    ],
+    "domains": ["midnight", "grace"],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 12,
@@ -345,10 +626,36 @@
         "castingTrait": "finesse",
         "description": "Moves unseen through darkness, a ghost in the night.",
         "foundation": [
-          "You can move from shadow to shadow. When you move into an area of darkness or a shadow cast by another creature or object, you can **mark a Stress** to disappear from where you are and reappear inside another shadow within Far range. When you reappear, you are Cloaked."
+          {
+            "id": "shadow-stepper",
+            "name": "Shadow Stepper",
+            "description": "You can move from shadow to shadow. When you move into an area of darkness or a shadow cast by another creature or object, you can **mark a Stress** to disappear from where you are and reappear inside another shadow within Far range. When you reappear, you are Cloaked."
+          }
         ],
-        "specialization": ["Make a Draftcast Roll (15). On a success, create a temporary dark cloud that covers any area within Close range. Anyone in this cloud can’t see outside of it, and anyone outside of it can’t see in. You’re considered Cloaked from any adversary for whom the cloud blocks line of sight.", "While you’re Vulnerable, add your level to your damage rolls."],
-        "mastery": ["Gain a permanent +1 bonus to your Evasion. You can use your “Shadow Stepper” feature to move within Very Far range.", "Mark a Stress to become Cloaked at any time. When Cloaked from this feature, you automatically clear the Restrained condition if you have it. You remain Cloaked in this way until you roll with Fear or until your next rest."]
+        "specialization": [
+          {
+            "id": "dark-cloud",
+            "name": "Dark Cloud",
+            "description": "Make a Draftcast Roll (15). On a success, create a temporary dark cloud that covers any area within Close range. Anyone in this cloud can’t see outside of it, and anyone outside of it can’t see in. You’re considered Cloaked from any adversary for whom the cloud blocks line of sight."
+          },
+          {
+            "id": "adrenaline",
+            "name": "Adrenaline",
+            "description": "While you’re Vulnerable, add your level to your damage rolls."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "fleeting-shadow",
+            "name": "Fleeting Shadow",
+            "description": "Gain a permanent +1 bonus to your Evasion. You can use your “Shadow Stepper” feature to move within Very Far range."
+          },
+          {
+            "id": "vanishing-act",
+            "name": "Vanishing Act",
+            "description": "Mark a Stress to become Cloaked at any time. When Cloaked from this feature, you automatically clear the Restrained condition if you have it. You remain Cloaked in this way until you roll with Fear or until your next rest."
+          }
+        ]
       },
       {
         "id": "syndicate",
@@ -356,10 +663,26 @@
         "castingTrait": "finesse",
         "description": "Connected to criminal networks with eyes everywhere.",
         "foundation": [
-          "When you arrive in a prominent town or environment, you know somebody who calls this place home. Give them a name, note how you think they could be useful, and choose one fact from the following list: - They owe me a favor, but they’ll be hard to find. - They’re going to ask for something in exchange. - They’re always in a great deal of trouble. - We used to be together. It’s a long story. - We didn’t part on great terms."
+          {
+            "id": "well-connected",
+            "name": "Well-Connected",
+            "description": "When you arrive in a prominent town or environment, you know somebody who calls this place home. Give them a name, note how you think they could be useful, and choose one fact from the following list: - They owe me a favor, but they’ll be hard to find. - They’re going to ask for something in exchange. - They’re always in a great deal of trouble. - We used to be together. It’s a long story. - We didn’t part on great terms."
+          }
         ],
-        "specialization": ["Once per session, you can briefly call on a shady contact. Choose one of the following benefits and describe what brought them here to help you in this moment: - They provide 1 handful of gold, a unique tool, or a mundane object that the situation requires. - On your next action roll, their help provides a +3 bonus to the result of your Hope or Fear Die. - The next time you deal damage, they snipe from the shadows, adding 2d8 to your damage roll."],
-        "mastery": [ "You can use your “Contacts Everywhere” feature three times per session. The following options are added to the list of benefits you can choose from when you use that feature: - When you mark 1 or more Hit Points, they can rush out to shield you, reducing the Hit Points marked by 1. - When you make a Presence Roll in conversation, they back you up. You can roll a d20 as your Hope Die."]
+        "specialization": [
+          {
+            "id": "contacts-everywhere",
+            "name": "Contacts Everywhere",
+            "description": "Once per session, you can briefly call on a shady contact. Choose one of the following benefits and describe what brought them here to help you in this moment: - They provide 1 handful of gold, a unique tool, or a mundane object that the situation requires. - On your next action roll, their help provides a +3 bonus to the result of your Hope or Fear Die. - The next time you deal damage, they snipe from the shadows, adding 2d8 to your damage roll."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "reliable-backup",
+            "name": "Reliable Backup",
+            "description": "You can use your “Contacts Everywhere” feature three times per session. The following options are added to the list of benefits you can choose from when you use that feature: - When you mark 1 or more Hit Points, they can rush out to shield you, reducing the Hit Points marked by 1. - When you make a Presence Roll in conversation, they back you up. You can roll a d20 as your Hope Die."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -379,10 +702,7 @@
     "id": "scholar",
     "name": "Scholar",
     "description": "A student who masters Draft arts through rigorous study.",
-    "domains": [
-      "codex",
-      "splendor"
-    ],
+    "domains": ["codex", "splendor"],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -394,11 +714,41 @@
         "castingTrait": "knowledge",
         "description": "Master of learned Draft and Seed theory.",
         "foundation": [
-          "Take an additional domain card of your level or lower from a domain you have access to.",
-          "When you Utilize an Experience, you can mark a Stress instead of spending a Hope. If you do, double your Experience modifier for that roll."
+          {
+            "id": "prepared",
+            "name": "Prepared",
+            "description": "Take an additional domain card of your level or lower from a domain you have access to."
+          },
+          {
+            "id": "adept",
+            "name": "Adept",
+            "description": "When you Utilize an Experience, you can mark a Stress instead of spending a Hope. If you do, double your Experience modifier for that roll."
+          }
         ],
-        "specialization": ["Take an additional domain card of your level or lower from a domain you have access to.", "Once per rest, when you recall a domain card in your vault, you can reduce its Recall Cost by 1."],
-        "mastery": ["Take an additional domain card of your level or lower from a domain you have access to.", "When you use an Experience, roll a d6. On a result of 5 or higher, you can use it without spending Hope."]
+        "specialization": [
+          {
+            "id": "accomplished",
+            "name": "Accomplished",
+            "description": "Take an additional domain card of your level or lower from a domain you have access to."
+          },
+          {
+            "id": "perfect-recall",
+            "name": "Perfect Recall",
+            "description": "Once per rest, when you recall a domain card in your vault, you can reduce its Recall Cost by 1."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "brilliant",
+            "name": "Brilliant",
+            "description": "Take an additional domain card of your level or lower from a domain you have access to."
+          },
+          {
+            "id": "honed-expertise",
+            "name": "Honed Expertise",
+            "description": "When you use an Experience, roll a d6. On a result of 5 or higher, you can use it without spending Hope."
+          }
+        ]
       },
       {
         "id": "war",
@@ -406,11 +756,41 @@
         "castingTrait": "knowledge",
         "description": "Draft power optimized for the chaos of battle.",
         "foundation": [
-          "You’ve focused your studies on becoming an unconquerable force on the battlefield. Gain an additional Hit Point slot.",
-          "When you succeed with Fear on an attack roll, you deal an extra 1d10 Draft damage."
+          {
+            "id": "battlemage",
+            "name": "Battlemage",
+            "description": "You’ve focused your studies on becoming an unconquerable force on the battlefield. Gain an additional Hit Point slot."
+          },
+          {
+            "id": "face-your-fear",
+            "name": "Face Your Fear",
+            "description": "When you succeed with Fear on an attack roll, you deal an extra 1d10 Draft damage."
+          }
         ],
-        "specialization": ["You can maintain a protective barrier of magic. While you have at least 2 Hope, you add your Proficiency to your Evasion.", "The extra magic damage from your “Face Your Fear” feature increases to 2d10."],
-        "mastery": ["When you succeed on an attack, you can mark a Stress after rolling damage to force the target to mark an additional Hit Point.", "The extra magic damage from your “Face Your Fear” feature increases to 3d10."]
+        "specialization": [
+          {
+            "id": "conjure-shield",
+            "name": "Conjure Shield",
+            "description": "You can maintain a protective barrier of magic. While you have at least 2 Hope, you add your Proficiency to your Evasion."
+          },
+          {
+            "id": "fueled-by-fear",
+            "name": "Fueled by Fear",
+            "description": "The extra magic damage from your “Face Your Fear” feature increases to 2d10."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "thrive-in-chaos",
+            "name": "Thrive in Chaos",
+            "description": "When you succeed on an attack, you can mark a Stress after rolling damage to force the target to mark an additional Hit Point."
+          },
+          {
+            "id": "have-no-fear",
+            "name": "Have No Fear",
+            "description": "The extra magic damage from your “Face Your Fear” feature increases to 3d10."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -430,10 +810,7 @@
     "id": "seeded",
     "name": "Seeded",
     "description": "Those who are most affected by the Seed, but have survived and gained strange powers.",
-    "domains": [
-      "draft",
-      "midnight"
-    ],
+    "domains": ["draft", "midnight"],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -445,10 +822,26 @@
         "castingTrait": "instinct",
         "description": "Draft tied to a primal element — fire, ice, storm, or stone.",
         "foundation": [
-          "Choose one of the following elements at character creation: air, earth, fire, lightning, water. You can shape this element into harmless effects. Additionally, spend a Hope and describe how your control over this element helps an action roll you’re about to make, then either gain a +2 bonus to the roll or a +3 bonus to the roll’s damage."
+          {
+            "id": "none-none-foundation-1-choose-one-of-the-following-elements-at-",
+            "name": "Choose one of the following elements at character creation",
+            "description": "Choose one of the following elements at character creation: air, earth, fire, lightning, water. You can shape this element into harmless effects. Additionally, spend a Hope and describe how your control over this element helps an action roll you’re about to make, then either gain a +2 bonus to the roll or a +3 bonus to the roll’s damage."
+          }
         ],
-        "specialization": ["You can call forth your element to protect you from harm. When an attack roll against you succeeds, you can mark a Stress and describe how you use your element to defend you. When you do, roll a d6 and add its result to your Evasion against the attack."],
-        "mastery": ["Once per long rest, you can transform into a physical manifestation of your element. When you do, describe your transformation and choose two of the following benefits to gain until your next rest: - +4 bonus to your Severe threshold - +1 bonus to a character trait of your choice - +1 bonus to your Proficiency - +2 bonus to your Evasion"]
+        "specialization": [
+          {
+            "id": "none-none-specialization-1-specialization-1",
+            "name": "Specialization 1",
+            "description": "You can call forth your element to protect you from harm. When an attack roll against you succeeds, you can mark a Stress and describe how you use your element to defend you. When you do, roll a d6 and add its result to your Evasion against the attack."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "none-none-mastery-1-once-per-long-rest-you-can-transform-int",
+            "name": "Once per long rest, you can transform into a physical manifestation of your element. When you do, describe your transformation and choose two of the following benefits to gain until your next rest",
+            "description": "Once per long rest, you can transform into a physical manifestation of your element. When you do, describe your transformation and choose two of the following benefits to gain until your next rest: - +4 bonus to your Severe threshold - +1 bonus to a character trait of your choice - +1 bonus to your Proficiency - +2 bonus to your Evasion"
+          }
+        ]
       },
       {
         "id": "primal",
@@ -456,10 +849,26 @@
         "castingTrait": "instinct",
         "description": "Raw, untamed Draft power that surges unpredictably.",
         "foundation": [
-          "Your alien origin allows you to modify the essence of Draft itself. After you cast a Draft ability or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following: - Extend the Draft ability or attack’s reach by one range - Gain a +2 bonus to the action roll’s result - Double a damage die of your choice - Hit an additional target within range"
+          {
+            "id": "none-none-foundation-1-your-alien-origin-allows-you-to-modify-t",
+            "name": "Your alien origin allows you to modify the essence of Draft itself. After you cast a Draft ability or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following",
+            "description": "Your alien origin allows you to modify the essence of Draft itself. After you cast a Draft ability or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following: - Extend the Draft ability or attack’s reach by one range - Gain a +2 bonus to the action roll’s result - Double a damage die of your choice - Hit an additional target within range"
+          }
         ],
-        "specialization": ["You can enhance the magic of others with your essence. When you Help an Ally with a Draftcast Roll, you can roll a d8 as your advantage die. Once per long rest, after an ally has made a Draftcast Roll with your help, you can swap the results of their Duality Dice."],
-        "mastery": ["You can gather magical energy to enhance your capabilities. When you take magic damage, you become Charged. Alternatively, you can spend 2 Hope to become Charged. When you successfully make an attack that deals magic damage while Charged, you can clear your Charge to either gain a +10 bonus to the damage roll or gain a +3 bonus to the Difficulty of a reaction roll the Draft ability causes the target to make. You stop being Charged at your next long rest."]
+        "specialization": [
+          {
+            "id": "none-none-specialization-1-specialization-1",
+            "name": "Specialization 1",
+            "description": "You can enhance the magic of others with your essence. When you Help an Ally with a Draftcast Roll, you can roll a d8 as your advantage die. Once per long rest, after an ally has made a Draftcast Roll with your help, you can swap the results of their Duality Dice."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "none-none-mastery-1-mastery-1",
+            "name": "Mastery 1",
+            "description": "You can gather magical energy to enhance your capabilities. When you take magic damage, you become Charged. Alternatively, you can spend 2 Hope to become Charged. When you successfully make an attack that deals magic damage while Charged, you can clear your Charge to either gain a +10 bonus to the damage roll or gain a +3 bonus to the Difficulty of a reaction roll the Draft ability causes the target to make. You stop being Charged at your next long rest."
+          }
+        ]
       }
     ],
     "classFeatures": [
@@ -479,10 +888,7 @@
     "id": "warrior",
     "name": "Warrior",
     "description": "A master of weapons and combat who lives for the clash of steel.",
-    "domains": [
-      "blade",
-      "bone"
-    ],
+    "domains": ["blade", "bone"],
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -494,11 +900,31 @@
         "castingTrait": null,
         "description": "Leads from the front, inspiring courage in allies.",
         "foundation": [
-          "When you fail a roll with Fear, you gain a Hope.",
-          "Once per long rest, before you attempt something incredibly dangerous or face off against a foe who clearly outmatches you, describe what ritual you perform or preparations you make. When you do, clear 2 Stress and gain 2 Hope."
+          {
+            "id": "none-none-foundation-1-foundation-1",
+            "name": "Foundation 1",
+            "description": "When you fail a roll with Fear, you gain a Hope."
+          },
+          {
+            "id": "none-none-foundation-2-foundation-2",
+            "name": "Foundation 2",
+            "description": "Once per long rest, before you attempt something incredibly dangerous or face off against a foe who clearly outmatches you, describe what ritual you perform or preparations you make. When you do, clear 2 Stress and gain 2 Hope."
+          }
         ],
-        "specialization": ["You are vigilant in the face of mounting danger. While you have 2 or fewer Hit Points unmarked, you can roll a d20 as your Hope Die."],
-        "mastery": ["Your unwavering bravery is a rallying point for your allies. You can initiate a Tag Team Roll once per additional time per session. Additionally, when an ally initiates a Tag Team Roll with you, they only need to spend 2 Hope to do so."]
+        "specialization": [
+          {
+            "id": "none-none-specialization-1-specialization-1",
+            "name": "Specialization 1",
+            "description": "You are vigilant in the face of mounting danger. While you have 2 or fewer Hit Points unmarked, you can roll a d20 as your Hope Die."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "none-none-mastery-1-mastery-1",
+            "name": "Mastery 1",
+            "description": "Your unwavering bravery is a rallying point for your allies. You can initiate a Tag Team Roll once per additional time per session. Additionally, when an ally initiates a Tag Team Roll with you, they only need to spend 2 Hope to do so."
+          }
+        ]
       },
       {
         "id": "call2",
@@ -506,10 +932,26 @@
         "castingTrait": null,
         "description": "Specializes in killing blows against powerful foes.",
         "foundation": [
-          "You gain a pool of dice called Slayer Dice. On a roll with Hope, you can place a d6 on this card instead of gaining a Hope, adding the die to the pool. You can store a number of Slayer Dice equal to your Proficiency. When you make an attack roll or damage roll, you can spend any number of these Slayer Dice, rolling them and adding their result to the roll. At the end of each session, clear any unspent Slayer Dice on this card and gain a Hope per die cleared."
+          {
+            "id": "none-none-foundation-1-foundation-1",
+            "name": "Foundation 1",
+            "description": "You gain a pool of dice called Slayer Dice. On a roll with Hope, you can place a d6 on this card instead of gaining a Hope, adding the die to the pool. You can store a number of Slayer Dice equal to your Proficiency. When you make an attack roll or damage roll, you can spend any number of these Slayer Dice, rolling them and adding their result to the roll. At the end of each session, clear any unspent Slayer Dice on this card and gain a Hope per die cleared."
+          }
         ],
-        "specialization": ["You can wield multiple weapons with dangerous ease. When you succeed on an attack, you can spend a Hope to add one of the damage dice from your secondary weapon to the damage roll. Additionally, once per long rest when you roll your Slayer Dice, reroll any 1s."],
-        "mastery": ["You’re an inspirational warrior to all who travel with you. Your party gains access to the Martial Preparation downtime move. To use this move during a rest, describe how you instruct and train with your party. You and each ally who chooses this downtime move gain a d6 Slayer Die. A PC with a Slayer Die can spend it to roll the die and add the result to an attack or damage roll of their choice."]
+        "specialization": [
+          {
+            "id": "none-none-specialization-1-specialization-1",
+            "name": "Specialization 1",
+            "description": "You can wield multiple weapons with dangerous ease. When you succeed on an attack, you can spend a Hope to add one of the damage dice from your secondary weapon to the damage roll. Additionally, once per long rest when you roll your Slayer Dice, reroll any 1s."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "none-none-mastery-1-mastery-1",
+            "name": "Mastery 1",
+            "description": "You’re an inspirational warrior to all who travel with you. Your party gains access to the Martial Preparation downtime move. To use this move during a rest, describe how you instruct and train with your party. You and each ally who chooses this downtime move gain a d6 Slayer Die. A PC with a Slayer Die can spend it to roll the die and add the result to an attack or damage roll of their choice."
+          }
+        ]
       }
     ],
     "classFeatures": [
