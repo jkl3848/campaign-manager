@@ -21,7 +21,7 @@
           "Each Long Rest, you can build something that will be helpful to you or your team. Choose an Experience attached to this new instrument and the Owner of such Instrument. The Experience can be totally new. The Owner can use that Experience as if it were their own (bonus of +2). This Instrument needs to be recharged or rebuilt every night. You can only have 1 Instrument active."
         ],
         "specialization": ["The Dedicated Instruments can now be dedicated to one of the following: Experience, Evasion, Trait. If Evasion or Trait is chosen, it provides a bonus of +1. If Experience is selected, the bonus is +3. You can now have up to 2 instruments active at the same time."],
-        "mastery": ["You can start new Projects to create exceptional technology able to replicate any Domain Card (up to your level). Choose a Domain Card (even if it’s not available to you) and describe how your technology is going to replicate it. You start a Project with a Countdown equal to the Card Level. Once completed, your Technology is ready. Only you can use it, and any cost needs to be supplied as usual. If it replicates a spell, it uses your Spellcast Trait. You can have only 1 Technology active and need to dismantle any active Technology before starting a new “Master Crafter” Project."]
+        "mastery": ["You can start new Projects to create exceptional technology able to replicate any Domain Card (up to your level). Choose a Domain Card (even if it’s not available to you) and describe how your technology is going to replicate it. You start a Project with a Countdown equal to the Card Level. Once completed, your Technology is ready. Only you can use it, and any cost needs to be supplied as usual. If it replicates a Draft ability, it uses your Draftcast Trait. You can have only 1 Technology active and need to dismantle any active Technology before starting a new “Master Crafter” Project."]
       },
       {
         "id": "alchemist",
@@ -101,12 +101,12 @@
     "description": "Time in the Hollow has left its mark on you, granting you strange powers.",
     "domains": [
       "blade",
-      "bone"
+      "dread"
     ],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "Wicked Lash — Spend 3 Hope when you deal damage with an attack to add a bonus equal to the attack roll’s Fear die result.",
+    "hopeFeature": "Hollow Lash — Spend 3 Hope when you deal damage with an attack to add a bonus equal to the attack roll’s Fear die result.",
     "subclasses": [
       {
         "id": "tormented",
@@ -117,7 +117,7 @@
           "Once per rest, you can spend a Hope to teleport within Melee range of a Branded target that is within Far range of you.",
           "When an adversary successfully attacks you, you can mark a Stress and roll 1d4. You add the result to each of your damage thresholds against the damage from the attack."
         ],
-        "specialization": ["Once per rest, when you kill a Branded adversary, you can clear a Stress or gain a Hope.", "When you deal damage to an adversary, you can spend 2 Hope and make a Spellcast Roll (15). On a success, you make a terrifying noise and the target receives a permanent penalty to its damage thresholds equal to your Draftcast Trait. This ability can only effect one adversary at a time."],
+        "specialization": ["Once per rest, when you kill a Branded adversary, you can clear a Stress or gain a Hope.", "When you deal damage to an adversary, you can spend 2 Hope and make a Draftcast Roll (15). On a success, you make a terrifying noise and the target receives a permanent penalty to its damage thresholds equal to your Draftcast Trait. This ability can only effect one adversary at a time."],
         "mastery": ["Once per long rest, when you roll a success with Fear against an adversary, you may mark 2 Stress and prevent the GM from taking their turn after this roll, and keep the turn on the Player side as if it were a success with Hope. Additionally, the GM cannot spend additional Fear to spotlight an adversary until you or another player either fails a roll or succeeds with Fear."]
       },
       {
@@ -136,7 +136,7 @@
       {
         "id": "dreaded-mark",
         "name": "Dreaded Mark",
-        "description": "When you successfully hit an adversary with an attack or Spellcast Roll, you can spend a Hope to temporarily Brand them. While Branded, they are Vulnerable. When a Branded adversary makes an attack roll against you, you can spend a Hope to force the attack roll to be made with disadvantage."
+        "description": "When you successfully hit an adversary with an attack or Draftcast Roll, you can spend a Hope to temporarily Brand them. While Branded, they are Vulnerable. When a Branded adversary makes an attack roll against you, you can spend a Hope to force the attack roll to be made with disadvantage."
       }
     ]
   },
@@ -227,7 +227,7 @@
       {
         "id": "support",
         "name": "Support Dice",
-        "description": "At the beginning of each session, roll a number of d4s equal to your subclass’s Spellcast trait and place them on your character sheet in the space provided. These are your Support Dice. You can spend any number of Support Dice to aid yourself or an ally within Far range. You can use a spent die’s value to reduce incoming damage, add to a roll’s result after the roll is made, or gain Hope equal to the result. At the end of each session, clear all unspent Support Dice."
+        "description": "At the beginning of each session, roll a number of d4s equal to your subclass’s Draftcast trait and place them on your character sheet in the space provided. These are your Support Dice. You can spend any number of Support Dice to aid yourself or an ally within Far range. You can use a spent die’s value to reduce incoming damage, add to a roll’s result after the roll is made, or gain Hope equal to the result. At the end of each session, clear all unspent Support Dice."
       }
     ]
   },
@@ -272,7 +272,7 @@
       {
         "id": "beastform",
         "name": "Beastform",
-        "description": "Mark a Stress to transform into a creature of your tier or lower from the Beastform list. You can drop out of this form at any time. While transformed, you can’t use weapons or cast spells from domain cards, but you can still use other features or abilities you have access to. Spells you cast before you transform stay active and last for their normal duration, and you can talk and communicate as normal. Additionally, you gain the Beastform’s features, add their Evasion bonus to your Evasion, and use the trait specified in their statistics for your attack. While you’re in a Beastform, your armor becomes part of your body and you mark Armor Slots as usual; when you drop out of a Beastform, those marked Armor Slots remain marked. If you mark your last Hit Point, you automatically drop out of this form."
+        "description": "Mark a Stress to transform into a creature of your tier or lower from the Beastform list. You can drop out of this form at any time. While transformed, you can’t use weapons or cast Draft abilities from domain cards, but you can still use other features or abilities you have access to. Draft abilities you cast before you transform stay active and last for their normal duration, and you can talk and communicate as normal. Additionally, you gain the Beastform’s features, add their Evasion bonus to your Evasion, and use the trait specified in their statistics for your attack. While you’re in a Beastform, your armor becomes part of your body and you mark Armor Slots as usual; when you drop out of a Beastform, those marked Armor Slots remain marked. If you mark your last Hit Point, you automatically drop out of this form."
       },
       {
         "id": "wild-sense",
@@ -347,7 +347,7 @@
         "foundation": [
           "You can move from shadow to shadow. When you move into an area of darkness or a shadow cast by another creature or object, you can **mark a Stress** to disappear from where you are and reappear inside another shadow within Far range. When you reappear, you are Cloaked."
         ],
-        "specialization": ["Make a Spellcast Roll (15). On a success, create a temporary dark cloud that covers any area within Close range. Anyone in this cloud can’t see outside of it, and anyone outside of it can’t see in. You’re considered Cloaked from any adversary for whom the cloud blocks line of sight.", "While you’re Vulnerable, add your level to your damage rolls."],
+        "specialization": ["Make a Draftcast Roll (15). On a success, create a temporary dark cloud that covers any area within Close range. Anyone in this cloud can’t see outside of it, and anyone outside of it can’t see in. You’re considered Cloaked from any adversary for whom the cloud blocks line of sight.", "While you’re Vulnerable, add your level to your damage rolls."],
         "mastery": ["Gain a permanent +1 bonus to your Evasion. You can use your “Shadow Stepper” feature to move within Very Far range.", "Mark a Stress to become Cloaked at any time. When Cloaked from this feature, you automatically clear the Restrained condition if you have it. You remain Cloaked in this way until you roll with Fear or until your next rest."]
       },
       {
@@ -456,10 +456,10 @@
         "castingTrait": "instinct",
         "description": "Raw, untamed Draft power that surges unpredictably.",
         "foundation": [
-          "Your alien origin allows you to modify the essence of Draft itself. After you cast a spell or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following: - Extend the spell or attack’s reach by one range - Gain a +2 bonus to the action roll’s result - Double a damage die of your choice - Hit an additional target within range"
+          "Your alien origin allows you to modify the essence of Draft itself. After you cast a Draft ability or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following: - Extend the Draft ability or attack’s reach by one range - Gain a +2 bonus to the action roll’s result - Double a damage die of your choice - Hit an additional target within range"
         ],
-        "specialization": ["You can enhance the magic of others with your essence. When you Help an Ally with a Spellcast Roll, you can roll a d8 as your advantage die. Once per long rest, after an ally has made a Spellcast Roll with your help, you can swap the results of their Duality Dice."],
-        "mastery": ["You can gather magical energy to enhance your capabilities. When you take magic damage, you become Charged. Alternatively, you can spend 2 Hope to become Charged. When you successfully make an attack that deals magic damage while Charged, you can clear your Charge to either gain a +10 bonus to the damage roll or gain a +3 bonus to the Difficulty of a reaction roll the spell causes the target to make. You stop being Charged at your next long rest."]
+        "specialization": ["You can enhance the magic of others with your essence. When you Help an Ally with a Draftcast Roll, you can roll a d8 as your advantage die. Once per long rest, after an ally has made a Draftcast Roll with your help, you can swap the results of their Duality Dice."],
+        "mastery": ["You can gather magical energy to enhance your capabilities. When you take magic damage, you become Charged. Alternatively, you can spend 2 Hope to become Charged. When you successfully make an attack that deals magic damage while Charged, you can clear your Charge to either gain a +10 bonus to the damage roll or gain a +3 bonus to the Difficulty of a reaction roll the Draft ability causes the target to make. You stop being Charged at your next long rest."]
       }
     ],
     "classFeatures": [
@@ -471,7 +471,7 @@
       {
         "id": "minor-illusion",
         "name": "Minor Illusion",
-        "description": "Make a Spellcast Roll (10). On a success, you create a minor visual illusion no larger than yourself within Close range. This illusion is convincing to anyone at Close range or farther."
+        "description": "Make a Draftcast Roll (10). On a success, you create a minor visual illusion no larger than yourself within Close range. This illusion is convincing to anyone at Close range or farther."
       }
     ]
   },

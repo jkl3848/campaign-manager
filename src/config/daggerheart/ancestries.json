@@ -2,14 +2,14 @@
   {
     "id": "automaton",
     "name": "Automaton",
-    "description": "Mechanical beings of clockwork.",
+    "description": "Advanced mechanical beings of long-gone time.",
     "traitBonus": { "trait": "strength", "value": 1 },
     "abilities": ["Immune to poison and disease.", "Do not need to eat or breathe."]
   },
   {
     "id": "drakona",
     "name": "Drakona",
-    "description": "Dragon-blooded humanoids with scaled heritage.",
+    "description": "Seed exposure has caused these humans to develop draconic traits.",
     "traitBonus": { "trait": "instinct", "value": 1 },
     "abilities": ["Resistance to fire damage.", "A fearsome presence that unsettles lesser creatures."]
   },
@@ -44,7 +44,7 @@
   {
     "id": "firbolg",
     "name": "Firbolg",
-    "description": "Gentle giants, originally from Starna, connected to the natural world.",
+    "description": "Gentle giants, hybrid of humans and Starna, connected to the natural world.",
     "traitBonus": { "trait": "knowledge", "value": 1 },
     "abilities": ["Speak with plants and beasts.", "Can turn invisible in natural settings once per rest."]
   },
