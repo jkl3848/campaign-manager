@@ -7,7 +7,7 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 11,
-    "hopeFeature": "Masterpiece — Spend 3 Hope to select one of the following effects. It lasts until the end of the scene: • Enhance – Choose one of your domain cards. Any roll and damage associated with it has a bonus of a d4. This bonus increases with your Proficiency. • Mass Production – donate a copy of one of your Domain Cards to another character. They can use it as one of theirs. If a roll is required, they use your Traits.",
+    "hopeFeature": "Masterpiece: Spend 3 Hope to select one of the following effects. It lasts until the end of the scene: • Enhance – Choose one of your domain cards. Any roll and damage associated with it has a bonus of a d4. This bonus increases with your Proficiency. • Mass Production – donate a copy of one of your Domain Cards to another character. They can use it as one of theirs. If a roll is required, they use your Traits.",
     "subclasses": [
       {
         "id": "crafter",
@@ -100,7 +100,7 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "Make a Scene — Spend 3 Hope to temporarily Distract a target within Close range, giving them a -2 penalty to their Difficulty.",
+    "hopeFeature": "Make a Scene: Spend 3 Hope to temporarily Distract a target within Close range, giving them a -2 penalty to their Difficulty.",
     "subclasses": [
       {
         "id": "troubadour",
@@ -178,7 +178,7 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "Hollow Lash — Spend 3 Hope when you deal damage with an attack to add a bonus equal to the attack roll’s Fear die result.",
+    "hopeFeature": "Hollow Lash: Spend 3 Hope when you deal damage with an attack to add a bonus equal to the attack roll’s Fear die result.",
     "subclasses": [
       {
         "id": "tormented",
@@ -266,7 +266,7 @@
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 9,
-    "hopeFeature": "Frontline Tank — Spend 3 Hope to clear 2 Armor Slots.",
+    "hopeFeature": "Frontline Tank: Spend 3 Hope to clear 2 Armor Slots.",
     "subclasses": [
       {
         "id": "stalwart",
@@ -359,7 +359,7 @@
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 9,
-    "hopeFeature": "Life Support — Spend 3 Hope to clear a Hit Point on an ally within Close range..",
+    "hopeFeature": "Life Support: Spend 3 Hope to clear a Hit Point on an ally within Close range..",
     "subclasses": [
       {
         "id": "starna_doctor",
@@ -442,7 +442,7 @@
     "startingHp": 6,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "Adapt — Spend 3 Hope to transform into a Beastform without marking a Stress. When you do, choose one trait to raise by +1 until you drop out of that Beastform.",
+    "hopeFeature": "Adapt: Spend 3 Hope to transform into a Beastform without marking a Stress. When you do, choose one trait to raise by +1 until you drop out of that Beastform.",
     "subclasses": [
       {
         "id": "warden",
@@ -530,7 +530,7 @@
     "startingHp": 6,
     "startingStress": 6,
     "startingEvasion": 11,
-    "hopeFeature": "Hold Them Off — Spend 3 Hope when you succeed on an attack with a weapon to use that same roll against two additional adversaries within range of the attack.",
+    "hopeFeature": "Hold Them Off: Spend 3 Hope when you succeed on an attack with a weapon to use that same roll against two additional adversaries within range of the attack.",
     "subclasses": [
       {
         "id": "beastbound",
@@ -618,7 +618,7 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 12,
-    "hopeFeature": "Rogue's Dodge — Spend 3 Hope to gain a +2 bonus to your Evasion until the next time an attack succeeds against you. Otherwise, this bonus lasts until your next rest.",
+    "hopeFeature": "Rogue's Dodge: Spend 3 Hope to gain a +2 bonus to your Evasion until the next time an attack succeeds against you. Otherwise, this bonus lasts until your next rest.",
     "subclasses": [
       {
         "id": "nightwalker",
@@ -706,7 +706,7 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 11,
-    "hopeFeature": "Not This Time — Spend 3 Hope to force an adversary within Far range to reroll an attack or damage roll.",
+    "hopeFeature": "Not This Time: Spend 3 Hope to force an adversary within Far range to reroll an attack or damage roll.",
     "subclasses": [
       {
         "id": "school",
@@ -814,31 +814,31 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "TBD — Spend 3 Hope to reroll any number of your damage dice on an attack that deals Draft damage.",
+    "hopeFeature": "TBD: Spend 3 Hope to reroll any number of your damage dice on an attack that deals Draft damage.",
     "subclasses": [
       {
         "id": "elemental",
         "name": "Elemental Origin",
         "castingTrait": "instinct",
-        "description": "Draft tied to a primal element — fire, ice, storm, or stone.",
+        "description": "Draft tied to a primal element: fire, ice, storm, or stone.",
         "foundation": [
           {
-            "id": "none-none-foundation-1-choose-one-of-the-following-elements-at-",
-            "name": "Choose one of the following elements at character creation",
+            "id": "elementalist",
+            "name": "Elementalist",
             "description": "Choose one of the following elements at character creation: air, earth, fire, lightning, water. You can shape this element into harmless effects. Additionally, spend a Hope and describe how your control over this element helps an action roll you’re about to make, then either gain a +2 bonus to the roll or a +3 bonus to the roll’s damage."
           }
         ],
         "specialization": [
           {
-            "id": "none-none-specialization-1-specialization-1",
-            "name": "Specialization 1",
+            "id": "natural-evasion",
+            "name": "Natural Evasion",
             "description": "You can call forth your element to protect you from harm. When an attack roll against you succeeds, you can mark a Stress and describe how you use your element to defend you. When you do, roll a d6 and add its result to your Evasion against the attack."
           }
         ],
         "mastery": [
           {
-            "id": "none-none-mastery-1-once-per-long-rest-you-can-transform-int",
-            "name": "Once per long rest, you can transform into a physical manifestation of your element. When you do, describe your transformation and choose two of the following benefits to gain until your next rest",
+            "id": "transcendence",
+            "name": "Transcendence",
             "description": "Once per long rest, you can transform into a physical manifestation of your element. When you do, describe your transformation and choose two of the following benefits to gain until your next rest: - +4 bonus to your Severe threshold - +1 bonus to a character trait of your choice - +1 bonus to your Proficiency - +2 bonus to your Evasion"
           }
         ]
@@ -850,22 +850,22 @@
         "description": "Raw, untamed Draft power that surges unpredictably.",
         "foundation": [
           {
-            "id": "none-none-foundation-1-your-alien-origin-allows-you-to-modify-t",
-            "name": "Your alien origin allows you to modify the essence of Draft itself. After you cast a Draft ability or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following",
+            "id": "manipulate-magic",
+            "name": "Manipulate Magic",
             "description": "Your alien origin allows you to modify the essence of Draft itself. After you cast a Draft ability or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following: - Extend the Draft ability or attack’s reach by one range - Gain a +2 bonus to the action roll’s result - Double a damage die of your choice - Hit an additional target within range"
           }
         ],
         "specialization": [
           {
-            "id": "none-none-specialization-1-specialization-1",
-            "name": "Specialization 1",
+            "id": "enchanting-aid",
+            "name": "Enchanted Aid",
             "description": "You can enhance the magic of others with your essence. When you Help an Ally with a Draftcast Roll, you can roll a d8 as your advantage die. Once per long rest, after an ally has made a Draftcast Roll with your help, you can swap the results of their Duality Dice."
           }
         ],
         "mastery": [
           {
-            "id": "none-none-mastery-1-mastery-1",
-            "name": "Mastery 1",
+            "id": "arcane-charge",
+            "name": "Arcane Charge",
             "description": "You can gather magical energy to enhance your capabilities. When you take magic damage, you become Charged. Alternatively, you can spend 2 Hope to become Charged. When you successfully make an attack that deals magic damage while Charged, you can clear your Charge to either gain a +10 bonus to the damage roll or gain a +3 bonus to the Difficulty of a reaction roll the Draft ability causes the target to make. You stop being Charged at your next long rest."
           }
         ]
@@ -892,7 +892,7 @@
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 11,
-    "hopeFeature": "No Mercy — Spend 3 Hope to gain a +1 bonus to your attack rolls until your next rest.",
+    "hopeFeature": "No Mercy: Spend 3 Hope to gain a +1 bonus to your attack rolls until your next rest.",
     "subclasses": [
       {
         "id": "call",
@@ -901,27 +901,27 @@
         "description": "Leads from the front, inspiring courage in allies.",
         "foundation": [
           {
-            "id": "none-none-foundation-1-foundation-1",
-            "name": "Foundation 1",
+            "id": "courage",
+            "name": "Courage",
             "description": "When you fail a roll with Fear, you gain a Hope."
           },
           {
-            "id": "none-none-foundation-2-foundation-2",
-            "name": "Foundation 2",
+            "id": "battle-ritual",
+            "name": "Battle Ritual",
             "description": "Once per long rest, before you attempt something incredibly dangerous or face off against a foe who clearly outmatches you, describe what ritual you perform or preparations you make. When you do, clear 2 Stress and gain 2 Hope."
           }
         ],
         "specialization": [
           {
-            "id": "none-none-specialization-1-specialization-1",
-            "name": "Specialization 1",
+            "id": "rise-to-the-challenge",
+            "name": "Rise to the Challenge",
             "description": "You are vigilant in the face of mounting danger. While you have 2 or fewer Hit Points unmarked, you can roll a d20 as your Hope Die."
           }
         ],
         "mastery": [
           {
-            "id": "none-none-mastery-1-mastery-1",
-            "name": "Mastery 1",
+            "id": "camaraderie",
+            "name": "Camaraderie",
             "description": "Your unwavering bravery is a rallying point for your allies. You can initiate a Tag Team Roll once per additional time per session. Additionally, when an ally initiates a Tag Team Roll with you, they only need to spend 2 Hope to do so."
           }
         ]
@@ -933,22 +933,22 @@
         "description": "Specializes in killing blows against powerful foes.",
         "foundation": [
           {
-            "id": "none-none-foundation-1-foundation-1",
-            "name": "Foundation 1",
+            "id": "slayer",
+            "name": "Slayer",
             "description": "You gain a pool of dice called Slayer Dice. On a roll with Hope, you can place a d6 on this card instead of gaining a Hope, adding the die to the pool. You can store a number of Slayer Dice equal to your Proficiency. When you make an attack roll or damage roll, you can spend any number of these Slayer Dice, rolling them and adding their result to the roll. At the end of each session, clear any unspent Slayer Dice on this card and gain a Hope per die cleared."
           }
         ],
         "specialization": [
           {
-            "id": "none-none-specialization-1-specialization-1",
-            "name": "Specialization 1",
+            "id": "weapon-specialist",
+            "name": "Weapon Specialist",
             "description": "You can wield multiple weapons with dangerous ease. When you succeed on an attack, you can spend a Hope to add one of the damage dice from your secondary weapon to the damage roll. Additionally, once per long rest when you roll your Slayer Dice, reroll any 1s."
           }
         ],
         "mastery": [
           {
-            "id": "none-none-mastery-1-mastery-1",
-            "name": "Mastery 1",
+            "id": "martial-preparation",
+            "name": "Martial Preparation",
             "description": "You’re an inspirational warrior to all who travel with you. Your party gains access to the Martial Preparation downtime move. To use this move during a rest, describe how you instruct and train with your party. You and each ally who chooses this downtime move gain a d6 Slayer Die. A PC with a Slayer Die can spend it to roll the die and add the result to an attack or damage roll of their choice."
           }
         ]
