@@ -24,8 +24,10 @@ import { saveCharacter } from '../services/campaignService';
 import { Popup } from '../components/ui/Popup';
 import { Textarea } from '../components/ui/Textarea';
 import { Select } from '../components/ui/Select';
+import { useLoreNotes } from '../hooks/useLoreNotes';
+import { SessionLoreBrowser } from '../components/session/SessionLoreBrowser';
 
-type ActivePopup = 'dice' | 'log' | 'notes' | null;
+type ActivePopup = 'dice' | 'log' | 'notes' | 'lore' | null;
 
 export function LiveSessionPage() {
   const { campaignId, sessionId } = useParams<{ campaignId: string; sessionId: string }>();
@@ -41,7 +43,8 @@ export function LiveSessionPage() {
   const { characters, enemies, npcs, encounters } = useCampaignData(campaignId);
   const [selectedCharacterId, setSelectedCharacterId] = useState<string>('');
 
-  const isDm = user && campaign?.dmId === user.uid;
+  const isDm = !!(user && campaign?.dmId === user.uid);
+  const { notes: loreNotes } = useLoreNotes(campaignId, isDm);
   const rollerName = isDm ? 'DM' : (playerSession?.playerName ?? 'Player');
   const myCharacters = playerSession
     ? characters.filter((c) => c.playerId === playerSession.playerId)
@@ -294,6 +297,12 @@ export function LiveSessionPage() {
           onClick={() => setActivePopup(activePopup === 'log' ? null : 'log')}
           badge={diceRolls.length > 0 ? diceRolls.length : undefined}
         />
+        <ToolbarButton
+          label="Lore Wiki"
+          icon="◈"
+          active={activePopup === 'lore'}
+          onClick={() => setActivePopup(activePopup === 'lore' ? null : 'lore')}
+        />
         {isDm && (
           <ToolbarButton
             label="Session Notes"
@@ -328,6 +337,10 @@ export function LiveSessionPage() {
 
       <Popup open={activePopup === 'log'} onClose={() => setActivePopup(null)} title="Roll Log" size="lg">
         <DiceLog rolls={diceRolls} isDm={!!isDm} />
+      </Popup>
+
+      <Popup open={activePopup === 'lore'} onClose={() => setActivePopup(null)} title="Lore Wiki" size="xl">
+        <SessionLoreBrowser notes={loreNotes} isDm={isDm} />
       </Popup>
 
       {isDm && (

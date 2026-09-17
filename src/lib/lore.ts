@@ -35,13 +35,20 @@ export function findLoreNoteByTitle(notes: LoreNote[], title: string): LoreNote 
 }
 
 /** Turn [[Note Title]] into markdown links when a matching note exists. */
-export function resolveWikiLinks(source: string, notes: LoreNote[], campaignId: string): string {
+export function resolveWikiLinks(
+  source: string,
+  notes: LoreNote[],
+  opts: { campaignId: string } | { panel: true },
+): string {
   return source.replace(/\[\[([^\]|#]+)(?:\|([^\]]+))?\]\]/g, (_match, rawTitle: string, rawLabel?: string) => {
     const title = rawTitle.trim();
     const label = (rawLabel ?? title).trim();
     const note = findLoreNoteByTitle(notes, title);
     if (!note) return label;
-    return `[${label}](/campaign/${campaignId}/lore/${note.id})`;
+    if ('panel' in opts) {
+      return `[${label}](#lore-${note.id})`;
+    }
+    return `[${label}](/campaign/${opts.campaignId}/lore/${note.id})`;
   });
 }
 
