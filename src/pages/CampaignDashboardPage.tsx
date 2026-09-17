@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { getCampaign } from '../services/campaignService';
 import { useCampaignData } from '../hooks/useCampaignData';
+import { useLoreNotes } from '../hooks/useLoreNotes';
 import type { Campaign } from '../types';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -12,7 +13,8 @@ export function CampaignDashboardPage() {
   const { user } = useAuth();
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const { characters, enemies, npcs, encounters, sessions } = useCampaignData(campaignId);
-  const isDm = user && campaign?.dmId === user.uid;
+  const isDm = !!(user && campaign?.dmId === user.uid);
+  const { notes: loreNotes } = useLoreNotes(campaignId, isDm);
 
   useEffect(() => {
     if (!campaignId) return;
@@ -53,6 +55,11 @@ export function CampaignDashboardPage() {
           title="Characters"
           count={characters.length}
           to={`/campaign/${campaignId}/characters`}
+        />
+        <DashboardCard
+          title="Lore"
+          count={loreNotes.length}
+          to={`/campaign/${campaignId}/lore`}
         />
         {isDm && (
           <>

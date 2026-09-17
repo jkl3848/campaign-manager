@@ -53,6 +53,11 @@ service cloud.firestore {
         allow create: if true;
         allow update, delete: if isCampaignDm(campaignId);
       }
+
+      match /loreNotes/{docId} {
+        allow read: if isCampaignDm(campaignId) || resource.data.playerVisible == true;
+        allow write: if isCampaignDm(campaignId);
+      }
     }
   }
 }
