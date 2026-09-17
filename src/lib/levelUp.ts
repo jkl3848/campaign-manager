@@ -12,6 +12,14 @@ import type {
   TraitId,
 } from '../types';
 import { computeArmorStats } from './characterArmor';
+import {
+  featuresForStage,
+  getSubclassTracks,
+  getSubclassUpgradeTargets,
+  hasMastery,
+  nextSubclassStage,
+  stageLabel,
+} from './subclasses';
 
 export interface AdvancementDefinition {
   id: string;
@@ -75,8 +83,7 @@ export function getAvailableAdvancements(char: Character, newLevel: number): Ava
       if (!hasAvailableSlot(char, tier, id)) continue;
 
       if (id === 'subclass-upgrade') {
-        if (char.subclassStage === 'mastery') continue;
-        if (char.multiclass) continue;
+        if (getSubclassUpgradeTargets(char, newLevel).length === 0) continue;
       }
       if (id === 'multiclass') {
         if (char.multiclass) continue;
@@ -153,44 +160,36 @@ function disableAdvancement(
   return disabled.includes(key) ? disabled : [...disabled, key];
 }
 
-function applySubclassUpgrade(char: Character, tier: Tier): Character {
-  const cls = classes.find((c) => c.id === char.classId);
-  const subclass = cls?.subclasses.find((s) => s.id === char.subclassId);
-  if (!subclass) return char;
+function applySubclassUpgrade(
+  char: Character,
+  tier: Tier,
+  source: 'primary' | 'multiclass' = 'primary',
+): Character {
+  const track = getSubclassTracks(char).find((t) => t.source === source);
+  if (!track) return char;
 
-  let stage = char.subclassStage;
-  let newAbilities = [...char.abilities];
-  let disabled = [...char.disabledAdvancements];
+  const next = nextSubclassStage(track.stage);
+  if (!next) return char;
+  if (next === 'mastery' && hasMastery(char)) return char;
 
-  if (stage === 'foundation') {
-    const feature = subclass.features[0];
-    if (feature) {
-      newAbilities.push({
-        id: crypto.randomUUID(),
-        name: `${subclass.name}: Specialization`,
-        description: feature,
-      });
-    }
-    stage = 'specialization';
-  } else if (stage === 'specialization') {
-    const feature = subclass.features[1] ?? subclass.features[0];
-    if (feature) {
-      newAbilities.push({
-        id: crypto.randomUUID(),
-        name: `${subclass.name}: Mastery`,
-        description: feature,
-      });
-    }
-    stage = 'mastery';
-  }
+  const newAbilities = [
+    ...char.abilities,
+    ...featuresForStage(track.subclass, next).map((description) => ({
+      id: crypto.randomUUID(),
+      name: `${track.name}: ${stageLabel(next)}`,
+      description,
+    })),
+  ];
 
-  disabled = disableAdvancement(disabled, tier, 'multiclass');
+  const updated =
+    source === 'multiclass' && char.multiclass
+      ? { ...char, multiclass: { ...char.multiclass, subclassStage: next } }
+      : { ...char, subclassStage: next };
 
   return {
-    ...char,
-    subclassStage: stage,
+    ...updated,
     abilities: newAbilities,
-    disabledAdvancements: disabled,
+    disabledAdvancements: disableAdvancement(char.disabledAdvancements, tier, 'multiclass'),
     advancementSlots: markAdvancementSlot(char.advancementSlots, tier, 'subclass-upgrade'),
   };
 }
@@ -201,7 +200,6 @@ function applyMulticlass(char: Character, tier: Tier, info: MulticlassInfo): Cha
   if (!mcClass || !mcSubclass) return char;
 
   let disabled = [...char.disabledAdvancements];
-  disabled = disableAdvancement(disabled, tier, 'subclass-upgrade');
   disabled = disableAdvancement(disabled, tier, 'multiclass');
   for (let t = 1; t <= 3; t++) {
     disabled = disableAdvancement(disabled, t as Tier, 'multiclass');
@@ -214,19 +212,16 @@ function applyMulticlass(char: Character, tier: Tier, info: MulticlassInfo): Cha
       name: `${mcClass.name}: ${f.name}`,
       description: f.description,
     })),
-  ];
-
-  if (mcSubclass.features[0]) {
-    newAbilities.push({
+    ...mcSubclass.foundation.map((description) => ({
       id: crypto.randomUUID(),
-      name: `${mcSubclass.name} (Multiclass)`,
-      description: mcSubclass.features[0],
-    });
-  }
+      name: `${mcSubclass.name}: Foundation`,
+      description,
+    })),
+  ];
 
   return {
     ...char,
-    multiclass: info,
+    multiclass: { ...info, subclassStage: 'foundation' },
     abilities: newAbilities,
     disabledAdvancements: disabled,
     advancementSlots: markAdvancementSlot(char.advancementSlots, tier, 'multiclass'),
@@ -300,9 +295,13 @@ function applyChoice(char: Character, choice: LevelUpChoice): Character {
     case 'evasion':
       updated = { ...updated, evasion: updated.evasion + 1 };
       break;
-    case 'subclass-upgrade':
-      updated = applySubclassUpgrade(updated, tier);
+    case 'subclass-upgrade': {
+      const tracks = getSubclassTracks(updated).filter((t) => nextSubclassStage(t.stage));
+      const source =
+        data?.subclassUpgradeSource ?? (tracks.length === 1 ? tracks[0].source : 'primary');
+      updated = applySubclassUpgrade(updated, tier, source);
       return updated;
+    }
     case 'proficiency': {
       let slots = markAdvancementSlot(updated.advancementSlots, tier, 'proficiency');
       slots = markAdvancementSlot(slots, tier, 'proficiency');
@@ -414,6 +413,18 @@ export function validateLevelUpChoices(
     }
     if (choice.advancementId === 'multiclass') {
       if (!choice.data?.multiclass) return 'Complete multiclass selection.';
+    }
+    if (choice.advancementId === 'subclass-upgrade') {
+      const targets = getSubclassUpgradeTargets(simulated, newLevel);
+      if (targets.length === 0) return 'No subclass upgrade is available at this level.';
+      const source = choice.data?.subclassUpgradeSource ?? (targets.length === 1 ? targets[0].source : 'primary');
+      if (!targets.some((t) => t.source === source)) {
+        return 'That subclass cannot be upgraded now.';
+      }
+      const track = targets.find((t) => t.source === source);
+      if (nextSubclassStage(track!.stage) === 'mastery' && hasMastery(simulated)) {
+        return 'A character cannot have Mastery in more than one subclass.';
+      }
     }
 
     simulated = applyChoice(simulated, choice);

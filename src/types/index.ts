@@ -13,6 +13,7 @@ export interface MulticlassInfo {
   classId: string;
   domainId: string;
   subclassId: string;
+  subclassStage?: SubclassStage;
 }
 
 export interface LevelUpChoiceData {
@@ -22,6 +23,7 @@ export interface LevelUpChoiceData {
   hpAmount?: number;
   stressAmount?: number;
   multiclass?: MulticlassInfo;
+  subclassUpgradeSource?: 'primary' | 'multiclass';
 }
 
 export interface LevelUpChoice {

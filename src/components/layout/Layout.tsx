@@ -18,7 +18,7 @@ export function Layout() {
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link to="/" className="text-xl font-bold text-amber-500 tracking-tight">
-              Daggerheart
+              JL Campaign Manager
             </Link>
             {campaignId && (
               <div className="flex gap-4 text-sm">

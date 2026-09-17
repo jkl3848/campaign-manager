@@ -15,6 +15,12 @@ import {
   previewLevelUpChoices,
   type AvailableAdvancement,
 } from '../../lib/levelUp';
+import {
+  getSubclassUpgradeTargets,
+  nextSubclassStage,
+  stageLabel,
+  type SubclassTrack,
+} from '../../lib/subclasses';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
@@ -50,9 +56,11 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
     domainId: '',
     subclassId: '',
   });
+  const [subclassUpgradeSource, setSubclassUpgradeSource] = useState<'primary' | 'multiclass'>('primary');
 
   const previewChar = previewLevelUpChoices(character, choices);
   const available = getAvailableAdvancements(previewChar, targetLevel);
+  const subclassUpgradeTargets = getSubclassUpgradeTargets(previewChar, targetLevel);
   const domainOptions = getDomainCardOptions(previewChar, targetLevel);
   const unmarkedTraits = getUnmarkedTraits(previewChar);
   const experiences = previewChar.experienceEntries.filter((e) => e.name.trim());
@@ -71,6 +79,7 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
     setHpAmount(1);
     setStressAmount(1);
     setMulticlassForm({ classId: '', domainId: '', subclassId: '' });
+    setSubclassUpgradeSource('primary');
     setPhase('pick');
   };
 
@@ -82,11 +91,22 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
     setPendingAdvancement(item);
     setError('');
 
-    const needsConfig = ['trait-increase', 'experience-boost', 'domain-card', 'hp-slot', 'stress-slot', 'multiclass'].includes(
-      item.def.id,
-    );
+    const subclassTargets = item.def.id === 'subclass-upgrade'
+      ? getSubclassUpgradeTargets(previewChar, targetLevel)
+      : [];
+    const needsConfig =
+      ['trait-increase', 'experience-boost', 'domain-card', 'hp-slot', 'stress-slot', 'multiclass'].includes(item.def.id)
+      || (item.def.id === 'subclass-upgrade' && subclassTargets.length > 1);
+
     if (needsConfig) {
+      if (item.def.id === 'subclass-upgrade' && subclassTargets[0]) {
+        setSubclassUpgradeSource(subclassTargets[0].source);
+      }
       setPhase('configure');
+    } else if (item.def.id === 'subclass-upgrade') {
+      confirmAdvancement(item, {
+        subclassUpgradeSource: subclassTargets[0]?.source ?? 'primary',
+      });
     } else {
       confirmAdvancement(item, {});
     }
@@ -148,6 +168,8 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
         return;
       }
       confirmAdvancement(pendingAdvancement, { multiclass: multiclassForm });
+    } else if (def.id === 'subclass-upgrade') {
+      confirmAdvancement(pendingAdvancement, { subclassUpgradeSource });
     }
   };
 
@@ -241,6 +263,11 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
                   <AdvancementOptionCard
                     key={`${item.tier}-${item.def.id}`}
                     item={item}
+                    description={
+                      item.def.id === 'subclass-upgrade'
+                        ? subclassUpgradeSummary(subclassUpgradeTargets)
+                        : undefined
+                    }
                     onSelect={() => selectAdvancement(item)}
                     disabled={item.def.pickCost > picksRemaining}
                   />
@@ -368,6 +395,25 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
                 />
               )}
 
+              {pendingAdvancement.def.id === 'subclass-upgrade' && (
+                <div className="space-y-3">
+                  <p className="text-sm text-slate-400">
+                    Choose which subclass to upgrade. Specialization is available from level 5; Mastery from level 8. You cannot have Mastery in more than one subclass.
+                  </p>
+                  <Select
+                    label="Subclass"
+                    value={subclassUpgradeSource}
+                    onChange={(e) => setSubclassUpgradeSource(e.target.value as 'primary' | 'multiclass')}
+                  >
+                    {subclassUpgradeTargets.map((track) => (
+                      <option key={track.source} value={track.source}>
+                        {upgradeOptionLabel(track)}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              )}
+
               {pendingAdvancement.def.id === 'multiclass' && (
                 <div className="space-y-3">
                   <Select
@@ -413,7 +459,7 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
                     </>
                   )}
                   <p className="text-xs text-slate-500">
-                    Uses both advancement picks. Crosses out upgraded subclass and other multiclass options.
+                    Uses both advancement picks. You cannot have Mastery in more than one subclass.
                   </p>
                 </div>
               )}
@@ -459,14 +505,30 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
   );
 }
 
+function upgradeOptionLabel(track: SubclassTrack): string {
+  const next = nextSubclassStage(track.stage);
+  const source = track.source === 'multiclass' ? 'Multiclass' : 'Class';
+  return `${track.name} (${source}) — ${stageLabel(track.stage)} → ${next ? stageLabel(next) : 'Max'}`;
+}
+
+function subclassUpgradeSummary(targets: SubclassTrack[]): string {
+  if (targets.length === 1) {
+    const next = nextSubclassStage(targets[0].stage);
+    return `Gain ${next ? stageLabel(next) : 'the next card'} for ${targets[0].name}. Specialization is available at tier 3 (levels 5–7); Mastery at tier 4 (levels 8–10). Only one Mastery allowed.`;
+  }
+  return 'Choose a subclass to take its next card. Specialization is available at tier 3 (levels 5–7); Mastery at tier 4 (levels 8–10). You cannot have Mastery in more than one subclass.';
+}
+
 function AdvancementOptionCard({
   item,
   onSelect,
   disabled,
+  description,
 }: {
   item: AvailableAdvancement;
   onSelect: () => void;
   disabled?: boolean;
+  description?: string;
 }) {
   const { def, tier } = item;
   const isDouble = def.pickCost === 2;
@@ -486,7 +548,7 @@ function AdvancementOptionCard({
         <p className="font-medium text-slate-100">{def.name}</p>
         <span className="shrink-0 text-xs text-slate-500">Tier {tier}</span>
       </div>
-      <p className="mt-1 text-sm text-slate-400">{def.description}</p>
+      <p className="mt-1 text-sm text-slate-400">{description ?? def.description}</p>
       {isDouble && (
         <p className="mt-2 text-xs font-medium text-amber-400">Uses both advancement picks</p>
       )}

@@ -45,7 +45,7 @@
     {
       "id": "subclass-upgrade",
       "name": "Upgraded Subclass Card",
-      "description": "Take the next card for your subclass — specialization if you only have the foundation, mastery if you have specialization. Crosses out this tier's multiclass option.",
+      "description": "Take the next card for a subclass you have. Specialization is available at tier 3 (levels 5–7). Mastery is available at tier 4 (levels 8–10). You cannot have Mastery in more than one subclass. Crosses out this tier's multiclass option.",
       "totalSlots": 1,
       "pickCost": 1
     },
@@ -59,7 +59,7 @@
     {
       "id": "multiclass",
       "name": "Multiclass",
-      "description": "Choose an additional class and domain, gain its class feature, and take a foundation subclass card. Crosses out upgraded subclass and other multiclass options. Requires both level-up picks.",
+      "description": "Choose an additional class and domain, gain its class feature, and take a foundation subclass card. You cannot have Mastery in more than one subclass. Requires both level-up picks.",
       "totalSlots": 1,
       "pickCost": 2
     },
@@ -72,7 +72,7 @@
     }
   ],
   "tierAdvancements": {
-    "1": ["trait-increase", "hp-slot", "stress-slot", "experience-boost", "domain-card", "evasion", "subclass-upgrade", "proficiency", "multiclass", "thresholds"],
+    "1": ["trait-increase", "hp-slot", "stress-slot", "experience-boost", "domain-card", "evasion", "proficiency", "multiclass", "thresholds"],
     "2": ["trait-increase", "hp-slot", "stress-slot", "experience-boost", "domain-card", "evasion", "subclass-upgrade", "proficiency", "multiclass", "thresholds"],
     "3": ["trait-increase", "hp-slot", "stress-slot", "experience-boost", "domain-card", "evasion", "subclass-upgrade", "proficiency", "multiclass", "thresholds"]
   },

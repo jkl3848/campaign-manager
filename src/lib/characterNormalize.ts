@@ -45,6 +45,9 @@ export function normalizeCharacter(c: Character): Character {
     advancementSlots: c.advancementSlots ?? {},
     disabledAdvancements: c.disabledAdvancements ?? [],
     subclassStage: c.subclassStage ?? 'foundation',
+    multiclass: c.multiclass
+      ? { ...c.multiclass, subclassStage: c.multiclass.subclassStage ?? 'foundation' }
+      : undefined,
     armorId,
     armorSlots: c.armorSlots ?? armorStats.armorSlots,
     damageThresholds: c.damageThresholds ?? armorStats.damageThresholds,

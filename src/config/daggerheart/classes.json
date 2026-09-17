@@ -3,7 +3,10 @@
     "id": "artificer",
     "name": "Artificer",
     "description": "Manipulate the Draft into technological marvels and constructs.",
-    "domains": ["codex", "midnight"],
+    "domains": [
+      "codex",
+      "midnight"
+    ],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -14,19 +17,23 @@
         "name": "Crafter",
         "castingTrait": "knowledge",
         "description": "A master of creating and enhancing items.",
-        "features": [
+        "foundation": [
           "Each Long Rest, you can build something that will be helpful to you or your team. Choose an Experience attached to this new instrument and the Owner of such Instrument. The Experience can be totally new. The Owner can use that Experience as if it were their own (bonus of +2). This Instrument needs to be recharged or rebuilt every night. You can only have 1 Instrument active."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "alchemist",
         "name": "Alchemist",
         "castingTrait": "knowledge",
         "description": "A master of potions and poisons, able to create powerful concoctions.",
-        "features": [
+        "foundation": [
           "With a few minutes of craft and spending 2 Hopes, you can heal yourself or someone else, clearing a Hit Point or Stress.",
           "As a Short Rest Action, you can create 1 vial of Poison. As a Long Rest Action, create 1d4 vials instead. You or an ally can poison a target by using a poisoned weapon (1 vial is consumed for 1 successful strike) or by ingestion. A Poisoned creature takes 1d10 direct damage each time they act."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -46,7 +53,10 @@
     "id": "bard",
     "name": "Bard",
     "description": "A charismatic performer who inspires allies through song, story, and sheer force of personality.",
-    "domains": ["grace", "codex"],
+    "domains": [
+      "grace",
+      "codex"
+    ],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -57,20 +67,24 @@
         "name": "Troubadour",
         "castingTrait": "presence",
         "description": "A wandering performer who carries tales from town to town.",
-        "features": [
+        "foundation": [
           "You can play three different types of songs, once each per long rest; describe how you perform for others to gain the listed benefit: - **Relaxing Song:** You and all allies within Close range clear a Hit Point. - **Epic Song:** Make a target within Close range temporarily Vulnerable. - **Heartbreaking Song:** You and all allies within Close range gain a Hope.",
           "Once per rest, inspire an ally to reroll a failed roll."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "wordsmith",
         "name": "Wordsmith",
         "castingTrait": "presence",
         "description": "A master of language and lore who wields words as weapons.",
-        "features": [
+        "foundation": [
           "Once per long rest, you can give a heartfelt, inspiring speech. All allies within Far range clear 2 Stress.",
           "After you make an action roll to impress, persuade, or offend someone, you can spend a Hope to add a d4 to the roll."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -85,7 +99,10 @@
     "id": "grim",
     "name": "Grim",
     "description": "Time in the Hollow has left its mark on you, granting you strange powers.",
-    "domains": ["blade", "bone"],
+    "domains": [
+      "blade",
+      "bone"
+    ],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -96,19 +113,23 @@
         "name": "Tormented",
         "castingTrait": "strength",
         "description": "You are haunted by the darkness of the Hollow.",
-        "features": [
+        "foundation": [
           "Once per rest, you can spend a Hope to teleport within Melee range of a Branded target that is within Far range of you.",
           "When an adversary successfully attacks you, you can mark a Stress and roll 1d4. You add the result to each of your damage thresholds against the damage from the attack."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "scourged",
         "name": "Scourged",
         "castingTrait": "strength",
         "description": "Unleash vengeance upon those who have wronged you.",
-        "features": [
+        "foundation": [
           "If you would mark an Armor Slot to reduce incoming damage by one threshold, you can instead forgo the damage reduction, mark the Armor Slot, and deal d8 Draft damage to them, using your Proficiency."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -123,7 +144,10 @@
     "id": "guardian",
     "name": "Guardian",
     "description": "A stalwart defender who stands between danger and those they protect.",
-    "domains": ["valor", "blade"],
+    "domains": [
+      "valor",
+      "blade"
+    ],
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 9,
@@ -134,20 +158,24 @@
         "name": "Stalwart",
         "castingTrait": null,
         "description": "An immovable shield who absorbs punishment for the party.",
-        "features": [
+        "foundation": [
           "Gain a permanent +1 bonus to your damage thresholds.",
           "When you take physical damage, you can mark an additional Armor Slot to reduce the severity."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "vengeance",
         "name": "Vengeance",
         "castingTrait": null,
         "description": "Strikes back fiercely at those who harm allies.",
-        "features": [
+        "foundation": [
           "Gain an additional Stress slot.",
           "When an adversary within Melee range succeeds on an attack against you, you can mark 2 Stress to force the attacker to mark a Hit Point."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -158,12 +186,14 @@
       }
     ]
   },
-
   {
     "id": "Healer",
     "name": "Healer",
     "description": "A trained physician with the ability to cure wounds and protect others.",
-    "domains": ["splendor", "valor"],
+    "domains": [
+      "splendor",
+      "valor"
+    ],
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 9,
@@ -174,19 +204,23 @@
         "name": "Starna Doctor",
         "castingTrait": "strength",
         "description": "Bears wings of light and soars above the battlefield.",
-        "features": [
+        "foundation": [
           "You can fly. While flying, you can do the following: - Mark a Stress to pick up and carry another willing creature approximately your size or smaller. - Spend a Hope to deal an extra 1d8 damage on a successful attack."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "prayer",
         "name": "Combat Medic",
         "castingTrait": "strength",
         "description": "Channels wrath through intense training.",
-        "features": [
+        "foundation": [
           "When you have an equipped weapon with a range of Melee or Very Close, it can fly from your hand to attack an adversary within Close range and then return to you. You can mark a Stress to target an additional adversary within range with the same attack roll.",
           "Once per long rest, touch a creature and clear 2 Hit Points or 2 Stress from them."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -197,12 +231,14 @@
       }
     ]
   },
-
   {
     "id": "herbalist",
     "name": "Herbalist",
     "description": "A student of nature who's long exposure to the Draft gives them command of the wild.",
-    "domains": ["sage", "draft"],
+    "domains": [
+      "sage",
+      "draft"
+    ],
     "startingHp": 6,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -213,19 +249,23 @@
         "name": "Warden of the Elements",
         "castingTrait": "instinct",
         "description": "Commands elemental forces of fire, water, earth, and air.",
-        "features": [
+        "foundation": [
           "Mark a Stress to Channel one of the following elements until you take Severe damage or until your next rest: - **Fire:** When an adversary within Melee range deals damage to you, they take 1d10 Draft damage. - **Earth:** Gain a bonus to your damage thresholds equal to your Proficiency. - **Water:** When you deal damage to an adversary within Melee range, all other adversaries within Very Close range must mark a Stress. - **Air:** You can hover, gaining advantage on Agility Rolls."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "land",
         "name": "Warden of Renewal",
         "castingTrait": "instinct",
         "description": "Heals and restores life to wounded allies and blighted land.",
-        "features": [
+        "foundation": [
           "Once per long rest, you can create a space of natural serenity within Close range. When you spend a few minutes resting within the space, clear Stress equal to your Instinct, distributed as you choose between you and your allies.",
           "Touch a creature and spend 3 Hope. That creature clears 1d4 Hit Points."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -245,7 +285,10 @@
     "id": "ranger",
     "name": "Ranger",
     "description": "A skilled hunter and tracker who thrives in the wilderness.",
-    "domains": ["bone", "sage"],
+    "domains": [
+      "bone",
+      "sage"
+    ],
     "startingHp": 6,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -256,19 +299,23 @@
         "name": "Beastbound",
         "castingTrait": "agility",
         "description": "Bonds deeply with an animal companion who fights at their side.",
-        "features": [
+        "foundation": [
           "You have an animal companion of your choice (at the GM’s discretion). They stay by your side unless you tell them otherwise. Take the Ranger Companion sheet. When you level up your character, choose a level-up option for your companion from this sheet as well."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "wayfinder",
         "name": "Wayfinder",
         "castingTrait": "agility",
         "description": "Master of terrain and navigation who never loses their way.",
-        "features": [
+        "foundation": [
           "When you make a damage roll, you can mark a Stress to gain a +1 bonus to your Proficiency. Additionally, when you deal Severe damage to an adversary, they must mark a Stress.",
           "When you’re traveling to a place you’ve previously visited or you carry an object that has been at the location before, you can identify the shortest, most direct path to your destination."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -283,7 +330,10 @@
     "id": "rogue",
     "name": "Rogue",
     "description": "A cunning operative who strikes from shadows and never fights fair.",
-    "domains": ["midnight", "grace"],
+    "domains": [
+      "midnight",
+      "grace"
+    ],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 12,
@@ -294,18 +344,22 @@
         "name": "Nightwalker",
         "castingTrait": "finesse",
         "description": "Moves unseen through darkness, a ghost in the night.",
-        "features": [
+        "foundation": [
           "You can move from shadow to shadow. When you move into an area of darkness or a shadow cast by another creature or object, you can **mark a Stress** to disappear from where you are and reappear inside another shadow within Far range. When you reappear, you are Cloaked."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "syndicate",
         "name": "Syndicate",
         "castingTrait": "finesse",
         "description": "Connected to criminal networks with eyes everywhere.",
-        "features": [
+        "foundation": [
           "When you arrive in a prominent town or environment, you know somebody who calls this place home. Give them a name, note how you think they could be useful, and choose one fact from the following list: - They owe me a favor, but they’ll be hard to find. - They’re going to ask for something in exchange. - They’re always in a great deal of trouble. - We used to be together. It’s a long story. - We didn’t part on great terms."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -325,7 +379,10 @@
     "id": "scholar",
     "name": "Scholar",
     "description": "A student who masters Draft arts through rigorous study.",
-    "domains": ["codex", "splendor"],
+    "domains": [
+      "codex",
+      "splendor"
+    ],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -336,20 +393,24 @@
         "name": "School of Knowledge",
         "castingTrait": "knowledge",
         "description": "Master of learned Draft and Seed theory.",
-        "features": [
+        "foundation": [
           "Take an additional domain card of your level or lower from a domain you have access to.",
           "When you Utilize an Experience, you can mark a Stress instead of spending a Hope. If you do, double your Experience modifier for that roll."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "war",
         "name": "School of War",
         "castingTrait": "knowledge",
         "description": "Draft power optimized for the chaos of battle.",
-        "features": [
+        "foundation": [
           "You’ve focused your studies on becoming an unconquerable force on the battlefield. Gain an additional Hit Point slot.",
           "When you succeed with Fear on an attack roll, you deal an extra 1d10 Draft damage."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -369,7 +430,10 @@
     "id": "seeded",
     "name": "Seeded",
     "description": "Those who are most affected by the Seed, but have survived and gained strange powers.",
-    "domains": ["draft", "midnight"],
+    "domains": [
+      "draft",
+      "midnight"
+    ],
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
@@ -380,18 +444,22 @@
         "name": "Elemental Origin",
         "castingTrait": "instinct",
         "description": "Draft tied to a primal element — fire, ice, storm, or stone.",
-        "features": [
+        "foundation": [
           "Choose one of the following elements at character creation: air, earth, fire, lightning, water. You can shape this element into harmless effects. Additionally, spend a Hope and describe how your control over this element helps an action roll you’re about to make, then either gain a +2 bonus to the roll or a +3 bonus to the roll’s damage."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "primal",
         "name": "Alien Origin",
         "castingTrait": "instinct",
         "description": "Raw, untamed Draft power that surges unpredictably.",
-        "features": [
+        "foundation": [
           "Your alien origin allows you to modify the essence of Draft itself. After you cast a spell or make an attack using a weapon that deals Draft damage, you can mark a Stress to do one of the following: - Extend the spell or attack’s reach by one range - Gain a +2 bonus to the action roll’s result - Double a damage die of your choice - Hit an additional target within range"
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
@@ -411,7 +479,10 @@
     "id": "warrior",
     "name": "Warrior",
     "description": "A master of weapons and combat who lives for the clash of steel.",
-    "domains": ["blade", "bone"],
+    "domains": [
+      "blade",
+      "bone"
+    ],
     "startingHp": 7,
     "startingStress": 6,
     "startingEvasion": 11,
@@ -422,19 +493,23 @@
         "name": "Call of the Brave",
         "castingTrait": null,
         "description": "Leads from the front, inspiring courage in allies.",
-        "features": [
+        "foundation": [
           "When you fail a roll with Fear, you gain a Hope.",
           "Once per long rest, before you attempt something incredibly dangerous or face off against a foe who clearly outmatches you, describe what ritual you perform or preparations you make. When you do, clear 2 Stress and gain 2 Hope."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       },
       {
         "id": "call2",
         "name": "Call of the Slayer",
         "castingTrait": null,
         "description": "Specializes in killing blows against powerful foes.",
-        "features": [
+        "foundation": [
           "You gain a pool of dice called Slayer Dice. On a roll with Hope, you can place a d6 on this card instead of gaining a Hope, adding the die to the pool. You can store a number of Slayer Dice equal to your Proficiency. When you make an attack roll or damage roll, you can spend any number of these Slayer Dice, rolling them and adding their result to the roll. At the end of each session, clear any unspent Slayer Dice on this card and gain a Hope per die cleared."
-        ]
+        ],
+        "specialization": [],
+        "mastery": []
       }
     ],
     "classFeatures": [
