@@ -8,6 +8,8 @@ import { Card } from '../ui/Card';
 import { Textarea } from '../ui/Textarea';
 import { ImageUpload } from '../ui/ImageUpload';
 import { DomainCardHand } from './DomainCardHand';
+import { SubclassStageList } from './SubclassStageList';
+import { getSubclassTracks, stageLabel } from '../../lib/subclasses';
 import traits from '../../config/daggerheart/traits.json';
 import classes from '../../config/daggerheart/classes.json';
 import ancestries from '../../config/daggerheart/ancestries.json';
@@ -259,10 +261,16 @@ export function CharacterSheet({
                 </Button>
               )}
               {cls && <Tag label={cls.name} />}
-              {subclass && <Tag label={subclass.name} variant="subtle" />}
+              {subclass && (
+                <Tag label={`${subclass.name} (${stageLabel(char.subclassStage)})`} variant="subtle" />
+              )}
               {char.multiclass && (
                 <Tag
-                  label={`MC: ${classes.find((c) => c.id === char.multiclass!.classId)?.name ?? char.multiclass.classId}`}
+                  label={`MC: ${classes.find((c) => c.id === char.multiclass!.classId)?.name ?? char.multiclass.classId}${
+                    char.multiclass.subclassId
+                      ? ` · ${stageLabel(char.multiclass.subclassStage ?? 'foundation')}`
+                      : ''
+                  }`}
                   variant="accent"
                 />
               )}
@@ -424,6 +432,15 @@ export function CharacterSheet({
           )}
         </SheetSection>
       )}
+
+      {getSubclassTracks(char).map((track) => (
+        <SheetSection
+          key={`${track.source}-${track.subclassId}`}
+          title={track.source === 'multiclass' ? `Multiclass: ${track.name}` : `Subclass: ${track.name}`}
+        >
+          <SubclassStageList subclass={track.subclass} unlockedThrough={track.stage} />
+        </SheetSection>
+      ))}
 
       <SheetSection title="Class Abilities">
         <AbilityList abilities={char.abilities} />

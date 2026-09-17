@@ -17,6 +17,7 @@ import { ImageUpload } from '../ui/ImageUpload';
 import { GameCard } from '../ui/GameCard';
 import { SidePanel } from '../ui/SidePanel';
 import { Textarea } from '../ui/Textarea';
+import { SubclassStageList } from './SubclassStageList';
 
 interface CharacterCreatorProps {
   campaignId: string;
@@ -608,14 +609,7 @@ export function CharacterCreator({
                   >
                     <p className="font-medium text-slate-200">{s.name}</p>
                     <p className="mb-2 text-slate-400">{s.description}</p>
-                    <ul className="space-y-1">
-                      {s.features.map((feat) => (
-                        <li key={feat} className="flex gap-1 text-slate-300">
-                          <span className="text-amber-500">•</span>
-                          {feat}
-                        </li>
-                      ))}
-                    </ul>
+                    <SubclassStageList subclass={s} inspect compact />
                   </div>
                 ))}
               </div>

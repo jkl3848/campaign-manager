@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { DomainCard } from '../../types';
 import domains from '../../config/daggerheart/domains.json';
-import { cardImageUrl, cardImageFallback } from '../../lib/cardAssets';
+import { cardImageCandidates } from '../../lib/cardAssets';
 
 interface DomainCardHandProps {
   cards: DomainCard[];
@@ -63,8 +63,10 @@ function DomainCardTile({
   expanded: boolean;
   onClick: () => void;
 }) {
-  const [imgSrc, setImgSrc] = useState(cardImageUrl('domain-cards', card.id));
-  const [imgFailed, setImgFailed] = useState(false);
+  const candidates = cardImageCandidates('domain-cards', card.id);
+  const [imgIndex, setImgIndex] = useState(0);
+  const imgFailed = imgIndex >= candidates.length;
+  const imgSrc = candidates[imgIndex];
   const domain = domains.find((d) => d.id === card.domainId);
   const rotation = (index % 5 - 2) * 2;
 
@@ -81,10 +83,7 @@ function DomainCardTile({
             src={imgSrc}
             alt={card.name}
             className="h-full w-full object-cover"
-            onError={() => {
-              if (imgSrc.endsWith('.webp')) setImgSrc(cardImageFallback('domain-cards', card.id));
-              else setImgFailed(true);
-            }}
+            onError={() => setImgIndex((i) => i + 1)}
           />
         ) : (
           <div className="flex h-full flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-950 p-2">

@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { cardImageUrl, cardImageFallback } from '../../lib/cardAssets';
+import { cardImageCandidates } from '../../lib/cardAssets';
 
 interface GameCardProps {
   id: string;
@@ -22,8 +22,10 @@ export function GameCard({
   children,
   className = '',
 }: GameCardProps) {
-  const [imgSrc, setImgSrc] = useState(cardImageUrl(folder, id));
-  const [imgFailed, setImgFailed] = useState(false);
+  const candidates = cardImageCandidates(folder, id);
+  const [imgIndex, setImgIndex] = useState(0);
+  const imgFailed = imgIndex >= candidates.length;
+  const imgSrc = candidates[imgIndex];
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -52,13 +54,7 @@ export function GameCard({
               src={imgSrc}
               alt={title}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              onError={() => {
-                if (imgSrc.endsWith('.webp')) {
-                  setImgSrc(cardImageFallback(folder, id));
-                } else {
-                  setImgFailed(true);
-                }
-              }}
+              onError={() => setImgIndex((i) => i + 1)}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">

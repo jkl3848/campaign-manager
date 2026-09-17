@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Character, Ability, DomainCard } from '../../types';
 import { LevelUpWizard } from './LevelUpWizard';
 import { canInitiateLevelUp } from '../../lib/levelUp';
+import { stageLabel } from '../../lib/subclasses';
 import { Button } from '../ui/Button';
 import { Textarea } from '../ui/Textarea';
 import { Input } from '../ui/Input';
@@ -113,7 +114,7 @@ export function CharacterSheetSession({
           <p className="truncate font-serif font-bold text-amber-50">{char.name}</p>
           <p className="text-[11px] text-amber-400/80">
             Lv {char.level} {cls?.name}
-            {subclass && ` · ${subclass.name}`}
+            {subclass && ` · ${subclass.name} (${stageLabel(char.subclassStage)})`}
           </p>
           <div className="mt-1 flex flex-wrap gap-1">
             {ancestry && <Chip label={ancestry.name} />}
