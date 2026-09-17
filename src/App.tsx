@@ -16,6 +16,8 @@ import { EncountersPage } from './pages/EncountersPage';
 import { EncounterEditPage } from './pages/EncounterEditPage';
 import { SessionsPage } from './pages/SessionsPage';
 import { LiveSessionPage } from './pages/LiveSessionPage';
+import { LorePage } from './pages/LorePage';
+import { LoreEditPage } from './pages/LoreEditPage';
 
 export default function App() {
   return (
@@ -36,6 +38,8 @@ export default function App() {
           <Route path="campaign/:campaignId/npcs/:npcId" element={<NpcEditPage />} />
           <Route path="campaign/:campaignId/encounters" element={<EncountersPage />} />
           <Route path="campaign/:campaignId/encounters/:encounterId" element={<EncounterEditPage />} />
+          <Route path="campaign/:campaignId/lore" element={<LorePage />} />
+          <Route path="campaign/:campaignId/lore/:noteId" element={<LoreEditPage />} />
           <Route path="campaign/:campaignId/sessions" element={<SessionsPage />} />
           <Route path="campaign/:campaignId/sessions/new" element={<SessionsPage />} />
           <Route path="campaign/:campaignId/session/:sessionId" element={<LiveSessionPage />} />

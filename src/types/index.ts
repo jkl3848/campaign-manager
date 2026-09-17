@@ -180,6 +180,17 @@ export interface Encounter {
   updatedAt: number;
 }
 
+export interface LoreNote {
+  id: string;
+  campaignId: string;
+  title: string;
+  subject: string;
+  body: string;
+  playerVisible: boolean;
+  createdAt: number;
+  updatedAt: number;
+}
+
 export interface Combatant {
   id: string;
   name: string;

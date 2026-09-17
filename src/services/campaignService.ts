@@ -15,7 +15,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { generateInviteCode } from '../lib/playerSession';
 import { compressImage } from '../lib/images';
-import type { Campaign, Character, Enemy, Npc, Encounter, Session, DiceRoll } from '../types';
+import type { Campaign, Character, Enemy, Npc, Encounter, Session, DiceRoll, LoreNote } from '../types';
 
 function stripUndefined<T extends object>(obj: T): T {
   return Object.fromEntries(
@@ -163,6 +163,37 @@ export function subscribeSession(campaignId: string, sessionId: string, cb: (s: 
 export function subscribeSessions(campaignId: string, cb: (sessions: Session[]) => void): Unsubscribe {
   return onSnapshot(collection(db, 'campaigns', campaignId, 'sessions'), (snap) => {
     cb(snap.docs.map((d) => d.data() as Session));
+  });
+}
+
+// Lore notes
+export async function saveLoreNote(campaignId: string, note: LoreNote): Promise<void> {
+  await setDoc(
+    doc(db, 'campaigns', campaignId, 'loreNotes', note.id),
+    stripUndefined({ ...note, updatedAt: Date.now() }),
+  );
+}
+
+export async function deleteLoreNote(campaignId: string, noteId: string): Promise<void> {
+  await deleteDoc(doc(db, 'campaigns', campaignId, 'loreNotes', noteId));
+}
+
+export async function getLoreNote(campaignId: string, noteId: string): Promise<LoreNote | null> {
+  const snap = await getDoc(doc(db, 'campaigns', campaignId, 'loreNotes', noteId));
+  return snap.exists() ? (snap.data() as LoreNote) : null;
+}
+
+export function subscribeLoreNotes(
+  campaignId: string,
+  options: { playerVisibleOnly?: boolean },
+  cb: (notes: LoreNote[]) => void,
+): Unsubscribe {
+  const col = collection(db, 'campaigns', campaignId, 'loreNotes');
+  const q = options.playerVisibleOnly
+    ? query(col, where('playerVisible', '==', true))
+    : col;
+  return onSnapshot(q, (snap) => {
+    cb(snap.docs.map((d) => d.data() as LoreNote));
   });
 }
 

@@ -32,7 +32,10 @@ export function Layout() {
                   </>
                 )}
                 {(isPlayer || isDm) && (
-                  <NavLink to={`/campaign/${campaignId}/characters`}>Characters</NavLink>
+                  <>
+                    <NavLink to={`/campaign/${campaignId}/characters`}>Characters</NavLink>
+                    <NavLink to={`/campaign/${campaignId}/lore`}>Lore</NavLink>
+                  </>
                 )}
               </div>
             )}
