@@ -18,33 +18,27 @@
     "feature": "Well-Read: You have access to academic networks. You have advantage on rolls that involve the history, culture, or politics of a prominent person or place."
   },
   {
-    "id": "orderborne",
-    "name": "Orderborne",
-    "description": "Raised within structured institutions like temples or militias.",
-    "feature": "Dedicated: Record three sayings or values your upbringing instilled in you. Once per rest, when you describe how you’re embodying one of these principles through your current action, you can roll a **d20** as your Hope Die."
-  },
-  {
     "id": "redborne",
     "name": "Redborne",
     "description": "Raised in the red levels of the city.",
     "feature": "Scoundrel: You have advantage on rolls to negotiate with criminals, detect lies, or find a safe place to hide."
   },
   {
-    "id": "ridgeborne",
-    "name": "Ridgeborne",
-    "description": "Raised in mountainous frontier lands.",
-    "feature": "Steady: You have advantage on rolls to traverse dangerous cliffs and ledges, navigate harsh environments, and use your survival knowledge."
-  },
-  {
-    "id": "seaborne",
-    "name": "Seaborne",
-    "description": "Raised on ships and coastal towns.",
-    "feature": "Know the Tide: You can sense the ebb and flow of life. When you roll with Fear, place a token on your community card. You can hold a number of tokens equal to your level. Before you make an action roll, you can spend any number of these tokens to gain a +1 bonus to the roll for each token spent. At the end of each session, clear all unspent tokens."
+    "id": "spireborne",
+    "name": "Spireborne",
+    "description": "Raised in within the city of November.",
+    "feature": "Steady: You have advantage on rolls to traverse dangerous cliffs and ledges, climb ropes, and knowledge checks about the city."
   },
   {
     "id": "starnaborne",
     "name": "Starnaborne",
     "description": "Raised as an alien on this world.",
+    "feature": "Technologically Adept: You have advantage on rolls to repair, modify, or understand technology."
+  },
+  {
+    "id": "wanderborne",
+    "name": "Wanderborne",
+    "description": "Raised as a nomad on this world.",
     "feature": "Nomadic Pack: Add a Nomadic Pack to your inventory. Once per session, you can spend a Hope to reach into this pack and pull out a mundane item that’s useful to your situation. Work with the GM to figure out what item you take out."
   },
   {

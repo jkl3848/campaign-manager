@@ -70,6 +70,13 @@ export interface Attack {
   trait: TraitId;
 }
 
+/** Structured weapon damage: count × d{dice} ± modifier. */
+export interface WeaponDamage {
+  dice: number;
+  count: number;
+  modifier: number;
+}
+
 export interface InventoryItem {
   id: string;
   name: string;
@@ -101,8 +108,12 @@ export interface Character {
   armorSlots: { marked: number; max: number };
   damageThresholds: { major: number; severe: number };
   weaponName?: string;
-  weaponDamage?: string;
+  weaponDamage?: WeaponDamage;
   weaponTrait?: TraitId;
+  weaponPhysical?: boolean;
+  weaponTwoHanded?: boolean;
+  weaponSecondary?: boolean;
+  weaponFeature?: string;
   hopeFeature?: string;
   abilities: Ability[];
   feats: Ability[];

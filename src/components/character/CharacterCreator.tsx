@@ -9,6 +9,7 @@ import domains from '../../config/daggerheart/domains.json';
 import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
 import type { Character, Traits, TraitId, DomainCard } from '../../types';
 import { computeArmorStats } from '../../lib/characterArmor';
+import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
@@ -185,6 +186,10 @@ export function CharacterCreator({
       weaponName: weapon?.name,
       weaponDamage: weapon?.damage,
       weaponTrait: weapon?.trait as TraitId | undefined,
+      weaponPhysical: weapon?.physical,
+      weaponTwoHanded: weapon?.twoHanded,
+      weaponSecondary: weapon?.secondary,
+      weaponFeature: weapon?.feature || undefined,
       hopeFeature: cls.hopeFeature,
       abilities: cls.classFeatures.map((f) => ({
         id: f.id,
@@ -461,7 +466,7 @@ export function CharacterCreator({
               <option value="">Choose weapon...</option>
               {equipment.weapons.map((w) => (
                 <option key={w.id} value={w.id}>
-                  {w.name} ({w.damage}, {w.trait})
+                  {w.name} ({formatWeaponDamage(w.damage)}, {w.trait})
                 </option>
               ))}
             </Select>

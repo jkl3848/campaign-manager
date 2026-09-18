@@ -1,6 +1,6 @@
-import advancementsConfig from '../config/daggerheart/advancements.json';
-import classes from '../config/daggerheart/classes.json';
-import domainCardsCatalog from '../config/daggerheart/domain-cards.json';
+import advancementsConfig from "../config/daggerheart/advancements.json";
+import classes from "../config/daggerheart/classes.json";
+import domainCardsCatalog from "../config/daggerheart/domain-cards.json";
 import type {
   Character,
   DomainCard,
@@ -10,8 +10,9 @@ import type {
   PendingLevelUp,
   Tier,
   TraitId,
-} from '../types';
-import { computeArmorStats } from './characterArmor';
+  WeaponDamage,
+} from "../types";
+import { computeArmorStats } from "./characterArmor";
 import {
   featuresForStage,
   getSubclassTracks,
@@ -19,7 +20,7 @@ import {
   hasMastery,
   nextSubclassStage,
   stageLabel,
-} from './subclasses';
+} from "./subclasses";
 
 export interface AdvancementDefinition {
   id: string;
@@ -31,7 +32,10 @@ export interface AdvancementDefinition {
 
 const MILESTONE_LEVELS = advancementsConfig.milestoneLevels as number[];
 const ADVANCEMENTS = advancementsConfig.advancements as AdvancementDefinition[];
-const TIER_ADVANCEMENTS = advancementsConfig.tierAdvancements as Record<string, string[]>;
+const TIER_ADVANCEMENTS = advancementsConfig.tierAdvancements as Record<
+  string,
+  string[]
+>;
 
 export function getTierForLevel(level: number): Tier {
   if (level <= 4) return 1;
@@ -47,21 +51,35 @@ export function slotKey(tier: Tier, advancementId: string): string {
   return `${tier}:${advancementId}`;
 }
 
-export function getAdvancementDef(id: string): AdvancementDefinition | undefined {
+export function getAdvancementDef(
+  id: string,
+): AdvancementDefinition | undefined {
   return ADVANCEMENTS.find((a) => a.id === id);
 }
 
-export function getMarkedSlots(char: Character, tier: Tier, advancementId: string): number {
+export function getMarkedSlots(
+  char: Character,
+  tier: Tier,
+  advancementId: string,
+): number {
   return char.advancementSlots[slotKey(tier, advancementId)] ?? 0;
 }
 
-export function hasAvailableSlot(char: Character, tier: Tier, advancementId: string): boolean {
+export function hasAvailableSlot(
+  char: Character,
+  tier: Tier,
+  advancementId: string,
+): boolean {
   const def = getAdvancementDef(advancementId);
   if (!def) return false;
   return getMarkedSlots(char, tier, advancementId) < def.totalSlots;
 }
 
-export function isAdvancementDisabled(char: Character, tier: Tier, advancementId: string): boolean {
+export function isAdvancementDisabled(
+  char: Character,
+  tier: Tier,
+  advancementId: string,
+): boolean {
   return char.disabledAdvancements.includes(slotKey(tier, advancementId));
 }
 
@@ -70,7 +88,10 @@ export interface AvailableAdvancement {
   tier: Tier;
 }
 
-export function getAvailableAdvancements(char: Character, newLevel: number): AvailableAdvancement[] {
+export function getAvailableAdvancements(
+  char: Character,
+  newLevel: number,
+): AvailableAdvancement[] {
   const currentTier = getTierForLevel(newLevel);
   const available: AvailableAdvancement[] = [];
 
@@ -82,10 +103,10 @@ export function getAvailableAdvancements(char: Character, newLevel: number): Ava
       if (isAdvancementDisabled(char, tier, id)) continue;
       if (!hasAvailableSlot(char, tier, id)) continue;
 
-      if (id === 'subclass-upgrade') {
+      if (id === "subclass-upgrade") {
         if (getSubclassUpgradeTargets(char, newLevel).length === 0) continue;
       }
-      if (id === 'multiclass') {
+      if (id === "multiclass") {
         if (char.multiclass) continue;
       }
 
@@ -114,15 +135,17 @@ export function cancelLevelUp(char: Character): Character {
   return rest as Character;
 }
 
-export function incrementWeaponDamage(damage: string | undefined): string | undefined {
+export function incrementWeaponDamage(
+  damage: WeaponDamage | undefined,
+): WeaponDamage | undefined {
   if (!damage) return damage;
-  const match = damage.match(/^(\d*)d(\d+)$/i);
-  if (!match) return damage;
-  const count = match[1] ? parseInt(match[1], 10) : 1;
-  return `${count + 1}d${match[2]}`;
+  return { ...damage, count: damage.count + 1 };
 }
 
-export function getDomainCardOptions(char: Character, newLevel: number): typeof domainCardsCatalog {
+export function getDomainCardOptions(
+  char: Character,
+  newLevel: number,
+): typeof domainCardsCatalog {
   const owned = new Set(char.domainCards.map((c) => c.id));
 
   if (char.multiclass) {
@@ -138,7 +161,8 @@ export function getDomainCardOptions(char: Character, newLevel: number): typeof 
   const cls = classes.find((c) => c.id === char.classId);
   if (!cls) return [];
   return domainCardsCatalog.filter(
-    (c) => cls.domains.includes(c.domain) && c.level <= newLevel && !owned.has(c.id),
+    (c) =>
+      cls.domains.includes(c.domain) && c.level <= newLevel && !owned.has(c.id),
   );
 }
 
@@ -163,46 +187,58 @@ function disableAdvancement(
 function applySubclassUpgrade(
   char: Character,
   tier: Tier,
-  source: 'primary' | 'multiclass' = 'primary',
+  source: "primary" | "multiclass" = "primary",
 ): Character {
   const track = getSubclassTracks(char).find((t) => t.source === source);
   if (!track) return char;
 
   const next = nextSubclassStage(track.stage);
   if (!next) return char;
-  if (next === 'mastery' && hasMastery(char)) return char;
+  if (next === "mastery" && hasMastery(char)) return char;
 
   const newAbilities = [
     ...char.abilities,
-    ...featuresForStage(track.subclass, next).map((description) => ({
-      id: crypto.randomUUID(),
-      name: `${track.name}: ${stageLabel(next)}`,
-      description,
+    ...featuresForStage(track.subclass, next).map((feature) => ({
+      id: feature.id ?? crypto.randomUUID(),
+      name: `${track.name}: ${feature.name}`,
+      description: feature.description,
     })),
   ];
 
   const updated =
-    source === 'multiclass' && char.multiclass
+    source === "multiclass" && char.multiclass
       ? { ...char, multiclass: { ...char.multiclass, subclassStage: next } }
       : { ...char, subclassStage: next };
 
   return {
     ...updated,
     abilities: newAbilities,
-    disabledAdvancements: disableAdvancement(char.disabledAdvancements, tier, 'multiclass'),
-    advancementSlots: markAdvancementSlot(char.advancementSlots, tier, 'subclass-upgrade'),
+    disabledAdvancements: disableAdvancement(
+      char.disabledAdvancements,
+      tier,
+      "multiclass",
+    ),
+    advancementSlots: markAdvancementSlot(
+      char.advancementSlots,
+      tier,
+      "subclass-upgrade",
+    ),
   };
 }
 
-function applyMulticlass(char: Character, tier: Tier, info: MulticlassInfo): Character {
+function applyMulticlass(
+  char: Character,
+  tier: Tier,
+  info: MulticlassInfo,
+): Character {
   const mcClass = classes.find((c) => c.id === info.classId);
   const mcSubclass = mcClass?.subclasses.find((s) => s.id === info.subclassId);
   if (!mcClass || !mcSubclass) return char;
 
   let disabled = [...char.disabledAdvancements];
-  disabled = disableAdvancement(disabled, tier, 'multiclass');
+  disabled = disableAdvancement(disabled, tier, "multiclass");
   for (let t = 1; t <= 3; t++) {
-    disabled = disableAdvancement(disabled, t as Tier, 'multiclass');
+    disabled = disableAdvancement(disabled, t as Tier, "multiclass");
   }
 
   const newAbilities = [
@@ -212,19 +248,23 @@ function applyMulticlass(char: Character, tier: Tier, info: MulticlassInfo): Cha
       name: `${mcClass.name}: ${f.name}`,
       description: f.description,
     })),
-    ...mcSubclass.foundation.map((description) => ({
-      id: crypto.randomUUID(),
-      name: `${mcSubclass.name}: Foundation`,
-      description,
+    ...mcSubclass.foundation.map((feature) => ({
+      id: feature.id ?? crypto.randomUUID(),
+      name: `${mcSubclass.name}: ${feature.name}`,
+      description: feature.description,
     })),
   ];
 
   return {
     ...char,
-    multiclass: { ...info, subclassStage: 'foundation' },
+    multiclass: { ...info, subclassStage: "foundation" },
     abilities: newAbilities,
     disabledAdvancements: disabled,
-    advancementSlots: markAdvancementSlot(char.advancementSlots, tier, 'multiclass'),
+    advancementSlots: markAdvancementSlot(
+      char.advancementSlots,
+      tier,
+      "multiclass",
+    ),
   };
 }
 
@@ -248,7 +288,7 @@ function applyChoice(char: Character, choice: LevelUpChoice): Character {
   let updated = { ...char };
 
   switch (advancementId) {
-    case 'trait-increase': {
+    case "trait-increase": {
       const traits = data?.traits;
       if (!traits) break;
       const newTraits = { ...updated.traits };
@@ -261,15 +301,19 @@ function applyChoice(char: Character, choice: LevelUpChoice): Character {
       };
       break;
     }
-    case 'hp-slot': {
+    case "hp-slot": {
       const amount = data?.hpAmount ?? 1;
       updated = {
         ...updated,
-        hp: { ...updated.hp, max: updated.hp.max + amount, current: updated.hp.current + amount },
+        hp: {
+          ...updated.hp,
+          max: updated.hp.max + amount,
+          current: updated.hp.current + amount,
+        },
       };
       break;
     }
-    case 'stress-slot': {
+    case "stress-slot": {
       const amount = data?.stressAmount ?? 1;
       updated = {
         ...updated,
@@ -277,34 +321,47 @@ function applyChoice(char: Character, choice: LevelUpChoice): Character {
       };
       break;
     }
-    case 'experience-boost': {
+    case "experience-boost": {
       const indices = data?.experienceIndices;
       if (!indices) break;
       const entries = [...updated.experienceEntries];
-      entries[indices[0]] = { ...entries[indices[0]], bonus: entries[indices[0]].bonus + 1 };
-      entries[indices[1]] = { ...entries[indices[1]], bonus: entries[indices[1]].bonus + 1 };
+      entries[indices[0]] = {
+        ...entries[indices[0]],
+        bonus: entries[indices[0]].bonus + 1,
+      };
+      entries[indices[1]] = {
+        ...entries[indices[1]],
+        bonus: entries[indices[1]].bonus + 1,
+      };
       updated = { ...updated, experienceEntries: entries };
       break;
     }
-    case 'domain-card': {
+    case "domain-card": {
       if (data?.domainCardId) {
         updated = applyDomainCard(updated, data.domainCardId);
       }
       break;
     }
-    case 'evasion':
+    case "evasion":
       updated = { ...updated, evasion: updated.evasion + 1 };
       break;
-    case 'subclass-upgrade': {
-      const tracks = getSubclassTracks(updated).filter((t) => nextSubclassStage(t.stage));
+    case "subclass-upgrade": {
+      const tracks = getSubclassTracks(updated).filter((t) =>
+        nextSubclassStage(t.stage),
+      );
       const source =
-        data?.subclassUpgradeSource ?? (tracks.length === 1 ? tracks[0].source : 'primary');
+        data?.subclassUpgradeSource ??
+        (tracks.length === 1 ? tracks[0].source : "primary");
       updated = applySubclassUpgrade(updated, tier, source);
       return updated;
     }
-    case 'proficiency': {
-      let slots = markAdvancementSlot(updated.advancementSlots, tier, 'proficiency');
-      slots = markAdvancementSlot(slots, tier, 'proficiency');
+    case "proficiency": {
+      let slots = markAdvancementSlot(
+        updated.advancementSlots,
+        tier,
+        "proficiency",
+      );
+      slots = markAdvancementSlot(slots, tier, "proficiency");
       updated = {
         ...updated,
         proficiency: updated.proficiency + 1,
@@ -313,21 +370,29 @@ function applyChoice(char: Character, choice: LevelUpChoice): Character {
       };
       return updated;
     }
-    case 'multiclass': {
+    case "multiclass": {
       if (data?.multiclass) {
         updated = applyMulticlass(updated, tier, data.multiclass);
       }
       return updated;
     }
-    case 'thresholds':
+    case "thresholds":
       updated = { ...updated, thresholdBonus: updated.thresholdBonus + 1 };
       break;
   }
 
-  if (advancementId !== 'subclass-upgrade' && advancementId !== 'proficiency' && advancementId !== 'multiclass') {
+  if (
+    advancementId !== "subclass-upgrade" &&
+    advancementId !== "proficiency" &&
+    advancementId !== "multiclass"
+  ) {
     updated = {
       ...updated,
-      advancementSlots: markAdvancementSlot(updated.advancementSlots, tier, advancementId),
+      advancementSlots: markAdvancementSlot(
+        updated.advancementSlots,
+        tier,
+        advancementId,
+      ),
     };
   }
 
@@ -358,7 +423,10 @@ export function applyMilestoneBenefits(
   return updated;
 }
 
-export function previewLevelUpChoices(char: Character, choices: LevelUpChoice[]): Character {
+export function previewLevelUpChoices(
+  char: Character,
+  choices: LevelUpChoice[],
+): Character {
   let updated = { ...char };
   for (const choice of choices) {
     updated = applyChoice(updated, choice);
@@ -377,7 +445,7 @@ export function validateLevelUpChoices(
   }, 0);
 
   if (totalPicks !== 2) {
-    return 'You must spend exactly 2 advancement picks.';
+    return "You must spend exactly 2 advancement picks.";
   }
 
   const tier = getTierForLevel(newLevel);
@@ -394,36 +462,49 @@ export function validateLevelUpChoices(
       return `No remaining slots for ${def.name}.`;
     }
 
-    if (choice.advancementId === 'trait-increase') {
+    if (choice.advancementId === "trait-increase") {
       const traits = choice.data?.traits;
-      if (!traits || traits[0] === traits[1]) return 'Choose two different traits.';
-      if (simulated.markedTraits.includes(traits[0]) || simulated.markedTraits.includes(traits[1])) {
-        return 'Chosen traits must be unmarked.';
+      if (!traits || traits[0] === traits[1])
+        return "Choose two different traits.";
+      if (
+        simulated.markedTraits.includes(traits[0]) ||
+        simulated.markedTraits.includes(traits[1])
+      ) {
+        return "Chosen traits must be unmarked.";
       }
     }
-    if (choice.advancementId === 'experience-boost') {
+    if (choice.advancementId === "experience-boost") {
       const indices = choice.data?.experienceIndices;
-      if (!indices || indices[0] === indices[1]) return 'Choose two different experiences.';
-      if (updatedExperienceCount(simulated) < 2) return 'Need at least two experiences.';
+      if (!indices || indices[0] === indices[1])
+        return "Choose two different experiences.";
+      if (updatedExperienceCount(simulated) < 2)
+        return "Need at least two experiences.";
     }
-    if (choice.advancementId === 'domain-card') {
-      if (!choice.data?.domainCardId) return 'Select a domain card.';
+    if (choice.advancementId === "domain-card") {
+      if (!choice.data?.domainCardId) return "Select a domain card.";
       const options = getDomainCardOptions(simulated, newLevel);
-      if (!options.some((c) => c.id === choice.data!.domainCardId)) return 'Invalid domain card choice.';
+      if (!options.some((c) => c.id === choice.data!.domainCardId))
+        return "Invalid domain card choice.";
     }
-    if (choice.advancementId === 'multiclass') {
-      if (!choice.data?.multiclass) return 'Complete multiclass selection.';
+    if (choice.advancementId === "multiclass") {
+      if (!choice.data?.multiclass) return "Complete multiclass selection.";
     }
-    if (choice.advancementId === 'subclass-upgrade') {
+    if (choice.advancementId === "subclass-upgrade") {
       const targets = getSubclassUpgradeTargets(simulated, newLevel);
-      if (targets.length === 0) return 'No subclass upgrade is available at this level.';
-      const source = choice.data?.subclassUpgradeSource ?? (targets.length === 1 ? targets[0].source : 'primary');
+      if (targets.length === 0)
+        return "No subclass upgrade is available at this level.";
+      const source =
+        choice.data?.subclassUpgradeSource ??
+        (targets.length === 1 ? targets[0].source : "primary");
       if (!targets.some((t) => t.source === source)) {
-        return 'That subclass cannot be upgraded now.';
+        return "That subclass cannot be upgraded now.";
       }
       const track = targets.find((t) => t.source === source);
-      if (nextSubclassStage(track!.stage) === 'mastery' && hasMastery(simulated)) {
-        return 'A character cannot have Mastery in more than one subclass.';
+      if (
+        nextSubclassStage(track!.stage) === "mastery" &&
+        hasMastery(simulated)
+      ) {
+        return "A character cannot have Mastery in more than one subclass.";
       }
     }
 
@@ -445,7 +526,7 @@ export function completeLevelUp(
   const newLevel = char.pendingLevelUp?.targetLevel ?? char.level + 1;
 
   if (isMilestoneLevel(newLevel) && !newExperienceName?.trim()) {
-    throw new Error('Name your new Experience before completing level up.');
+    throw new Error("Name your new Experience before completing level up.");
   }
 
   const error = validateLevelUpChoices(char, newLevel, choices);
@@ -459,7 +540,7 @@ export function completeLevelUp(
     updated = applyChoice(updated, choice);
   }
 
-  const armorStats = computeArmorStats(updated.armorId ?? 'none', newLevel);
+  const armorStats = computeArmorStats(updated.armorId ?? "none", newLevel);
   updated = {
     ...updated,
     damageThresholds: {
@@ -478,17 +559,24 @@ export function completeLevelUp(
 export function getMilestoneSummary(level: number): string[] {
   const lines: string[] = [];
   if (!isMilestoneLevel(level)) return lines;
-  lines.push('Gain a new Experience at +2');
-  lines.push('Permanently increase Proficiency by 1');
+  lines.push("Gain a new Experience at +2");
+  lines.push("Permanently increase Proficiency by 1");
   if (level === 5 || level === 8) {
-    lines.push('Clear any marked traits');
+    lines.push("Clear any marked traits");
   }
-  lines.push('Choose two advancements from your tier or below');
+  lines.push("Choose two advancements from your tier or below");
   return lines;
 }
 
 export function getUnmarkedTraits(char: Character): TraitId[] {
-  const all: TraitId[] = ['agility', 'strength', 'finesse', 'instinct', 'presence', 'knowledge'];
+  const all: TraitId[] = [
+    "agility",
+    "strength",
+    "finesse",
+    "instinct",
+    "presence",
+    "knowledge",
+  ];
   return all.filter((t) => !char.markedTraits.includes(t));
 }
 

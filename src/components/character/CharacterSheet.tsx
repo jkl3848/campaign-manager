@@ -18,6 +18,7 @@ import transformations from '../../config/daggerheart/transformations.json';
 import domains from '../../config/daggerheart/domains.json';
 import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
 import { normalizeCharacter } from '../../lib/characterNormalize';
+import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { CharacterSheetSession } from './CharacterSheetSession';
 
 export type CharacterSheetLayout = 'full' | 'session';
@@ -285,7 +286,8 @@ export function CharacterSheet({
               {transformation && <Tag label={transformation.name} variant="accent" />}
             </div>
             <p className="mt-2 text-sm text-slate-400">
-              {char.weaponName ?? 'Unarmed'} {char.weaponDamage && `(${char.weaponDamage})`}
+              {char.weaponName ?? 'Unarmed'}{' '}
+              {char.weaponDamage && `(${formatWeaponDamage(char.weaponDamage)})`}
               {char.armorName && ` · ${char.armorName}`}
             </p>
           </div>

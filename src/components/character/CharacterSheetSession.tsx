@@ -8,6 +8,7 @@ import { Textarea } from '../ui/Textarea';
 import { Input } from '../ui/Input';
 import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
+import { formatWeaponDamage } from '../../lib/weaponDamage';
 
 interface CharacterSheetSessionProps {
   char: Character;
@@ -132,7 +133,7 @@ export function CharacterSheetSession({
       {/* Weapon */}
       <p className="text-[11px] text-slate-500">
         {char.weaponName ?? 'Unarmed'}
-        {char.weaponDamage && ` (${char.weaponDamage})`}
+        {char.weaponDamage && ` (${formatWeaponDamage(char.weaponDamage)})`}
         {char.armorName && ` · ${char.armorName}`}
       </p>
 
