@@ -18,6 +18,7 @@ import transformations from '../../config/daggerheart/transformations.json';
 import domains from '../../config/daggerheart/domains.json';
 import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
 import { normalizeCharacter } from '../../lib/characterNormalize';
+import { CHARACTER_HOPE_MAX, clampHope } from '../../lib/hopeFear';
 import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { CharacterSheetSession } from './CharacterSheetSession';
 
@@ -109,7 +110,7 @@ export function CharacterSheet({
   };
 
   const adjustHope = (delta: number) => {
-    updateLive({ hope: Math.max(0, char.hope + delta) });
+    updateLive({ hope: clampHope(char.hope + delta) });
   };
 
   /** Structural overrides — local until Save on the character page. */
@@ -407,7 +408,7 @@ export function CharacterSheet({
         <ResourceTracker
           label="Hope"
           current={char.hope}
-          max={6}
+          max={CHARACTER_HOPE_MAX}
           onAdjust={canEdit ? adjustHope : undefined}
           color="text-sky-400"
         />

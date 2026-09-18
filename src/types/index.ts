@@ -245,6 +245,8 @@ export interface DiceRoll {
   campaignId: string;
   sessionId: string;
   rollerName: string;
+  /** Character who made this roll, when Hope/Fear should apply to them. */
+  characterId?: string;
   /** Duality (2d12) hope die. Unused for standard NdS rolls. */
   white: number;
   /** Duality (2d12) fear die. Unused for standard NdS rolls. */

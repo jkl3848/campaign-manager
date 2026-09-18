@@ -13,6 +13,7 @@ import {
 } from '../services/campaignService';
 import { getPlayerSession } from '../lib/playerSession';
 import { createDiceRoll } from '../lib/dice';
+import { clampFear, clampHope, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/hopeFear';
 import { useCampaignData } from '../hooks/useCampaignData';
 import type { Session, DiceRoll, Combatant, Campaign, Character, Npc } from '../types';
 import { SessionCanvas } from '../components/session/SessionCanvas';
@@ -50,6 +51,13 @@ export function LiveSessionPage() {
     partySelection?.kind === 'character'
       ? characters.find((c) => c.id === partySelection.id)
       : undefined;
+  const partyHope = partyHopeTotal(characters);
+  const diceRollerCharacter = isDm
+    ? undefined
+    : selectedCharacter && selectedCharacter.playerId === playerSession?.playerId
+      ? selectedCharacter
+      : characters.find((c) => c.inParty !== false && c.playerId === playerSession?.playerId)
+        ?? characters.find((c) => c.playerId === playerSession?.playerId);
 
   useEffect(() => {
     if (campaignId) getCampaign(campaignId).then(setCampaign);
@@ -64,6 +72,12 @@ export function LiveSessionPage() {
     if (!campaignId || !sessionId) return;
     return subscribeDiceLog(campaignId, sessionId, setDiceRolls);
   }, [campaignId, sessionId]);
+
+  useEffect(() => {
+    if (!campaignId || !sessionId || !session) return;
+    if (session.fear <= SESSION_FEAR_MAX) return;
+    void updateSession(campaignId, sessionId, { fear: SESSION_FEAR_MAX });
+  }, [campaignId, sessionId, session]);
 
   const dismissAlert = useCallback(() => setAlertRoll(null), []);
 
@@ -94,24 +108,32 @@ export function LiveSessionPage() {
     if (!campaignId || !sessionId || !session) return;
     await logDiceRoll(campaignId, sessionId, roll);
 
-    if (roll.hopeGain === 'player') {
-      await update({ hope: session.hope + 1 });
+    if (roll.hopeGain === 'player' && roll.characterId) {
+      const character = characters.find((c) => c.id === roll.characterId);
+      if (character) {
+        const nextHope = clampHope(character.hope + 1);
+        if (nextHope !== character.hope) {
+          await saveCharacter(campaignId, { ...character, hope: nextHope, updatedAt: Date.now() });
+        }
+      }
     } else if (roll.hopeGain === 'dm') {
-      await update({ fear: session.fear + 1 });
+      const nextFear = clampFear(session.fear + 1);
+      if (nextFear !== session.fear) {
+        await update({ fear: nextFear });
+      }
     }
   };
 
   const handleTraitRoll = (traitName: string, modifier: number) => {
-    if (!campaignId || !sessionId) return;
-    const name = selectedCharacter ? `${rollerName} · ${selectedCharacter.name}` : rollerName;
+    if (!campaignId || !sessionId || !selectedCharacter) return;
     handleRoll(
       createDiceRoll({
         campaignId,
         sessionId,
-        rollerName: name,
+        rollerName: `${rollerName} · ${selectedCharacter.name}`,
         modifier,
         label: traitName,
-        isDm,
+        characterId: selectedCharacter.id,
       }),
     );
   };
@@ -228,15 +250,15 @@ export function LiveSessionPage() {
           <div className="h-4 w-px bg-slate-700" />
           <HopeFearTracker
             label="Hope"
-            value={session.hope}
+            value={partyHope}
             color="sky"
-            onAdjust={isDm ? (d) => update({ hope: Math.max(0, session.hope + d) }) : undefined}
           />
           <HopeFearTracker
             label="Fear"
-            value={session.fear}
+            value={clampFear(session.fear)}
+            max={SESSION_FEAR_MAX}
             color="purple"
-            onAdjust={isDm ? (d) => update({ fear: Math.max(0, session.fear + d) }) : undefined}
+            onAdjust={isDm ? (d) => update({ fear: clampFear(session.fear + d) }) : undefined}
           />
         </div>
       </div>
@@ -318,11 +340,14 @@ export function LiveSessionPage() {
         }}
       >
         <DiceRoller
-          rollerName={rollerName}
+          rollerName={
+            diceRollerCharacter ? `${rollerName} · ${diceRollerCharacter.name}` : rollerName
+          }
           campaignId={campaignId!}
           sessionId={sessionId!}
           onRoll={handleRoll}
           isDm={!!isDm}
+          characterId={diceRollerCharacter?.id}
         />
       </CornerDialog>
 
@@ -384,11 +409,13 @@ function ToolbarButton({
 function HopeFearTracker({
   label,
   value,
+  max,
   color,
   onAdjust,
 }: {
   label: string;
   value: number;
+  max?: number;
   color: 'sky' | 'purple';
   onAdjust?: (delta: number) => void;
 }) {
@@ -397,13 +424,23 @@ function HopeFearTracker({
     <div className="flex items-center gap-1.5">
       <span className="text-xs text-slate-500">{label}</span>
       {onAdjust && (
-        <button onClick={() => onAdjust(-1)} className="text-slate-600 hover:text-slate-300 text-xs">
+        <button
+          onClick={() => onAdjust(-1)}
+          disabled={value <= 0}
+          className="text-slate-600 hover:text-slate-300 text-xs disabled:opacity-30 disabled:hover:text-slate-600"
+        >
           −
         </button>
       )}
-      <span className={`text-lg font-bold ${colors[color]}`}>{value}</span>
+      <span className={`text-lg font-bold ${colors[color]}`}>
+        {max != null ? `${value}/${max}` : value}
+      </span>
       {onAdjust && (
-        <button onClick={() => onAdjust(1)} className="text-slate-600 hover:text-slate-300 text-xs">
+        <button
+          onClick={() => onAdjust(1)}
+          disabled={max != null && value >= max}
+          className="text-slate-600 hover:text-slate-300 text-xs disabled:opacity-30 disabled:hover:text-slate-600"
+        >
           +
         </button>
       )}

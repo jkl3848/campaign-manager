@@ -1,6 +1,7 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useCampaignData } from '../hooks/useCampaignData';
 import { saveSession } from '../services/campaignService';
+import { clampFear, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/hopeFear';
 import type { Session } from '../types';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -9,7 +10,8 @@ import { useState } from 'react';
 
 export function SessionsPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
-  const { sessions } = useCampaignData(campaignId);
+  const { sessions, characters } = useCampaignData(campaignId);
+  const partyHope = partyHopeTotal(characters);
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [creating, setCreating] = useState(false);
@@ -63,7 +65,7 @@ export function SessionsPage() {
                 <div>
                   <h3 className="font-semibold text-slate-100">{s.name}</h3>
                   <p className="text-sm text-slate-400">
-                    {s.active ? 'Active' : 'Ended'} · Hope {s.hope} · Fear {s.fear}
+                    {s.active ? 'Active' : 'Ended'} · Hope {partyHope} · Fear {clampFear(s.fear)}/{SESSION_FEAR_MAX}
                   </p>
                 </div>
                 <Link to={`/campaign/${campaignId}/session/${s.id}`}>

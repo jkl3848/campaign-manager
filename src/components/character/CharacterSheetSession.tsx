@@ -9,6 +9,7 @@ import { Input } from '../ui/Input';
 import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
 import { formatWeaponDamage } from '../../lib/weaponDamage';
+import { CHARACTER_HOPE_MAX } from '../../lib/hopeFear';
 
 interface CharacterSheetSessionProps {
   char: Character;
@@ -139,7 +140,7 @@ export function CharacterSheetSession({
       <div className="grid grid-cols-2 gap-1.5">
         <SessionResource label="HP" current={char.hp.current} max={char.hp.max} color="text-red-400" onAdjust={canEdit ? onAdjustHp : undefined} />
         <SessionResource label="Stress" current={char.stress.current} max={char.stress.max} color="text-yellow-400" onAdjust={canEdit ? onAdjustStress : undefined} />
-        <SessionResource label="Hope" current={char.hope} max={6} color="text-sky-400" onAdjust={canEdit ? onAdjustHope : undefined} />
+        <SessionResource label="Hope" current={char.hope} max={CHARACTER_HOPE_MAX} color="text-sky-400" onAdjust={canEdit ? onAdjustHope : undefined} />
         <div className="rounded-md bg-slate-900/60 px-2 py-1.5 text-center">
           <p className="text-[10px] uppercase tracking-wide text-slate-500">Evasion</p>
           <p className="text-lg font-bold text-slate-200">{char.evasion}</p>
