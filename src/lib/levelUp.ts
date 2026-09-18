@@ -19,7 +19,6 @@ import {
   getSubclassUpgradeTargets,
   hasMastery,
   nextSubclassStage,
-  stageLabel,
 } from "./subclasses";
 
 export interface AdvancementDefinition {
