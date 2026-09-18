@@ -2,10 +2,10 @@
   { "id": "blade", "name": "Blade", "description": "Martial combat prowess." },
   { "id": "bone", "name": "Bone", "description": "Instinct and survival." },
   { "id": "codex", "name": "Codex", "description": "Knowledge and lore." },
-  { "id": "draft", "name": "Draft", "description": "Raw Draft power." },
+  { "id": "cosmos", "name": "Cosmos", "description": "Power from the stars." },
   { "id": "grace", "name": "Grace", "description": "Social charm and agility." },
   { "id": "midnight", "name": "Midnight", "description": "Shadow and deception." },
   { "id": "sage", "name": "Sage", "description": "Nature and healing." },
-  { "id": "splendor", "name": "Splendor", "description": "Divine light and radiance." },
+  { "id": "science", "name": "Science", "description": "Intelligence and innovation." },
   { "id": "valor", "name": "Valor", "description": "Courage and protection." }
 ]
