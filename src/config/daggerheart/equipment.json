@@ -1,25 +1,396 @@
 {
   "weapons": [
-    { "id": "dagger", "name": "Dagger", "damage": "d6", "range": "Melee", "trait": "finesse" },
-    { "id": "shortsword", "name": "Shortsword", "damage": "d8", "range": "Melee", "trait": "agility" },
-    { "id": "longsword", "name": "Longsword", "damage": "d10", "range": "Melee", "trait": "strength" },
-    { "id": "greatsword", "name": "Greatsword", "damage": "d12", "range": "Melee", "trait": "strength" },
-    { "id": "bow", "name": "Bow", "damage": "d8", "range": "Far", "trait": "agility" },
-    { "id": "crossbow", "name": "Crossbow", "damage": "d10", "range": "Far", "trait": "finesse" },
-    { "id": "staff", "name": "Staff", "damage": "d8", "range": "Melee", "trait": "knowledge" },
-    { "id": "wand", "name": "Wand", "damage": "d6", "range": "Far", "trait": "knowledge" }
+    {
+      "id": "dagger",
+      "name": "Dagger",
+      "damage": "d6",
+      "range": "Melee",
+      "trait": "finesse"
+    },
+    {
+      "id": "shortsword",
+      "name": "Shortsword",
+      "damage": "d8",
+      "range": "Melee",
+      "trait": "agility"
+    },
+    {
+      "id": "longsword",
+      "name": "Longsword",
+      "damage": "d10",
+      "range": "Melee",
+      "trait": "strength"
+    },
+    {
+      "id": "greatsword",
+      "name": "Greatsword",
+      "damage": "d12",
+      "range": "Melee",
+      "trait": "strength"
+    },
+    {
+      "id": "bow",
+      "name": "Bow",
+      "damage": "d8",
+      "range": "Far",
+      "trait": "agility"
+    },
+    {
+      "id": "crossbow",
+      "name": "Crossbow",
+      "damage": "d10",
+      "range": "Far",
+      "trait": "finesse"
+    },
+    {
+      "id": "staff",
+      "name": "Staff",
+      "damage": "d8",
+      "range": "Melee",
+      "trait": "knowledge"
+    },
+    {
+      "id": "wand",
+      "name": "Wand",
+      "damage": "d6",
+      "range": "Far",
+      "trait": "knowledge"
+    }
   ],
   "armor": [
-    { "id": "none", "name": "Unarmored", "score": 0, "thresholdMajor": 0, "thresholdSevere": 0, "description": "No armor. Major threshold equals level; Severe equals 2× level." },
-    { "id": "gambeson", "name": "Gambeson Armor", "score": 3, "thresholdMajor": 5, "thresholdSevere": 11, "description": "Flexible: +1 to Evasion." },
-    { "id": "leather", "name": "Leather Armor", "score": 3, "thresholdMajor": 6, "thresholdSevere": 13, "description": "Light protection." },
-    { "id": "chain", "name": "Chainmail Armor", "score": 4, "thresholdMajor": 7, "thresholdSevere": 15, "description": "Heavy: −1 to Evasion." },
-    { "id": "plate", "name": "Full Plate Armor", "score": 4, "thresholdMajor": 8, "thresholdSevere": 17, "description": "Very Heavy: −2 to Evasion; −1 to Agility." }
+    {
+      "id": "none",
+      "name": "Unarmored",
+      "score": 0,
+      "thresholdMajor": 0,
+      "thresholdSevere": 0,
+      "description": "No armor. Major threshold equals level; Severe equals 2× level."
+    },
+    {
+      "id": "gambeson",
+      "name": "Gambeson Armor",
+      "score": 3,
+      "thresholdMajor": 5,
+      "thresholdSevere": 11,
+      "description": "Flexible: +1 to Evasion."
+    },
+    {
+      "id": "leather",
+      "name": "Leather Armor",
+      "score": 3,
+      "thresholdMajor": 6,
+      "thresholdSevere": 13,
+      "description": ""
+    },
+    {
+      "id": "chain",
+      "name": "Chainmail Armor",
+      "score": 4,
+      "thresholdMajor": 7,
+      "thresholdSevere": 15,
+      "description": "Heavy: −1 to Evasion."
+    },
+    {
+      "id": "plate",
+      "name": "Full Plate Armor",
+      "score": 4,
+      "thresholdMajor": 8,
+      "thresholdSevere": 17,
+      "description": "Very Heavy: −2 to Evasion; −1 to Agility."
+    }
   ],
   "items": [
-    { "id": "rope", "name": "Rope (50ft)", "description": "Standard adventuring rope." },
+    {
+      "id": "rope",
+      "name": "Rope (50ft)",
+      "description": "Standard adventuring rope."
+    },
     { "id": "torch", "name": "Torch", "description": "Provides light." },
     { "id": "rations", "name": "Rations", "description": "One day of food." },
-    { "id": "healing-potion", "name": "Healing Potion", "description": "Restore 1d4 HP." }
+    {
+      "id": "healing-potion",
+      "name": "Healing Potion",
+      "description": "Restore 1d4 HP."
+    },
+    {
+      "id": "premium-bedroll",
+      "name": "Premium Bedroll",
+      "description": "During downtime, you automatically clear a Stress."
+    },
+    {
+      "id": "piper-whistle",
+      "name": "Piper Whistle",
+      "description": "This handcrafted whistle has a distinctive sound. When you blow this whistle, its piercing tone can be heard within a 1-mile radius."
+    },
+    {
+      "id": "charging-quiver",
+      "name": "Charging Quiver",
+      "description": "When you succeed on an attack with an arrow stored in this quiver, gain a bonus to the damage roll equal to your current tier."
+    },
+    {
+      "id": "flashlight",
+      "name": "Flashlight",
+      "description": "You can light this flashlight at will. The light it emits fills a much larger space than it should, enough to illuminate a cave bright as day."
+    },
+    {
+      "id": "manacles",
+      "name": "Manacles",
+      "description": "This pair of locking cuffs comes with a key."
+    },
+    {
+      "id": "morphing-cloak",
+      "name": "Morphing Cloak",
+      "description": "A creature with a Draftcast trait wearing this cloak can adjust its color, texture, and size at will."
+    },
+    {
+      "id": "woven-net",
+      "name": "Woven Net",
+      "description": "You can make a Finesse Roll using this net to trap a small creature. A trapped target can break free with a successful Attack Roll (16)."
+    },
+    {
+      "id": "fire-jar",
+      "name": "Fire Jar",
+      "description": "You can pour out the strange liquid contents of this jar to instantly produce fire. The contents regenerate when you take a long rest."
+    },
+    {
+      "id": "suspended-rod",
+      "name": "Suspended Rod",
+      "description": "This flat rod is inscribed with runes. When you activate the rod, it is immediately suspended in place. Until the rod is deactivated, it can’t move, doesn’t abide by the rules of gravity, and remains in place."
+    },
+    {
+      "id": "glamour-stone",
+      "name": "Glamour Stone",
+      "description": "Activate this pebble-sized stone to memorize the appearance of someone you can see. Spend a Hope to recreate this guise on yourself as an illusion."
+    },
+    {
+      "id": "empty-chest",
+      "name": "Empty Chest",
+      "description": "This chest appears empty. When you speak a specific trigger word or action and open the chest, you can see the items stored within it."
+    },
+    {
+      "id": "companion-case",
+      "name": "Companion Case",
+      "description": "This case can fit a small animal companion. While the companion is inside, the animal and case are immune to all damage and harmful effects."
+    },
+    {
+      "id": "piercing-arrows",
+      "name": "Piercing Arrows",
+      "description": "Three times per rest when you succeed on an attack with one of these arrows, you can add your Proficiency to the damage roll."
+    },
+    {
+      "id": "valorstone",
+      "name": "Valorstone",
+      "description": "You can attach this stone to armor that doesn’t already have a feature. The armor gains the following feature. **Resilient:** Before you mark your last Armor Slot, roll a d6. On a result of 6, reduce the severity by one threshold without marking an Armor Slot."
+    },
+    {
+      "id": "skeleton-key",
+      "name": "Skeleton Key",
+      "description": "When you use this key to open a locked door, you gain advantage on the Finesse Roll."
+    },
+    {
+      "id": "seeded-prism",
+      "name": "Seeded Prism",
+      "description": "Position this prism in a location of your choosing and activate it. All allies within Close range of it gain a +1 bonus to their Draftcast Rolls. While activated, the prism can’t be moved. Once the prism is deactivated, it can’t be activated again until your next long rest."
+    },
+    {
+      "id": "minor-stamina-potion-recipe",
+      "name": "Minor Stamina Potion Recipe",
+      "description": "As a downtime move, you can use the bone of a creature to craft a Minor Stamina Potion."
+    },
+    {
+      "id": "minor-health-potion-recipe",
+      "name": "Minor Health Potion Recipe",
+      "description": "As a downtime move, you can use a vial of blood to craft a Minor Health Potion."
+    },
+    {
+      "id": "homing-compasses",
+      "name": "Homing Compasses",
+      "description": "These two compasses point toward each other no matter how far apart they are."
+    },
+    {
+      "id": "gecko-gloves",
+      "name": "Gecko Gloves",
+      "description": "You can climb up vertical surfaces and across ceilings."
+    },
+    {
+      "id": "lorekeeper",
+      "name": "Lorekeeper",
+      "description": "You can store the name and details of up to three hostile creatures inside this book. You gain a +1 bonus to action rolls against those creatures."
+    },
+    {
+      "id": "vial-of-darksmoke-recipe",
+      "name": "Vial of Darksmoke Recipe",
+      "description": "As a downtime move, you can mark a Stress to craft a Vial of Darksmoke."
+    },
+    {
+      "id": "bloodstone",
+      "name": "Bloodstone",
+      "description": "You can attach this stone to a weapon that doesn’t already have a feature. The weapon gains the following feature. ***Brutal:*** When you roll the maximum value on a damage die, roll an additional damage die."
+    },
+    {
+      "id": "greatstone",
+      "name": "Greatstone",
+      "description": "You can attach this stone to a weapon that doesn’t already have a feature. The weapon gains the following feature. ***Powerful:*** On a successful attack, roll an additional damage die and discard the lowest result."
+    },
+    {
+      "id": "glider",
+      "name": "Glider",
+      "description": "While falling, you can mark a Stress to deploy this small parachute and glide safely to the ground."
+    },
+    {
+      "id": "ring-of-silence",
+      "name": "Ring of Silence",
+      "description": "Spend a Hope to activate this ring. Your footsteps are silent until your next rest."
+    },
+    {
+      "id": "calming-pendant",
+      "name": "Calming Pendant",
+      "description": "When you would mark your last Stress, roll a d6. On a result of 5 or higher, don’t mark it."
+    },
+    {
+      "id": "dual-flask",
+      "name": "Dual Flask",
+      "description": "This flask can hold two different liquids. You can swap between them by flipping a small switch on the flask’s side."
+    },
+    {
+      "id": "bag-of-ficklesand",
+      "name": "Bag of Ficklesand",
+      "description": "You can convince this small bag of sand to be much heavier or lighter with a successful Presence Roll (10). Additionally, on a successful Finesse Roll (10), you can blow a bit of sand into a target’s face to make them temporarily **Vulnerable**."
+    },
+    {
+      "id": "ring-of-resistance",
+      "name": "Ring of Resistance",
+      "description": "Once per long rest, you can activate this ring after a successful attack against you to halve the damage."
+    },
+    {
+      "id": "phoenix-feather",
+      "name": "Phoenix Feather",
+      "description": "If you have at least one Phoenix Feather on you when you fall unconscious, you gain a +1 bonus to the roll you make to determine whether you gain a scar."
+    },
+    {
+      "id": "airblade-charm",
+      "name": "Airblade Charm",
+      "description": "You can attach this charm to a weapon with a Melee range. Three times per rest, you can activate the charm and attack a target within Close range."
+    },
+    {
+      "id": "portal-seed",
+      "name": "Portal Seed",
+      "description": "You can plant this seed in the ground to grow a portal in that spot. The portal is ready to use in 24 hours. You can use this portal to travel to any other location where you planted a portal seed. A portal can be destroyed by dealing any amount of Draft damage to it."
+    },
+    {
+      "id": "paragons-chain",
+      "name": "Paragon’s Chain",
+      "description": "As a downtime move, you can meditate on an ideal or principle you hold dear and focus your will into this chain. Once per long rest, you can spend a Hope to roll a d20 as your Hope Die for rolls that directly align with that principle."
+    },
+    {
+      "id": "elusive-amulet",
+      "name": "Elusive Amulet",
+      "description": "Once per long rest, you can activate this amulet to become **Hidden** until you move. While **Hidden** in this way, you remain unseen even if an adversary moves to where they would normally see you."
+    },
+    {
+      "id": "hopekeeper-locket",
+      "name": "Hopekeeper Locket",
+      "description": "During a long rest, if you have 6 Hope, you can spend a Hope to imbue this locket with your bountiful resolve. When you have 0 Hope, you can use the locket to immediately gain a Hope. The locket must be re-imbued before it can be used this way again."
+    },
+    {
+      "id": "infinite-bag",
+      "name": "Infinite Bag",
+      "description": "When you store items in this bag, they are kept in a pocket dimension that never runs out of space. You can retrieve an item at any time."
+    },
+    {
+      "id": "stride-relic",
+      "name": "Stride Relic",
+      "description": "You gain a +1 bonus to your Agility. You can only carry one relic."
+    },
+    {
+      "id": "bolster-relic",
+      "name": "Bolster Relic",
+      "description": "You gain a +1 bonus to your Strength. You can only carry one relic."
+    },
+    {
+      "id": "control-relic",
+      "name": "Control Relic",
+      "description": "You gain a +1 bonus to your Finesse. You can only carry one relic."
+    },
+    {
+      "id": "attune-relic",
+      "name": "Attune Relic",
+      "description": "You gain a +1 bonus to your Instinct. You can only carry one relic."
+    },
+    {
+      "id": "charm-relic",
+      "name": "Charm Relic",
+      "description": "You gain a +1 bonus to your Presence. You can only carry one relic."
+    },
+    {
+      "id": "enlighten-relic",
+      "name": "Enlighten Relic",
+      "description": "You gain a +1 bonus to your Knowledge. You can only carry one relic."
+    },
+    {
+      "id": "honing-relic",
+      "name": "Honing Relic",
+      "description": "You gain a +1 bonus to an Experience of your choice. You can only carry one relic."
+    },
+    {
+      "id": "flickerfly-pendant",
+      "name": "Flickerfly Pendant",
+      "description": "While you carry this pendant, your weapons with a Melee range that deal physical damage have a gossamer sheen and can attack targets within Very Close range."
+    },
+    {
+      "id": "lasketider-boots",
+      "name": "Lasketider Boots",
+      "description": "You can walk on the surface of water as if it were soft ground."
+    },
+    {
+      "id": "mythic-dust-recipe",
+      "name": "Mythic Dust Recipe",
+      "description": "As a downtime move, you can use a handful of fine gold dust to craft Mythic Dust."
+    },
+    {
+      "id": "shard-of-memory",
+      "name": "Shard of Memory",
+      "description": "Once per long rest, you can spend 2 Hope to recall a domain card from your vault instead of paying its Recall Cost."
+    },
+    {
+      "id": "gem-of-alacrity",
+      "name": "Gem of Alacrity",
+      "description": "You can attach this gem to a weapon, allowing you to use your Agility when making an attack with that weapon."
+    },
+    {
+      "id": "gem-of-might",
+      "name": "Gem of Might",
+      "description": "You can attach this gem to a weapon, allowing you to use your Strength when making an attack with that weapon."
+    },
+    {
+      "id": "gem-of-precision",
+      "name": "Gem of Precision",
+      "description": "You can attach this gem to a weapon, allowing you to use your Finesse when making an attack with that weapon."
+    },
+    {
+      "id": "gem-of-insight",
+      "name": "Gem of Insight",
+      "description": "You can attach this gem to a weapon, allowing you to use your Instinct when making an attack with that weapon."
+    },
+    {
+      "id": "gem-of-audacity",
+      "name": "Gem of Audacity",
+      "description": "You can attach this gem to a weapon, allowing you to use your Presence when making an attack with that weapon."
+    },
+    {
+      "id": "gem-of-sagacity",
+      "name": "Gem of Sagacity",
+      "description": "You can attach this gem to a weapon, allowing you to use your Knowledge when making an attack with that weapon."
+    },
+    {
+      "id": "ring-of-unbreakable-resolve",
+      "name": "Ring of Unbreakable Resolve",
+      "description": "Once per session, when the GM spends a Fear, you can spend 4 Hope to cancel the effects of that spent Fear."
+    },
+    {
+      "id": "belt-of-unity",
+      "name": "Belt of Unity",
+      "description": "Once per session, you can spend 5 Hope to lead a Tag Team Roll with three PCs instead of two."
+    }
   ]
 }
