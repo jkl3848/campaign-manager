@@ -44,18 +44,18 @@ export function SubclassStageList({
         return (
           <div
             key={stage}
-            className={`rounded-lg p-3 ${
-              unlocked ? "bg-slate-800/60" : "bg-slate-900/40 opacity-60"
+            className={`border p-3 ${
+              unlocked ? "border-ink/20 bg-black/[0.03]" : "border-ink/10 opacity-60"
             }`}
           >
             <div className="mb-1 flex items-center justify-between gap-2">
               <p
-                className={`text-xs font-semibold uppercase tracking-wide ${unlocked ? "text-amber-400" : "text-slate-500"}`}
+                className={`font-display text-xs font-semibold uppercase tracking-[0.16em] ${unlocked ? "text-oxblood" : "text-ink-faint"}`}
               >
                 {stageLabel(stage)}
               </p>
               {showUnlockLabel && (
-                <span className="text-[10px] text-slate-500">
+                <span className="text-[10px] text-ink-faint">
                   Tier {stage === "specialization" ? 3 : 4} · Lv {minLevel}+
                 </span>
               )}
@@ -65,16 +65,16 @@ export function SubclassStageList({
                 {features.map((feat) => (
                   <li
                     key={feat.id}
-                    className={`flex gap-1 ${compact ? "text-xs" : "text-sm"} ${unlocked ? "text-slate-300" : "text-slate-500"}`}
+                    className={`flex gap-1 font-serif ${compact ? "text-xs" : "text-sm"} ${unlocked ? "text-ink" : "text-ink-muted"}`}
                   >
-                    <span className="text-amber-500">•</span>
+                    <span className="text-oxblood">•</span>
                     <span>{feat.description}</span>
                   </li>
                 ))}
               </ul>
             ) : (
               <p
-                className={`italic ${compact ? "text-xs" : "text-sm"} text-slate-500`}
+                className={`font-serif italic ${compact ? "text-xs" : "text-sm"} text-ink-faint`}
               >
                 {unlocked || inspect
                   ? "No features written yet."

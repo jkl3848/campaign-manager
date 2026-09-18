@@ -13,11 +13,11 @@ export function Layout() {
   const isPlayer = !!playerSession && playerSession.campaignId === campaignId;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <nav className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div className="min-h-screen text-slate-100">
+      <nav className="sticky top-0 z-50 border-b border-brass/25 bg-[#1c1510]/92 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-xl font-bold text-amber-500 tracking-tight">
+            <Link to="/" className="font-display text-2xl font-semibold tracking-wide text-amber-200">
               JL Campaign Manager
             </Link>
             {campaignId && (
@@ -42,10 +42,12 @@ export function Layout() {
           </div>
           <div className="flex items-center gap-3">
             {isDm && (
-              <span className="text-xs text-amber-400/80 bg-amber-900/30 px-2 py-1 rounded">DM</span>
+              <span className="border border-oxblood/50 bg-oxblood/20 px-2 py-0.5 font-display text-xs tracking-widest text-amber-200">
+                DM
+              </span>
             )}
             {isPlayer && !isDm && (
-              <span className="text-xs text-sky-400/80 bg-sky-900/30 px-2 py-1 rounded">
+              <span className="border border-brass/40 bg-black/20 px-2 py-0.5 font-display text-xs tracking-wide text-amber-200">
                 {playerSession.playerName}
               </span>
             )}
@@ -59,7 +61,7 @@ export function Layout() {
           </div>
         </div>
       </nav>
-      <main className={isLiveSession ? '' : 'max-w-7xl mx-auto px-4 py-6'}>
+      <main className={isLiveSession ? '' : 'mx-auto max-w-7xl px-4 py-6'}>
         <Outlet />
       </main>
     </div>
@@ -70,7 +72,7 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
   return (
     <Link
       to={to}
-      className="text-slate-400 hover:text-amber-400 transition-colors"
+      className="text-slate-400 transition-colors hover:text-amber-200"
     >
       {children}
     </Link>

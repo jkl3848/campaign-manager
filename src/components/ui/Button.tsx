@@ -7,16 +7,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = {
-  primary: 'bg-amber-600 hover:bg-amber-500 text-white shadow-lg shadow-amber-900/30',
-  secondary: 'bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600',
-  danger: 'bg-red-700 hover:bg-red-600 text-white',
-  ghost: 'bg-transparent hover:bg-slate-800 text-slate-300',
+  primary:
+    'bg-seal text-parchment shadow-[0_2px_0_#3d1210] hover:bg-oxblood border border-black/20',
+  secondary:
+    'bg-transparent text-brass border border-brass/70 hover:bg-brass/10 hover:border-brass',
+  danger:
+    'bg-oxblood/90 hover:bg-oxblood text-parchment border border-black/20',
+  ghost:
+    'bg-transparent hover:bg-black/15 text-current/70 border border-transparent',
 };
 
 const sizes = {
-  sm: 'px-3 py-1.5 text-sm',
+  sm: 'px-3 py-1 text-xs',
   md: 'px-4 py-2 text-sm',
-  lg: 'px-6 py-3 text-base',
+  lg: 'px-6 py-2.5 text-base',
 };
 
 export function Button({
@@ -28,7 +32,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`rounded-lg font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center justify-center rounded-sm font-medium tracking-wide transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
       {children}

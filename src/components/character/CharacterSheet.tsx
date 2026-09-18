@@ -4,9 +4,9 @@ import { LevelUpWizard } from './LevelUpWizard';
 import { canInitiateLevelUp, cancelLevelUp, initiateLevelUp } from '../../lib/levelUp';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
-import { Card } from '../ui/Card';
 import { Textarea } from '../ui/Textarea';
 import { ImageUpload } from '../ui/ImageUpload';
+import { TickTrack } from '../ui/TickTrack';
 import { DomainCardHand } from './DomainCardHand';
 import { SubclassStageList } from './SubclassStageList';
 import { getSubclassTracks, stageLabel } from '../../lib/subclasses';
@@ -275,17 +275,17 @@ export function CharacterSheet({
   }
 
   return (
-    <div className="space-y-5">
+    <div className="paper-sheet space-y-6 p-5 sm:p-8">
       {char.pendingLevelUp && (
-        <div className="rounded-xl border border-amber-600/50 bg-amber-950/30 p-4">
+        <div className="border border-oxblood/40 bg-oxblood/8 p-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="font-serif text-lg font-bold text-amber-200">
-                Level Up Available!
+              <p className="font-display text-lg font-semibold tracking-wide text-oxblood">
+                Level Up Available
               </p>
-              <p className="text-sm text-slate-300">
+              <p className="font-serif text-sm text-ink-muted">
                 {isDm ? 'You initiated a level up to' : 'Your DM has granted a level up to'}{' '}
-                <span className="font-bold text-amber-300">Level {char.pendingLevelUp.targetLevel}</span>.
+                <span className="font-semibold text-ink">Level {char.pendingLevelUp.targetLevel}</span>.
                 {canEdit ? ' Complete your advancement choices to finalize.' : ' Waiting for the player to complete.'}
               </p>
             </div>
@@ -313,26 +313,29 @@ export function CharacterSheet({
         />
       )}
 
-      <div className="sheet-header p-5">
+      <div className="sheet-header">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
           <div className="shrink-0">
             {onUploadImage && canEdit ? (
               <ImageUpload
                 currentUrl={char.imageUrl}
+                frame="portrait"
                 onUpload={async (file) => {
                   const url = await onUploadImage(file);
                   updateLocal({ imageUrl: url });
                 }}
               />
             ) : char.imageUrl ? (
-              <img
-                src={char.imageUrl}
-                alt={char.name}
-                className="h-28 w-28 rounded-xl object-cover ring-2 ring-amber-700/50 shadow-lg"
-              />
+              <div className="h-32 w-28 rotate-[-1.5deg] bg-parchment p-1.5 shadow-md">
+                <img
+                  src={char.imageUrl}
+                  alt={char.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
             ) : (
-              <div className="flex h-28 w-28 items-center justify-center rounded-xl bg-slate-800 ring-2 ring-amber-700/30">
-                <span className="font-serif text-3xl text-amber-600/60">{char.name.charAt(0)}</span>
+              <div className="flex h-32 w-28 rotate-[-1.5deg] items-center justify-center border border-dashed border-ink/25 bg-black/5">
+                <span className="font-display text-4xl text-oxblood/50">{char.name.charAt(0)}</span>
               </div>
             )}
           </div>
@@ -340,16 +343,16 @@ export function CharacterSheet({
             {canEdit ? (
               <Input label="Name" value={char.name} onChange={(e) => updateLocal({ name: e.target.value })} />
             ) : (
-              <h1 className="font-serif text-3xl font-bold text-amber-50">{char.name}</h1>
+              <h1 className="font-display text-4xl font-semibold tracking-wide text-ink">{char.name}</h1>
             )}
-            <div className="mt-2 flex flex-wrap items-center gap-2">
+            <div className="mt-2 flex flex-wrap items-center gap-2 font-bold">
               <LevelBadge level={char.level} />
               {isDm && canInitiateLevelUp(char) && (
                 <Button size="sm" onClick={handleDmLevelUp} disabled={saving}>
                   Level Up
                 </Button>
               )}
-              {cls && <Tag label={cls.name} />}
+              {cls && <Tag label={cls.name}/>}
               {subclass && (
                 <Tag label={`${subclass.name} (${stageLabel(char.subclassStage)})`} variant="subtle" />
               )}
@@ -365,15 +368,15 @@ export function CharacterSheet({
               )}
             </div>
             <div className="mt-2 flex items-center gap-2">
-              <span className="text-xs text-slate-500">Proficiency</span>
-              <ProficiencyDots filled={char.proficiency} max={6} />
+              <span className="font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">Proficiency</span>
+              <TickTrack current={char.proficiency} max={6} variant="dot" className="text-oxblood" />
             </div>
-            <div className="mt-2 flex flex-wrap gap-2 text-xs">
+            <div className="mt-2 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide text-ink">
               {ancestry && <Tag label={ancestry.name} variant="subtle" />}
               {community && <Tag label={community.name} variant="subtle" />}
               {transformation && <Tag label={transformation.name} variant="accent" />}
             </div>
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 font-serif text-sm text-ink">
               {char.weaponName ?? 'Unarmed'}{' '}
               {char.weaponDamage && `(${formatWeaponDamage(char.weaponDamage)})`}
               {char.armorName && ` · ${char.armorName}`}
@@ -381,21 +384,22 @@ export function CharacterSheet({
           </div>
         </div>
         {char.description && (
-          <p className="mt-4 border-t border-amber-900/20 pt-4 text-sm italic text-slate-300">
+          <p className="mt-4 border-t border-ink/15 pt-4 font-serif text-sm italic text-ink">
             {char.description}
           </p>
         )}
       </div>
 
       {/* HP, Stress, Hope, Evasion */}
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 border-y border-ink/15 py-4 md:grid-cols-4">
         <ResourceTracker
           label="HP"
           current={char.hp.current}
           max={char.hp.max}
           onAdjust={canEdit ? adjustHp : undefined}
           onAdjustMax={canEdit ? adjustMaxHp : undefined}
-          color="text-red-400"
+          color="text-oxblood"
+          variant="dot"
         />
         <ResourceTracker
           label="Stress"
@@ -403,26 +407,28 @@ export function CharacterSheet({
           max={char.stress.max}
           onAdjust={canEdit ? adjustStress : undefined}
           onAdjustMax={canEdit ? adjustMaxStress : undefined}
-          color="text-yellow-400"
+          color="text-stress"
+          variant="box"
         />
         <ResourceTracker
           label="Hope"
           current={char.hope}
           max={CHARACTER_HOPE_MAX}
           onAdjust={canEdit ? adjustHope : undefined}
-          color="text-sky-400"
+          color="text-hope"
+          variant="diamond"
         />
-        <div className="sheet-section p-3 text-center">
-          <p className="text-xs text-slate-400">Evasion</p>
-          <div className="mt-1 flex items-center justify-center gap-2">
+        <div className="text-center">
+          <p className="font-sans text-sm font-semibold uppercase tracking-wide text-oxblood">Evasion</p>
+          <div className="mt-2 flex items-center justify-center gap-2">
             {canEdit && (
-              <button type="button" onClick={() => adjustEvasion(-1)} className="text-slate-400 hover:text-slate-200">
+              <button type="button" onClick={() => adjustEvasion(-1)} className="text-ink-faint hover:text-ink">
                 −
               </button>
             )}
-            <p className="text-2xl font-bold text-slate-200">{char.evasion}</p>
+            <p className="font-display text-3xl font-semibold text-ink">{char.evasion}</p>
             {canEdit && (
-              <button type="button" onClick={() => adjustEvasion(1)} className="text-slate-400 hover:text-slate-200">
+              <button type="button" onClick={() => adjustEvasion(1)} className="text-ink-faint hover:text-ink">
                 +
               </button>
             )}
@@ -434,79 +440,75 @@ export function CharacterSheet({
       <SheetSection title="Armor & Wound Thresholds">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-xs text-slate-400">
+            <div className="mb-2 flex items-center gap-2 font-sans text-sm text-ink">
               <span>Armor Score</span>
               {canEdit ? (
                 <span className="inline-flex items-center gap-1">
                   <button
                     type="button"
                     onClick={() => adjustArmorScore(-1)}
-                    className="text-slate-500 hover:text-slate-200"
+                    className="text-ink-faint hover:text-ink"
                   >
                     −
                   </button>
-                  <span className="font-bold text-amber-300">{char.armorScore}</span>
+                  <span className="font-semibold text-ink">{char.armorScore}</span>
                   <button
                     type="button"
                     onClick={() => adjustArmorScore(1)}
-                    className="text-slate-500 hover:text-slate-200"
+                    className="text-ink-faint hover:text-ink"
                   >
                     +
                   </button>
                 </span>
               ) : (
-                <span className="font-bold text-amber-300">{char.armorScore}</span>
+                <span className="font-semibold text-ink">{char.armorScore}</span>
               )}
-              {char.armorName && <span className="text-slate-500"> · {char.armorName}</span>}
+              {char.armorName && <span className="text-ink-muted"> · {char.armorName}</span>}
             </div>
             {char.armorSlots.max > 0 ? (
               <div>
-                <p className="mb-2 text-xs text-slate-400">Armor Slots</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">Armor Slots</p>
+                <div className="flex flex-wrap gap-1.5 text-oxblood">
                   {Array.from({ length: char.armorSlots.max }).map((_, i) => (
                     <button
                       key={i}
                       type="button"
                       disabled={!canEdit}
                       onClick={() => toggleArmorSlot(i)}
-                      className={`h-10 w-10 rounded-lg border-2 transition-all ${
-                        i < char.armorSlots.marked
-                          ? 'border-amber-500 bg-amber-900/50 text-amber-300'
-                          : 'border-slate-600 bg-slate-800/60 text-slate-500 hover:border-slate-400'
+                      className={`tick tick-box ${
+                        i < char.armorSlots.marked ? 'tick-filled' : ''
                       } ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}
                       title={i < char.armorSlots.marked ? 'Marked — click to clear' : 'Available — click to mark'}
-                    >
-                      🛡
-                    </button>
+                    />
                   ))}
                 </div>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-sm text-ink-muted">
                   {char.armorSlots.marked}/{char.armorSlots.max} marked
                 </p>
               </div>
             ) : (
-              <p className="text-sm text-slate-500">Unarmored — no armor slots.</p>
+              <p className="font-serif text-sm text-ink-muted">Unarmored — no armor slots.</p>
             )}
           </div>
           <div>
-            <p className="mb-2 text-xs text-slate-400">Damage Thresholds</p>
+            <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">Damage Thresholds</p>
             <div className="grid grid-cols-2 gap-3">
               <StatOverride
                 label="Major"
                 value={char.damageThresholds.major}
                 onAdjust={canEdit ? (d) => adjustThreshold('major', d) : undefined}
-                color="text-yellow-400"
+                color="text-stress"
                 hint="Mark 2 HP"
               />
               <StatOverride
                 label="Severe"
                 value={char.damageThresholds.severe}
                 onAdjust={canEdit ? (d) => adjustThreshold('severe', d) : undefined}
-                color="text-red-400"
+                color="text-oxblood"
                 hint="Mark 3 HP"
               />
             </div>
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 font-serif text-sm text-ink-muted">
               Below Major: mark 1 HP. Mark an armor slot to reduce severity by one step.
             </p>
           </div>
@@ -523,8 +525,8 @@ export function CharacterSheet({
             return (
               <div
                 key={t.id}
-                className={`relative rounded-lg bg-slate-900/60 p-3 pt-4 text-center ${
-                  marked ? 'ring-2 ring-amber-600/50' : ''
+                className={`relative border border-ink/20 bg-black/[0.03] p-3 pt-4 text-center ${
+                  marked ? 'border-oxblood/50 bg-oxblood/8' : ''
                 }`}
               >
                 {canEdit ? (
@@ -532,10 +534,10 @@ export function CharacterSheet({
                     type="button"
                     onClick={() => toggleTraitMark(traitId)}
                     title={marked ? 'Unmark trait' : 'Mark trait'}
-                    className={`absolute right-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded border text-[11px] transition-colors ${
+                    className={`absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center border text-[10px] ${
                       marked
-                        ? 'border-amber-500 bg-amber-900/60 text-amber-300'
-                        : 'border-slate-600 bg-slate-800/80 text-transparent hover:border-slate-400 hover:text-slate-500'
+                        ? 'border-oxblood bg-oxblood text-parchment'
+                        : 'border-ink/30 text-transparent hover:border-ink/60 hover:text-ink-faint'
                     }`}
                   >
                     ✓
@@ -543,37 +545,37 @@ export function CharacterSheet({
                 ) : (
                   marked && (
                     <span
-                      className="absolute right-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded border border-amber-500 bg-amber-900/60 text-[11px] text-amber-300"
+                      className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center border border-oxblood bg-oxblood text-[10px] text-parchment"
                       title="Marked"
                     >
                       ✓
                     </span>
                   )
                 )}
-                <p className="text-sm text-slate-300">{t.name}</p>
+                <p className="font-sans text-sm font-medium text-ink">{t.name}</p>
                 {canEdit ? (
                   <div className="mt-1 flex items-center justify-center gap-1.5">
                     <button
                       type="button"
                       onClick={() => adjustTrait(traitId, -1)}
-                      className="text-slate-500 hover:text-slate-200"
+                      className="text-ink-faint hover:text-ink"
                     >
                       −
                     </button>
-                    <p className="text-xl font-bold text-amber-400">
+                    <p className="font-display text-2xl font-semibold text-ink">
                       {val >= 0 ? '+' : ''}
                       {val}
                     </p>
                     <button
                       type="button"
                       onClick={() => adjustTrait(traitId, 1)}
-                      className="text-slate-500 hover:text-slate-200"
+                      className="text-ink-faint hover:text-ink"
                     >
                       +
                     </button>
                   </div>
                 ) : (
-                  <p className="text-xl font-bold text-amber-400">
+                  <p className="font-display text-2xl font-semibold text-ink">
                     {val >= 0 ? '+' : ''}
                     {val}
                   </p>
@@ -583,7 +585,7 @@ export function CharacterSheet({
           })}
         </div>
         {canEdit && (
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-sm text-ink-muted">
             Trait marks, trait scores, max HP/Stress, evasion, armor score, and thresholds require Save Changes.
           </p>
         )}
@@ -593,8 +595,8 @@ export function CharacterSheet({
       <SheetSection title="Domain Cards">
         <DomainCardHand cards={char.domainCards} />
         {isDm && availableDomainCardsForDm.length > 0 && (
-          <div className="mt-3 border-t border-slate-700/40 pt-3">
-            <p className="mb-2 text-xs text-slate-400">Add domain card (DM)</p>
+          <div className="mt-3 border-t border-ink/15 pt-3">
+            <p className="mb-2 font-sans text-xs font-semibold tracking-wide text-ink-muted">Add domain card (DM)</p>
             <div className="flex flex-wrap gap-2">
               {availableDomainCardsForDm.map((c) => (
                 <Button key={c.id} size="sm" variant="secondary" onClick={() => addDomainCard(c.id)}>
@@ -609,13 +611,13 @@ export function CharacterSheet({
       {/* Hope Feature */}
       {hopeFeature && (
         <SheetSection title="Hope Feature">
-          <p className="text-sm text-slate-200">{hopeFeature}</p>
+          <p className="font-serif text-sm text-ink">{hopeFeature}</p>
           {cls && (
             <div className="mt-2 flex flex-wrap gap-2">
               {cls.domains.map((d) => {
                 const domain = domains.find((dom) => dom.id === d);
                 return (
-                  <span key={d} className="rounded-full border border-slate-600 bg-slate-800/80 px-3 py-1 text-xs text-slate-300">
+                  <span key={d} className="border border-ink/25 px-3 py-1 font-sans text-xs tracking-wide text-ink">
                     {domain?.name ?? d}
                   </span>
                 );
@@ -641,11 +643,11 @@ export function CharacterSheet({
       <div className="grid gap-4 md:grid-cols-2">
         {ancestry && (
           <SheetSection title="Ancestry">
-            <p className="mb-2 text-sm text-slate-300">{ancestry.description}</p>
-            <ul className="space-y-1 text-sm">
+            <p className="mb-2 font-serif text-sm text-ink">{ancestry.description}</p>
+            <ul className="space-y-1 font-serif text-sm">
               {ancestry.abilities.map((ab) => (
-                <li key={ab} className="flex gap-1 text-slate-400">
-                  <span className="text-amber-500">•</span>{ab}
+                <li key={ab} className="flex gap-1 text-ink">
+                  <span className="text-oxblood">•</span>{ab}
                 </li>
               ))}
             </ul>
@@ -653,18 +655,18 @@ export function CharacterSheet({
         )}
         {community && (
           <SheetSection title="Community">
-            <p className="text-sm text-slate-300">{community.feature}</p>
+            <p className="font-serif text-sm text-ink">{community.feature}</p>
           </SheetSection>
         )}
       </div>
 
       {transformation && (
         <SheetSection title="Transformation">
-          <p className="mb-2 text-sm text-slate-300">{transformation.description}</p>
-          <ul className="space-y-1 text-sm">
+          <p className="mb-2 font-serif text-sm text-ink">{transformation.description}</p>
+          <ul className="space-y-1 font-serif text-sm">
             {transformation.abilities.map((ab) => (
-              <li key={ab.name} className="text-slate-400">
-                <span className="text-amber-400">{ab.name}:</span> {ab.description}
+              <li key={ab.name} className="text-ink">
+                <span className="text-oxblood">{ab.name}:</span> {ab.description}
               </li>
             ))}
           </ul>
@@ -673,28 +675,28 @@ export function CharacterSheet({
 
       {char.experienceEntries.some((e) => e.name.trim()) && (
         <SheetSection title="Experiences">
-          <p className="mb-3 text-xs text-slate-500">Spend Hope to add your Experience bonus to a related roll.</p>
+          <p className="mb-3 font-serif text-sm text-ink-muted">Spend Hope to add your Experience bonus to a related roll.</p>
           <div className="grid gap-3 md:grid-cols-2">
             {char.experienceEntries.filter((e) => e.name.trim()).map((exp) => (
-              <div key={exp.name} className="rounded-lg bg-slate-900/60 p-3">
-                <p className="font-medium text-amber-200">{exp.name}</p>
-                <p className="mt-1 text-xs text-slate-400">+{exp.bonus} modifier</p>
+              <div key={exp.name} className="border-b border-ink/25 pb-2">
+                <p className="font-serif italic text-ink">{exp.name}</p>
+                <p className="mt-1 font-sans text-xs tracking-wide text-ink-muted">+{exp.bonus} modifier</p>
               </div>
             ))}
           </div>
         </SheetSection>
       )}
 
-      <Card title="Inventory">
+      <SheetSection title="Inventory">
         <div className="space-y-2">
           {char.inventory.map((item) => (
-            <div key={item.id} className="flex items-center justify-between rounded bg-slate-900/50 px-3 py-2">
-              <span className="text-slate-200">{item.name}</span>
-              <span className="text-slate-400">×{item.quantity}</span>
+            <div key={item.id} className="flex items-center justify-between border-b border-ink/15 py-1.5">
+              <span className="font-serif text-ink">{item.name}</span>
+              <span className="text-ink-muted">×{item.quantity}</span>
             </div>
           ))}
           {canEdit && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 pt-2">
               <Input
                 value={newItem}
                 onChange={(e) => setNewItem(e.target.value)}
@@ -705,7 +707,7 @@ export function CharacterSheet({
             </div>
           )}
         </div>
-      </Card>
+      </SheetSection>
 
       {canEdit && (
         <>
@@ -725,8 +727,8 @@ export function CharacterSheet({
 
 function SheetSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="sheet-section p-4">
-      <h3 className="mb-3 font-serif text-lg font-semibold text-amber-200">{title}</h3>
+    <div className="sheet-block">
+      <h3 className="sheet-heading">{title}</h3>
       {children}
     </div>
   );
@@ -734,14 +736,14 @@ function SheetSection({ title, children }: { title: string; children: React.Reac
 
 function AbilityList({ abilities, emptyText }: { abilities: Ability[]; emptyText?: string }) {
   if (abilities.length === 0) {
-    return emptyText ? <p className="text-sm text-slate-500">{emptyText}</p> : null;
+    return emptyText ? <p className="font-serif text-sm text-ink-faint">{emptyText}</p> : null;
   }
   return (
     <div className="space-y-2">
       {abilities.map((a, i) => (
-        <div key={a.id ?? i} className="rounded-lg bg-slate-900/60 p-3">
-          <p className="font-medium text-slate-200">{a.name}</p>
-          <p className="text-sm text-slate-400">{a.description}</p>
+        <div key={a.id ?? i} className="border-b border-ink/15 pb-2">
+          <p className="font-display text-base font-semibold text-ink">{a.name}</p>
+          <p className="font-serif text-sm leading-relaxed text-ink">{a.description}</p>
         </div>
       ))}
     </div>
@@ -750,37 +752,20 @@ function AbilityList({ abilities, emptyText }: { abilities: Ability[]; emptyText
 
 function LevelBadge({ level }: { level: number }) {
   return (
-    <div className="inline-flex items-center rounded-full border border-amber-700/50 bg-amber-950/40 px-3 py-1">
-      <span className="font-serif text-sm font-bold text-amber-300">Level {level}</span>
-    </div>
-  );
-}
-
-function ProficiencyDots({ filled, max }: { filled: number; max: number }) {
-  return (
-    <div className="flex gap-1">
-      {Array.from({ length: max }).map((_, i) => (
-        <span
-          key={i}
-          className={`h-3 w-3 rounded-full border ${
-            i < filled
-              ? 'border-amber-500 bg-amber-500'
-              : 'border-slate-600 bg-transparent'
-          }`}
-        />
-      ))}
+    <div className="inline-flex items-center border-2 border-oxblood px-3 py-0.5">
+      <span className="font-display text-sm font-semibold tracking-widest text-oxblood">Level {level}</span>
     </div>
   );
 }
 
 function Tag({ label, variant = 'default' }: { label: string; variant?: 'default' | 'subtle' | 'accent' }) {
   const styles = {
-    default: 'border-amber-700/40 bg-amber-950/30 text-amber-200',
-    subtle: 'border-slate-600 bg-slate-800/60 text-slate-300',
-    accent: 'border-purple-700/40 bg-purple-950/30 text-purple-200',
+    default: 'border-oxblood/50 text-oxblood',
+    subtle: 'border-ink/30 text-ink',
+    accent: 'border-hope/60 text-hope',
   };
   return (
-    <span className={`rounded-full border px-2.5 py-0.5 text-xs ${styles[variant]}`}>
+    <span className={`border px-2.5 py-0.5 font-display text-xs tracking-wide ${styles[variant]}`}>
       {label}
     </span>
   );
@@ -793,6 +778,7 @@ function ResourceTracker({
   onAdjust,
   onAdjustMax,
   color,
+  variant = 'dot',
 }: {
   label: string;
   current: number;
@@ -800,33 +786,35 @@ function ResourceTracker({
   onAdjust?: (delta: number) => void;
   onAdjustMax?: (delta: number) => void;
   color: string;
+  variant?: 'dot' | 'box' | 'diamond';
 }) {
   return (
-    <div className="sheet-section p-3 text-center">
-      <p className="text-xs text-slate-400">{label}</p>
+    <div className={`text-center ${color}`}>
+      <p className="font-sans text-sm font-semibold uppercase tracking-wide">{label}</p>
+      <TickTrack current={current} max={max} variant={variant} className="mt-2" />
       <div className="mt-1 flex items-center justify-center gap-2">
         {onAdjust && (
-          <button type="button" onClick={() => onAdjust(-1)} className="text-slate-400 hover:text-slate-200">
+          <button type="button" onClick={() => onAdjust(-1)} className="text-ink-faint hover:text-ink">
             −
           </button>
         )}
-        <p className={`text-2xl font-bold ${color}`}>
+        <p className="font-display text-xl font-semibold">
           {current}/{max}
         </p>
         {onAdjust && (
-          <button type="button" onClick={() => onAdjust(1)} className="text-slate-400 hover:text-slate-200">
+          <button type="button" onClick={() => onAdjust(1)} className="text-ink-faint hover:text-ink">
             +
           </button>
         )}
       </div>
       {onAdjustMax && (
-        <div className="mt-1.5 flex items-center justify-center gap-1.5 text-[11px] text-slate-500">
+        <div className="mt-1.5 flex items-center justify-center gap-1.5 text-xs text-ink-muted">
           <span>Max</span>
-          <button type="button" onClick={() => onAdjustMax(-1)} className="hover:text-slate-200">
+          <button type="button" onClick={() => onAdjustMax(-1)} className="hover:text-ink">
             −
           </button>
-          <span className="font-medium text-slate-300">{max}</span>
-          <button type="button" onClick={() => onAdjustMax(1)} className="hover:text-slate-200">
+          <span className="font-medium text-ink-muted">{max}</span>
+          <button type="button" onClick={() => onAdjustMax(1)} className="hover:text-ink">
             +
           </button>
         </div>
@@ -839,7 +827,7 @@ function StatOverride({
   label,
   value,
   onAdjust,
-  color = 'text-slate-200',
+  color = 'text-ink',
   hint,
 }: {
   label: string;
@@ -848,25 +836,23 @@ function StatOverride({
   color?: string;
   hint?: string;
 }) {
-  const labelColor =
-    color.includes('yellow') || color.includes('red') ? color : 'text-slate-400';
   return (
-    <div className="rounded-lg bg-slate-900/60 p-3 text-center">
-      <p className={`text-xs ${labelColor}`}>{label}</p>
+    <div className="border border-ink/15 p-3 text-center">
+      <p className={`font-sans text-xs font-semibold uppercase tracking-wide ${color}`}>{label}</p>
       <div className="mt-1 flex items-center justify-center gap-2">
         {onAdjust && (
-          <button type="button" onClick={() => onAdjust(-1)} className="text-slate-400 hover:text-slate-200">
+          <button type="button" onClick={() => onAdjust(-1)} className="text-ink-faint hover:text-ink">
             −
           </button>
         )}
-        <p className={`text-2xl font-bold ${color}`}>{value}</p>
+        <p className={`font-display text-2xl font-semibold ${color}`}>{value}</p>
         {onAdjust && (
-          <button type="button" onClick={() => onAdjust(1)} className="text-slate-400 hover:text-slate-200">
+          <button type="button" onClick={() => onAdjust(1)} className="text-ink-faint hover:text-ink">
             +
           </button>
         )}
       </div>
-      {hint && <p className="mt-1 text-[10px] text-slate-500">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-ink-muted">{hint}</p>}
     </div>
   );
 }

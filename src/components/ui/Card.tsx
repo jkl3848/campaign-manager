@@ -5,14 +5,34 @@ interface CardProps {
   children: ReactNode;
   className?: string;
   actions?: ReactNode;
+  variant?: 'folio' | 'paper';
 }
 
-export function Card({ title, children, className = '', actions }: CardProps) {
+export function Card({
+  title,
+  children,
+  className = '',
+  actions,
+  variant = 'folio',
+}: CardProps) {
+  const surface =
+    variant === 'paper'
+      ? 'paper-sheet rounded-sm'
+      : 'folio rounded-sm';
+  const titleClass =
+    variant === 'paper'
+      ? 'font-display text-xl font-semibold text-oxblood tracking-wide'
+      : 'font-display text-xl font-semibold text-amber-100 tracking-wide';
+  const divider =
+    variant === 'paper'
+      ? 'border-b border-oxblood/25'
+      : 'border-b border-brass/20';
+
   return (
-    <div className={`rounded-xl bg-slate-800/80 border border-slate-700/80 backdrop-blur ${className}`}>
+    <div className={`${surface} ${className}`}>
       {(title || actions) && (
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-700/60">
-          {title && <h3 className="text-lg font-semibold text-slate-100">{title}</h3>}
+        <div className={`flex items-center justify-between px-5 py-4 ${divider}`}>
+          {title && <h3 className={titleClass}>{title}</h3>}
           {actions}
         </div>
       )}
