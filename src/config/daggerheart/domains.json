@@ -1,8 +1,10 @@
 [
   { "id": "blade", "name": "Blade", "description": "Martial combat prowess." },
+  { "id": "blood", "name": "Blood", "description": "Vital force and crimson power." },
   { "id": "bone", "name": "Bone", "description": "Instinct and survival." },
   { "id": "codex", "name": "Codex", "description": "Knowledge and lore." },
   { "id": "cosmos", "name": "Cosmos", "description": "Power from the stars." },
+  { "id": "dread", "name": "Dread", "description": "Fear and consuming darkness." },
   { "id": "grace", "name": "Grace", "description": "Social charm and agility." },
   { "id": "midnight", "name": "Midnight", "description": "Shadow and deception." },
   { "id": "sage", "name": "Sage", "description": "Nature and healing." },
