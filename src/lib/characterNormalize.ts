@@ -1,5 +1,6 @@
 import type { Character, DomainCard, Ability, ExperienceEntry } from '../types';
 import { computeArmorStats } from './characterArmor';
+import { normalizeWeaponDamage } from './weaponDamage';
 
 /** Migrate legacy fields and fill defaults for characters saved before schema updates. */
 export function normalizeCharacter(c: Character): Character {
@@ -52,5 +53,8 @@ export function normalizeCharacter(c: Character): Character {
     armorSlots: c.armorSlots ?? armorStats.armorSlots,
     damageThresholds: c.damageThresholds ?? armorStats.damageThresholds,
     armorScore: c.armorScore ?? armorStats.armorScore,
+    weaponDamage: normalizeWeaponDamage(
+      c.weaponDamage as Character['weaponDamage'] | string | undefined,
+    ),
   };
 }

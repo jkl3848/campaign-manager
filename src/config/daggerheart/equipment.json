@@ -1,60 +1,484 @@
 {
   "weapons": [
     {
-      "id": "dagger",
-      "name": "Dagger",
-      "damage": "d6",
+      "id": "broadsword",
+      "name": "Broadsword",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 0
+      },
       "range": "Melee",
-      "trait": "finesse"
-    },
-    {
-      "id": "shortsword",
-      "name": "Shortsword",
-      "damage": "d8",
-      "range": "Melee",
-      "trait": "agility"
+      "trait": "agility",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": "Reliable: +1 to attack rolls"
     },
     {
       "id": "longsword",
       "name": "Longsword",
-      "damage": "d10",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 3
+      },
       "range": "Melee",
-      "trait": "strength"
+      "trait": "agility",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "battleaxe",
+      "name": "Battleaxe",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 3
+      },
+      "range": "Melee",
+      "trait": "strength",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": ""
     },
     {
       "id": "greatsword",
       "name": "Greatsword",
-      "damage": "d12",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 3
+      },
       "range": "Melee",
-      "trait": "strength"
+      "trait": "strength",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": "Massive: -1 to Evasion; on a successful attack, roll an additional damage die and discard the lowest result."
     },
     {
-      "id": "bow",
-      "name": "Bow",
-      "damage": "d8",
+      "id": "mace",
+      "name": "Mace",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 1
+      },
+      "range": "Melee",
+      "trait": "strength",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "warhammer",
+      "name": "Warhammer",
+      "damage": {
+        "dice": 12,
+        "count": 1,
+        "modifier": 3
+      },
+      "range": "Melee",
+      "trait": "strength",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": "Heavy: -1 to Evasion"
+    },
+    {
+      "id": "dagger",
+      "name": "Dagger",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 1
+      },
+      "range": "Melee",
+      "trait": "finesse",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "quarterstaff",
+      "name": "Quarterstaff",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 3
+      },
+      "range": "Melee",
+      "trait": "instinct",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "cutlass",
+      "name": "Cutlass",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 1
+      },
+      "range": "Melee",
+      "trait": "presence",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "rapier",
+      "name": "Rapier",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Melee",
+      "trait": "presence",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": "Quick: When you make an attack, you can mark a Stress to target another creature within range."
+    },
+    {
+      "id": "halberd",
+      "name": "Halberd",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 2
+      },
+      "range": "Very Close",
+      "trait": "strength",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": "Cumbersome: -1 to Finesse"
+    },
+    {
+      "id": "spear",
+      "name": "Spear",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 3
+      },
+      "range": "Very Close",
+      "trait": "finesse",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": "-1 to Finesse"
+    },
+    {
+      "id": "shortbow",
+      "name": "Shortbow",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 3
+      },
       "range": "Far",
-      "trait": "agility"
+      "trait": "agility",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": ""
     },
     {
       "id": "crossbow",
       "name": "Crossbow",
-      "damage": "d10",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 1
+      },
       "range": "Far",
-      "trait": "finesse"
+      "trait": "finesse",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
     },
     {
-      "id": "staff",
-      "name": "Staff",
-      "damage": "d8",
+      "id": "longbow",
+      "name": "Longbow",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 3
+      },
+      "range": "Very Far",
+      "trait": "agility",
+      "physical": true,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": "Cumbersome: -1 to Finesse"
+    },
+    {
+      "id": "arcane-gauntlets",
+      "name": "Arcane Gauntlets",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 3
+      },
       "range": "Melee",
-      "trait": "knowledge"
+      "trait": "strength",
+      "physical": false,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "hallowed-axe",
+      "name": "Hallowed Axe",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 1
+      },
+      "range": "Melee",
+      "trait": "strength",
+      "physical": false,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "glowing-rings",
+      "name": "Glowing Rings",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 2
+      },
+      "range": "Very Close",
+      "trait": "agility",
+      "physical": false,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "hand-runes",
+      "name": "Hand Runes",
+      "damage": {
+        "dice": 10,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Very Close",
+      "trait": "instinct",
+      "physical": false,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "returning-blade",
+      "name": "Returning Blade",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Close",
+      "trait": "finesse",
+      "physical": false,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": "Returning: When this weapon is thrown within its range, it appears in your hand immediately after the attack."
+    },
+    {
+      "id": "shortstaff",
+      "name": "Shortstaff",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 1
+      },
+      "range": "Close",
+      "trait": "instinct",
+      "physical": false,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "dualstaff",
+      "name": "Dualstaff",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 3
+      },
+      "range": "Far",
+      "trait": "instinct",
+      "physical": false,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "scepter",
+      "name": "Scepter",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Far",
+      "trait": "presence",
+      "physical": false,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": "Versatile: This weapon can also be used with these statistics—Presence, Melee, d8."
     },
     {
       "id": "wand",
       "name": "Wand",
-      "damage": "d6",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 1
+      },
       "range": "Far",
-      "trait": "knowledge"
+      "trait": "knowledge",
+      "physical": false,
+      "twoHanded": false,
+      "secondary": false,
+      "feature": ""
+    },
+    {
+      "id": "greatstaff",
+      "name": "Greatstaff",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Very Far",
+      "trait": "knowledge",
+      "physical": false,
+      "twoHanded": true,
+      "secondary": false,
+      "feature": "Powerful: On a successful attack, roll an additional damage die and discard the lowest result."
+    },
+    {
+      "id": "shortsword",
+      "name": "Shortsword",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Melee",
+      "trait": "agility",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": true,
+      "feature": "Paired: +2 to primary weapon damage to targets within Melee range"
+    },
+    {
+      "id": "round-shield",
+      "name": "Round Shield",
+      "damage": {
+        "dice": 4,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Melee",
+      "trait": "strength",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": true,
+      "feature": "Protective: +1 to Armor Score"
+    },
+    {
+      "id": "tower-shield",
+      "name": "Tower Shield",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Melee",
+      "trait": "strength",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": true,
+      "feature": "Barrier: +2 to Armor Score; -1 to Evasion"
+    },
+    {
+      "id": "small-dagger",
+      "name": "Small Dagger",
+      "damage": {
+        "dice": 8,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Melee",
+      "trait": "finesse",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": true,
+      "feature": "Paired: +2 to primary weapon damage to targets within Melee range"
+    },
+    {
+      "id": "whip",
+      "name": "Whip",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Very Close",
+      "trait": "presence",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": true,
+      "feature": "Startling: Mark a Stress to crack the whip and force all adversaries within Melee range back to Close range."
+    },
+    {
+      "id": "grappler",
+      "name": "Grappler",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 0
+      },
+      "range": "Close",
+      "trait": "finesse",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": true,
+      "feature": "Hooked: On a successful attack, you can pull the target into Melee range."
+    },
+    {
+      "id": "hand-crossbow",
+      "name": "Hand Crossbow",
+      "damage": {
+        "dice": 6,
+        "count": 1,
+        "modifier": 1
+      },
+      "range": "Far",
+      "trait": "finesse",
+      "physical": true,
+      "twoHanded": false,
+      "secondary": true,
+      "feature": ""
     }
   ],
   "armor": [
@@ -105,8 +529,16 @@
       "name": "Rope (50ft)",
       "description": "Standard adventuring rope."
     },
-    { "id": "torch", "name": "Torch", "description": "Provides light." },
-    { "id": "rations", "name": "Rations", "description": "One day of food." },
+    {
+      "id": "torch",
+      "name": "Torch",
+      "description": "Provides light."
+    },
+    {
+      "id": "rations",
+      "name": "Rations",
+      "description": "One day of food."
+    },
     {
       "id": "healing-potion",
       "name": "Healing Potion",

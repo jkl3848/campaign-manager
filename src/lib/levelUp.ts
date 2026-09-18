@@ -10,6 +10,7 @@ import type {
   PendingLevelUp,
   Tier,
   TraitId,
+  WeaponDamage,
 } from "../types";
 import { computeArmorStats } from "./characterArmor";
 import {
@@ -135,13 +136,10 @@ export function cancelLevelUp(char: Character): Character {
 }
 
 export function incrementWeaponDamage(
-  damage: string | undefined,
-): string | undefined {
+  damage: WeaponDamage | undefined,
+): WeaponDamage | undefined {
   if (!damage) return damage;
-  const match = damage.match(/^(\d*)d(\d+)$/i);
-  if (!match) return damage;
-  const count = match[1] ? parseInt(match[1], 10) : 1;
-  return `${count + 1}d${match[2]}`;
+  return { ...damage, count: damage.count + 1 };
 }
 
 export function getDomainCardOptions(
