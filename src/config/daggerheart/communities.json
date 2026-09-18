@@ -1,5 +1,11 @@
 [
   {
+    "id": "enclaveborne",
+    "name": "Enclaveborne",
+    "description": "Raised in within an enclave city.",
+    "feature": "Steady: You have advantage on rolls to traverse dangerous cliffs and ledges, climb ropes, and knowledge checks about the city."
+  },
+  {
     "id": "highborne",
     "name": "Highborne",
     "description": "Raised among nobility and privilege.",
@@ -22,12 +28,6 @@
     "name": "Redborne",
     "description": "Raised in the red levels of the city.",
     "feature": "Scoundrel: You have advantage on rolls to negotiate with criminals, detect lies, or find a safe place to hide."
-  },
-  {
-    "id": "spireborne",
-    "name": "Spireborne",
-    "description": "Raised in within the city of November.",
-    "feature": "Steady: You have advantage on rolls to traverse dangerous cliffs and ledges, climb ropes, and knowledge checks about the city."
   },
   {
     "id": "starnaborne",

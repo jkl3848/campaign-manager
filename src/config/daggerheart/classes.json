@@ -274,6 +274,108 @@
     ]
   },
   {
+    "id": "brawler",
+    "name": "Brawler",
+    "description": "A close-quarters fighter who turns fists, grit, and momentum into weapons.",
+    "domains": ["valor", "bone"],
+    "startingHp": 6,
+    "startingStress": 6,
+    "startingEvasion": 10,
+    "hopeFeature": "Square Up: Spend 3 Hope to intimidate a target within Close range, making them temporarily Vulnerable.",
+    "subclasses": [
+      {
+        "id": "juggernaut",
+        "name": "Juggernaut",
+        "castingTrait": null,
+        "description": "An unstoppable force of close-range violence.",
+        "foundation": [
+          {
+            "id": "rugged",
+            "name": "Rugged",
+            "description": "Gain a permanent +3 bonus to your Severe damage threshold."
+          },
+          {
+            "id": "overwhelm",
+            "name": "Overwhelm",
+            "description": "When you succeed on an attack against a target, you can spend a Hope to throw the target within Close range or to force them to mark a Stress."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "surrounded",
+            "name": "Surrounded",
+            "description": "When you make an attack with a Melee weapon, you can spend any number of Hope to target an equal number of additional creatures within Melee range."
+          },
+          {
+            "id": "eye-for-an-eye",
+            "name": "Eye for an Eye",
+            "description": "Once per rest when an adversary within Melee range forces you to mark any number of Hit Points, you can mark a Stress to force them to mark the same number of Hit Points."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "pummeljoy",
+            "name": "Pummeljoy",
+            "description": "When you critically succeed on a Melee weapon attack, you gain an additional Hope, clear an additional Stress, and gain a +1 bonus to your Proficiency for that attack."
+          },
+          {
+            "id": "not-done-yet",
+            "name": "Not Done Yet",
+            "description": "When you take Severe damage, you can gain a Hope or clear a Stress."
+          }
+        ]
+      },
+      {
+        "id": "martial-artist",
+        "name": "Martial Artist",
+        "castingTrait": null,
+        "description": "Channels inner resolve into shifting martial stances.",
+        "foundation": [
+          {
+            "id": "stance-fighter",
+            "name": "Stance Fighter",
+            "description": "You can channel your inner resolve to shift into martial stances that grant you special benefits in combat. Take the Martial Stances sheet and choose two martial stances from Tier 1. Each time you level up your character, choose an additional stance from your tier or lower."
+          }
+        ],
+        "specialization": [
+          {
+            "id": "keen-defenses",
+            "name": "Keen Defenses",
+            "description": "When you’re targeted by an attack, you can spend a Focus to gain a bonus to your Evasion equal to your tier against the attack."
+          },
+          {
+            "id": "focus-cannon",
+            "name": "Focus Cannon",
+            "description": "Spend a Focus to make an Instinct Roll against an adversary within Far range. On a success, deal d20+3 magic damage using your Proficiency."
+          }
+        ],
+        "mastery": [
+          {
+            "id": "limit-breaker",
+            "name": "Limit Breaker",
+            "description": "Once per rest, you can perform an unbelievable feat of athletic prowess, such as running across water, leaping between distant rooftops, or scaling a building without needing to roll. When you do, gain a Hope and clear a Stress."
+          },
+          {
+            "id": "flow-state",
+            "name": "Flow State",
+            "description": "You can mark a Stress instead of spending a Focus to shift into a different stance. Additionally, you can spend a Focus instead of marking a Stress to start a combo strike."
+          }
+        ]
+      }
+    ],
+    "classFeatures": [
+      {
+        "id": "i-am-the-weapon",
+        "name": "I Am The Weapon",
+        "description": "Your barehanded attacks are as strong as any blade. You have a primary weapon called Brawler’s Strike equipped while you have no other Active Weapons. It uses a trait of your choice, has Melee range, and deals d8+d6 physical damage using your Proficiency (both the d8 and d6 scale off your Proficiency). While this weapon is active, you gain a +1 bonus to your Evasion."
+      },
+      {
+        "id": "combo-strike",
+        "name": "Combo Strike",
+        "description": "After rolling damage on a successful attack with a Melee weapon, you can mark a Stress to start a combo strike. When you do, roll your Combo Die and note the result, then continue rolling your Combo Die until the result of your latest roll is lower than the roll that preceded it. You deal extra damage equal to the total of all rolled Combo Die results on this attack. The results can’t be modified by any means. Your Combo Die starts as a d4. Once per tier, you can increase your Combo Die by one step as a level advancement option."
+      }
+    ]
+  },{
     "id": "deep-seeded",
     "name": "Deep Seeded",
     "description": "Intentional exposure to the Seed gives power at the cost of vitality.",
@@ -407,107 +509,111 @@
         "description": "Make a Draftcast Roll (12) to inspect a location within Very Close range. On a success, you have a vision of the last creature that committed violence there. Until you take a long rest or use this feature again, you have advantage on action rolls to track them or recall information about them."
       }
     ]
-  },
-  {
-    "id": "brawler",
-    "name": "Brawler",
-    "description": "A close-quarters fighter who turns fists, grit, and momentum into weapons.",
-    "domains": ["valor", "bone"],
-    "startingHp": 6,
+  },{
+    "id": "experiment",
+    "name": "Experiment",
+    "description": "A caster who owes their power to another.",
+    "domains": ["dread", "grace"],
+    "startingHp": 5,
     "startingStress": 6,
-    "startingEvasion": 10,
-    "hopeFeature": "Square Up: Spend 3 Hope to intimidate a target within Close range, making them temporarily Vulnerable.",
+    "startingEvasion": 11,
+    "hopeFeature": "P Boon: When you fail a roll, you can spend 3 Hope to reroll with advantage.",
     "subclasses": [
       {
-        "id": "juggernaut",
-        "name": "Juggernaut",
-        "castingTrait": null,
-        "description": "An unstoppable force of close-range violence.",
+        "id": "pact-of-the-endless",
+        "name": "Pact of the Endless",
+        "castingTrait": "presence",
+        "description": "Cloaks themselves in a terrifying aspect.",
         "foundation": [
           {
-            "id": "rugged",
-            "name": "Rugged",
-            "description": "Gain a permanent +3 bonus to your Severe damage threshold."
+            "id": "mantle",
+            "name": "Mantle",
+            "description": "Spend a Research to cloak yourself in a terrifying aspect that lasts until you take Severe damage or the scene ends. While this effect is active, you gain a bonus to your damage thresholds equal to your tier and have advantage on action rolls to intimidate a target."
           },
           {
-            "id": "overwhelm",
-            "name": "Overwhelm",
-            "description": "When you succeed on an attack against a target, you can spend a Hope to throw the target within Close range or to force them to mark a Stress."
+            "id": "deathless-embrace",
+            "name": "Deathless Embrace",
+            "description": "Once per rest, spend any number of Research to roll an equal number of Patron Dice. For each result of 4 or higher, clear a Hit Point."
           }
         ],
         "specialization": [
           {
-            "id": "surrounded",
-            "name": "Surrounded",
-            "description": "When you make an attack with a Melee weapon, you can spend any number of Hope to target an equal number of additional creatures within Melee range."
+            "id": "harrowing-invocation",
+            "name": "Harrowing Invocation",
+            "description": "When an adversary targets you or an ally within Very Close range with an attack, you can spend a Research to give them disadvantage on the roll. If the adversary fails the roll, they must also mark a Stress."
           },
           {
-            "id": "eye-for-an-eye",
-            "name": "Eye for an Eye",
-            "description": "Once per rest when an adversary within Melee range forces you to mark any number of Hit Points, you can mark a Stress to force them to mark the same number of Hit Points."
+            "id": "damage-sink",
+            "name": "Damage Sink",
+            "description": "Once per rest, you can spend a Research to halve incoming damage."
           }
         ],
         "mastery": [
           {
-            "id": "pummeljoy",
-            "name": "Pummeljoy",
-            "description": "When you critically succeed on a Melee weapon attack, you gain an additional Hope, clear an additional Stress, and gain a +1 bonus to your Proficiency for that attack."
+            "id": "dark-aegis",
+            "name": "Dark Aegis",
+            "description": "Once per long rest when you would take damage, you can spend a Research instead of marking Hit Points."
           },
           {
-            "id": "not-done-yet",
-            "name": "Not Done Yet",
-            "description": "When you take Severe damage, you can gain a Hope or clear a Stress."
+            "id": "draining-bane",
+            "name": "Draining Bane",
+            "description": "When an adversary targets you or an ally within Very Close range with an attack, you can spend a Research to Drain them. When you do, they must mark a Stress, and you can clear a Stress. While Drained, the target uses a d12 instead of a d20 for attack rolls (including for advantage or disadvantage) until they fail a roll."
           }
         ]
       },
       {
-        "id": "martial-artist",
-        "name": "Martial Artist",
-        "castingTrait": null,
-        "description": "Channels inner resolve into shifting martial stances.",
+        "id": "pact-of-the-wrathful",
+        "name": "Pact of the Wrathful",
+        "castingTrait": "presence",
+        "description": "Destroys those who act against them.",
         "foundation": [
           {
-            "id": "stance-fighter",
-            "name": "Stance Fighter",
-            "description": "You can channel your inner resolve to shift into martial stances that grant you special benefits in combat. Take the Martial Stances sheet and choose two martial stances from Tier 1. Each time you level up your character, choose an additional stance from your tier or lower."
+            "id": "fury",
+            "name": "Fury",
+            "description": "Spend a Research to imbue your attacks with Draft power until you deal Severe damage or the scene ends. When you roll damage while this effect is active, you also roll a number of Patron Dice equal to your tier and add their total to the damage dealt."
+          },
+          {
+            "id": "deadly-vengeance",
+            "name": "Deadly Vengeance",
+            "description": "When you mark any number of Hit Points from an attack, you can spend a Research to roll an equal number of Experiment Dice. For each result of 4 or higher, the attacker marks a Hit Point."
           }
         ],
         "specialization": [
           {
-            "id": "keen-defenses",
-            "name": "Keen Defenses",
-            "description": "When you’re targeted by an attack, you can spend a Focus to gain a bonus to your Evasion equal to your tier against the attack."
+            "id": "menacing-reach",
+            "name": "Menacing Reach",
+            "description": "Spend a Research to increase the range of your primary weapon by one step (such as Melee to Very Close or Very Close to Close) to a maximum of Very Far range. This effect ends when you make a successful attack with that weapon."
           },
           {
-            "id": "focus-cannon",
-            "name": "Focus Cannon",
-            "description": "Spend a Focus to make an Instinct Roll against an adversary within Far range. On a success, deal d20+3 magic damage using your Proficiency."
+            "id": "diminish-my-foes",
+            "name": "Diminish My Foes",
+            "description": "When you succeed with Hope on an action roll against a target, you can spend any number of Research to force the target to mark an equal number of Stress."
           }
         ],
         "mastery": [
           {
-            "id": "limit-breaker",
-            "name": "Limit Breaker",
-            "description": "Once per rest, you can perform an unbelievable feat of athletic prowess, such as running across water, leaping between distant rooftops, or scaling a building without needing to roll. When you do, gain a Hope and clear a Stress."
+            "id": "fearsome-attack",
+            "name": "Fearsome Attack",
+            "description": "Spend a Research to reroll any number of your damage dice. You can continue spending Research to use this feature on the same damage roll."
           },
           {
-            "id": "flow-state",
-            "name": "Flow State",
-            "description": "You can mark a Stress instead of spending a Focus to shift into a different stance. Additionally, you can spend a Focus instead of marking a Stress to start a combo strike."
+            "id": "otherworldly-ire",
+            "name": "Otherworldly Ire",
+            "description": "Once per rest when you take damage, you can spend any number of Research to roll that many Research Dice and target a number of creatures within Close range equal to the highest result. Each target must mark a Hit Point."
           }
         ]
       }
     ],
     "classFeatures": [
       {
-        "id": "i-am-the-weapon",
-        "name": "I Am The Weapon",
-        "description": "Your barehanded attacks are as strong as any blade. You have a primary weapon called Brawler’s Strike equipped while you have no other Active Weapons. It uses a trait of your choice, has Melee range, and deals d8+d6 physical damage using your Proficiency (both the d8 and d6 scale off your Proficiency). While this weapon is active, you gain a +1 bonus to your Evasion."
+        "id": "scientific-pact",
+        "name": "Scientific Pact",
+        "description": "You have committed yourself to an itelligent researcher, by they synthetic, humanoid or starna in exchange for power. Write their name on your character sheet, then work with your GM to determine their sphere of influence (such as Nature, Chaos, Wisdom, Mischief, Love, War, Justice, or Death). Before making an action roll that relates to your research's sphere of influence, you can spend a Research to call upon their aid, rolling your Patron Die and adding its result to the total. Your Research Die starts at a d6 and increases to a d8 at level 5."
       },
       {
-        "id": "combo-strike",
-        "name": "Combo Strike",
-        "description": "After rolling damage on a successful attack with a Melee weapon, you can mark a Stress to start a combo strike. When you do, roll your Combo Die and note the result, then continue rolling your Combo Die until the result of your latest roll is lower than the roll that preceded it. You deal extra damage equal to the total of all rolled Combo Die results on this attack. The results can’t be modified by any means. Your Combo Die starts as a d4. Once per tier, you can increase your Combo Die by one step as a level advancement option."
+        "id": "research",
+        "name": "Research",
+        "description": "You start with 3 Research. You can use a downtime move to collect Research for the researcher. Describe how and gain Research equal to your Spellcast trait. Additionally, when you succeed on an action roll with Hope, you can choose to gain a Research instead of a Hope."
       }
     ]
   },
@@ -1222,114 +1328,6 @@
         "id": "minor-illusion",
         "name": "Minor Illusion",
         "description": "Make a Draftcast Roll (10). On a success, you create a minor visual illusion no larger than yourself within Close range. This illusion is convincing to anyone at Close range or farther."
-      }
-    ]
-  },
-  {
-    "id": "experiment",
-    "name": "Experiment",
-    "description": "A caster who owes their power to another.",
-    "domains": ["dread", "grace"],
-    "startingHp": 5,
-    "startingStress": 6,
-    "startingEvasion": 11,
-    "hopeFeature": "P Boon: When you fail a roll, you can spend 3 Hope to reroll with advantage.",
-    "subclasses": [
-      {
-        "id": "pact-of-the-endless",
-        "name": "Pact of the Endless",
-        "castingTrait": "presence",
-        "description": "Cloaks themselves in a terrifying aspect.",
-        "foundation": [
-          {
-            "id": "mantle",
-            "name": "Mantle",
-            "description": "Spend a Research to cloak yourself in a terrifying aspect that lasts until you take Severe damage or the scene ends. While this effect is active, you gain a bonus to your damage thresholds equal to your tier and have advantage on action rolls to intimidate a target."
-          },
-          {
-            "id": "deathless-embrace",
-            "name": "Deathless Embrace",
-            "description": "Once per rest, spend any number of Research to roll an equal number of Patron Dice. For each result of 4 or higher, clear a Hit Point."
-          }
-        ],
-        "specialization": [
-          {
-            "id": "harrowing-invocation",
-            "name": "Harrowing Invocation",
-            "description": "When an adversary targets you or an ally within Very Close range with an attack, you can spend a Research to give them disadvantage on the roll. If the adversary fails the roll, they must also mark a Stress."
-          },
-          {
-            "id": "damage-sink",
-            "name": "Damage Sink",
-            "description": "Once per rest, you can spend a Research to halve incoming damage."
-          }
-        ],
-        "mastery": [
-          {
-            "id": "dark-aegis",
-            "name": "Dark Aegis",
-            "description": "Once per long rest when you would take damage, you can spend a Research instead of marking Hit Points."
-          },
-          {
-            "id": "draining-bane",
-            "name": "Draining Bane",
-            "description": "When an adversary targets you or an ally within Very Close range with an attack, you can spend a Research to Drain them. When you do, they must mark a Stress, and you can clear a Stress. While Drained, the target uses a d12 instead of a d20 for attack rolls (including for advantage or disadvantage) until they fail a roll."
-          }
-        ]
-      },
-      {
-        "id": "pact-of-the-wrathful",
-        "name": "Pact of the Wrathful",
-        "castingTrait": "presence",
-        "description": "Destroys those who act against them.",
-        "foundation": [
-          {
-            "id": "fury",
-            "name": "Fury",
-            "description": "Spend a Research to imbue your attacks with Draft power until you deal Severe damage or the scene ends. When you roll damage while this effect is active, you also roll a number of Patron Dice equal to your tier and add their total to the damage dealt."
-          },
-          {
-            "id": "deadly-vengeance",
-            "name": "Deadly Vengeance",
-            "description": "When you mark any number of Hit Points from an attack, you can spend a Research to roll an equal number of Experiment Dice. For each result of 4 or higher, the attacker marks a Hit Point."
-          }
-        ],
-        "specialization": [
-          {
-            "id": "menacing-reach",
-            "name": "Menacing Reach",
-            "description": "Spend a Research to increase the range of your primary weapon by one step (such as Melee to Very Close or Very Close to Close) to a maximum of Very Far range. This effect ends when you make a successful attack with that weapon."
-          },
-          {
-            "id": "diminish-my-foes",
-            "name": "Diminish My Foes",
-            "description": "When you succeed with Hope on an action roll against a target, you can spend any number of Research to force the target to mark an equal number of Stress."
-          }
-        ],
-        "mastery": [
-          {
-            "id": "fearsome-attack",
-            "name": "Fearsome Attack",
-            "description": "Spend a Research to reroll any number of your damage dice. You can continue spending Research to use this feature on the same damage roll."
-          },
-          {
-            "id": "otherworldly-ire",
-            "name": "Otherworldly Ire",
-            "description": "Once per rest when you take damage, you can spend any number of Research to roll that many Research Dice and target a number of creatures within Close range equal to the highest result. Each target must mark a Hit Point."
-          }
-        ]
-      }
-    ],
-    "classFeatures": [
-      {
-        "id": "scientific-pact",
-        "name": "Scientific Pact",
-        "description": "You have committed yourself to an itelligent researcher, by they synthetic, humanoid or starna in exchange for power. Write their name on your character sheet, then work with your GM to determine their sphere of influence (such as Nature, Chaos, Wisdom, Mischief, Love, War, Justice, or Death). Before making an action roll that relates to your research's sphere of influence, you can spend a Research to call upon their aid, rolling your Patron Die and adding its result to the total. Your Research Die starts at a d6 and increases to a d8 at level 5."
-      },
-      {
-        "id": "research",
-        "name": "Research",
-        "description": "You start with 3 Research. You can use a downtime move to collect Research for the researcher. Describe how and gain Research equal to your Spellcast trait. Additionally, when you succeed on an action roll with Hope, you can choose to gain a Research instead of a Hope."
       }
     ]
   },
