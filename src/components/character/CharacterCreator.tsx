@@ -207,6 +207,7 @@ export function CharacterCreator({
       subclassStage: existing?.subclassStage ?? 'foundation',
       multiclass: existing?.multiclass,
       inventory: existing?.inventory ?? [],
+      inParty: existing?.inParty !== false,
       description: description || undefined,
       createdAt: existing?.createdAt ?? Date.now(),
       updatedAt: Date.now(),

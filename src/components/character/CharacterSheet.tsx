@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import type { Character, InventoryItem, DomainCard, Ability } from '../../types';
+import { useState, useEffect, useRef } from 'react';
+import type { Character, InventoryItem, DomainCard, Ability, TraitId } from '../../types';
 import { LevelUpWizard } from './LevelUpWizard';
 import { canInitiateLevelUp, cancelLevelUp, initiateLevelUp } from '../../lib/levelUp';
 import { Button } from '../ui/Button';
@@ -49,10 +49,26 @@ export function CharacterSheet({
   const [saving, setSaving] = useState(false);
   const [showLevelUpWizard, setShowLevelUpWizard] = useState(false);
   const [newItem, setNewItem] = useState('');
+  const notesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const charRef = useRef(char);
+  const effectiveLayout = compact ? 'session' : layout;
+  const isSession = effectiveLayout === 'session';
 
   useEffect(() => {
-    setChar(normalizeCharacter(character));
+    const next = normalizeCharacter(character);
+    charRef.current = next;
+    setChar(next);
   }, [character]);
+
+  useEffect(() => {
+    charRef.current = char;
+  }, [char]);
+
+  useEffect(() => {
+    return () => {
+      if (notesTimer.current) clearTimeout(notesTimer.current);
+    };
+  }, []);
 
   const cls = classes.find((c) => c.id === char.classId);
   const ancestry = ancestries.find((a) => a.id === char.ancestryId);
@@ -61,57 +77,115 @@ export function CharacterSheet({
   const subclass = cls?.subclasses.find((s) => s.id === char.subclassId);
   const hopeFeature = char.hopeFeature ?? cls?.hopeFeature;
 
-  const update = (partial: Partial<Character>) => {
-    setChar((prev) => ({ ...prev, ...partial }));
+  const persist = async (next: Character) => {
+    setSaving(true);
+    await onSave({ ...next, updatedAt: Date.now() });
+    setSaving(false);
+  };
+
+  /** Immediate persist for live resources (HP, stress, hope, inventory, armor). */
+  const updateLive = (partial: Partial<Character>) => {
+    const next = { ...charRef.current, ...partial };
+    charRef.current = next;
+    setChar(next);
+    void persist(next);
+  };
+
+  /** Local-only update; requires Save on the full character page. */
+  const updateLocal = (partial: Partial<Character>) => {
+    const next = { ...charRef.current, ...partial };
+    charRef.current = next;
+    setChar(next);
   };
 
   const adjustHp = (delta: number) => {
     const current = Math.max(0, Math.min(char.hp.max, char.hp.current + delta));
-    update({ hp: { ...char.hp, current } });
+    updateLive({ hp: { ...char.hp, current } });
   };
 
   const adjustStress = (delta: number) => {
     const current = Math.max(0, Math.min(char.stress.max, char.stress.current + delta));
-    update({ stress: { ...char.stress, current } });
+    updateLive({ stress: { ...char.stress, current } });
   };
 
   const adjustHope = (delta: number) => {
-    update({ hope: Math.max(0, char.hope + delta) });
+    updateLive({ hope: Math.max(0, char.hope + delta) });
+  };
+
+  /** Structural overrides — local until Save on the character page. */
+  const adjustMaxHp = (delta: number) => {
+    const max = Math.max(1, char.hp.max + delta);
+    updateLocal({ hp: { current: Math.min(char.hp.current, max), max } });
+  };
+
+  const adjustMaxStress = (delta: number) => {
+    const max = Math.max(1, char.stress.max + delta);
+    updateLocal({ stress: { current: Math.min(char.stress.current, max), max } });
+  };
+
+  const adjustEvasion = (delta: number) => {
+    updateLocal({ evasion: Math.max(0, char.evasion + delta) });
+  };
+
+  const adjustArmorScore = (delta: number) => {
+    updateLocal({ armorScore: Math.max(0, char.armorScore + delta) });
+  };
+
+  const adjustThreshold = (key: 'major' | 'severe', delta: number) => {
+    updateLocal({
+      damageThresholds: {
+        ...char.damageThresholds,
+        [key]: Math.max(0, char.damageThresholds[key] + delta),
+      },
+    });
+  };
+
+  const adjustTrait = (traitId: TraitId, delta: number) => {
+    updateLocal({
+      traits: { ...char.traits, [traitId]: char.traits[traitId] + delta },
+    });
+  };
+
+  const toggleTraitMark = (traitId: TraitId) => {
+    const marked = char.markedTraits.includes(traitId);
+    updateLocal({
+      markedTraits: marked
+        ? char.markedTraits.filter((t) => t !== traitId)
+        : [...char.markedTraits, traitId],
+    });
   };
 
   const handleDmLevelUp = async () => {
     if (!canInitiateLevelUp(char)) return;
     const updated = initiateLevelUp(char);
     setChar(updated);
-    setSaving(true);
-    await onSave({ ...updated, updatedAt: Date.now() });
-    setSaving(false);
+    await persist(updated);
   };
 
   const handleCancelLevelUp = async () => {
     const updated = cancelLevelUp(char);
     setChar(updated);
-    setSaving(true);
-    await onSave({ ...updated, updatedAt: Date.now() });
-    setSaving(false);
+    await persist(updated);
   };
 
   const handleLevelUpComplete = async (updated: Character) => {
     setChar(updated);
     setShowLevelUpWizard(false);
-    setSaving(true);
-    await onSave(updated);
-    setSaving(false);
+    await persist(updated);
   };
 
   const toggleArmorSlot = (index: number) => {
     const marked = char.armorSlots.marked;
     const max = char.armorSlots.max;
+    let nextMarked = marked;
     if (index < marked) {
-      update({ armorSlots: { marked: marked - 1, max } });
+      nextMarked = marked - 1;
     } else if (index === marked && marked < max) {
-      update({ armorSlots: { marked: marked + 1, max } });
+      nextMarked = marked + 1;
+    } else {
+      return;
     }
+    updateLive({ armorSlots: { marked: nextMarked, max } });
   };
 
   const addInventoryItem = () => {
@@ -121,7 +195,7 @@ export function CharacterSheet({
       name: newItem.trim(),
       quantity: 1,
     };
-    update({ inventory: [...char.inventory, item] });
+    updateLive({ inventory: [...char.inventory, item] });
     setNewItem('');
   };
 
@@ -137,13 +211,29 @@ export function CharacterSheet({
       type: catalog.type,
       recallCost: catalog.recallCost,
     };
-    update({ domainCards: [...char.domainCards, card] });
+    // Domain cards are structural — auto-save in session, local until Save on character page
+    if (isSession) {
+      updateLive({ domainCards: [...char.domainCards, card] });
+    } else {
+      updateLocal({ domainCards: [...char.domainCards, card] });
+    }
+  };
+
+  const handleNotesChange = (notes: string) => {
+    setChar((prev) => {
+      const next = { ...prev, notes };
+      charRef.current = next;
+      return next;
+    });
+    if (!isSession) return;
+    if (notesTimer.current) clearTimeout(notesTimer.current);
+    notesTimer.current = setTimeout(() => {
+      void persist(charRef.current);
+    }, 500);
   };
 
   const handleSave = async () => {
-    setSaving(true);
-    await onSave({ ...char, updatedAt: Date.now() });
-    setSaving(false);
+    await persist(char);
   };
 
   const availableDomainCardsForDm = cls
@@ -152,9 +242,7 @@ export function CharacterSheet({
       )
     : [];
 
-  const effectiveLayout = compact ? 'session' : layout;
-
-  if (effectiveLayout === 'session') {
+  if (isSession) {
     return (
       <CharacterSheetSession
         char={char}
@@ -172,8 +260,7 @@ export function CharacterSheet({
         onAdjustStress={adjustStress}
         onAdjustHope={adjustHope}
         onToggleArmorSlot={toggleArmorSlot}
-        onUpdateNotes={(notes) => update({ notes })}
-        onSave={handleSave}
+        onUpdateNotes={handleNotesChange}
         onDmLevelUp={handleDmLevelUp}
         onCancelLevelUp={handleCancelLevelUp}
         onLevelUpComplete={handleLevelUpComplete}
@@ -233,7 +320,7 @@ export function CharacterSheet({
                 currentUrl={char.imageUrl}
                 onUpload={async (file) => {
                   const url = await onUploadImage(file);
-                  update({ imageUrl: url });
+                  updateLocal({ imageUrl: url });
                 }}
               />
             ) : char.imageUrl ? (
@@ -250,7 +337,7 @@ export function CharacterSheet({
           </div>
           <div className="flex-1 space-y-2">
             {canEdit ? (
-              <Input label="Name" value={char.name} onChange={(e) => update({ name: e.target.value })} />
+              <Input label="Name" value={char.name} onChange={(e) => updateLocal({ name: e.target.value })} />
             ) : (
               <h1 className="font-serif text-3xl font-bold text-amber-50">{char.name}</h1>
             )}
@@ -301,12 +388,44 @@ export function CharacterSheet({
 
       {/* HP, Stress, Hope, Evasion */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <ResourceTracker label="HP" current={char.hp.current} max={char.hp.max} onAdjust={canEdit ? adjustHp : undefined} color="text-red-400" />
-        <ResourceTracker label="Stress" current={char.stress.current} max={char.stress.max} onAdjust={canEdit ? adjustStress : undefined} color="text-yellow-400" />
-        <ResourceTracker label="Hope" current={char.hope} max={6} onAdjust={canEdit ? adjustHope : undefined} color="text-sky-400" />
+        <ResourceTracker
+          label="HP"
+          current={char.hp.current}
+          max={char.hp.max}
+          onAdjust={canEdit ? adjustHp : undefined}
+          onAdjustMax={canEdit ? adjustMaxHp : undefined}
+          color="text-red-400"
+        />
+        <ResourceTracker
+          label="Stress"
+          current={char.stress.current}
+          max={char.stress.max}
+          onAdjust={canEdit ? adjustStress : undefined}
+          onAdjustMax={canEdit ? adjustMaxStress : undefined}
+          color="text-yellow-400"
+        />
+        <ResourceTracker
+          label="Hope"
+          current={char.hope}
+          max={6}
+          onAdjust={canEdit ? adjustHope : undefined}
+          color="text-sky-400"
+        />
         <div className="sheet-section p-3 text-center">
           <p className="text-xs text-slate-400">Evasion</p>
-          <p className="text-2xl font-bold text-slate-200">{char.evasion}</p>
+          <div className="mt-1 flex items-center justify-center gap-2">
+            {canEdit && (
+              <button type="button" onClick={() => adjustEvasion(-1)} className="text-slate-400 hover:text-slate-200">
+                −
+              </button>
+            )}
+            <p className="text-2xl font-bold text-slate-200">{char.evasion}</p>
+            {canEdit && (
+              <button type="button" onClick={() => adjustEvasion(1)} className="text-slate-400 hover:text-slate-200">
+                +
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -314,10 +433,31 @@ export function CharacterSheet({
       <SheetSection title="Armor & Wound Thresholds">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <p className="mb-2 text-xs text-slate-400">
-              Armor Score: <span className="font-bold text-amber-300">{char.armorScore}</span>
+            <div className="mb-2 flex items-center gap-2 text-xs text-slate-400">
+              <span>Armor Score</span>
+              {canEdit ? (
+                <span className="inline-flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => adjustArmorScore(-1)}
+                    className="text-slate-500 hover:text-slate-200"
+                  >
+                    −
+                  </button>
+                  <span className="font-bold text-amber-300">{char.armorScore}</span>
+                  <button
+                    type="button"
+                    onClick={() => adjustArmorScore(1)}
+                    className="text-slate-500 hover:text-slate-200"
+                  >
+                    +
+                  </button>
+                </span>
+              ) : (
+                <span className="font-bold text-amber-300">{char.armorScore}</span>
+              )}
               {char.armorName && <span className="text-slate-500"> · {char.armorName}</span>}
-            </p>
+            </div>
             {char.armorSlots.max > 0 ? (
               <div>
                 <p className="mb-2 text-xs text-slate-400">Armor Slots</p>
@@ -350,16 +490,20 @@ export function CharacterSheet({
           <div>
             <p className="mb-2 text-xs text-slate-400">Damage Thresholds</p>
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-lg bg-slate-900/60 p-3 text-center">
-                <p className="text-xs text-yellow-400">Major</p>
-                <p className="text-2xl font-bold text-slate-200">{char.damageThresholds.major}</p>
-                <p className="text-[10px] text-slate-500">Mark 2 HP</p>
-              </div>
-              <div className="rounded-lg bg-slate-900/60 p-3 text-center">
-                <p className="text-xs text-red-400">Severe</p>
-                <p className="text-2xl font-bold text-slate-200">{char.damageThresholds.severe}</p>
-                <p className="text-[10px] text-slate-500">Mark 3 HP</p>
-              </div>
+              <StatOverride
+                label="Major"
+                value={char.damageThresholds.major}
+                onAdjust={canEdit ? (d) => adjustThreshold('major', d) : undefined}
+                color="text-yellow-400"
+                hint="Mark 2 HP"
+              />
+              <StatOverride
+                label="Severe"
+                value={char.damageThresholds.severe}
+                onAdjust={canEdit ? (d) => adjustThreshold('severe', d) : undefined}
+                color="text-red-400"
+                hint="Mark 3 HP"
+              />
             </div>
             <p className="mt-2 text-xs text-slate-500">
               Below Major: mark 1 HP. Mark an armor slot to reduce severity by one step.
@@ -372,31 +516,76 @@ export function CharacterSheet({
       <SheetSection title="Traits">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-6">
           {traits.map((t) => {
-            const traitId = t.id as keyof typeof char.traits;
+            const traitId = t.id as TraitId;
             const marked = char.markedTraits.includes(traitId);
             const val = char.traits[traitId];
-            const clickable = !!onTraitRoll;
-            const Tag = clickable ? 'button' : 'div';
             return (
-              <Tag
+              <div
                 key={t.id}
-                type={clickable ? 'button' : undefined}
-                onClick={clickable ? () => onTraitRoll(t.name, val) : undefined}
-                className={`rounded-lg bg-slate-900/60 p-3 text-center ${marked ? 'ring-2 ring-amber-600/50' : ''} ${
-                  clickable ? 'cursor-pointer transition-colors hover:bg-slate-800/80 hover:ring-1 hover:ring-amber-600/30' : ''
+                className={`relative rounded-lg bg-slate-900/60 p-3 pt-4 text-center ${
+                  marked ? 'ring-2 ring-amber-600/50' : ''
                 }`}
-                title={clickable ? `Roll ${t.name}` : undefined}
               >
+                {canEdit ? (
+                  <button
+                    type="button"
+                    onClick={() => toggleTraitMark(traitId)}
+                    title={marked ? 'Unmark trait' : 'Mark trait'}
+                    className={`absolute right-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded border text-[11px] transition-colors ${
+                      marked
+                        ? 'border-amber-500 bg-amber-900/60 text-amber-300'
+                        : 'border-slate-600 bg-slate-800/80 text-transparent hover:border-slate-400 hover:text-slate-500'
+                    }`}
+                  >
+                    ✓
+                  </button>
+                ) : (
+                  marked && (
+                    <span
+                      className="absolute right-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded border border-amber-500 bg-amber-900/60 text-[11px] text-amber-300"
+                      title="Marked"
+                    >
+                      ✓
+                    </span>
+                  )
+                )}
                 <p className="text-sm text-slate-300">{t.name}</p>
-                <p className="text-xl font-bold text-amber-400">
-                  {val >= 0 ? '+' : ''}
-                  {val}
-                </p>
-                {marked && <p className="mt-1 text-[10px] text-amber-500">marked</p>}
-              </Tag>
+                {canEdit ? (
+                  <div className="mt-1 flex items-center justify-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => adjustTrait(traitId, -1)}
+                      className="text-slate-500 hover:text-slate-200"
+                    >
+                      −
+                    </button>
+                    <p className="text-xl font-bold text-amber-400">
+                      {val >= 0 ? '+' : ''}
+                      {val}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => adjustTrait(traitId, 1)}
+                      className="text-slate-500 hover:text-slate-200"
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-xl font-bold text-amber-400">
+                    {val >= 0 ? '+' : ''}
+                    {val}
+                  </p>
+                )}
+              </div>
             );
           })}
         </div>
+        {canEdit && (
+          <p className="mt-2 text-xs text-slate-500">
+            Trait marks, trait scores, max HP/Stress, evasion, armor score, and thresholds require Save Changes.
+          </p>
+        )}
       </SheetSection>
 
       {/* Domain Cards Hand */}
@@ -522,7 +711,7 @@ export function CharacterSheet({
           <Textarea
             label="Notes"
             value={char.notes ?? ''}
-            onChange={(e) => update({ notes: e.target.value })}
+            onChange={(e) => updateLocal({ notes: e.target.value })}
           />
           <Button onClick={handleSave} disabled={saving}>
             {saving ? 'Saving...' : 'Save Changes'}
@@ -601,12 +790,14 @@ function ResourceTracker({
   current,
   max,
   onAdjust,
+  onAdjustMax,
   color,
 }: {
   label: string;
   current: number;
   max: number;
   onAdjust?: (delta: number) => void;
+  onAdjustMax?: (delta: number) => void;
   color: string;
 }) {
   return (
@@ -614,13 +805,67 @@ function ResourceTracker({
       <p className="text-xs text-slate-400">{label}</p>
       <div className="mt-1 flex items-center justify-center gap-2">
         {onAdjust && (
-          <button type="button" onClick={() => onAdjust(-1)} className="text-slate-400 hover:text-slate-200">−</button>
+          <button type="button" onClick={() => onAdjust(-1)} className="text-slate-400 hover:text-slate-200">
+            −
+          </button>
         )}
-        <p className={`text-2xl font-bold ${color}`}>{current}/{max}</p>
+        <p className={`text-2xl font-bold ${color}`}>
+          {current}/{max}
+        </p>
         {onAdjust && (
-          <button type="button" onClick={() => onAdjust(1)} className="text-slate-400 hover:text-slate-200">+</button>
+          <button type="button" onClick={() => onAdjust(1)} className="text-slate-400 hover:text-slate-200">
+            +
+          </button>
         )}
       </div>
+      {onAdjustMax && (
+        <div className="mt-1.5 flex items-center justify-center gap-1.5 text-[11px] text-slate-500">
+          <span>Max</span>
+          <button type="button" onClick={() => onAdjustMax(-1)} className="hover:text-slate-200">
+            −
+          </button>
+          <span className="font-medium text-slate-300">{max}</span>
+          <button type="button" onClick={() => onAdjustMax(1)} className="hover:text-slate-200">
+            +
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StatOverride({
+  label,
+  value,
+  onAdjust,
+  color = 'text-slate-200',
+  hint,
+}: {
+  label: string;
+  value: number;
+  onAdjust?: (delta: number) => void;
+  color?: string;
+  hint?: string;
+}) {
+  const labelColor =
+    color.includes('yellow') || color.includes('red') ? color : 'text-slate-400';
+  return (
+    <div className="rounded-lg bg-slate-900/60 p-3 text-center">
+      <p className={`text-xs ${labelColor}`}>{label}</p>
+      <div className="mt-1 flex items-center justify-center gap-2">
+        {onAdjust && (
+          <button type="button" onClick={() => onAdjust(-1)} className="text-slate-400 hover:text-slate-200">
+            −
+          </button>
+        )}
+        <p className={`text-2xl font-bold ${color}`}>{value}</p>
+        {onAdjust && (
+          <button type="button" onClick={() => onAdjust(1)} className="text-slate-400 hover:text-slate-200">
+            +
+          </button>
+        )}
+      </div>
+      {hint && <p className="mt-1 text-[10px] text-slate-500">{hint}</p>}
     </div>
   );
 }

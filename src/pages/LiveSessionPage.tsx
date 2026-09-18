@@ -8,22 +8,22 @@ import {
   subscribeDiceLog,
   uploadImage,
   getCampaign,
+  saveCharacter,
+  saveNpc,
 } from '../services/campaignService';
 import { getPlayerSession } from '../lib/playerSession';
 import { createDiceRoll } from '../lib/dice';
 import { useCampaignData } from '../hooks/useCampaignData';
-import type { Session, DiceRoll, Combatant, Campaign } from '../types';
+import type { Session, DiceRoll, Combatant, Campaign, Character, Npc } from '../types';
 import { SessionCanvas } from '../components/session/SessionCanvas';
 import { DmSessionPanel } from '../components/session/DmSessionPanel';
+import { PartyPanel, type PartySelection } from '../components/session/PartyPanel';
 import { DiceRoller } from '../components/dice/DiceRoller';
 import { DiceLog } from '../components/dice/DiceLog';
 import { RollAlert } from '../components/dice/RollAlert';
 import { CornerDialog } from '../components/ui/CornerDialog';
-import { CharacterSheet } from '../components/character/CharacterSheet';
-import { saveCharacter } from '../services/campaignService';
 import { Popup } from '../components/ui/Popup';
 import { Textarea } from '../components/ui/Textarea';
-import { Select } from '../components/ui/Select';
 import { useLoreNotes } from '../hooks/useLoreNotes';
 import { SessionLoreBrowser } from '../components/session/SessionLoreBrowser';
 
@@ -41,15 +41,15 @@ export function LiveSessionPage() {
   const seenRollIds = useRef(new Set<string>());
   const diceLogInitialized = useRef(false);
   const { characters, enemies, npcs, encounters } = useCampaignData(campaignId);
-  const [selectedCharacterId, setSelectedCharacterId] = useState<string>('');
+  const [partySelection, setPartySelection] = useState<PartySelection>(null);
 
   const isDm = !!(user && campaign?.dmId === user.uid);
   const { notes: loreNotes } = useLoreNotes(campaignId, isDm);
   const rollerName = isDm ? 'DM' : (playerSession?.playerName ?? 'Player');
-  const myCharacters = playerSession
-    ? characters.filter((c) => c.playerId === playerSession.playerId)
-    : characters;
-  const selectedCharacter = characters.find((c) => c.id === selectedCharacterId) ?? myCharacters[0];
+  const selectedCharacter =
+    partySelection?.kind === 'character'
+      ? characters.find((c) => c.id === partySelection.id)
+      : undefined;
 
   useEffect(() => {
     if (campaignId) getCampaign(campaignId).then(setCampaign);
@@ -64,12 +64,6 @@ export function LiveSessionPage() {
     if (!campaignId || !sessionId) return;
     return subscribeDiceLog(campaignId, sessionId, setDiceRolls);
   }, [campaignId, sessionId]);
-
-  useEffect(() => {
-    if (myCharacters.length > 0 && !selectedCharacterId) {
-      setSelectedCharacterId(myCharacters[0].id);
-    }
-  }, [myCharacters, selectedCharacterId]);
 
   const dismissAlert = useCallback(() => setAlertRoll(null), []);
 
@@ -120,6 +114,22 @@ export function LiveSessionPage() {
         isDm,
       }),
     );
+  };
+
+  const handleToggleCharacterParty = async (character: Character, inParty: boolean) => {
+    if (!campaignId) return;
+    await saveCharacter(campaignId, { ...character, inParty, updatedAt: Date.now() });
+    if (!inParty && partySelection?.kind === 'character' && partySelection.id === character.id) {
+      setPartySelection(null);
+    }
+  };
+
+  const handleToggleNpcParty = async (npc: Npc, inParty: boolean) => {
+    if (!campaignId) return;
+    await saveNpc(campaignId, { ...npc, inParty, updatedAt: Date.now() });
+    if (!inParty && partySelection?.kind === 'npc' && partySelection.id === npc.id) {
+      setPartySelection(null);
+    }
   };
 
   const startCombat = async (encounterId?: string) => {
@@ -245,40 +255,20 @@ export function LiveSessionPage() {
         />
       )}
 
-      {/* Character sheet — right side panel */}
-      {selectedCharacter && (
-        <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-slate-700/60 bg-slate-950/90 backdrop-blur-md">
-          <div className="border-b border-slate-700/60 px-3 py-2.5">
-            {myCharacters.length > 1 ? (
-              <Select
-                label=""
-                value={selectedCharacterId}
-                onChange={(e) => setSelectedCharacterId(e.target.value)}
-              >
-                {myCharacters.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </Select>
-            ) : (
-              <h2 className="font-serif text-sm font-bold text-amber-100 truncate">
-                {selectedCharacter.name}
-              </h2>
-            )}
-          </div>
-          <div className="flex-1 overflow-y-auto px-3 py-3">
-            <CharacterSheet
-              character={selectedCharacter}
-              layout="session"
-              canEdit={!!(isDm || playerSession?.playerId === selectedCharacter.playerId)}
-              isDm={!!isDm}
-              onSave={(c) => saveCharacter(campaignId!, c)}
-              onTraitRoll={handleTraitRoll}
-            />
-          </div>
-        </aside>
-      )}
+      {/* Party panel — right side */}
+      <PartyPanel
+        characters={characters}
+        npcs={npcs}
+        isDm={!!isDm}
+        playerId={playerSession?.playerId}
+        selection={partySelection}
+        onSelect={setPartySelection}
+        onToggleCharacterParty={handleToggleCharacterParty}
+        onToggleNpcParty={handleToggleNpcParty}
+        onSaveCharacter={(c) => saveCharacter(campaignId!, c)}
+        onSaveNpc={(n) => saveNpc(campaignId!, n)}
+        onTraitRoll={handleTraitRoll}
+      />
 
       {/* Floating action buttons */}
       <div

@@ -56,5 +56,6 @@ export function normalizeCharacter(c: Character): Character {
     weaponDamage: normalizeWeaponDamage(
       c.weaponDamage as Character['weaponDamage'] | string | undefined,
     ),
+    inParty: c.inParty !== false,
   };
 }

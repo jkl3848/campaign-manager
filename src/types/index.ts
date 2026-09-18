@@ -132,6 +132,8 @@ export interface Character {
   multiclass?: MulticlassInfo;
   pendingLevelUp?: PendingLevelUp;
   inventory: InventoryItem[];
+  /** When true, appears in the live-session party panel. Defaults to true. */
+  inParty: boolean;
   description?: string;
   notes?: string;
   createdAt: number;
