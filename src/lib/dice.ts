@@ -65,6 +65,7 @@ export function createDiceRoll(params: {
   secret?: boolean;
   /** When true, duality rolls never generate Hope/Fear. */
   isDm?: boolean;
+  characterId?: string;
   count?: number;
   sides?: DieSides | number;
 }): DiceRoll {
@@ -80,6 +81,7 @@ export function createDiceRoll(params: {
       campaignId: params.campaignId,
       sessionId: params.sessionId,
       rollerName: params.rollerName,
+      characterId: params.characterId,
       white: result.white,
       black: result.black,
       modifier: result.modifier,
@@ -98,6 +100,7 @@ export function createDiceRoll(params: {
     campaignId: params.campaignId,
     sessionId: params.sessionId,
     rollerName: params.rollerName,
+    characterId: params.characterId,
     white: 0,
     black: 0,
     results: result.results,

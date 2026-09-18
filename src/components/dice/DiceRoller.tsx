@@ -11,9 +11,17 @@ interface DiceRollerProps {
   campaignId: string;
   sessionId: string;
   isDm?: boolean;
+  characterId?: string;
 }
 
-export function DiceRoller({ onRoll, rollerName, campaignId, sessionId, isDm = false }: DiceRollerProps) {
+export function DiceRoller({
+  onRoll,
+  rollerName,
+  campaignId,
+  sessionId,
+  isDm = false,
+  characterId,
+}: DiceRollerProps) {
   const [count, setCount] = useState(2);
   const [sides, setSides] = useState<DieSides>(12);
   const [modifier, setModifier] = useState(0);
@@ -37,6 +45,7 @@ export function DiceRoller({ onRoll, rollerName, campaignId, sessionId, isDm = f
           label: label || undefined,
           secret: isDm && secret,
           isDm,
+          characterId,
           count: Math.max(1, Math.min(99, count || 1)),
           sides,
         }),

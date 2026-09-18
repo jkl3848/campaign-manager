@@ -132,6 +132,8 @@ export interface Character {
   multiclass?: MulticlassInfo;
   pendingLevelUp?: PendingLevelUp;
   inventory: InventoryItem[];
+  /** When true, appears in the live-session party panel. Defaults to true. */
+  inParty: boolean;
   description?: string;
   notes?: string;
   createdAt: number;
@@ -243,6 +245,8 @@ export interface DiceRoll {
   campaignId: string;
   sessionId: string;
   rollerName: string;
+  /** Character who made this roll, when Hope/Fear should apply to them. */
+  characterId?: string;
   /** Duality (2d12) hope die. Unused for standard NdS rolls. */
   white: number;
   /** Duality (2d12) fear die. Unused for standard NdS rolls. */

@@ -9,6 +9,7 @@ import { Input } from '../ui/Input';
 import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
 import { formatWeaponDamage } from '../../lib/weaponDamage';
+import { CHARACTER_HOPE_MAX } from '../../lib/hopeFear';
 
 interface CharacterSheetSessionProps {
   char: Character;
@@ -27,7 +28,6 @@ interface CharacterSheetSessionProps {
   onAdjustHope: (delta: number) => void;
   onToggleArmorSlot: (index: number) => void;
   onUpdateNotes: (notes: string) => void;
-  onSave: () => void;
   onDmLevelUp: () => void;
   onCancelLevelUp: () => void;
   onLevelUpComplete: (character: Character) => Promise<void>;
@@ -55,7 +55,6 @@ export function CharacterSheetSession({
   onAdjustHope,
   onToggleArmorSlot,
   onUpdateNotes,
-  onSave,
   onDmLevelUp,
   onCancelLevelUp,
   onLevelUpComplete,
@@ -141,7 +140,7 @@ export function CharacterSheetSession({
       <div className="grid grid-cols-2 gap-1.5">
         <SessionResource label="HP" current={char.hp.current} max={char.hp.max} color="text-red-400" onAdjust={canEdit ? onAdjustHp : undefined} />
         <SessionResource label="Stress" current={char.stress.current} max={char.stress.max} color="text-yellow-400" onAdjust={canEdit ? onAdjustStress : undefined} />
-        <SessionResource label="Hope" current={char.hope} max={6} color="text-sky-400" onAdjust={canEdit ? onAdjustHope : undefined} />
+        <SessionResource label="Hope" current={char.hope} max={CHARACTER_HOPE_MAX} color="text-sky-400" onAdjust={canEdit ? onAdjustHope : undefined} />
         <div className="rounded-md bg-slate-900/60 px-2 py-1.5 text-center">
           <p className="text-[10px] uppercase tracking-wide text-slate-500">Evasion</p>
           <p className="text-lg font-bold text-slate-200">{char.evasion}</p>
@@ -214,14 +213,27 @@ export function CharacterSheetSession({
                 type={clickable ? 'button' : undefined}
                 onClick={clickable ? () => onTraitRoll(t.name, val) : undefined}
                 title={clickable ? `Roll ${t.name}` : undefined}
-                className={`flex w-full items-center justify-between rounded-md bg-slate-900/60 px-2 py-1 ${marked ? 'ring-1 ring-amber-600/40' : ''} ${
-                  clickable ? 'cursor-pointer transition-colors hover:bg-slate-800/80 hover:ring-1 hover:ring-amber-600/30' : ''
+                className={`relative flex w-full items-center justify-between rounded-md bg-slate-900/60 px-2 py-1.5 pr-6 ${
+                  marked ? 'ring-1 ring-amber-600/40' : ''
+                } ${
+                  clickable
+                    ? 'cursor-pointer transition-colors hover:bg-slate-800/80 hover:ring-1 hover:ring-amber-600/30'
+                    : ''
                 }`}
               >
-                <span className="text-[11px] text-slate-400 truncate">{t.name}</span>
+                <span className="truncate text-[11px] text-slate-400">{t.name}</span>
                 <span className="text-sm font-bold text-amber-400">
-                  {val >= 0 ? '+' : ''}{val}
+                  {val >= 0 ? '+' : ''}
+                  {val}
                 </span>
+                {marked && (
+                  <span
+                    className="absolute right-1 top-1 flex h-3.5 w-3.5 items-center justify-center rounded border border-amber-500/80 bg-amber-900/50 text-[8px] text-amber-300"
+                    title="Marked"
+                  >
+                    ✓
+                  </span>
+                )}
               </Tag>
             );
           })}
@@ -357,9 +369,9 @@ export function CharacterSheetSession({
             onChange={(e) => onUpdateNotes(e.target.value)}
             className="min-h-16 text-xs"
           />
-          <Button onClick={onSave} disabled={saving} className="w-full" size="sm">
-            {saving ? 'Saving...' : 'Save'}
-          </Button>
+          {saving && (
+            <p className="text-center text-[10px] text-slate-500">Saving…</p>
+          )}
         </div>
       )}
     </div>
