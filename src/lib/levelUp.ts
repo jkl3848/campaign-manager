@@ -361,10 +361,23 @@ function applyChoice(char: Character, choice: LevelUpChoice): Character {
         "proficiency",
       );
       slots = markAdvancementSlot(slots, tier, "proficiency");
+      const nextProficiency = updated.proficiency + 1;
       updated = {
         ...updated,
-        proficiency: updated.proficiency + 1,
+        proficiency: nextProficiency,
         weaponDamage: incrementWeaponDamage(updated.weaponDamage),
+        primaryWeapon: updated.primaryWeapon
+          ? {
+              ...updated.primaryWeapon,
+              damage: incrementWeaponDamage(updated.primaryWeapon.damage)!,
+            }
+          : undefined,
+        secondaryWeapon: updated.secondaryWeapon
+          ? {
+              ...updated.secondaryWeapon,
+              damage: incrementWeaponDamage(updated.secondaryWeapon.damage)!,
+            }
+          : undefined,
         advancementSlots: slots,
       };
       return updated;

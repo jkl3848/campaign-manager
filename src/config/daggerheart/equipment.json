@@ -5,7 +5,7 @@
       "name": "Broadsword",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Melee",
@@ -21,7 +21,7 @@
       "name": "Longsword",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Melee",
@@ -37,7 +37,7 @@
       "name": "Battleaxe",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Melee",
@@ -53,7 +53,7 @@
       "name": "Greatsword",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Melee",
@@ -69,7 +69,7 @@
       "name": "Mace",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Melee",
@@ -85,7 +85,7 @@
       "name": "Warhammer",
       "damage": {
         "dice": 12,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Melee",
@@ -101,7 +101,7 @@
       "name": "Dagger",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Melee",
@@ -117,7 +117,7 @@
       "name": "Quarterstaff",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Melee",
@@ -133,7 +133,7 @@
       "name": "Cutlass",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Melee",
@@ -149,7 +149,7 @@
       "name": "Rapier",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Melee",
@@ -165,7 +165,7 @@
       "name": "Halberd",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 2
       },
       "range": "Very Close",
@@ -181,7 +181,7 @@
       "name": "Spear",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Very Close",
@@ -197,7 +197,7 @@
       "name": "Shortbow",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Far",
@@ -213,7 +213,7 @@
       "name": "Pulse Rifle",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Far",
@@ -229,7 +229,7 @@
       "name": "Longbow",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Very Far",
@@ -245,7 +245,7 @@
       "name": "Tech Gauntlets",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Melee",
@@ -261,7 +261,7 @@
       "name": "Infused Axe",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Melee",
@@ -277,7 +277,7 @@
       "name": "Glowing Rings",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 2
       },
       "range": "Very Close",
@@ -293,7 +293,7 @@
       "name": "Magnifier Gloves",
       "damage": {
         "dice": 10,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Very Close",
@@ -309,7 +309,7 @@
       "name": "Returning Blade",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Close",
@@ -325,7 +325,7 @@
       "name": "Shortstaff",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Close",
@@ -341,7 +341,7 @@
       "name": "Dualstaff",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 3
       },
       "range": "Far",
@@ -357,7 +357,7 @@
       "name": "Scepter",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Far",
@@ -373,7 +373,7 @@
       "name": "Draft Channel",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Far",
@@ -389,7 +389,7 @@
       "name": "Greatstaff",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Very Far",
@@ -405,7 +405,7 @@
       "name": "Shortsword",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Melee",
@@ -421,7 +421,7 @@
       "name": "Round Shield",
       "damage": {
         "dice": 4,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Melee",
@@ -437,7 +437,7 @@
       "name": "Tower Shield",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Melee",
@@ -453,7 +453,7 @@
       "name": "Small Dagger",
       "damage": {
         "dice": 8,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Melee",
@@ -469,7 +469,7 @@
       "name": "Whip",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Very Close",
@@ -485,7 +485,7 @@
       "name": "Grappler",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 0
       },
       "range": "Close",
@@ -501,7 +501,7 @@
       "name": "Pulse Pistol",
       "damage": {
         "dice": 6,
-        "count": 1,
+
         "modifier": 1
       },
       "range": "Far",
@@ -520,7 +520,8 @@
       "score": 0,
       "thresholdMajor": 0,
       "thresholdSevere": 0,
-      "description": "No armor. Major threshold equals level; Severe equals 2× level."
+      "description": "No armor. Major threshold equals level; Severe equals 2× level.",
+      "tier": 1
     },
     {
       "id": "gambeson",
@@ -528,7 +529,8 @@
       "score": 3,
       "thresholdMajor": 5,
       "thresholdSevere": 11,
-      "description": "Flexible: +1 to Evasion."
+      "description": "Flexible: +1 to Evasion.",
+      "tier": 1
     },
     {
       "id": "leather",
@@ -536,7 +538,8 @@
       "score": 3,
       "thresholdMajor": 6,
       "thresholdSevere": 13,
-      "description": ""
+      "description": "",
+      "tier": 1
     },
     {
       "id": "chain",
@@ -544,7 +547,8 @@
       "score": 4,
       "thresholdMajor": 7,
       "thresholdSevere": 15,
-      "description": "Heavy: −1 to Evasion."
+      "description": "Heavy: −1 to Evasion.",
+      "tier": 1
     },
     {
       "id": "plate",
@@ -552,7 +556,8 @@
       "score": 4,
       "thresholdMajor": 8,
       "thresholdSevere": 17,
-      "description": "Very Heavy: −2 to Evasion; −1 to Agility."
+      "description": "Very Heavy: −2 to Evasion; −1 to Agility.",
+      "tier": 1
     }
   ],
   "items": [

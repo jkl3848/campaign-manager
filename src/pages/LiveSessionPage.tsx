@@ -138,6 +138,41 @@ export function LiveSessionPage() {
     );
   };
 
+  const handleWeaponAttack = (label: string, modifier: number) => {
+    if (!campaignId || !sessionId || !selectedCharacter) return;
+    handleRoll(
+      createDiceRoll({
+        campaignId,
+        sessionId,
+        rollerName: `${rollerName} · ${selectedCharacter.name}`,
+        modifier,
+        label,
+        characterId: selectedCharacter.id,
+      }),
+    );
+  };
+
+  const handleWeaponDamage = (
+    label: string,
+    count: number,
+    sides: number,
+    modifier: number,
+  ) => {
+    if (!campaignId || !sessionId || !selectedCharacter) return;
+    handleRoll(
+      createDiceRoll({
+        campaignId,
+        sessionId,
+        rollerName: `${rollerName} · ${selectedCharacter.name}`,
+        count,
+        sides,
+        modifier,
+        label,
+        characterId: selectedCharacter.id,
+      }),
+    );
+  };
+
   const handleToggleCharacterParty = async (character: Character, inParty: boolean) => {
     if (!campaignId) return;
     await saveCharacter(campaignId, { ...character, inParty, updatedAt: Date.now() });
@@ -290,6 +325,8 @@ export function LiveSessionPage() {
         onSaveCharacter={(c) => saveCharacter(campaignId!, c)}
         onSaveNpc={(n) => saveNpc(campaignId!, n)}
         onTraitRoll={handleTraitRoll}
+        onWeaponAttack={handleWeaponAttack}
+        onWeaponDamage={handleWeaponDamage}
       />
 
       {/* Floating action buttons */}

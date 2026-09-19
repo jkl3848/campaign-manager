@@ -77,11 +77,29 @@ export interface WeaponDamage {
   modifier: number;
 }
 
+export type EquipmentKind = 'weapon' | 'armor' | 'item';
+
+/** Snapshot of an equipped weapon (copied from equipment.json on equip). */
+export interface EquippedWeapon {
+  equipmentId: string;
+  name: string;
+  damage: WeaponDamage;
+  trait: TraitId;
+  physical: boolean;
+  twoHanded: boolean;
+  secondary: boolean;
+  feature?: string;
+  range?: string;
+}
+
 export interface InventoryItem {
   id: string;
   name: string;
   description?: string;
   quantity: number;
+  /** Catalog id from equipment.json when added from the catalog. */
+  equipmentId?: string;
+  kind?: EquipmentKind;
 }
 
 export interface Character {
@@ -107,12 +125,21 @@ export interface Character {
   armorName?: string;
   armorSlots: { marked: number; max: number };
   damageThresholds: { major: number; severe: number };
+  primaryWeapon?: EquippedWeapon;
+  secondaryWeapon?: EquippedWeapon;
+  /** @deprecated Prefer primaryWeapon */
   weaponName?: string;
+  /** @deprecated Prefer primaryWeapon.damage */
   weaponDamage?: WeaponDamage;
+  /** @deprecated Prefer primaryWeapon.trait */
   weaponTrait?: TraitId;
+  /** @deprecated Prefer primaryWeapon.physical */
   weaponPhysical?: boolean;
+  /** @deprecated Prefer primaryWeapon.twoHanded */
   weaponTwoHanded?: boolean;
+  /** @deprecated Prefer primaryWeapon.secondary */
   weaponSecondary?: boolean;
+  /** @deprecated Prefer primaryWeapon.feature */
   weaponFeature?: string;
   hopeFeature?: string;
   abilities: Ability[];

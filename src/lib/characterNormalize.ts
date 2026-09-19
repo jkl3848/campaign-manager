@@ -1,5 +1,6 @@
 import type { Character, DomainCard, Ability, ExperienceEntry } from '../types';
 import { computeArmorStats } from './characterArmor';
+import { equippedWeaponFromLegacy } from './equipment';
 import { normalizeWeaponDamage } from './weaponDamage';
 
 /** Migrate legacy fields and fill defaults for characters saved before schema updates. */
@@ -33,6 +34,17 @@ export function normalizeCharacter(c: Character): Character {
   }
 
   const armorStats = computeArmorStats(armorId, level);
+  const primaryWeapon = equippedWeaponFromLegacy({
+    ...c,
+    proficiency: c.proficiency ?? 1,
+  });
+  const secondaryWeapon = c.secondaryWeapon
+    ? {
+        ...c.secondaryWeapon,
+        damage:
+          normalizeWeaponDamage(c.secondaryWeapon.damage) ?? c.secondaryWeapon.damage,
+      }
+    : undefined;
 
   return {
     ...c,
@@ -53,9 +65,16 @@ export function normalizeCharacter(c: Character): Character {
     armorSlots: c.armorSlots ?? armorStats.armorSlots,
     damageThresholds: c.damageThresholds ?? armorStats.damageThresholds,
     armorScore: c.armorScore ?? armorStats.armorScore,
-    weaponDamage: normalizeWeaponDamage(
-      c.weaponDamage as Character['weaponDamage'] | string | undefined,
-    ),
+    primaryWeapon,
+    secondaryWeapon,
+    weaponName: primaryWeapon?.name,
+    weaponDamage: primaryWeapon?.damage,
+    weaponTrait: primaryWeapon?.trait,
+    weaponPhysical: primaryWeapon?.physical,
+    weaponTwoHanded: primaryWeapon?.twoHanded,
+    weaponSecondary: primaryWeapon?.secondary,
+    weaponFeature: primaryWeapon?.feature,
+    inventory: c.inventory ?? [],
     inParty: c.inParty !== false,
   };
 }
