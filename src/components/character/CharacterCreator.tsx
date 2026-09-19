@@ -9,6 +9,7 @@ import domains from '../../config/daggerheart/domains.json';
 import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
 import type { Character, Traits, TraitId, DomainCard } from '../../types';
 import { computeArmorStats } from '../../lib/characterArmor';
+import { toEquippedWeapon } from '../../lib/equipment';
 import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -17,6 +18,7 @@ import { ImageUpload } from '../ui/ImageUpload';
 import { GameCard } from '../ui/GameCard';
 import { SidePanel } from '../ui/SidePanel';
 import { Textarea } from '../ui/Textarea';
+import { FormattedText } from '../ui/FormattedText';
 import { SubclassStageList } from './SubclassStageList';
 
 interface CharacterCreatorProps {
@@ -81,7 +83,11 @@ export function CharacterCreator({
   const [selectedDomainCardIds, setSelectedDomainCardIds] = useState<string[]>(
     existing?.domainCards?.map((c) => c.id) ?? [],
   );
-  const [weaponId, setWeaponId] = useState('');
+  const [weaponId, setWeaponId] = useState(
+    existing?.primaryWeapon?.equipmentId
+      ?? equipment.weapons.find((w) => w.name === existing?.weaponName)?.id
+      ?? '',
+  );
   const [armorId, setArmorId] = useState(existing?.armorId ?? 'none');
   const [description, setDescription] = useState(existing?.description ?? '');
   const [saving, setSaving] = useState(false);
@@ -159,6 +165,11 @@ export function CharacterCreator({
       };
     });
 
+    const proficiency = existing?.proficiency ?? 1;
+    const primaryWeapon = weapon
+      ? toEquippedWeapon(weapon, proficiency)
+      : existing?.primaryWeapon;
+
     const character: Character = {
       id: existing?.id ?? crypto.randomUUID(),
       campaignId,
@@ -182,13 +193,15 @@ export function CharacterCreator({
       armorName: armor?.name,
       armorSlots: existing?.armorSlots ?? armorStats.armorSlots,
       damageThresholds: armorStats.damageThresholds,
-      weaponName: weapon?.name,
-      weaponDamage: weapon?.damage,
-      weaponTrait: weapon?.trait as TraitId | undefined,
-      weaponPhysical: weapon?.physical,
-      weaponTwoHanded: weapon?.twoHanded,
-      weaponSecondary: weapon?.secondary,
-      weaponFeature: weapon?.feature || undefined,
+      primaryWeapon,
+      secondaryWeapon: existing?.secondaryWeapon,
+      weaponName: primaryWeapon?.name,
+      weaponDamage: primaryWeapon?.damage,
+      weaponTrait: primaryWeapon?.trait,
+      weaponPhysical: primaryWeapon?.physical,
+      weaponTwoHanded: primaryWeapon?.twoHanded,
+      weaponSecondary: primaryWeapon?.secondary,
+      weaponFeature: primaryWeapon?.feature,
       hopeFeature: cls.hopeFeature,
       abilities: cls.classFeatures.map((f) => ({
         id: f.id,
@@ -198,7 +211,7 @@ export function CharacterCreator({
       feats: existing?.feats ?? [],
       domainCards,
       experienceEntries: experiences.map((name) => ({ name, bonus: 2 })),
-      proficiency: existing?.proficiency ?? 1,
+      proficiency,
       thresholdBonus: existing?.thresholdBonus ?? 0,
       markedTraits: existing?.markedTraits ?? [],
       advancementSlots: existing?.advancementSlots ?? {},
@@ -472,11 +485,11 @@ export function CharacterCreator({
         <section>
           <h2 className="sheet-heading">Equipment</h2>
           <div className="space-y-4">
-            <Select label="Weapon" value={weaponId} onChange={(e) => setWeaponId(e.target.value)}>
+            <Select label="Primary Weapon" value={weaponId} onChange={(e) => setWeaponId(e.target.value)}>
               <option value="">Choose weapon...</option>
-              {equipment.weapons.map((w) => (
+              {equipment.weapons.filter((w) => !w.secondary).map((w) => (
                 <option key={w.id} value={w.id}>
-                  {w.name} ({formatWeaponDamage(w.damage)}, {w.trait})
+                  {w.name} ({formatWeaponDamage({ dice: w.damage.dice, count: 1, modifier: w.damage.modifier })}, {w.trait})
                 </option>
               ))}
             </Select>
@@ -518,7 +531,10 @@ export function CharacterCreator({
                     <span className="font-display text-xs text-oxblood">Lv.{card.level}</span>
                   </div>
                   <p className="mt-1 font-display font-semibold text-ink">{card.name}</p>
-                  <p className="mt-1 line-clamp-2 font-serif text-xs text-ink-muted">{card.description}</p>
+                  <FormattedText
+                    source={card.description}
+                    className="mt-1 line-clamp-2 font-serif text-xs text-ink-muted"
+                  />
                 </button>
               );
             })}

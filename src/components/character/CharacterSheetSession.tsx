@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import type { Character, Ability, DomainCard } from '../../types';
+import type { CatalogEntry } from '../../lib/equipment';
 import { LevelUpWizard } from './LevelUpWizard';
 import { canInitiateLevelUp } from '../../lib/levelUp';
 import { stageLabel } from '../../lib/subclasses';
 import { Button } from '../ui/Button';
 import { Textarea } from '../ui/Textarea';
-import { Input } from '../ui/Input';
 import { TickTrack } from '../ui/TickTrack';
+import { EquipmentPanel } from './EquipmentPanel';
 import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
-import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { CHARACTER_HOPE_MAX } from '../../lib/hopeFear';
+import { FormattedText } from '../ui/FormattedText';
 
 interface CharacterSheetSessionProps {
   char: Character;
@@ -33,10 +34,17 @@ interface CharacterSheetSessionProps {
   onCancelLevelUp: () => void;
   onLevelUpComplete: (character: Character) => Promise<void>;
   onAddDomainCard: (cardId: string) => void;
-  newItem: string;
-  onNewItemChange: (value: string) => void;
-  onAddInventoryItem: () => void;
+  onRemoveDomainCard?: (cardId: string) => void;
+  catalogOptions: CatalogEntry[];
+  onAddCatalogItem: (entryKey: string) => void;
+  onEquipWeapon: (inventoryItemId: string, slot: 'primary' | 'secondary') => void;
+  onUnequipWeapon: (slot: 'primary' | 'secondary') => void;
+  onEquipArmor: (inventoryItemId: string) => void;
+  onUnequipArmor: () => void;
+  onRemoveInventoryItem: (inventoryItemId: string) => void;
   onTraitRoll?: (traitName: string, modifier: number) => void;
+  onWeaponAttack?: (label: string, modifier: number) => void;
+  onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
 }
 
 export function CharacterSheetSession({
@@ -60,10 +68,17 @@ export function CharacterSheetSession({
   onCancelLevelUp,
   onLevelUpComplete,
   onAddDomainCard,
-  newItem,
-  onNewItemChange,
-  onAddInventoryItem,
+  onRemoveDomainCard,
+  catalogOptions,
+  onAddCatalogItem,
+  onEquipWeapon,
+  onUnequipWeapon,
+  onEquipArmor,
+  onUnequipArmor,
+  onRemoveInventoryItem,
   onTraitRoll,
+  onWeaponAttack,
+  onWeaponDamage,
 }: CharacterSheetSessionProps) {
   const [showLevelUpWizard, setShowLevelUpWizard] = useState(false);
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
@@ -132,12 +147,23 @@ export function CharacterSheetSession({
         )}
       </div>
 
-      {/* Weapon */}
-      <p className="text-[11px] text-ink-faint">
-        {char.weaponName ?? 'Unarmed'}
-        {char.weaponDamage && ` (${formatWeaponDamage(char.weaponDamage)})`}
-        {char.armorName && ` · ${char.armorName}`}
-      </p>
+      {/* Equipment */}
+      <SessionSection title="Equipment" defaultOpen>
+        <EquipmentPanel
+          char={char}
+          canEdit={canEdit}
+          compact
+          catalogOptions={catalogOptions}
+          onAddCatalogItem={onAddCatalogItem}
+          onEquipWeapon={onEquipWeapon}
+          onUnequipWeapon={onUnequipWeapon}
+          onEquipArmor={onEquipArmor}
+          onUnequipArmor={onUnequipArmor}
+          onRemoveInventoryItem={onRemoveInventoryItem}
+          onWeaponAttack={onWeaponAttack}
+          onWeaponDamage={onWeaponDamage}
+        />
+      </SessionSection>
 
       <div className="grid grid-cols-2 gap-2 border-y border-ink/15 py-2">
         <SessionResource label="HP" current={char.hp.current} max={char.hp.max} color="text-oxblood" variant="dot" onAdjust={canEdit ? onAdjustHp : undefined} />
@@ -239,6 +265,14 @@ export function CharacterSheetSession({
                 card={card}
                 expanded={expandedCardId === card.id}
                 onToggle={() => setExpandedCardId(expandedCardId === card.id ? null : card.id)}
+                onRemove={
+                  onRemoveDomainCard
+                    ? () => {
+                        onRemoveDomainCard(card.id);
+                        if (expandedCardId === card.id) setExpandedCardId(null);
+                      }
+                    : undefined
+                }
               />
             ))}
           </div>
@@ -327,30 +361,6 @@ export function CharacterSheetSession({
         </SessionSection>
       )}
 
-      {(char.inventory.length > 0 || canEdit) && (
-        <SessionSection title="Inventory">
-          <div className="space-y-1">
-            {char.inventory.map((item) => (
-              <div key={item.id} className="flex items-center justify-between border-b border-ink/15 px-1 py-1">
-                <span className="truncate text-[11px] text-ink">{item.name}</span>
-                <span className="text-[11px] text-ink-faint">×{item.quantity}</span>
-              </div>
-            ))}
-            {canEdit && (
-              <div className="flex gap-1 pt-1">
-                <Input
-                  value={newItem}
-                  onChange={(e) => onNewItemChange(e.target.value)}
-                  placeholder="Add item..."
-                  onKeyDown={(e) => e.key === 'Enter' && onAddInventoryItem()}
-                />
-                <Button size="sm" onClick={onAddInventoryItem}>+</Button>
-              </div>
-            )}
-          </div>
-        </SessionSection>
-      )}
-
       {canEdit && (
         <div className="space-y-2 border-t border-ink/15 pt-3">
           <Textarea
@@ -429,22 +439,39 @@ function DomainCardRow({
   card,
   expanded,
   onToggle,
+  onRemove,
 }: {
   card: DomainCard;
   expanded: boolean;
   onToggle: () => void;
+  onRemove?: () => void;
 }) {
   const domain = domains.find((d) => d.id === card.domainId);
   return (
     <div className="border border-ink/15">
-      <button type="button" onClick={onToggle} className="flex w-full items-center justify-between px-2 py-1.5 text-left">
-        <span className="truncate text-[11px] font-medium text-ink">{card.name}</span>
-        <span className="ml-1 shrink-0 text-[10px] text-ink-faint">L{card.level}</span>
-      </button>
+      <div className="flex items-center gap-1 px-2 py-1.5">
+        <button type="button" onClick={onToggle} className="flex min-w-0 flex-1 items-center justify-between text-left">
+          <span className="truncate text-[11px] font-medium text-ink">{card.name}</span>
+          <span className="ml-1 shrink-0 text-[10px] text-ink-faint">L{card.level}</span>
+        </button>
+        {onRemove && (
+          <button
+            type="button"
+            title="Remove from hand"
+            onClick={onRemove}
+            className="shrink-0 px-1 text-[11px] text-ink-faint hover:text-oxblood"
+          >
+            ×
+          </button>
+        )}
+      </div>
       {expanded && (
         <div className="border-t border-ink/10 px-2 py-1.5">
           <p className="text-[10px] text-ink-faint">{domain?.name ?? card.domainId} · {card.type ?? 'ability'}</p>
-          <p className="mt-0.5 text-[11px] leading-relaxed text-ink-muted">{card.description}</p>
+          <FormattedText
+            source={card.description}
+            className="mt-0.5 text-[11px] leading-relaxed text-ink-muted"
+          />
           {card.recallCost != null && (
             <p className="mt-0.5 text-[10px] text-ink-faint">Recall: {card.recallCost} Stress</p>
           )}

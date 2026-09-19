@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
-import type { Character, InventoryItem, DomainCard, Ability, TraitId } from '../../types';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import type { Character, DomainCard, Ability, TraitId, EquipmentKind } from '../../types';
 import { LevelUpWizard } from './LevelUpWizard';
-import { canInitiateLevelUp, cancelLevelUp, initiateLevelUp } from '../../lib/levelUp';
+import { canInitiateLevelUp, cancelLevelUp, initiateLevelUp, getTierForLevel } from '../../lib/levelUp';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
@@ -9,6 +9,7 @@ import { ImageUpload } from '../ui/ImageUpload';
 import { TickTrack } from '../ui/TickTrack';
 import { DomainCardHand } from './DomainCardHand';
 import { SubclassStageList } from './SubclassStageList';
+import { EquipmentPanel } from './EquipmentPanel';
 import { getSubclassTracks, stageLabel } from '../../lib/subclasses';
 import traits from '../../config/daggerheart/traits.json';
 import classes from '../../config/daggerheart/classes.json';
@@ -19,7 +20,15 @@ import domains from '../../config/daggerheart/domains.json';
 import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
 import { normalizeCharacter } from '../../lib/characterNormalize';
 import { CHARACTER_HOPE_MAX, clampHope } from '../../lib/hopeFear';
-import { formatWeaponDamage } from '../../lib/weaponDamage';
+import {
+  addCatalogToInventory,
+  equipArmorFromInventory,
+  equipWeaponFromInventory,
+  listCatalogEntries,
+  removeFromInventory,
+  unequipArmor,
+  unequipWeapon,
+} from '../../lib/equipment';
 import { CharacterSheetSession } from './CharacterSheetSession';
 
 export type CharacterSheetLayout = 'full' | 'session';
@@ -34,6 +43,8 @@ interface CharacterSheetProps {
   compact?: boolean;
   layout?: CharacterSheetLayout;
   onTraitRoll?: (traitName: string, modifier: number) => void;
+  onWeaponAttack?: (label: string, modifier: number) => void;
+  onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
 }
 
 export function CharacterSheet({
@@ -45,15 +56,21 @@ export function CharacterSheet({
   compact = false,
   layout = 'full',
   onTraitRoll,
+  onWeaponAttack,
+  onWeaponDamage,
 }: CharacterSheetProps) {
   const [char, setChar] = useState(() => normalizeCharacter(character));
   const [saving, setSaving] = useState(false);
   const [showLevelUpWizard, setShowLevelUpWizard] = useState(false);
-  const [newItem, setNewItem] = useState('');
   const notesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const charRef = useRef(char);
   const effectiveLayout = compact ? 'session' : layout;
   const isSession = effectiveLayout === 'session';
+
+  const catalogOptions = useMemo(
+    () => listCatalogEntries(getTierForLevel(char.level)),
+    [char.level],
+  );
 
   useEffect(() => {
     const next = normalizeCharacter(character);
@@ -189,15 +206,36 @@ export function CharacterSheet({
     updateLive({ armorSlots: { marked: nextMarked, max } });
   };
 
-  const addInventoryItem = () => {
-    if (!newItem.trim()) return;
-    const item: InventoryItem = {
-      id: crypto.randomUUID(),
-      name: newItem.trim(),
-      quantity: 1,
-    };
-    updateLive({ inventory: [...char.inventory, item] });
-    setNewItem('');
+  const addCatalogItem = (key: string) => {
+    const sep = key.indexOf(':');
+    if (sep < 0) return;
+    const kind = key.slice(0, sep) as EquipmentKind;
+    const id = key.slice(sep + 1);
+    const entry = catalogOptions.find((e) => e.id === id && e.kind === kind);
+    if (!entry) return;
+    updateLive({ inventory: addCatalogToInventory(charRef.current.inventory, entry) });
+  };
+
+  const handleEquipWeapon = (inventoryItemId: string, slot: 'primary' | 'secondary') => {
+    updateLive(equipWeaponFromInventory(charRef.current, inventoryItemId, slot));
+  };
+
+  const handleUnequipWeapon = (slot: 'primary' | 'secondary') => {
+    updateLive(unequipWeapon(charRef.current, slot));
+  };
+
+  const handleEquipArmor = (inventoryItemId: string) => {
+    updateLive(equipArmorFromInventory(charRef.current, inventoryItemId));
+  };
+
+  const handleUnequipArmor = () => {
+    updateLive(unequipArmor(charRef.current));
+  };
+
+  const handleRemoveInventoryItem = (inventoryItemId: string) => {
+    updateLive({
+      inventory: removeFromInventory(charRef.current.inventory, inventoryItemId),
+    });
   };
 
   const addDomainCard = (cardId: string) => {
@@ -217,6 +255,15 @@ export function CharacterSheet({
       updateLive({ domainCards: [...char.domainCards, card] });
     } else {
       updateLocal({ domainCards: [...char.domainCards, card] });
+    }
+  };
+
+  const removeDomainCard = (cardId: string) => {
+    const domainCards = charRef.current.domainCards.filter((c) => c.id !== cardId);
+    if (isSession) {
+      updateLive({ domainCards });
+    } else {
+      updateLocal({ domainCards });
     }
   };
 
@@ -266,10 +313,17 @@ export function CharacterSheet({
         onCancelLevelUp={handleCancelLevelUp}
         onLevelUpComplete={handleLevelUpComplete}
         onAddDomainCard={addDomainCard}
-        newItem={newItem}
-        onNewItemChange={setNewItem}
-        onAddInventoryItem={addInventoryItem}
+        onRemoveDomainCard={canEdit ? removeDomainCard : undefined}
+        catalogOptions={catalogOptions}
+        onAddCatalogItem={addCatalogItem}
+        onEquipWeapon={handleEquipWeapon}
+        onUnequipWeapon={handleUnequipWeapon}
+        onEquipArmor={handleEquipArmor}
+        onUnequipArmor={handleUnequipArmor}
+        onRemoveInventoryItem={handleRemoveInventoryItem}
         onTraitRoll={onTraitRoll}
+        onWeaponAttack={onWeaponAttack}
+        onWeaponDamage={onWeaponDamage}
       />
     );
   }
@@ -376,11 +430,6 @@ export function CharacterSheet({
               {community && <Tag label={community.name} variant="subtle" />}
               {transformation && <Tag label={transformation.name} variant="accent" />}
             </div>
-            <p className="mt-2 font-serif text-sm text-ink">
-              {char.weaponName ?? 'Unarmed'}{' '}
-              {char.weaponDamage && `(${formatWeaponDamage(char.weaponDamage)})`}
-              {char.armorName && ` · ${char.armorName}`}
-            </p>
           </div>
         </div>
         {char.description && (
@@ -435,6 +484,21 @@ export function CharacterSheet({
           </div>
         </div>
       </div>
+
+      {/* Equipment */}
+      <SheetSection title="Equipment">
+        <EquipmentPanel
+          char={char}
+          canEdit={canEdit}
+          catalogOptions={catalogOptions}
+          onAddCatalogItem={addCatalogItem}
+          onEquipWeapon={handleEquipWeapon}
+          onUnequipWeapon={handleUnequipWeapon}
+          onEquipArmor={handleEquipArmor}
+          onUnequipArmor={handleUnequipArmor}
+          onRemoveInventoryItem={handleRemoveInventoryItem}
+        />
+      </SheetSection>
 
       {/* Armor & Wound Thresholds */}
       <SheetSection title="Armor & Wound Thresholds">
@@ -593,7 +657,10 @@ export function CharacterSheet({
 
       {/* Domain Cards Hand */}
       <SheetSection title="Domain Cards">
-        <DomainCardHand cards={char.domainCards} />
+        <DomainCardHand
+          cards={char.domainCards}
+          onRemove={canEdit ? removeDomainCard : undefined}
+        />
         {isDm && availableDomainCardsForDm.length > 0 && (
           <div className="mt-3 border-t border-ink/15 pt-3">
             <p className="mb-2 font-sans text-xs font-semibold tracking-wide text-ink-muted">Add domain card (DM)</p>
@@ -686,28 +753,6 @@ export function CharacterSheet({
           </div>
         </SheetSection>
       )}
-
-      <SheetSection title="Inventory">
-        <div className="space-y-2">
-          {char.inventory.map((item) => (
-            <div key={item.id} className="flex items-center justify-between border-b border-ink/15 py-1.5">
-              <span className="font-serif text-ink">{item.name}</span>
-              <span className="text-ink-muted">×{item.quantity}</span>
-            </div>
-          ))}
-          {canEdit && (
-            <div className="flex gap-2 pt-2">
-              <Input
-                value={newItem}
-                onChange={(e) => setNewItem(e.target.value)}
-                placeholder="Add item..."
-                onKeyDown={(e) => e.key === 'Enter' && addInventoryItem()}
-              />
-              <Button size="sm" onClick={addInventoryItem}>Add</Button>
-            </div>
-          )}
-        </div>
-      </SheetSection>
 
       {canEdit && (
         <>

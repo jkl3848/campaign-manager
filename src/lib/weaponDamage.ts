@@ -9,7 +9,7 @@ export function formatWeaponDamage(damage: WeaponDamage): string {
 
 /** Parse legacy string damage ("d8", "2d10+3") or pass through structured damage. */
 export function normalizeWeaponDamage(
-  damage: WeaponDamage | string | undefined | null,
+  damage: WeaponDamage | { dice: number; modifier: number; count?: number } | string | undefined | null,
 ): WeaponDamage | undefined {
   if (damage == null) return undefined;
   if (typeof damage === 'object') {

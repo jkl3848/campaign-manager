@@ -23,6 +23,8 @@ interface PartyPanelProps {
   onSaveCharacter: (character: Character) => Promise<void>;
   onSaveNpc: (npc: Npc) => Promise<void>;
   onTraitRoll?: (traitName: string, modifier: number) => void;
+  onWeaponAttack?: (label: string, modifier: number) => void;
+  onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
 }
 
 export function PartyPanel({
@@ -37,6 +39,8 @@ export function PartyPanel({
   onSaveCharacter,
   onSaveNpc,
   onTraitRoll,
+  onWeaponAttack,
+  onWeaponDamage,
 }: PartyPanelProps) {
   const [showAdd, setShowAdd] = useState(false);
 
@@ -80,6 +84,8 @@ export function PartyPanel({
             isDm={isDm}
             onSave={onSaveCharacter}
             onTraitRoll={onTraitRoll}
+            onWeaponAttack={onWeaponAttack}
+            onWeaponDamage={onWeaponDamage}
           />
         </div>
       </aside>
