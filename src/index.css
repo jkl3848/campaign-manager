@@ -1,11 +1,69 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+  --font-display: "Cormorant Garamond", "Source Serif 4", Georgia, serif;
+
+  --color-slate-50: #faf6ee;
+  --color-slate-100: #f3ead8;
+  --color-slate-200: #e4d4bc;
+  --color-slate-300: #c9b59c;
+  --color-slate-400: #a89078;
+  --color-slate-500: #7a6554;
+  --color-slate-600: #5a4a3c;
+  --color-slate-700: #3d3228;
+  --color-slate-800: #2a211a;
+  --color-slate-900: #1c1510;
+  --color-slate-950: #140e0a;
+
+  --color-amber-50: #faf4e4;
+  --color-amber-100: #f4ead0;
+  --color-amber-200: #ead9a8;
+  --color-amber-300: #d4b56a;
+  --color-amber-400: #c9a45c;
+  --color-amber-500: #b8862a;
+  --color-amber-600: #8b5a1a;
+  --color-amber-700: #6b4014;
+  --color-amber-800: #4a2c0e;
+  --color-amber-900: #2e1a08;
+  --color-amber-950: #1a0e04;
+
+  --color-ink: #1a120c;
+  --color-ink-muted: #3d2c22;
+  --color-ink-faint: #5c4536;
+  --color-parchment: #f6edd8;
+  --color-parchment-deep: #ead9b4;
+  --color-rule: #b08950;
+  --color-oxblood: #6b1f1c;
+  --color-hope: #5a4510;
+  --color-stress: #6b3a08;
+  --color-brass: #8a6418;
+  --color-seal: #6e1f1c;
+}
+
+:root {
+  --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.28'/></svg>");
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #020617;
-  color: #f1f5f9;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #f3ead8;
+  font-family: var(--font-sans);
+  background-color: #140e0a;
+  background-image:
+    var(--paper-grain),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 220, 170, 0.018) 0px,
+      rgba(0, 0, 0, 0.07) 1px,
+      transparent 7px,
+      transparent 18px
+    ),
+    radial-gradient(ellipse at 50% 0%, #2a1d14 0%, #140e0a 62%);
+  background-size: 180px 180px, auto, auto;
+  background-blend-mode: overlay, normal, normal;
 }
 
 #root {
@@ -13,16 +71,86 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #1c1510;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 3px;
+  background: #5a4a3c;
+  border: 1px solid #2a211a;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.paper-sheet {
+  position: relative;
+  color: var(--color-ink);
+  background-color: var(--color-parchment);
+  background-image:
+    var(--paper-grain),
+    linear-gradient(180deg, rgba(255, 252, 242, 0.55), rgba(140, 90, 40, 0.05));
+  background-blend-mode: overlay, normal;
+  border: 1px solid var(--color-rule);
+  outline: 1px solid rgba(80, 50, 20, 0.18);
+  outline-offset: -10px;
+  box-shadow:
+    0 1px 0 rgba(255, 248, 230, 0.7) inset,
+    0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.paper-sheet-compact {
+  position: relative;
+  color: var(--color-ink);
+  background-color: var(--color-parchment);
+  background-image:
+    var(--paper-grain),
+    linear-gradient(180deg, rgba(255, 250, 235, 0.35), rgba(140, 90, 40, 0.08));
+  background-blend-mode: overlay, normal;
+  border: 1px solid var(--color-rule);
+  box-shadow: 0 1px 0 rgba(255, 248, 230, 0.55) inset;
+}
+
+.sheet-heading {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-oxblood);
+  border-bottom: 1px solid rgba(107, 31, 28, 0.4);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.85rem;
+}
+
+.sheet-block {
+  padding-top: 0.25rem;
+}
+
+.sheet-section {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.sheet-header {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.folio {
+  background:
+    var(--paper-grain),
+    linear-gradient(180deg, rgba(255, 220, 170, 0.04), transparent),
+    #1c1510;
+  background-blend-mode: overlay, normal, normal;
+  border: 1px solid rgba(166, 124, 45, 0.35);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
 .game-card {
@@ -30,8 +158,20 @@ body {
   transform-style: preserve-3d;
 }
 
+.game-card-inner {
+  background-color: #f3e6c9;
+  border: 3px solid #2a1b12;
+  box-shadow:
+    0 0 0 1px #c9a45c,
+    0 10px 22px rgba(0, 0, 0, 0.4);
+}
+
 .game-card-selected .game-card-inner {
-  border-color: rgb(251 191 36 / 0.8);
+  border-color: #7a2e2a;
+  box-shadow:
+    0 0 0 1px #c9a45c,
+    0 0 0 4px rgba(122, 46, 42, 0.28),
+    0 12px 24px rgba(0, 0, 0, 0.45);
 }
 
 @keyframes slide-in {
@@ -46,7 +186,7 @@ body {
 @keyframes popup-in {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(8px);
+    transform: scale(0.96) translateY(8px);
   }
   to {
     opacity: 1;
@@ -58,22 +198,61 @@ body {
   animation: popup-in 0.2s ease-out;
 }
 
-.sheet-section {
-  background: linear-gradient(135deg, rgb(15 23 42 / 0.9), rgb(30 41 59 / 0.6));
-  border: 1px solid rgb(71 85 105 / 0.5);
-  border-radius: 0.75rem;
-}
-
-.sheet-header {
-  background: linear-gradient(to right, rgb(15 23 42), rgb(30 27 20 / 0.8));
-  border: 1px solid rgb(120 53 15 / 0.4);
-  border-radius: 1rem;
-}
-
 .domain-card-tile {
   transition: transform 0.2s ease-out;
 }
 
 .domain-card-tile:hover {
   z-index: 10;
+}
+
+.tick {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 1.5px solid currentColor;
+  background: transparent;
+}
+
+.tick-dot {
+  border-radius: 999px;
+}
+
+.tick-box {
+  border-radius: 1px;
+}
+
+.tick-diamond {
+  width: 0.72rem;
+  height: 0.72rem;
+  transform: rotate(45deg);
+  border-radius: 1px;
+}
+
+.tick-filled {
+  background: currentColor;
+}
+
+.ruled-field {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent calc(1.5rem - 1px),
+    rgba(80, 50, 20, 0.18) 1.5rem
+  );
+  background-attachment: local;
+  line-height: 1.5rem;
+}
+
+.paper-sheet input,
+.paper-sheet textarea,
+.paper-sheet select,
+.paper-sheet-compact input,
+.paper-sheet-compact textarea,
+.paper-sheet-compact select {
+  color: var(--color-ink);
+}
+
+.creator-step {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
 }

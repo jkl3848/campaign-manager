@@ -33,7 +33,7 @@ export function CampaignDashboardPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-100">{campaign.name}</h1>
+          <h1 className="font-display text-3xl font-semibold tracking-wide text-amber-100">{campaign.name}</h1>
           {isDm && (
             <p className="text-sm text-slate-400 mt-1">
               Invite code: <span className="text-amber-400 font-mono">{campaign.inviteCode}</span>
@@ -88,8 +88,8 @@ function DashboardCard({ title, count, to }: { title: string; count: number; to:
   return (
     <Link to={to}>
       <Card className="hover:border-amber-500/50 transition-colors cursor-pointer">
-        <h3 className="text-lg font-semibold text-slate-100">{title}</h3>
-        <p className="text-3xl font-bold text-amber-400 mt-2">{count}</p>
+        <h3 className="font-display text-xl font-semibold text-amber-100">{title}</h3>
+        <p className="mt-2 font-display text-4xl font-semibold text-brass">{count}</p>
       </Card>
     </Link>
   );

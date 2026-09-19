@@ -45,7 +45,7 @@ export function LoginPage() {
         </form>
         <button
           onClick={() => setIsRegister(!isRegister)}
-          className="mt-4 text-sm text-slate-400 hover:text-amber-400 w-full text-center"
+          className="mt-4 w-full text-center font-serif text-sm text-slate-400 hover:text-amber-200"
         >
           {isRegister ? 'Already have an account? Login' : 'Need an account? Register'}
         </button>

@@ -59,8 +59,8 @@ export function PartyPanel({
 
   if (selectedCharacter) {
     return (
-      <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-slate-700/60 bg-slate-950/90 backdrop-blur-md">
-        <div className="flex items-center gap-2 border-b border-slate-700/60 px-3 py-2.5">
+      <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-brass/25 bg-[#140e0a]/92 backdrop-blur-sm">
+        <div className="flex items-center gap-2 border-b border-brass/20 px-3 py-2.5">
           <button
             type="button"
             onClick={() => onSelect(null)}
@@ -68,7 +68,7 @@ export function PartyPanel({
           >
             ← Party
           </button>
-          <h2 className="min-w-0 flex-1 truncate font-serif text-sm font-bold text-amber-100">
+          <h2 className="min-w-0 flex-1 truncate font-display text-sm font-semibold tracking-wide text-amber-100">
             {selectedCharacter.name}
           </h2>
         </div>
@@ -88,8 +88,8 @@ export function PartyPanel({
 
   if (selectedNpc) {
     return (
-      <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-slate-700/60 bg-slate-950/90 backdrop-blur-md">
-        <div className="flex items-center gap-2 border-b border-slate-700/60 px-3 py-2.5">
+      <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-brass/25 bg-[#140e0a]/92 backdrop-blur-sm">
+        <div className="flex items-center gap-2 border-b border-brass/20 px-3 py-2.5">
           <button
             type="button"
             onClick={() => onSelect(null)}
@@ -97,7 +97,7 @@ export function PartyPanel({
           >
             ← Party
           </button>
-          <h2 className="min-w-0 flex-1 truncate font-serif text-sm font-bold text-amber-100">
+          <h2 className="min-w-0 flex-1 truncate font-display text-sm font-semibold tracking-wide text-amber-100">
             {selectedNpc.name}
           </h2>
         </div>
@@ -113,9 +113,9 @@ export function PartyPanel({
   }
 
   return (
-    <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-slate-700/60 bg-slate-950/90 backdrop-blur-md">
-      <div className="flex items-center justify-between border-b border-slate-700/60 px-3 py-2.5">
-        <h2 className="font-serif text-sm font-bold uppercase tracking-wider text-amber-400/80">
+    <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-brass/25 bg-[#140e0a]/92 backdrop-blur-sm">
+      <div className="flex items-center justify-between border-b border-brass/20 px-3 py-2.5">
+        <h2 className="font-display text-sm font-semibold uppercase tracking-wider text-amber-200">
           Party ({partyCount})
         </h2>
         {isDm && (

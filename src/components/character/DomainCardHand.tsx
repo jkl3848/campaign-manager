@@ -12,7 +12,7 @@ export function DomainCardHand({ cards, onSelect }: DomainCardHandProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   if (cards.length === 0) {
-    return <p className="text-sm text-slate-500">No domain cards yet.</p>;
+    return <p className="font-serif text-sm text-ink-faint">No domain cards yet.</p>;
   }
 
   return (
@@ -32,16 +32,16 @@ export function DomainCardHand({ cards, onSelect }: DomainCardHandProps) {
         ))}
       </div>
       {expandedId && (
-        <div className="mt-2 rounded-lg border border-slate-700/60 bg-slate-900/80 p-3 text-sm">
+        <div className="mt-2 border border-ink/15 bg-black/[0.03] p-3 font-serif text-sm">
           {(() => {
             const card = cards.find((c) => c.id === expandedId);
             if (!card) return null;
             return (
               <>
-                <p className="font-medium text-amber-200">{card.name}</p>
-                <p className="mt-1 text-slate-400">{card.description}</p>
+                <p className="font-display text-lg font-semibold text-ink">{card.name}</p>
+                <p className="mt-1 text-ink-muted">{card.description}</p>
                 {card.recallCost != null && (
-                  <p className="mt-1 text-xs text-slate-500">Recall cost: {card.recallCost} Stress</p>
+                  <p className="mt-1 text-xs text-ink-faint">Recall cost: {card.recallCost} Stress</p>
                 )}
               </>
             );
@@ -68,7 +68,7 @@ function DomainCardTile({
   const imgFailed = imgIndex >= candidates.length;
   const imgSrc = candidates[imgIndex];
   const domain = domains.find((d) => d.id === card.domainId);
-  const rotation = (index % 5 - 2) * 2;
+  const rotation = (index % 5 - 2) * 2.4;
 
   return (
     <button
@@ -77,7 +77,7 @@ function DomainCardTile({
       className={`domain-card-tile group shrink-0 snap-start ${expanded ? 'z-10 scale-105' : ''}`}
       style={{ transform: `rotate(${rotation}deg)`, marginTop: Math.abs(rotation) }}
     >
-      <div className="relative h-44 w-32 overflow-hidden rounded-lg border-2 border-slate-600/80 bg-slate-900 shadow-lg transition-all duration-200 group-hover:-translate-y-2 group-hover:border-amber-500/60 group-hover:shadow-amber-900/30 group-hover:shadow-xl">
+      <div className="relative h-44 w-[7.25rem] overflow-hidden rounded-[5px] border-[3px] border-ink bg-parchment shadow-[0_0_0_1px_#c9a45c,0_8px_16px_rgba(0,0,0,0.28)] transition-transform duration-200 group-hover:-translate-y-2">
         {!imgFailed ? (
           <img
             src={imgSrc}
@@ -86,18 +86,18 @@ function DomainCardTile({
             onError={() => setImgIndex((i) => i + 1)}
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-950 p-2">
-            <span className="text-xs uppercase tracking-wider text-amber-600/60">{domain?.name ?? card.domainId}</span>
-            <span className="mt-2 text-center font-serif text-sm font-bold text-amber-100/80">{card.name}</span>
+          <div className="flex h-full flex-col items-center justify-center bg-parchment p-2">
+            <span className="font-display text-[10px] uppercase tracking-[0.18em] text-oxblood/70">{domain?.name ?? card.domainId}</span>
+            <span className="mt-2 text-center font-display text-sm font-semibold text-ink">{card.name}</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
-        <div className="absolute left-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded bg-slate-900/90 text-xs font-bold text-amber-400">
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-transparent" />
+        <div className="absolute left-1.5 top-1.5 flex h-5 w-5 items-center justify-center border border-parchment/50 bg-ink/80 font-display text-xs font-semibold text-parchment">
           {card.level}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 p-2">
-          <p className="truncate font-serif text-xs font-bold text-amber-50">{card.name}</p>
-          <p className="text-[10px] uppercase text-slate-400">{card.type ?? 'ability'}</p>
+        <div className="absolute bottom-0 left-0 right-0 p-2 text-left">
+          <p className="truncate font-display text-xs font-semibold text-parchment">{card.name}</p>
+          <p className="text-[10px] uppercase tracking-wider text-parchment/70">{card.type ?? 'ability'}</p>
         </div>
       </div>
     </button>

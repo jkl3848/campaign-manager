@@ -15,13 +15,12 @@ export function CharacterCreatePage() {
   const playerName = playerSession?.playerName ?? (user ? 'DM' : '');
 
   if (!campaignId || !playerId) {
-    return <p className="text-slate-400">Please join a campaign or login as DM first.</p>;
+    return <p className="font-serif text-slate-400">Please join a campaign or login as DM first.</p>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="font-serif text-3xl font-bold text-amber-100 mb-2">Create Character</h1>
-      <p className="text-slate-400 mb-6">Forge your hero, step by step.</p>
+    <div className="mx-auto max-w-5xl">
+      <p className="mb-3 font-display text-sm tracking-[0.22em] uppercase text-brass">Character Creation</p>
       <CharacterCreator
         campaignId={campaignId}
         playerId={playerId}

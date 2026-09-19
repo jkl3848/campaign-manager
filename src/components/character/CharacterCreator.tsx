@@ -13,7 +13,6 @@ import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
-import { Card } from '../ui/Card';
 import { ImageUpload } from '../ui/ImageUpload';
 import { GameCard } from '../ui/GameCard';
 import { SidePanel } from '../ui/SidePanel';
@@ -236,32 +235,35 @@ export function CharacterCreator({
   const domainName = (id: string) => domains.find((d) => d.id === id)?.name ?? id;
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
-      <div className="flex gap-1 overflow-x-auto pb-2">
+    <>
+    <div className="paper-sheet mx-auto max-w-4xl space-y-6 p-5 sm:p-8">
+      <div className="flex gap-1 overflow-x-auto border-b border-ink/20 pb-px">
         {STEPS.map((s, i) => (
           <button
             key={s}
             onClick={() => setStep(i)}
-            className={`shrink-0 rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+            className={`creator-step shrink-0 border-b-2 px-3 py-2 text-sm transition-colors ${
               i === step
-                ? 'bg-amber-600 text-white'
+                ? 'border-oxblood text-oxblood'
                 : i < step
-                  ? 'bg-amber-900/40 text-amber-300'
-                  : 'bg-slate-800 text-slate-500'
+                  ? 'border-transparent text-ink-muted hover:text-ink'
+                  : 'border-transparent text-ink-muted hover:text-ink'
             }`}
           >
-            <span className="mr-1 opacity-60">{i + 1}.</span>
+            <span className="mr-1 text-xs text-ink-muted">{i + 1}</span>
             {s}
           </button>
         ))}
       </div>
 
       {step === 0 && (
-        <Card title="Who are you?">
+        <section>
+          <h2 className="sheet-heading">Who are you?</h2>
           <div className="space-y-4">
             <Input label="Character Name" value={name} onChange={(e) => setName(e.target.value)} required />
             <ImageUpload
               currentUrl={imageUrl}
+              frame="portrait"
               label="Character Portrait"
               onUpload={async (file) => {
                 const url = await onUploadImage(file);
@@ -269,12 +271,13 @@ export function CharacterCreator({
               }}
             />
           </div>
-        </Card>
+        </section>
       )}
 
       {step === 1 && (
-        <Card title="Choose Your Class">
-          <p className="mb-4 text-sm text-slate-400">
+        <section>
+          <h2 className="sheet-heading">Choose Your Class</h2>
+          <p className="mb-4 font-serif text-sm text-ink-muted">
             Click a card to view full class details and select a subclass.
           </p>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -288,24 +291,25 @@ export function CharacterCreator({
                 onClick={() => openClassPanel(c.id)}
               >
                 <div className="space-y-1">
-                  <p><span className="text-amber-400">HP</span> {c.startingHp} · <span className="text-amber-400">Evade</span> {c.startingEvasion}</p>
-                  <p><span className="text-amber-400">Domains:</span> {c.domains.map(domainName).join(', ')}</p>
-                  <p className="line-clamp-2 text-slate-400">{c.hopeFeature}</p>
+                  <p><span className="text-oxblood">HP</span> {c.startingHp} · <span className="text-oxblood">Evade</span> {c.startingEvasion}</p>
+                  <p><span className="text-oxblood">Domains:</span> {c.domains.map(domainName).join(', ')}</p>
+                  <p className="line-clamp-2">{c.hopeFeature}</p>
                 </div>
               </GameCard>
             ))}
           </div>
           {selectedClass && (
-            <p className="mt-4 text-sm text-amber-300">
+            <p className="mt-4 font-serif text-sm text-ink">
               Selected: <strong>{selectedClass.name}</strong>
               {subclassId && ` — ${selectedClass.subclasses.find((s) => s.id === subclassId)?.name}`}
             </p>
           )}
-        </Card>
+        </section>
       )}
 
       {step === 2 && (
-        <Card title="Choose Your Ancestry">
+        <section>
+          <h2 className="sheet-heading">Choose Your Ancestry</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {ancestries.map((a) => (
               <GameCard
@@ -316,11 +320,11 @@ export function CharacterCreator({
                 selected={ancestryId === a.id}
                 onClick={() => setAncestryId(a.id)}
               >
-                <p className="mb-2 line-clamp-2 text-slate-400">{a.description}</p>
-                <ul className="space-y-0.5 text-slate-300">
+                <p className="mb-2 line-clamp-2">{a.description}</p>
+                <ul className="space-y-0.5">
                   {a.abilities.map((ab) => (
                     <li key={ab} className="flex gap-1">
-                      <span className="text-amber-500">•</span>
+                      <span className="text-oxblood">•</span>
                       <span>{ab}</span>
                     </li>
                   ))}
@@ -328,11 +332,12 @@ export function CharacterCreator({
               </GameCard>
             ))}
           </div>
-        </Card>
+        </section>
       )}
 
       {step === 3 && (
-        <Card title="Choose Your Community">
+        <section>
+          <h2 className="sheet-heading">Choose Your Community</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             {communities.map((c) => (
               <GameCard
@@ -343,17 +348,18 @@ export function CharacterCreator({
                 selected={communityId === c.id}
                 onClick={() => setCommunityId(c.id)}
               >
-                <p className="mb-2 text-slate-400">{c.description}</p>
-                <p className="text-slate-300">{c.feature}</p>
+                <p className="mb-2">{c.description}</p>
+                <p>{c.feature}</p>
               </GameCard>
             ))}
           </div>
-        </Card>
+        </section>
       )}
 
       {step === 4 && (
-        <Card title="Transformation (Optional)">
-          <p className="mb-4 text-sm text-slate-400">
+        <section>
+          <h2 className="sheet-heading">Transformation (Optional)</h2>
+          <p className="mb-4 font-serif text-sm text-ink-muted">
             Some characters carry a supernatural transformation. You can skip this step.
           </p>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -366,11 +372,11 @@ export function CharacterCreator({
                 selected={transformationId === t.id}
                 onClick={() => setTransformationId(transformationId === t.id ? '' : t.id)}
               >
-                <p className="mb-2 text-slate-400">{t.description}</p>
+                <p className="mb-2">{t.description}</p>
                 <ul className="space-y-0.5">
                   {t.abilities.map((ab) => (
-                    <li key={ab.name} className="text-slate-300">
-                      <span className="text-amber-400">{ab.name}:</span> {ab.description}
+                    <li key={ab.name}>
+                      <span className="text-oxblood">{ab.name}:</span> {ab.description}
                     </li>
                   ))}
                 </ul>
@@ -382,20 +388,21 @@ export function CharacterCreator({
               Clear transformation
             </Button>
           )}
-        </Card>
+        </section>
       )}
 
       {step === 5 && (
-        <Card title="Assign Traits">
-          <p className="mb-4 text-sm text-slate-400">
+        <section>
+          <h2 className="sheet-heading">Assign Traits</h2>
+          <p className="mb-4 font-serif text-sm text-ink-muted">
             Assign {TRAIT_BUDGET} points across your traits. Range: −1 to +2 per trait.
             {selectedAncestry?.traitBonus && (
-              <span className="mt-1 block text-amber-400">
+              <span className="mt-1 block text-oxblood">
                 Ancestry bonus: +{selectedAncestry.traitBonus.value}{' '}
                 {selectedAncestry.traitBonus.trait === 'any' ? 'to any trait (apply manually)' : selectedAncestry.traitBonus.trait}
               </span>
             )}
-            <span className="ml-2 text-amber-400">{TRAIT_BUDGET - traitPointsUsed} remaining</span>
+            <span className="ml-2 text-oxblood">{TRAIT_BUDGET - traitPointsUsed} remaining</span>
           </p>
           {selectedAncestry?.traitBonus?.trait === 'any' && (
             <Select
@@ -410,27 +417,27 @@ export function CharacterCreator({
               ))}
             </Select>
           )}
-          <div className="space-y-3">
+          <div className="space-y-2">
             {traits.map((t) => (
-              <div key={t.id} className="flex items-center justify-between rounded-lg bg-slate-900/50 px-4 py-3">
-                <span className="font-medium text-slate-200">{t.name}</span>
+              <div key={t.id} className="flex items-center justify-between border-b border-ink/15 py-2">
+                <span className="font-display tracking-wide text-ink">{t.name}</span>
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => updateTrait(t.id as TraitId, -1)}
-                    className="flex h-8 w-8 items-center justify-center rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    className="flex h-8 w-8 items-center justify-center border border-ink/25 text-ink hover:bg-black/5"
                   >
                     −
                   </button>
-                  <span className="w-8 text-center text-lg font-bold text-amber-400">
+                  <span className="w-10 text-center font-display text-xl font-semibold text-ink">
                     {characterTraits[t.id as TraitId] >= 0 ? '+' : ''}
                     {characterTraits[t.id as TraitId]}
-                    {humanBonusTrait === t.id && <span className="text-xs text-green-400"> +1</span>}
+                    {humanBonusTrait === t.id && <span className="text-xs text-oxblood"> +1</span>}
                   </span>
                   <button
                     type="button"
                     onClick={() => updateTrait(t.id as TraitId, 1)}
-                    className="flex h-8 w-8 items-center justify-center rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    className="flex h-8 w-8 items-center justify-center border border-ink/25 text-ink hover:bg-black/5"
                   >
                     +
                   </button>
@@ -438,12 +445,13 @@ export function CharacterCreator({
               </div>
             ))}
           </div>
-        </Card>
+        </section>
       )}
 
       {step === 6 && (
-        <Card title="Experiences">
-          <p className="mb-4 text-sm text-slate-400">
+        <section>
+          <h2 className="sheet-heading">Experiences</h2>
+          <p className="mb-4 font-serif text-sm text-ink-muted">
             Choose two experiences that define your character's background. Spend Hope to add +2 to a related roll.
           </p>
           <div className="space-y-4">
@@ -457,11 +465,12 @@ export function CharacterCreator({
               />
             ))}
           </div>
-        </Card>
+        </section>
       )}
 
       {step === 7 && (
-        <Card title="Equipment">
+        <section>
+          <h2 className="sheet-heading">Equipment</h2>
           <div className="space-y-4">
             <Select label="Weapon" value={weaponId} onChange={(e) => setWeaponId(e.target.value)}>
               <option value="">Choose weapon...</option>
@@ -479,14 +488,15 @@ export function CharacterCreator({
               ))}
             </Select>
           </div>
-        </Card>
+        </section>
       )}
 
       {step === 8 && (
-        <Card title="Choose Domain Cards">
-          <p className="mb-4 text-sm text-slate-400">
+        <section>
+          <h2 className="sheet-heading">Choose Domain Cards</h2>
+          <p className="mb-4 font-serif text-sm text-ink-muted">
             Pick two level 1 domain cards from your class domains ({selectedClass?.domains.map(domainName).join(' & ')}).
-            <span className="ml-2 text-amber-400">{selectedDomainCardIds.length}/2 selected</span>
+            <span className="ml-2 text-oxblood">{selectedDomainCardIds.length}/2 selected</span>
           </p>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {availableDomainCards.map((card) => {
@@ -497,27 +507,28 @@ export function CharacterCreator({
                   key={card.id}
                   type="button"
                   onClick={() => toggleDomainCard(card.id)}
-                  className={`rounded-lg border p-3 text-left transition-all ${
+                  className={`border p-3 text-left transition-colors ${
                     selected
-                      ? 'border-amber-500 bg-amber-900/30'
-                      : 'border-slate-700 bg-slate-900/50 hover:border-slate-500'
+                      ? 'border-oxblood bg-oxblood/8'
+                      : 'border-ink/20 hover:border-ink/40'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs uppercase text-slate-500">{domain?.name}</span>
-                    <span className="text-xs text-amber-400">Lv.{card.level}</span>
+                    <span className="font-display text-xs uppercase tracking-wider text-ink-faint">{domain?.name}</span>
+                    <span className="font-display text-xs text-oxblood">Lv.{card.level}</span>
                   </div>
-                  <p className="mt-1 font-medium text-slate-200">{card.name}</p>
-                  <p className="mt-1 line-clamp-2 text-xs text-slate-400">{card.description}</p>
+                  <p className="mt-1 font-display font-semibold text-ink">{card.name}</p>
+                  <p className="mt-1 line-clamp-2 font-serif text-xs text-ink-muted">{card.description}</p>
                 </button>
               );
             })}
           </div>
-        </Card>
+        </section>
       )}
 
       {step === 9 && (
-        <Card title="Character Description">
+        <section>
+          <h2 className="sheet-heading">Character Description</h2>
           <Textarea
             label="Describe your character"
             value={description}
@@ -525,17 +536,17 @@ export function CharacterCreator({
             placeholder="Appearance, personality, backstory, goals..."
             rows={6}
           />
-          <div className="mt-6 space-y-2 rounded-lg bg-slate-900/50 p-4 text-sm">
-            <h4 className="font-serif text-amber-300">Summary</h4>
-            <p><span className="text-slate-400">Name:</span> {name}</p>
-            <p><span className="text-slate-400">Class:</span> {selectedClass?.name} ({selectedClass?.subclasses.find((s) => s.id === subclassId)?.name})</p>
-            <p><span className="text-slate-400">Ancestry:</span> {selectedAncestry?.name}</p>
-            <p><span className="text-slate-400">Community:</span> {communities.find((c) => c.id === communityId)?.name}</p>
+          <div className="mt-6 space-y-2 border border-ink/15 bg-black/[0.03] p-4 font-serif text-sm">
+            <h4 className="font-display text-lg tracking-wide text-oxblood">Summary</h4>
+            <p><span className="text-ink-muted">Name:</span> {name}</p>
+            <p><span className="text-ink-muted">Class:</span> {selectedClass?.name} ({selectedClass?.subclasses.find((s) => s.id === subclassId)?.name})</p>
+            <p><span className="text-ink-muted">Ancestry:</span> {selectedAncestry?.name}</p>
+            <p><span className="text-ink-muted">Community:</span> {communities.find((c) => c.id === communityId)?.name}</p>
             {transformationId && (
-              <p><span className="text-slate-400">Transformation:</span> {transformations.find((t) => t.id === transformationId)?.name}</p>
+              <p><span className="text-ink-muted">Transformation:</span> {transformations.find((t) => t.id === transformationId)?.name}</p>
             )}
           </div>
-        </Card>
+        </section>
       )}
 
       <div className="flex justify-between">
@@ -552,6 +563,8 @@ export function CharacterCreator({
           </Button>
         )}
       </div>
+
+    </div>
 
       <SidePanel
         open={!!panelClass}
@@ -579,7 +592,7 @@ export function CharacterCreator({
       >
         {panelClass && (
           <div className="space-y-5 text-sm">
-            <p className="text-slate-300">{panelClass.description}</p>
+            <p className="font-serif text-ink">{panelClass.description}</p>
 
             <div className="grid grid-cols-2 gap-3">
               <Stat label="HP" value={String(panelClass.startingHp)} />
@@ -589,32 +602,32 @@ export function CharacterCreator({
             </div>
 
             <div>
-              <h4 className="mb-1 font-serif text-amber-300">Hope Feature</h4>
-              <p className="text-slate-300">{panelClass.hopeFeature}</p>
+              <h4 className="mb-1 font-display text-lg tracking-wide text-oxblood">Hope Feature</h4>
+              <p className="font-serif text-ink">{panelClass.hopeFeature}</p>
             </div>
 
             <div>
-              <h4 className="mb-2 font-serif text-amber-300">Class Features</h4>
+              <h4 className="mb-2 font-display text-lg tracking-wide text-oxblood">Class Features</h4>
               <div className="space-y-2">
                 {panelClass.classFeatures.map((f) => (
-                  <div key={f.id} className="rounded-lg bg-slate-800/60 p-3">
-                    <p className="font-medium text-slate-200">{f.name}</p>
-                    <p className="text-slate-400">{f.description}</p>
+                  <div key={f.id} className="border-b border-ink/15 pb-2">
+                    <p className="font-display font-semibold text-ink">{f.name}</p>
+                    <p className="font-serif text-ink">{f.description}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             <div>
-              <h4 className="mb-2 font-serif text-amber-300">Subclasses</h4>
+              <h4 className="mb-2 font-display text-lg tracking-wide text-oxblood">Subclasses</h4>
               <div className="space-y-3">
                 {panelClass.subclasses.map((s) => (
                   <div
                     key={s.id}
-                    className={`rounded-lg p-3 ${panelSubclassId === s.id ? 'border border-amber-500/50 bg-amber-900/20' : 'bg-slate-800/60'}`}
+                    className={`p-3 ${panelSubclassId === s.id ? 'border border-oxblood/50 bg-oxblood/8' : 'border border-ink/15'}`}
                   >
-                    <p className="font-medium text-slate-200">{s.name}</p>
-                    <p className="mb-2 text-slate-400">{s.description}</p>
+                    <p className="font-display font-semibold text-ink">{s.name}</p>
+                    <p className="mb-2 font-serif text-ink">{s.description}</p>
                     <SubclassStageList subclass={s} inspect compact />
                   </div>
                 ))}
@@ -623,15 +636,15 @@ export function CharacterCreator({
           </div>
         )}
       </SidePanel>
-    </div>
+    </>
   );
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg bg-slate-800/60 p-3 text-center">
-      <p className="text-xs text-slate-400">{label}</p>
-      <p className="font-bold text-slate-200">{value}</p>
+    <div className="border border-ink/15 p-3 text-center">
+      <p className="font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">{label}</p>
+      <p className="font-display font-semibold text-ink">{value}</p>
     </div>
   );
 }

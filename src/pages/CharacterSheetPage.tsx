@@ -34,7 +34,7 @@ export function CharacterSheetPage() {
   const canEdit = isDm || isOwner;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="mx-auto max-w-5xl">
       <CharacterSheet
         character={character}
         canEdit={!!canEdit}
