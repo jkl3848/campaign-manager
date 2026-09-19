@@ -11,6 +11,7 @@ import { EquipmentPanel } from './EquipmentPanel';
 import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
 import { CHARACTER_HOPE_MAX } from '../../lib/hopeFear';
+import { FormattedText } from '../ui/FormattedText';
 
 interface CharacterSheetSessionProps {
   char: Character;
@@ -33,6 +34,7 @@ interface CharacterSheetSessionProps {
   onCancelLevelUp: () => void;
   onLevelUpComplete: (character: Character) => Promise<void>;
   onAddDomainCard: (cardId: string) => void;
+  onRemoveDomainCard?: (cardId: string) => void;
   catalogOptions: CatalogEntry[];
   onAddCatalogItem: (entryKey: string) => void;
   onEquipWeapon: (inventoryItemId: string, slot: 'primary' | 'secondary') => void;
@@ -66,6 +68,7 @@ export function CharacterSheetSession({
   onCancelLevelUp,
   onLevelUpComplete,
   onAddDomainCard,
+  onRemoveDomainCard,
   catalogOptions,
   onAddCatalogItem,
   onEquipWeapon,
@@ -262,6 +265,14 @@ export function CharacterSheetSession({
                 card={card}
                 expanded={expandedCardId === card.id}
                 onToggle={() => setExpandedCardId(expandedCardId === card.id ? null : card.id)}
+                onRemove={
+                  onRemoveDomainCard
+                    ? () => {
+                        onRemoveDomainCard(card.id);
+                        if (expandedCardId === card.id) setExpandedCardId(null);
+                      }
+                    : undefined
+                }
               />
             ))}
           </div>
@@ -428,22 +439,39 @@ function DomainCardRow({
   card,
   expanded,
   onToggle,
+  onRemove,
 }: {
   card: DomainCard;
   expanded: boolean;
   onToggle: () => void;
+  onRemove?: () => void;
 }) {
   const domain = domains.find((d) => d.id === card.domainId);
   return (
     <div className="border border-ink/15">
-      <button type="button" onClick={onToggle} className="flex w-full items-center justify-between px-2 py-1.5 text-left">
-        <span className="truncate text-[11px] font-medium text-ink">{card.name}</span>
-        <span className="ml-1 shrink-0 text-[10px] text-ink-faint">L{card.level}</span>
-      </button>
+      <div className="flex items-center gap-1 px-2 py-1.5">
+        <button type="button" onClick={onToggle} className="flex min-w-0 flex-1 items-center justify-between text-left">
+          <span className="truncate text-[11px] font-medium text-ink">{card.name}</span>
+          <span className="ml-1 shrink-0 text-[10px] text-ink-faint">L{card.level}</span>
+        </button>
+        {onRemove && (
+          <button
+            type="button"
+            title="Remove from hand"
+            onClick={onRemove}
+            className="shrink-0 px-1 text-[11px] text-ink-faint hover:text-oxblood"
+          >
+            ×
+          </button>
+        )}
+      </div>
       {expanded && (
         <div className="border-t border-ink/10 px-2 py-1.5">
           <p className="text-[10px] text-ink-faint">{domain?.name ?? card.domainId} · {card.type ?? 'ability'}</p>
-          <p className="mt-0.5 text-[11px] leading-relaxed text-ink-muted">{card.description}</p>
+          <FormattedText
+            source={card.description}
+            className="mt-0.5 text-[11px] leading-relaxed text-ink-muted"
+          />
           {card.recallCost != null && (
             <p className="mt-0.5 text-[10px] text-ink-faint">Recall: {card.recallCost} Stress</p>
           )}

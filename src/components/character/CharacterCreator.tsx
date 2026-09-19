@@ -18,6 +18,7 @@ import { ImageUpload } from '../ui/ImageUpload';
 import { GameCard } from '../ui/GameCard';
 import { SidePanel } from '../ui/SidePanel';
 import { Textarea } from '../ui/Textarea';
+import { FormattedText } from '../ui/FormattedText';
 import { SubclassStageList } from './SubclassStageList';
 
 interface CharacterCreatorProps {
@@ -530,7 +531,10 @@ export function CharacterCreator({
                     <span className="font-display text-xs text-oxblood">Lv.{card.level}</span>
                   </div>
                   <p className="mt-1 font-display font-semibold text-ink">{card.name}</p>
-                  <p className="mt-1 line-clamp-2 font-serif text-xs text-ink-muted">{card.description}</p>
+                  <FormattedText
+                    source={card.description}
+                    className="mt-1 line-clamp-2 font-serif text-xs text-ink-muted"
+                  />
                 </button>
               );
             })}

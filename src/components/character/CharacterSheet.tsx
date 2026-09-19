@@ -258,6 +258,15 @@ export function CharacterSheet({
     }
   };
 
+  const removeDomainCard = (cardId: string) => {
+    const domainCards = charRef.current.domainCards.filter((c) => c.id !== cardId);
+    if (isSession) {
+      updateLive({ domainCards });
+    } else {
+      updateLocal({ domainCards });
+    }
+  };
+
   const handleNotesChange = (notes: string) => {
     setChar((prev) => {
       const next = { ...prev, notes };
@@ -304,6 +313,7 @@ export function CharacterSheet({
         onCancelLevelUp={handleCancelLevelUp}
         onLevelUpComplete={handleLevelUpComplete}
         onAddDomainCard={addDomainCard}
+        onRemoveDomainCard={canEdit ? removeDomainCard : undefined}
         catalogOptions={catalogOptions}
         onAddCatalogItem={addCatalogItem}
         onEquipWeapon={handleEquipWeapon}
@@ -647,7 +657,10 @@ export function CharacterSheet({
 
       {/* Domain Cards Hand */}
       <SheetSection title="Domain Cards">
-        <DomainCardHand cards={char.domainCards} />
+        <DomainCardHand
+          cards={char.domainCards}
+          onRemove={canEdit ? removeDomainCard : undefined}
+        />
         {isDm && availableDomainCardsForDm.length > 0 && (
           <div className="mt-3 border-t border-ink/15 pt-3">
             <p className="mb-2 font-sans text-xs font-semibold tracking-wide text-ink-muted">Add domain card (DM)</p>
