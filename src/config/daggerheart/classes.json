@@ -1065,7 +1065,7 @@
     "startingHp": 5,
     "startingStress": 6,
     "startingEvasion": 10,
-    "hopeFeature": "TBD: Spend 3 Hope to reroll any number of your damage dice on an attack that deals Draft damage.",
+    "hopeFeature": "Natural Talent: Spend 3 Hope to reroll any number of your damage dice on an attack that deals Draft damage.",
     "subclasses": [
       {
         "id": "elemental",
