@@ -13,7 +13,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": false,
-      "feature": "Reliable: +1 to attack rolls"
+      "feature": "Reliable: +1 to attack rolls",
+      "tier": 1
     },
     {
       "id": "longsword",
@@ -28,7 +29,8 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "battleaxe",
@@ -43,7 +45,8 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "greatsword",
@@ -58,7 +61,8 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": "Massive: -1 to Evasion; on a successful attack, roll an additional damage die and discard the lowest result."
+      "feature": "Massive: -1 to Evasion; on a successful attack, roll an additional damage die and discard the lowest result.",
+      "tier": 1
     },
     {
       "id": "mace",
@@ -73,7 +77,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "warhammer",
@@ -88,7 +93,8 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": "Heavy: -1 to Evasion"
+      "feature": "Heavy: -1 to Evasion",
+      "tier": 1
     },
     {
       "id": "dagger",
@@ -103,7 +109,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "quarterstaff",
@@ -118,7 +125,8 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "cutlass",
@@ -133,7 +141,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "rapier",
@@ -148,7 +157,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": false,
-      "feature": "Quick: When you make an attack, you can mark a Stress to target another creature within range."
+      "feature": "Quick: When you make an attack, you can mark a Stress to target another creature within range.",
+      "tier": 1
     },
     {
       "id": "halberd",
@@ -163,7 +173,8 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": "Cumbersome: -1 to Finesse"
+      "feature": "Cumbersome: -1 to Finesse",
+      "tier": 1
     },
     {
       "id": "spear",
@@ -178,7 +189,8 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": "-1 to Finesse"
+      "feature": "-1 to Finesse",
+      "tier": 1
     },
     {
       "id": "shortbow",
@@ -193,11 +205,12 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
-      "id": "crossbow",
-      "name": "Crossbow",
+      "id": "pulse-rifle",
+      "name": "Pulse Rifle",
       "damage": {
         "dice": 6,
         "count": 1,
@@ -208,7 +221,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "longbow",
@@ -223,11 +237,12 @@
       "physical": true,
       "twoHanded": true,
       "secondary": false,
-      "feature": "Cumbersome: -1 to Finesse"
+      "feature": "Cumbersome: -1 to Finesse",
+      "tier": 1
     },
     {
-      "id": "arcane-gauntlets",
-      "name": "Arcane Gauntlets",
+      "id": "tech-gauntlets",
+      "name": "Tech Gauntlets",
       "damage": {
         "dice": 10,
         "count": 1,
@@ -238,11 +253,12 @@
       "physical": false,
       "twoHanded": true,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
-      "id": "hallowed-axe",
-      "name": "Hallowed Axe",
+      "id": "infused-axe",
+      "name": "Infused Axe",
       "damage": {
         "dice": 8,
         "count": 1,
@@ -253,7 +269,8 @@
       "physical": false,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "glowing-rings",
@@ -268,11 +285,12 @@
       "physical": false,
       "twoHanded": true,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
-      "id": "hand-runes",
-      "name": "Hand Runes",
+      "id": "magnifier-gloves",
+      "name": "Magnifier Gloves",
       "damage": {
         "dice": 10,
         "count": 1,
@@ -283,7 +301,8 @@
       "physical": false,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "returning-blade",
@@ -298,7 +317,8 @@
       "physical": false,
       "twoHanded": false,
       "secondary": false,
-      "feature": "Returning: When this weapon is thrown within its range, it appears in your hand immediately after the attack."
+      "feature": "Returning: When this weapon is thrown within its range, it appears in your hand immediately after the attack.",
+      "tier": 1
     },
     {
       "id": "shortstaff",
@@ -313,7 +333,8 @@
       "physical": false,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "dualstaff",
@@ -328,7 +349,8 @@
       "physical": false,
       "twoHanded": true,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "scepter",
@@ -343,11 +365,12 @@
       "physical": false,
       "twoHanded": true,
       "secondary": false,
-      "feature": "Versatile: This weapon can also be used with these statistics—Presence, Melee, d8."
+      "feature": "Versatile: This weapon can also be used with these statistics—Presence, Melee, d8.",
+      "tier": 1
     },
     {
-      "id": "wand",
-      "name": "Wand",
+      "id": "draft-channel",
+      "name": "Draft Channel",
       "damage": {
         "dice": 6,
         "count": 1,
@@ -358,7 +381,8 @@
       "physical": false,
       "twoHanded": false,
       "secondary": false,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     },
     {
       "id": "greatstaff",
@@ -373,7 +397,8 @@
       "physical": false,
       "twoHanded": true,
       "secondary": false,
-      "feature": "Powerful: On a successful attack, roll an additional damage die and discard the lowest result."
+      "feature": "Powerful: On a successful attack, roll an additional damage die and discard the lowest result.",
+      "tier": 1
     },
     {
       "id": "shortsword",
@@ -388,7 +413,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": true,
-      "feature": "Paired: +2 to primary weapon damage to targets within Melee range"
+      "feature": "Paired: +2 to primary weapon damage to targets within Melee range",
+      "tier": 1
     },
     {
       "id": "round-shield",
@@ -403,7 +429,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": true,
-      "feature": "Protective: +1 to Armor Score"
+      "feature": "Protective: +1 to Armor Score",
+      "tier": 1
     },
     {
       "id": "tower-shield",
@@ -418,7 +445,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": true,
-      "feature": "Barrier: +2 to Armor Score; -1 to Evasion"
+      "feature": "Barrier: +2 to Armor Score; -1 to Evasion",
+      "tier": 1
     },
     {
       "id": "small-dagger",
@@ -433,7 +461,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": true,
-      "feature": "Paired: +2 to primary weapon damage to targets within Melee range"
+      "feature": "Paired: +2 to primary weapon damage to targets within Melee range",
+      "tier": 1
     },
     {
       "id": "whip",
@@ -448,7 +477,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": true,
-      "feature": "Startling: Mark a Stress to crack the whip and force all adversaries within Melee range back to Close range."
+      "feature": "Startling: Mark a Stress to crack the whip and force all adversaries within Melee range back to Close range.",
+      "tier": 1
     },
     {
       "id": "grappler",
@@ -463,11 +493,12 @@
       "physical": true,
       "twoHanded": false,
       "secondary": true,
-      "feature": "Hooked: On a successful attack, you can pull the target into Melee range."
+      "feature": "Hooked: On a successful attack, you can pull the target into Melee range.",
+      "tier": 1
     },
     {
-      "id": "hand-crossbow",
-      "name": "Hand Crossbow",
+      "id": "pulse-pistol",
+      "name": "Pulse Pistol",
       "damage": {
         "dice": 6,
         "count": 1,
@@ -478,7 +509,8 @@
       "physical": true,
       "twoHanded": false,
       "secondary": true,
-      "feature": ""
+      "feature": "",
+      "tier": 1
     }
   ],
   "armor": [
