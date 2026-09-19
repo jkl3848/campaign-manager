@@ -1,25 +1,25 @@
 [
   {
-    "id": "rune-ward",
-    "domain": "arcana",
+    "id": "em-barrier",
+    "domain": "cosmos",
     "level": 1,
-    "name": "Rune Ward",
-    "description": "You have a deeply personal trinket that can be infused with protective magic and held as a ward by you or an ally. Describe what it is and why it’s important to you. The ward’s holder can spend a Hope to reduce incoming damage by 1d8.\n\nIf the Ward Die result is 8, the ward’s power ends after it reduces damage this turn. It can be recharged for free on your next rest.",
+    "name": "EM Barrier",
+    "description": "A pocket shield generator that can be held by you or an ally. The barrier’s holder can spend a Hope to reduce incoming damage by 1d8.\n\nIf the Barrier Die result is 8, the barrier’s power ends after it reduces damage this turn. It can be recharged for free on your next rest.",
     "type": "Spell",
     "recallCost": 0
   },
   {
     "id": "unleash-chaos",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 1,
     "name": "Unleash Chaos",
-    "description": "At the beginning of a session, place a number of tokens equal to your Spellcast trait on this card.\n\nMake a Spellcast Roll against a target within Far range and spend any number of tokens to channel raw energy from within yourself to unleash against them. On a success, roll a number of d10s equal to the tokens you spent and deal that much magic damage to the target. Mark a Stress to replenish this card with tokens (up to your Spellcast trait).\n\nAt the end of each session, clear all unspent tokens.",
+    "description": "At the beginning of a session, place a number of tokens equal to your Draftcast trait on this card.\n\nMake a Draftcast Roll against a target within Far range and spend any number of tokens to channel raw energy from within yourself to unleash against them. On a success, roll a number of d10s equal to the tokens you spent and deal that much Draft damage to the target. Mark a Stress to replenish this card with tokens (up to your Draftcast trait).\n\nAt the end of each session, clear all unspent tokens.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "wall-walk",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 1,
     "name": "Wall Walk",
     "description": "Spend a Hope to allow a creature you can touch to climb on walls and ceilings as easily as walking on the ground. This lasts until the end of the scene or you cast Wall Walk again.",
@@ -28,151 +28,151 @@
   },
   {
     "id": "cinder-grasp",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 2,
     "name": "Cinder Grasp",
-    "description": "Make a Spellcast Roll against a target within Melee range. On a success, the target instantly bursts into flames, takes 1d20+3 magic damage, and is temporarily lit On Fire.\n\nWhen a creature acts while On Fire, they must take an extra 2d6 magic damage if they are still On Fire at the end of their action.",
+    "description": "Make a Draftcast Roll against a target within Melee range. On a success, the target instantly bursts into flames, takes 1d20+3 Draft damage, and is temporarily lit On Fire.\n\nWhen a creature acts while On Fire, they must take an extra 2d6 Draft damage if they are still On Fire at the end of their action.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "floating-eye",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 2,
     "name": "Floating Eye",
-    "description": "Spend a Hope to create a single, small floating orb that you can move anywhere within Very Far range. While this spell is active, you can see through the orb as though you’re looking out from its position. You can transition between using your own senses and seeing through the orb freely. If the orb takes damage or moves out of range, the spell ends.",
+    "description": "Spend a Hope to create a single, small floating orb that you can move anywhere within Very Far range. While this ability is active, you can see through the orb as though you’re looking out from its position. You can transition between using your own senses and seeing through the orb freely. If the orb takes damage or moves out of range, the ability ends.",
     "type": "Spell",
     "recallCost": 0
   },
   {
-    "id": "counterspell",
-    "domain": "arcana",
+    "id": "interruption",
+    "domain": "cosmos",
     "level": 3,
-    "name": "Counterspell",
-    "description": "You can interrupt a magical effect taking place by making a reaction roll using your Spellcast trait. On a success, the effect stops and any consequences are avoided, and this card is placed in your vault.",
+    "name": "Interruption",
+    "description": "You can interrupt a Draft effect taking place by making a reaction roll using your Draftcast trait. On a success, the effect stops and any consequences are avoided, and this card is placed in your vault.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "flight",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 3,
     "name": "Flight",
-    "description": "Make a Spellcast Roll (15). On a success, place a number of tokens equal to your Agility on this card (minimum 1). When you make an action roll while flying, spend a token from this card. After the action that spends the last token is resolved, you descend to the ground directly below you.",
+    "description": "Make a Draftcast Roll (15). On a success, place a number of tokens equal to your Agility on this card (minimum 1). When you make an action roll while flying, spend a token from this card. After the action that spends the last token is resolved, you descend to the ground directly below you.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "blink-out",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 4,
     "name": "Blink Out",
-    "description": "Make a Spellcast Roll (12). On a success, spend a Hope to teleport to another point you can see within Far range. If any willing creatures are within Very Close range, spend an additional Hope for each creature to bring them with you.",
+    "description": "Make a Draftcast Roll (12). On a success, spend a Hope to teleport to another point you can see within Far range. If any willing creatures are within Very Close range, spend an additional Hope for each creature to bring them with you.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "preservation-blast",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 4,
     "name": "Preservation Blast",
-    "description": "Make a Spellcast Roll against all targets within Melee range. Targets you succeed against are forced back to Far range and take 8d8+3 magic damage using your Spellcast trait.",
+    "description": "Make a Draftcast Roll against all targets within Melee range. Targets you succeed against are forced back to Far range and take 8d8+3 Draft damage using your Draftcast trait.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "chain-lightning",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 5,
     "name": "Chain Lightning",
-    "description": "Mark 2 Stress to make a Spellcast Roll, unleashing lightning on all targets within Close range. Targets you succeed against must make a reaction roll with a Difficulty equal to the result of your Spellcast Roll. Targets who fail take 2d8+4 magic damage. Additional adversaries not already targeted by Chain Lightning and within Close range of previous targets who took damage must also make the reaction roll. Targets who fail take 2d8+4 magic damage. This chain continues until there are no more adversaries within range.",
+    "description": "Mark 2 Stress to make a Draftcast Roll, unleashing lightning on all targets within Close range. Targets you succeed against must make a reaction roll with a Difficulty equal to the result of your Draftcast Roll. Targets who fail take 2d8+4 Draft damage. Additional adversaries not already targeted by Chain Lightning and within Close range of previous targets who took damage must also make the reaction roll. Targets who fail take 2d8+4 Draft damage. This chain continues until there are no more adversaries within range.",
     "type": "Spell",
     "recallCost": 1
   },
   {
-    "id": "premonition",
-    "domain": "arcana",
+    "id": "foresight",
+    "domain": "cosmos",
     "level": 5,
-    "name": "Premonition",
-    "description": "You can channel arcane energy to have visions of the future. Once per long rest, immediately after the GM conveys the consequences of a roll you made, you can rescind the move and consequences like they never happened and make another move instead.",
+    "name": "Foresight",
+    "description": "You can channel Draft energy to calculate potential outcomes. Once per long rest, immediately after the GM conveys the consequences of a roll you made, you can rescind the move and consequences like they never happened and make another move instead.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "rift-walker",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 6,
     "name": "Rift Walker",
-    "description": "Make a Spellcast Roll (15). On a success, you place an arcane marking on the ground where you currently stand. The next time you successfully cast Rift Walker, a rift in space opens up, providing safe passage back to the exact spot where the marking was placed. This rift stays open until you choose to close it or you cast another spell.\n\nYou can drop the spell at any time to cast Rift Walker again and place the marking somewhere new.",
+    "description": "Make a Draftcast Roll (15). On a success, you place an Draft marking on the ground where you currently stand. The next time you successfully cast Rift Walker, a rift in space opens up, providing safe passage back to the exact spot where the marking was placed. This rift stays open until you choose to close it or you cast another ability .\n\nYou can drop the ability at any time to cast Rift Walker again and place the marking somewhere new.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "telekinesis",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 6,
     "name": "Telekinesis",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, you can use your mind to move them anywhere within Far range of their original position. You can throw the lifted target as an attack by making an additional Spellcast Roll against the second target you’re trying to attack. On a success, deal 12d4 physical damage to the second target using your Proficiency Die.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, you can use your mind to move them anywhere within Far range of their original position. You can throw the lifted target as an attack by making an additional Draftcast Roll against the second target you’re trying to attack. On a success, deal 12d4 physical damage to the second target using your Proficiency Die.",
     "type": "Spell",
     "recallCost": 0
   },
   {
-    "id": "arcana-touched",
-    "domain": "arcana",
+    "id": "cosmos-touched",
+    "domain": "cosmos",
     "level": 7,
-    "name": "Arcana-Touched",
-    "description": "When 4 or more of the domain cards in your loadout are from the Arcana domain, gain the following benefits:\n\n- +1 bonus to your Spellcast Rolls\n- Once per rest, you can switch the results of your Hope and Fear Dice.",
+    "name": "Cosmos Touched",
+    "description": "When 4 or more of the domain cards in your loadout are from the cosmos domain, gain the following benefits:\n\n- +1 bonus to your Draftcast Rolls\n- Once per rest, you can switch the results of your Hope and Fear Dice.",
     "type": "Ability",
     "recallCost": 2
   },
   {
     "id": "cloaking-blast",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 7,
     "name": "Cloaking Blast",
-    "description": "When you make a successful Spellcast Roll to cast a different spell, you can spend a Hope to become Cloaked. While Cloaked, you remain unseen if you are stationary when an adversary moves to where they would normally see you. When you move into or within an adversary’s line of sight or make an attack, you are no longer Cloaked.",
+    "description": "When you make a successful Draftcast Roll to cast a different ability , you can spend a Hope to become Cloaked. While Cloaked, you remain unseen if you are stationary when an adversary moves to where they would normally see you. When you move into or within an adversary’s line of sight or make an attack, you are no longer Cloaked.",
     "type": "Spell",
     "recallCost": 2
   },
   {
-    "id": "arcane-reflection",
-    "domain": "arcana",
+    "id": "draft-reflection",
+    "domain": "cosmos",
     "level": 8,
-    "name": "Arcane Reflection",
-    "description": "When you would take magic damage, you can spend any number of Hope to roll that many d6s. If any roll a 6, the attack is reflected back to the caster, dealing the damage to them instead.",
+    "name": "Draft Reflection",
+    "description": "When you would take Draft damage, you can spend any number of Hope to roll that many d6s. If any roll a 6, the attack is reflected back to the caster, dealing the damage to them instead.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "confusing-aura",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 8,
     "name": "Confusing Aura",
-    "description": "Make a Spellcast Roll (14). Once per long rest on a success, you create a layer of illusion over your body that makes it hard to tell exactly where you are. Mark any number of Stress to make that many additional layers. When an adversary makes an attack against you, roll a number of d6s equal to the number of layers currently active. If any roll a 5 or higher, one layer of the aura is destroyed and the attack fails. If all the results are 4 or lower, you take the damage and this spell ends.",
+    "description": "Make a Draftcast Roll (14). Once per long rest on a success, you create a layer of illusion over your body that makes it hard to tell exactly where you are. Mark any number of Stress to make that many additional layers. When an adversary makes an attack against you, roll a number of d6s equal to the number of layers currently active. If any roll a 5 or higher, one layer of the aura is destroyed and the attack fails. If all the results are 4 or lower, you take the damage and this ability ends.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "earthquake",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 9,
     "name": "Earthquake",
-    "description": "Make a Spellcast Roll (16). Once per rest on a success, all targets within Very Far range who aren’t flying must make a Reaction Roll (18). Targets who fail take 3d10+8 physical damage and are temporarily Vulnerable. Targets who succeed take half damage.\n\nAdditionally, when you succeed on the Spellcast Roll, all terrain within Very Far range becomes difficult to move through and structures within this range might sustain damage or crumble.",
+    "description": "Make a Draftcast Roll (16). Once per rest on a success, all targets within Very Far range who aren’t flying must make a Reaction Roll (18). Targets who fail take 3d10+8 physical damage and are temporarily Vulnerable. Targets who succeed take half damage.\n\nAdditionally, when you succeed on the Draftcast Roll, all terrain within Very Far range becomes difficult to move through and structures within this range might sustain damage or crumble.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "sensory-projection",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 9,
     "name": "Sensory Projection",
-    "description": "Once per rest, make a Spellcast Roll (15). On a success, drop into a vision that lets you clearly see and hear any place you have been before as though you are standing there in this moment. You can move freely in this vision and are not constrained by the physics or impediments of a physical body. This spell cannot be detected by mundane or magical means. You drop out of this vision upon taking damage or casting another spell.",
+    "description": "Once per rest, make a Draftcast Roll (15). On a success, drop into a vision that lets you clearly see and hear any place you have been before as though you are standing there in this moment. You can move freely in this vision and are not constrained by the physics or impediments of a physical body. This ability cannot be detected by mundane or Draft means. You drop out of this vision upon taking damage or casting another ability .",
     "type": "Spell",
     "recallCost": 0
   },
   {
     "id": "adjust-reality",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 10,
     "name": "Adjust Reality",
     "description": "After you or a willing ally make any roll, you can spend 5 Hope to change the numerical result of that roll to a result of your choice instead. The result must be plausible within the range of the dice.",
@@ -181,10 +181,10 @@
   },
   {
     "id": "falling-sky",
-    "domain": "arcana",
+    "domain": "cosmos",
     "level": 10,
     "name": "Falling Sky",
-    "description": "Make a Spellcast Roll against all adversaries within Far range. Mark any number of Stress to make shards of arcana rain down from above. Targets you succeed against take 12d20+2 magic damage for each Stress marked.",
+    "description": "Make a Draftcast Roll against all adversaries within Far range. Mark any number of Stress to make shards of cosmos rain down from above. Targets you succeed against take 12d20+2 Draft damage for each Stress marked.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -211,7 +211,7 @@
     "domain": "blade",
     "level": 1,
     "name": "Whirlwind",
-    "description": "When you make a successful attack against a target within Very Close range, you can spend a Hope to use the attack against all other targets within Very Close range. All additional adversaries you succeed against with this ability take half damage.",
+    "description": "When you make a successful attack against a target within Very Close range, you can spend a Hope to use the attack against all other targets within Very Close range. All additional adversaries you succeed against with this ability  take half damage.",
     "type": "Ability",
     "recallCost": 0
   },
@@ -567,83 +567,83 @@
     "recallCost": 2
   },
   {
-    "id": "book-of-ava",
+    "id": "record-of-ava",
     "domain": "codex",
     "level": 1,
-    "name": "Book Of Ava",
-    "description": "**Power Push:** Make a Spellcast Roll against a target within Melee range.\nOn a success, they’re knocked back to Far range and take d10+2 magic damage using your Proficiency.\n\n**Tova’s Armor:** Spend a Hope to give a target you can touch a +1 bonus to their Armor Score until their next rest or you cast Tova’s Armor again.\n\n**Ice Spike:** Make a Spellcast Roll (12) to summon a large ice spike within Far range. If you use it as a weapon, make the Spellcast Roll against the target’s Difficulty instead. On a success, deal d6 physical damage using your Proficiency.",
+    "name": "Record Of Ava",
+    "description": "**Power Push:** Make a Draftcast Roll against a target within Melee range.\nOn a success, they’re knocked back to Far range and take d10+2 Draft damage using your Proficiency.\n\n**Tova’s Armor:** Spend a Hope to give a target you can touch a +1 bonus to their Armor Score until their next rest or you cast Tova’s Armor again.\n\n**Ice Spike:** Make a Draftcast Roll (12) to summon a large ice spike within Far range. If you use it as a weapon, make the Draftcast Roll against the target’s Difficulty instead. On a success, deal d6 physical damage using your Proficiency.",
     "type": "Grimoire",
     "recallCost": 2
   },
   {
-    "id": "book-of-illiat",
+    "id": "record-of-illiat",
     "domain": "codex",
     "level": 1,
-    "name": "Book Of Illiat",
-    "description": "**Slumber:** Make a Spellcast Roll against a target within Very Close range. On a success, they’re Asleep until they take damage or the GM spends a Fear on their turn to clear this condition.\n\n**Arcane Barrage:** Once per rest, spend any number of Hope and shoot magical projectiles that strike a target of your choice within Close range. Roll a number of d6s equal to the Hope spent and deal that much magic damage to the target.\n\n**Telepathy:** Spend a Hope to open a line of mental communication with one target you can see. This connection lasts until your next rest or you cast Telepathy again.",
+    "name": "Record Of Illiat",
+    "description": "**Slumber:** Make a Draftcast Roll against a target within Very Close range. On a success, they’re Asleep until they take damage or the GM spends a Fear on their turn to clear this condition.\n\n**Draft Barrage:** Once per rest, spend any number of Hope and shoot Draft projectiles that strike a target of your choice within Close range. Roll a number of d6s equal to the Hope spent and deal that much Draft damage to the target.\n\n**Telepathy:** Spend a Hope to open a line of mental communication with one target you can see. This connection lasts until your next rest or you cast Telepathy again.",
     "type": "Grimoire",
     "recallCost": 2
   },
   {
-    "id": "book-of-tyfar",
+    "id": "record-of-tyfar",
     "domain": "codex",
     "level": 1,
-    "name": "Book Of Tyfar",
-    "description": "**Wild Flame:** Make a Spellcast Roll against up to three adversaries within Melee range. Targets you succeed against take 2d6 magic damage and must mark a Stress as flames erupt from your hand.\n\n**Magic Hand:** You conjure a magical hand with the same size and strength as your own within Far range.\n\n**Mysterious Mist:** Make a Spellcast Roll (13) to cast a temporary thick fog that gathers in a stationary area within Very Close range. The fog heavily obscures this area and everything in it.",
+    "name": "Record Of Tyfar",
+    "description": "**Wild Flame:** Make a Draftcast Roll against up to three adversaries within Melee range. Targets you succeed against take 2d6 Draft damage and must mark a Stress as flames erupt from your hand.\n\n**Draft Hand:** You conjure a Draft hand with the same size and strength as your own within Far range.\n\n**Mysterious Mist:** Make a Draftcast Roll (13) to cast a temporary thick fog that gathers in a stationary area within Very Close range. The fog heavily obscures this area and everything in it.",
     "type": "Grimoire",
     "recallCost": 2
   },
   {
-    "id": "book-of-sitil",
+    "id": "record-of-sitil",
     "domain": "codex",
     "level": 2,
-    "name": "Book Of Sitil",
-    "description": "**Adjust Appearance:** You magically shift your appearance and clothing to avoid recognition.\n\n**Parallecta:** Spend 2 Hope to cast this spell on yourself or an ally within Close range. The next time the target makes an attack, they can roll an additional target within range that their attack roll would succeed against. You can only hold this spell on one creature at a time.\n\n**Illusion:** Make a Spellcast Roll (14).\nOn a success, create a temporary visual illusion no larger than you within Close range that lasts for as long as you look at it. It holds up to scrutiny until an observer is within Melee range.",
+    "name": "Record Of Sitil",
+    "description": "**Adjust Appearance:** You shift your appearance and clothing to avoid recognition.\n\n**Parallecta:** Spend 2 Hope to cast this ability on yourself or an ally within Close range. The next time the target makes an attack, they can roll an additional target within range that their attack roll would succeed against. You can only hold this ability on one creature at a time.\n\n**Illusion:** Make a Draftcast Roll (14).\nOn a success, create a temporary visual illusion no larger than you within Close range that lasts for as long as you look at it. It holds up to scrutiny until an observer is within Melee range.",
     "type": "Grimoire",
     "recallCost": 2
   },
   {
-    "id": "book-of-vagras",
+    "id": "record-of-vagras",
     "domain": "codex",
     "level": 2,
-    "name": "Book Of Vagras",
-    "description": "**Runic Lock:** Make a Spellcast Roll (15) on an object you’re touching that can close (such as a lock, chest, or box). Once per rest on a success, you can lock the object so it can only be opened by creatures of your choice. Someone with access to magic and an hour of time to study the spell can break it.\n\n**Arcane Door:** When you have no adversaries within Melee range, make a Spellcast Roll (13). On a success, spend a Hope to create a portal from where you are to a point within Far range you can see. It closes once a creature has passed through it.\n\n**Reveal:** Make a Spellcast Roll. If there is anything magically hidden within Close range, it is revealed.",
+    "name": "Record Of Vagras",
+    "description": "**Bio Lock:** Make a Draftcast Roll (15) on an object you’re touching that can close (such as a lock, chest, or box). Once per rest on a success, you can lock the object so it can only be opened by creatures of your choice. Someone with access to Draft and an hour of time to study the ability can break it.\n\n**Draft Door:** When you have no adversaries within Melee range, make a Draftcast Roll (13). On a success, spend a Hope to create a portal from where you are to a point within Far range you can see. It closes once a creature has passed through it.\n\n**Reveal:** Make a Draftcast Roll. If there is anything is using Draft to hide within Close range, it is revealed.",
     "type": "Grimoire",
     "recallCost": 2
   },
   {
-    "id": "book-of-korvax",
+    "id": "record-of-korvax",
     "domain": "codex",
     "level": 3,
-    "name": "Book Of Korvax",
-    "description": "**Levitation:** Make a Spellcast Roll to temporarily lift a target you can see up into the air and move them within Close range of their original position.\n\n**Recant:** Spend a Hope to force a target within Melee range to make a Reaction Roll (15). On a failure, they forget the last minute of your conversation.\n\n**Rune Circle:** Mark a Stress to create a temporary magical circle on the ground where you stand. All adversaries within Melee range, who enter Melee range, take 2d12+4 magic damage and are knocked back to Very Close range.",
+    "name": "Record Of Korvax",
+    "description": "**Levitation:** Make a Draftcast Roll to temporarily lift a target you can see up into the air and move them within Close range of their original position.\n\n**Recant:** Spend a Hope to force a target within Melee range to make a Reaction Roll (15). On a failure, they forget the last minute of your conversation.\n\n**Draft Circle:** Mark a Stress to create a temporary Draft circle on the ground where you stand. All adversaries within Melee range, who enter Melee range, take 2d12+4 Draft damage and are knocked back to Very Close range.",
     "type": "Grimoire",
     "recallCost": 2
   },
   {
-    "id": "book-of-norai",
+    "id": "record-of-norai",
     "domain": "codex",
     "level": 3,
-    "name": "Book Of Norai",
-    "description": "**Mystic Tether:** Make a Spellcast Roll against a target within Far range. On a success, they’re temporarily Restrained and must mark a Stress. If you target a flying creature, this spell grounds and temporarily Restrains them.\n\n**Fireball:** Make a Spellcast Roll against a target within Very Far range. On a success, hurl a sphere of fire toward them that explodes on impact. The target and all creatures within Very Close range of them must make a Reaction Roll (13). Targets who fail take d20+5 magic damage using your Proficiency. Targets who succeed take half damage.",
+    "name": "Record Of Norai",
+    "description": "**Mechanical Tether:** Make a Draftcast Roll against a target within Far range. On a success, they’re temporarily Restrained and must mark a Stress. If you target a flying creature, this ability grounds and temporarily Restrains them.\n\n**Fireball:** Make a Draftcast Roll against a target within Very Far range. On a success, hurl a sphere of fire toward them that explodes on impact. The target and all creatures within Very Close range of them must make a Reaction Roll (13). Targets who fail take d20+5 Draft damage using your Proficiency. Targets who succeed take half damage.",
     "type": "Grimoire",
     "recallCost": 2
   },
   {
-    "id": "book-of-exota",
+    "id": "record-of-exota",
     "domain": "codex",
     "level": 4,
-    "name": "Book Of Exota",
-    "description": "**Repudiate:** You can interrupt a magical effect taking place. Make a reaction roll using your Spellcast trait. Once per rest on a success, the effect stops and any consequences are avoided.\n\n**Create Construct:** Spend a Hope to choose a group of objects around you and create an animated construct from them that obeys basic commands. Make a Spellcast Roll to command them to take action. When necessary, they share your Evasion and traits and their attacks deal 2d10+3 physical damage. You can only maintain one construct at a time, and they fall apart when they take any amount of damage.",
+    "name": "Record Of Exota",
+    "description": "**Repudiate:** You can interrupt a Draft effect taking place. Make a reaction roll using your Draftcast trait. Once per rest on a success, the effect stops and any consequences are avoided.\n\n**Create Construct:** Spend a Hope to choose a group of objects around you and create an animated construct from them that obeys basic commands. Make a Draftcast Roll to command them to take action. When necessary, they share your Evasion and traits and their attacks deal 2d10+3 physical damage. You can only maintain one construct at a time, and they fall apart when they take any amount of damage.",
     "type": "Grimoire",
     "recallCost": 3
   },
   {
-    "id": "book-of-grynn",
+    "id": "record-of-grynn",
     "domain": "codex",
     "level": 4,
-    "name": "Book Of Grynn",
-    "description": "**Arcane Deflection:** Once per long rest, spend a Hope to negate the damage of an attack targeting you or an ally within Very Close range.\n\n**Time Lock:** Target an object within Far range. That object stops in time and space exactly where it is until your next rest. If a creature tries to move it, make a Spellcast Roll against them to maintain this spell.\n\n**Wall of Flame:** Make a Spellcast Roll (15). On a success, create a temporary wall of magical flame between two points within Far range. All creatures in its path must choose a side to be on, and anything that subsequently passes through the wall takes 4d10+3 magic damage.",
+    "name": "Record Of Grynn",
+    "description": "**Draft Deflection:** Once per long rest, spend a Hope to negate the damage of an attack targeting you or an ally within Very Close range.\n\n**Time Lock:** Target an object within Far range. That object stops in time and space exactly where it is until your next rest. If a creature tries to move it, make a Draftcast Roll against them to maintain this ability .\n\n**Wall of Flame:** Make a Draftcast Roll (15). On a success, create a temporary wall of Draftflame between two points within Far range. All creatures in its path must choose a side to be on, and anything that subsequently passes through the wall takes 4d10+3 Draft damage.",
     "type": "Grimoire",
     "recallCost": 2
   },
@@ -652,7 +652,7 @@
     "domain": "codex",
     "level": 5,
     "name": "Manifest Wall",
-    "description": "Make a Spellcast Roll (15). Once per rest on a success, spend a Hope to create a temporary magical wall between two points within Far range. It can be up to 50 feet high and form at any angle. Creatures or objects in its path are shunted to a side of their choice. The wall stays up until your next rest or you cast Manifest Wall again.",
+    "description": "Make a Draftcast Roll (15). Once per rest on a success, spend a Hope to create a temporary Draft wall between two points within Far range. It can be up to 50 feet high and form at any angle. Creatures or objects in its path are shunted to a side of their choice. The wall stays up until your next rest or you cast Manifest Wall again.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -661,7 +661,7 @@
     "domain": "codex",
     "level": 5,
     "name": "Teleport",
-    "description": "Once per long rest, you can instantly teleport yourself and any number of willing targets within Close range to a place you’ve been before. Choose one of the following options, then make a Spellcast Roll (16):\n\n- If you know the place very well, gain a +3 bonus.\n- If you’ve visited the place frequently, gain a +1 bonus.\n- If you’ve visited the place infrequently, gain no modifier.\n- If you’ve only been there once, gain a -2 penalty.\n\nOn a success, you appear where you were intending to go. On a failure, you appear off course, with the range of failure determining how far off course.",
+    "description": "Once per long rest, you can instantly teleport yourself and any number of willing targets within Close range to a place you’ve been before. Choose one of the following options, then make a Draftcast Roll (16):\n\n- If you know the place very well, gain a +3 bonus.\n- If you’ve visited the place frequently, gain a +1 bonus.\n- If you’ve visited the place infrequently, gain no modifier.\n- If you’ve only been there once, gain a -2 penalty.\n\nOn a success, you appear where you were intending to go. On a failure, you appear off course, with the range of failure determining how far off course.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -670,7 +670,7 @@
     "domain": "codex",
     "level": 6,
     "name": "Banish",
-    "description": "Make a Spellcast Roll against a target within Close range. On a success, roll a number of d20s equal to your Spellcast trait. The target must make a reaction roll with a Difficulty equal to your highest result. On a success, the target must mark a Stress but isn’t banished. Once per rest on a failure, they are banished from this realm.\n\nWhen the PCs roll with Fear, the Difficulty gains a -1 penalty and the target makes another reaction roll. On a success, they return from banishment.",
+    "description": "Make a Draftcast Roll against a target within Close range. On a success, roll a number of d20s equal to your Draftcast trait. The target must make a reaction roll with a Difficulty equal to your highest result. On a success, the target must mark a Stress but isn’t banished. Once per rest on a failure, they are banished from this realm.\n\nWhen the PCs roll with Fear, the Difficulty gains a -1 penalty and the target makes another reaction roll. On a success, they return from banishment.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -684,11 +684,11 @@
     "recallCost": 2
   },
   {
-    "id": "book-of-homet",
+    "id": "record-of-homet",
     "domain": "codex",
     "level": 7,
-    "name": "Book Of Homet",
-    "description": "**Pass Through:** Make a Spellcast Roll (13). Once per rest on a success, you and all creatures touching you can pass through a wall or door within Close range. The effect ends once everyone is on the other side.\n\n**Plane Gate:** Make a Spellcast Roll (14). Once per long rest on a success, open a gateway to a location in another dimension or plane of existence you’ve been to before. This gateway lasts until your next rest.",
+    "name": "Record Of Homet",
+    "description": "**Pass Through:** Make a Draftcast Roll (13). Once per rest on a success, you and all creatures touching you can pass through a wall or door within Close range. The effect ends once everyone is on the other side.\n\n**Plane Gate:** Make a Draftcast Roll (14). Once per long rest on a success, open a gateway to a location in another dimension or plane of existence you’ve been to before. This gateway lasts until your next rest.",
     "type": "Grimoire",
     "recallCost": 0
   },
@@ -697,16 +697,16 @@
     "domain": "codex",
     "level": 7,
     "name": "Codex-Touched",
-    "description": "When 4 or more of the domain cards in your loadout are from the Codex domain, gain the following benefits:\n\n- You can mark a Stress to add your Proficiency to a Spellcast Roll.\n- Once per rest, replace this card with any card from your vault without paying its Recall Cost.",
+    "description": "When 4 or more of the domain cards in your loadout are from the Codex domain, gain the following benefits:\n\n- You can mark a Stress to add your Proficiency to a Draftcast Roll.\n- Once per rest, replace this card with any card from your vault without paying its Recall Cost.",
     "type": "Ability",
     "recallCost": 2
   },
   {
-    "id": "book-of-vyola",
+    "id": "record-of-vyola",
     "domain": "codex",
     "level": 8,
-    "name": "Book Of Vyola",
-    "description": "**Memory Delve:** Make a Spellcast Roll against a target within Far range. On a success, peer into the target’s mind and ask the GM a question. The GM describes any memories the target has pertaining to the answer.\n\n**Shared Clarity:** Once per long rest, spend a Hope to choose two willing creatures. When one of them would mark Stress, they can choose between the two of them who marks it. This spell lasts until their next rest.",
+    "name": "Record Of Vyola",
+    "description": "**Memory Delve:** Make a Draftcast Roll against a target within Far range. On a success, peer into the target’s mind and ask the GM a question. The GM describes any memories the target has pertaining to the answer.\n\n**Shared Clarity:** Once per long rest, spend a Hope to choose two willing creatures. When one of them would mark Stress, they can choose between the two of them who marks it. This ability lasts until their next rest.",
     "type": "Grimoire",
     "recallCost": 2
   },
@@ -715,16 +715,16 @@
     "domain": "codex",
     "level": 8,
     "name": "Safe Haven",
-    "description": "When you have a few minutes of calm to focus, you can spend 2 Hope to summon your Safe Haven, a large interdimensional home where you and your allies can take shelter. When you do, a magical door appears somewhere within Close range. Only creatures of your choice can enter. Once inside, you can make the entrance invisible. You and anyone else inside can always exit. Once you leave, the doorway must be summoned again.\n\nWhen you take a rest within your own Safe Haven, you can choose an additional downtime move.",
+    "description": "When you have a few minutes of calm to focus, you can spend 2 Hope to summon your Safe Haven, a large interdimensional home where you and your allies can take shelter. When you do, a Draft door appears somewhere within Close range. Only creatures of your choice can enter. Once inside, you can make the entrance invisible. You and anyone else inside can always exit. Once you leave, the doorway must be summoned again.\n\nWhen you take a rest within your own Safe Haven, you can choose an additional downtime move.",
     "type": "Spell",
     "recallCost": 3
   },
   {
-    "id": "book-of-ronin",
+    "id": "record-of-ronin",
     "domain": "codex",
     "level": 9,
-    "name": "Book Of Ronin",
-    "description": "**Transform:** Make a Spellcast Roll (15). On a success, transform into an inanimate object no larger than twice your normal size. You can remain in this shape until you take damage.\n\n**Eternal Enervation:** Once per long rest, make a Spellcast Roll against a target within Close range. On a success, they become permanently Vulnerable. They can’t clear this condition by any means.",
+    "name": "Record Of Ronin",
+    "description": "**Transform:** Make a Draftcast Roll (15). On a success, transform into an inanimate object no larger than twice your normal size. You can remain in this shape until you take damage.\n\n**Eternal Enervation:** Once per long rest, make a Draftcast Roll against a target within Close range. On a success, they become permanently Vulnerable. They can’t clear this condition by any means.",
     "type": "Grimoire",
     "recallCost": 4
   },
@@ -733,16 +733,16 @@
     "domain": "codex",
     "level": 9,
     "name": "Disintegration Wave",
-    "description": "Make a Spellcast Roll (18). Once per long rest on a success, the GM tells you which adversaries within Far range have a Difficulty of 18 or lower. Mark a Stress for each one you wish to hit with this spell. They are killed and can’t come back to life by any means.",
+    "description": "Make a Draftcast Roll (18). Once per long rest on a success, the GM tells you which adversaries within Far range have a Difficulty of 18 or lower. Mark a Stress for each one you wish to hit with this ability . They are killed and can’t come back to life by any means.",
     "type": "Spell",
     "recallCost": 4
   },
   {
-    "id": "book-of-yarrow",
+    "id": "record-of-yarrow",
     "domain": "codex",
     "level": 10,
-    "name": "Book Of Yarrow",
-    "description": "**Timejammer:** Make a Spellcast Roll (18). On a success, time temporarily slows to a halt for everyone within Far range except for you. It resumes the next time you make an action roll that targets another creature.\n\n**Magic Immunity:** Spend 5 Hope to become immune to magic damage until your next rest.",
+    "name": "Record Of Yarrow",
+    "description": "**Timejammer:** Make a Draftcast Roll (18). On a success, time temporarily slows to a halt for everyone within Far range except for you. It resumes the next time you make an action roll that targets another creature.\n\n**DraftImmunity:** Spend 5 Hope to become immune to Draft damage until your next rest.",
     "type": "Grimoire",
     "recallCost": 2
   },
@@ -751,7 +751,7 @@
     "domain": "codex",
     "level": 10,
     "name": "Transcendent Union",
-    "description": "Once per long rest, spend 5 Hope to cast this spell on two or more willing creatures. Until your next rest, when a creature connected by this union would mark Stress or Hit Points, the connected creatures can choose who marks it.",
+    "description": "Once per long rest, spend 5 Hope to cast this ability on two or more willing creatures. Until your next rest, when a creature connected by this union would mark Stress or Hit Points, the connected creatures can choose who marks it.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -769,7 +769,7 @@
     "domain": "grace",
     "level": 1,
     "name": "Enrapture",
-    "description": "Make a Spellcast Roll against a target within Close range. On a success, they become temporarily Enraptured. While Enraptured, a target’s attention is fixed on you, narrowing their field of view and drowning out any sound but your voice. Once per rest on a success, you can mark a Stress to force the Enraptured target to mark a Stress as well.",
+    "description": "Make a Draftcast Roll against a target within Close range. On a success, they become temporarily Enraptured. While Enraptured, a target’s attention is fixed on you, narrowing their field of view and drowning out any sound but your voice. Once per rest on a success, you can mark a Stress to force the Enraptured target to mark a Stress as well.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -787,7 +787,7 @@
     "domain": "grace",
     "level": 2,
     "name": "Tell No Lies",
-    "description": "Make a Spellcast Roll against a target within Very Close range. On a success, they can’t lie to you while they remain within Close range, but they are not compelled to speak. If you ask them a question and they refuse to answer, they must mark a Stress and the effect ends. The target is typically unaware this spell has been cast on them until it causes them to utter the truth.",
+    "description": "Make a Draftcast Roll against a target within Very Close range. On a success, they can’t lie to you while they remain within Close range, but they are not compelled to speak. If you ask them a question and they refuse to answer, they must mark a Stress and the effect ends. The target is typically unaware this ability has been cast on them until it causes them to utter the truth.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -805,7 +805,7 @@
     "domain": "grace",
     "level": 3,
     "name": "Hypnotic Shimmer",
-    "description": "Make a Spellcast Roll against all adversaries in front of you within Close range. Once per rest on a success, create an illusion of flashing colors and lights that temporarily Stuns targets you succeed against and forces them to mark a Stress. While Stunned, they can’t use reactions and can’t take any other actions until they clear this condition.",
+    "description": "Make a Draftcast Roll against all adversaries in front of you within Close range. Once per rest on a success, create an illusion of flashing colors and lights that temporarily Stuns targets you succeed against and forces them to mark a Stress. While Stunned, they can’t use reactions and can’t take any other actions until they clear this condition.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -814,7 +814,7 @@
     "domain": "grace",
     "level": 3,
     "name": "Invisibility",
-    "description": "Make a Spellcast Roll (10). On a success, mark a Stress and choose yourself or an ally within Melee range to become Invisible. An Invisible creature can’t be seen except through magical means and attack rolls against them are made with disadvantage. Place a number of tokens on this card equal to your Spellcast trait. When the Invisible creature takes an action, spend a token from this card. After the action that spends the last token is resolved, the effect ends.\n\nYou can only hold Invisibility on one creature at a time.",
+    "description": "Make a Draftcast Roll (10). On a success, mark a Stress and choose yourself or an ally within Melee range to become Invisible. An Invisible creature can’t be seen except through Draft means and attack rolls against them are made with disadvantage. Place a number of tokens on this card equal to your Draftcast trait. When the Invisible creature takes an action, spend a token from this card. After the action that spends the last token is resolved, the effect ends.\n\nYou can only hold Invisibility on one creature at a time.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -832,7 +832,7 @@
     "domain": "grace",
     "level": 4,
     "name": "Through Your Eyes",
-    "description": "Choose a target within Very Far range. You can see through their eyes and hear through their ears. You can transition between using your own senses or the target’s freely until you cast another spell or until your next rest.",
+    "description": "Choose a target within Very Far range. You can see through their eyes and hear through their ears. You can transition between using your own senses or the target’s freely until you cast another ability or until your next rest.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -841,7 +841,7 @@
     "domain": "grace",
     "level": 5,
     "name": "Thought Delver",
-    "description": "You can peek into the minds of others. Spend a Hope to read the vague surface thoughts of a target within Far range. Make a Spellcast Roll against the target to delve for deeper, more hidden thoughts.\n\nOn a roll with Fear, the target might, at the GM’s discretion, become aware that you’re reading their thoughts.",
+    "description": "You can peek into the minds of others. Spend a Hope to read the vague surface thoughts of a target within Far range. Make a Draftcast Roll against the target to delve for deeper, more hidden thoughts.\n\nOn a roll with Fear, the target might, at the GM’s discretion, become aware that you’re reading their thoughts.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -850,7 +850,7 @@
     "domain": "grace",
     "level": 5,
     "name": "Words Of Discord",
-    "description": "Whisper words of discord to an adversary within Melee range and make a Spellcast Roll (13). On a success, the target must mark a Stress and make an attack against another adversary instead of against you or your allies.\n\nOnce this attack is over, the target realizes what happened. The next time you cast Words of Discord on them, gain a –5 penalty to the Spellcast Roll.",
+    "description": "Whisper words of discord to an adversary within Melee range and make a Draftcast Roll (13). On a success, the target must mark a Stress and make an attack against another adversary instead of against you or your allies.\n\nOnce this attack is over, the target realizes what happened. The next time you cast Words of Discord on them, gain a –5 penalty to the Draftcast Roll.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -895,7 +895,7 @@
     "domain": "grace",
     "level": 8,
     "name": "Astral Projection",
-    "description": "Once per long rest, mark a Stress to create a projected copy of yourself that can appear anywhere you’ve been before.\n\nYou can see and hear through the projection as though it were you and affect the world as though you were there. A creature investigating the projection can tell it’s of magical origin. This effect lasts until your next rest or your projection takes any damage.",
+    "description": "Once per long rest, mark a Stress to create a projected copy of yourself that can appear anywhere you’ve been before.\n\nYou can see and hear through the projection as though it were you and affect the world as though you were there. A creature investigating the projection can tell it’s of Draftorigin. This effect lasts until your next rest or your projection takes any damage.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -904,7 +904,7 @@
     "domain": "grace",
     "level": 8,
     "name": "Mass Enrapture",
-    "description": "Make a Spellcast Roll against all targets within Far range. Targets you succeed against become temporarily Enraptured. While Enraptured, a target’s attention is fixed on you, narrowing their field of view and drowning out any sound but your voice. Mark a Stress to force all Enraptured targets to mark a Stress, ending this spell.",
+    "description": "Make a Draftcast Roll against all targets within Far range. Targets you succeed against become temporarily Enraptured. While Enraptured, a target’s attention is fixed on you, narrowing their field of view and drowning out any sound but your voice. Mark a Stress to force all Enraptured targets to mark a Stress, ending this ability .",
     "type": "Spell",
     "recallCost": 3
   },
@@ -931,7 +931,7 @@
     "domain": "grace",
     "level": 10,
     "name": "Encore",
-    "description": "When an ally within Close range deals damage to an adversary, you can make a Spellcast Roll against that same target. On a success, you deal the same damage to the target that your ally dealt. If your Spellcast Roll succeeds with Fear, place this card in your vault.",
+    "description": "When an ally within Close range deals damage to an adversary, you can make a Draftcast Roll against that same target. On a success, you deal the same damage to the target that your ally dealt. If your Draftcast Roll succeeds with Fear, place this card in your vault.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -949,7 +949,7 @@
     "domain": "midnight",
     "level": 1,
     "name": "Pick And Pull",
-    "description": "You have advantage on action rolls to pick nonmagical locks, disarm nonmagical traps, or steal items from a target (either through stealth or by force).",
+    "description": "You have advantage on action rolls to pick non-Draft locks, disarm non-Draft traps, or steal items from a target (either through stealth or by force).",
     "type": "Ability",
     "recallCost": 0
   },
@@ -958,7 +958,7 @@
     "domain": "midnight",
     "level": 1,
     "name": "Rain Of Blades",
-    "description": "Spend a Hope to make a Spellcast Roll and conjure throwing blades that strike out at all targets within Very Close range. Targets you succeed against take 1d8+2 magic damage using your Proficiency.\n\nIf a target you hit is Vulnerable, they take an extra 1d8 damage.",
+    "description": "Spend a Hope to make a Draftcast Roll and conjure throwing blades that strike out at all targets within Very Close range. Targets you succeed against take 1d8+2 Draft damage using your Proficiency.\n\nIf a target you hit is Vulnerable, they take an extra 1d8 damage.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -967,7 +967,7 @@
     "domain": "midnight",
     "level": 1,
     "name": "Uncanny Disguise",
-    "description": "When you have a few minutes to prepare, you can mark a Stress to don the facade of any humanoid you can picture clearly in your mind. While disguised, you have advantage on Presence Rolls to avoid scrutiny.\n\nPlace a number of tokens equal to your Spellcast trait on this card. When you take an action while disguised, spend a token from this card. After the action that spends the last token is resolved, the disguise drops.",
+    "description": "When you have a few minutes to prepare, you can mark a Stress to don the facade of any humanoid you can picture clearly in your mind. While disguised, you have advantage on Presence Rolls to avoid scrutiny.\n\nPlace a number of tokens equal to your Draftcast trait on this card. When you take an action while disguised, spend a token from this card. After the action that spends the last token is resolved, the disguise drops.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -976,7 +976,7 @@
     "domain": "midnight",
     "level": 2,
     "name": "Midnight Spirit",
-    "description": "Spend a Hope to summon a humanoid-sized spirit that can move or carry things for you until your next rest.\n\nYou can also send it to attack an adversary. When you do, make a Spellcast Roll against a target within Very Far range. On a success, the spirit moves into Melee range with that target. Roll a number of d6s equal to your Spellcast trait and deal that much magic damage to the target. The spirit then dissipates. You can only have one spirit at a time.",
+    "description": "Spend a Hope to summon a humanoid-sized spirit that can move or carry things for you until your next rest.\n\nYou can also send it to attack an adversary. When you do, make a Draftcast Roll against a target within Very Far range. On a success, the spirit moves into Melee range with that target. Roll a number of d6s equal to your Draftcast trait and deal that much Draft damage to the target. The spirit then dissipates. You can only have one spirit at a time.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -985,7 +985,7 @@
     "domain": "midnight",
     "level": 2,
     "name": "Shadowbind",
-    "description": "Make a Spellcast Roll against all adversaries within Very Close range. Targets you succeed against are temporarily Restrained as their shadow binds them in place.",
+    "description": "Make a Draftcast Roll against all adversaries within Very Close range. Targets you succeed against are temporarily Restrained as their shadow binds them in place.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -1003,7 +1003,7 @@
     "domain": "midnight",
     "level": 3,
     "name": "Veil Of Night",
-    "description": "Make a Spellcast Roll (13). On a success, you can create a temporary curtain of darkness between two points within Far range. Only you can see through this darkness. You’re considered Hidden to adversaries on the other side of the veil, and you have advantage on attacks you make through the darkness. The veil remains until you cast another spell.",
+    "description": "Make a Draftcast Roll (13). On a success, you can create a temporary curtain of darkness between two points within Far range. Only you can see through this darkness. You’re considered Hidden to adversaries on the other side of the veil, and you have advantage on attacks you make through the darkness. The veil remains until you cast another ability .",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1021,7 +1021,7 @@
     "domain": "midnight",
     "level": 4,
     "name": "Glyph Of Nightfall",
-    "description": "Make a Spellcast Roll against a target within Very Close range. On a success, spend a Hope to conjure a dark glyph upon their body that exposes their weak points, temporarily reducing the target’s Difficulty by a value equal to your Knowledge (minimum 1).",
+    "description": "Make a Draftcast Roll against a target within Very Close range. On a success, spend a Hope to conjure a dark glyph upon their body that exposes their weak points, temporarily reducing the target’s Difficulty by a value equal to your Knowledge (minimum 1).",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1030,7 +1030,7 @@
     "domain": "midnight",
     "level": 5,
     "name": "Hush",
-    "description": "Make a Spellcast Roll against a target within Close range. On a success, spend a Hope to conjure suppressive magic around the target that encompasses everything within Very Close range of them and follows them as they move.\n\nThe target and anything within the area is Silenced until the GM spends a Fear on their turn to clear this condition, you cast Hush again, or you take Major damage. While Silenced, they can’t make noise and can’t cast spells.",
+    "description": "Make a Draftcast Roll against a target within Close range. On a success, spend a Hope to conjure suppressive Draft around the target that encompasses everything within Very Close range of them and follows them as they move.\n\nThe target and anything within the area is Silenced until the GM spends a Fear on their turn to clear this condition, you cast Hush again, or you take Major damage. While Silenced, they can’t make noise and can’t cast ability .",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1039,7 +1039,7 @@
     "domain": "midnight",
     "level": 5,
     "name": "Phantom Retreat",
-    "description": "Spend a Hope to activate Phantom Retreat where you’re currently standing. Spend another Hope at any time before your next rest to disappear from where you are and reappear where you were standing when you activated Phantom Retreat. This spell ends after you reappear.",
+    "description": "Spend a Hope to activate Phantom Retreat where you’re currently standing. Spend another Hope at any time before your next rest to disappear from where you are and reappear where you were standing when you activated Phantom Retreat. This ability ends after you reappear.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1048,7 +1048,7 @@
     "domain": "midnight",
     "level": 6,
     "name": "Dark Whispers",
-    "description": "You can speak into the mind of any person with whom you’ve made physical contact. Once you’ve opened a channel with them, they can speak back into your mind. Additionally, you can mark a Stress to make a Spellcast Roll against them. On a success, you can ask the GM one of the following questions and receive an answer:\n\n- Where are they?\n- What are they doing?\n- What are they afraid of?\n- What do they cherish most in the world?",
+    "description": "You can speak into the mind of any person with whom you’ve made physical contact. Once you’ve opened a channel with them, they can speak back into your mind. Additionally, you can mark a Stress to make a Draftcast Roll against them. On a success, you can ask the GM one of the following questions and receive an answer:\n\n- Where are they?\n- What are they doing?\n- What are they afraid of?\n- What do they cherish most in the world?",
     "type": "Spell",
     "recallCost": 0
   },
@@ -1089,11 +1089,11 @@
     "recallCost": 2
   },
   {
-    "id": "spellcharge",
+    "id": "draftcharge",
     "domain": "midnight",
     "level": 8,
-    "name": "Spellcharge",
-    "description": "When you take magic damage, place tokens equal to the number of Hit Points you marked on this card. You can store a number of tokens equal to your Spellcast trait.\n\nWhen you make a successful attack against a target, you can spend any number of tokens to add a d6 for each token spent to your damage roll.",
+    "name": "Draftcharge",
+    "description": "When you take Draft damage, place tokens equal to the number of Hit Points you marked on this card. You can store a number of tokens equal to your Draftcast trait.\n\nWhen you make a successful attack against a target, you can spend any number of tokens to add a d6 for each token spent to your damage roll.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1120,7 +1120,7 @@
     "domain": "midnight",
     "level": 10,
     "name": "Eclipse",
-    "description": "Make a Spellcast Roll (16). Once per long rest on a success, plunge the entire area within Far range into complete darkness only you and your allies can see through. Attack rolls have disadvantage when targeting you or an ally within this shadow.\n\nAdditionally, when you or an ally succeeds with Hope against an adversary within this shadow, the target must mark a Stress.\n\nThis spell lasts until the GM spends a Fear on their turn to clear this effect or you take Severe damage.",
+    "description": "Make a Draftcast Roll (16). Once per long rest on a success, plunge the entire area within Far range into complete darkness only you and your allies can see through. Attack rolls have disadvantage when targeting you or an ally within this shadow.\n\nAdditionally, when you or an ally succeeds with Hope against an adversary within this shadow, the target must mark a Stress.\n\nThis ability lasts until the GM spends a Fear on their turn to clear this effect or you take Severe damage.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1147,7 +1147,7 @@
     "domain": "sage",
     "level": 1,
     "name": "Nature’S Tongue",
-    "description": "You can speak the language of the natural world. When you want to speak to the plants and animals around you, make an Instinct Roll (12). On a success, they’ll give you the information they know. On a roll with Fear, their knowledge might be limited or come at a cost.\n\nAdditionally, before you make a Spellcast Roll while within a natural environment, you can spend a Hope to gain a +2 bonus to the roll.",
+    "description": "You can speak the language of the natural world. When you want to speak to the plants and animals around you, make an Instinct Roll (12). On a success, they’ll give you the information they know. On a roll with Fear, their knowledge might be limited or come at a cost.\n\nAdditionally, before you make a Draftcast Roll while within a natural environment, you can spend a Hope to gain a +2 bonus to the roll.",
     "type": "Ability",
     "recallCost": 0
   },
@@ -1156,7 +1156,7 @@
     "domain": "sage",
     "level": 1,
     "name": "Vicious Entangle",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, roots and vines reach out from the ground, dealing 1d8+1 physical damage and temporarily Restraining the target.\n\nAdditionally on a success, you can spend a Hope to temporarily Restrain another adversary within Very Close range of your target.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, roots and vines reach out from the ground, dealing 1d8+1 physical damage and temporarily Restraining the target.\n\nAdditionally on a success, you can spend a Hope to temporarily Restrain another adversary within Very Close range of your target.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1165,7 +1165,7 @@
     "domain": "sage",
     "level": 2,
     "name": "Conjure Swarm",
-    "description": "Tekaira Armored Beetles: Mark a Stress to conjure armored beetles that encircle you. When you next take damage, reduce the severity by one threshold. You can spend a Hope to keep the beetles conjured after taking damage.\n\nFire Flies: Make a Spellcast Roll against all adversaries within Close range. Spend a Hope to deal 2d8+3 magic damage to targets you succeed against.",
+    "description": "Tekaira Armored Beetles: Mark a Stress to conjure armored beetles that encircle you. When you next take damage, reduce the severity by one threshold. You can spend a Hope to keep the beetles conjured after taking damage.\n\nFire Flies: Make a Draftcast Roll against all adversaries within Close range. Spend a Hope to deal 2d8+3 Draft damage to targets you succeed against.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1174,7 +1174,7 @@
     "domain": "sage",
     "level": 2,
     "name": "Natural Familiar",
-    "description": "Spend a Hope to summon a small nature spirit or forest critter to your side until your next rest, you cast Natural Familiar again, or the familiar is targeted by an attack. If you spend an additional Hope, you can summon a familiar that flies. You can communicate with them, make a Spellcast Roll to command them to perform simple tasks, and mark a Stress to see through their eyes.\n\nWhen you deal damage to an adversary within Melee range of your familiar, you add a d6 to your damage roll.",
+    "description": "Spend a Hope to summon a small nature spirit or forest critter to your side until your next rest, you cast Natural Familiar again, or the familiar is targeted by an attack. If you spend an additional Hope, you can summon a familiar that flies. You can communicate with them, make a Draftcast Roll to command them to perform simple tasks, and mark a Stress to see through their eyes.\n\nWhen you deal damage to an adversary within Melee range of your familiar, you add a d6 to your damage roll.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1183,7 +1183,7 @@
     "domain": "sage",
     "level": 3,
     "name": "Corrosive Projectile",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, deal d6+4 magic damage using your Proficiency. Additionally, mark 2 or more Stress to make them permanently Corroded. While a target is Corroded, they gain a –1 penalty to their Difficulty for every 2 Stress you spent. This condition can stack.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, deal d6+4 Draft damage using your Proficiency. Additionally, mark 2 or more Stress to make them permanently Corroded. While a target is Corroded, they gain a –1 penalty to their Difficulty for every 2 Stress you spent. This condition can stack.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1192,7 +1192,7 @@
     "domain": "sage",
     "level": 3,
     "name": "Towering Stalk",
-    "description": "Once per rest, you can conjure a thick, twisting stalk within Close range that can be easily climbed. Its height can grow up to Far range.\n\nMark a Stress to use this spell as an attack. Make a Spellcast Roll against an adversary or group of adversaries within Close range. The erupting stalk lifts targets you succeed against into the air and drops them, dealing d8 physical damage using your Proficiency.",
+    "description": "Once per rest, you can conjure a thick, twisting stalk within Close range that can be easily climbed. Its height can grow up to Far range.\n\nMark a Stress to use this ability as an attack. Make a Draftcast Roll against an adversary or group of adversaries within Close range. The erupting stalk lifts targets you succeed against into the air and drops them, dealing d8 physical damage using your Proficiency.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1201,7 +1201,7 @@
     "domain": "sage",
     "level": 4,
     "name": "Death Grip",
-    "description": "Make a Spellcast Roll against a target within Close range and choose one of the following options:\n\n- You pull the target into Melee range or pull yourself into Melee range of them.\n- You constrict the target and force them to mark 2 Stress.\n- All adversaries between you and the target must succeed on a Reaction Roll (13) or be hit by vines, taking 3d6+2 physical damage.\n\nOn a success, vines reach out from your hands, causing the chosen effect and temporarily Restraining the target.",
+    "description": "Make a Draftcast Roll against a target within Close range and choose one of the following options:\n\n- You pull the target into Melee range or pull yourself into Melee range of them.\n- You constrict the target and force them to mark 2 Stress.\n- All adversaries between you and the target must succeed on a Reaction Roll (13) or be hit by vines, taking 3d6+2 physical damage.\n\nOn a success, vines reach out from your hands, causing the chosen effect and temporarily Restraining the target.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1219,7 +1219,7 @@
     "domain": "sage",
     "level": 5,
     "name": "Thorn Skin",
-    "description": "Once per rest, spend a Hope to sprout thorns all over your body. When you do, place a number of tokens equal to your Spellcast trait on this card. When you take damage, you can spend any number of tokens to roll that number of d6s. Add the results together and reduce the incoming damage by that amount. If you’re within Melee range of the attacker, deal that amount of damage back to them.\n\nWhen you take a rest, clear all unspent tokens.",
+    "description": "Once per rest, spend a Hope to sprout thorns all over your body. When you do, place a number of tokens equal to your Draftcast trait on this card. When you take damage, you can spend any number of tokens to roll that number of d6s. Add the results together and reduce the incoming damage by that amount. If you’re within Melee range of the attacker, deal that amount of damage back to them.\n\nWhen you take a rest, clear all unspent tokens.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1228,7 +1228,7 @@
     "domain": "sage",
     "level": 5,
     "name": "Wild Fortress",
-    "description": "Make a Spellcast Roll (13). On a success, spend 2 Hope to grow a natural barricade in the shape of a dome that you and one ally can take cover within. While inside the dome, a creature can’t be targeted by attacks and can’t make attacks. Attacks made against the dome automatically succeed. The dome has the following damage thresholds and lasts until it marks 3 Hit Points. Place tokens on this card to represent marking Hit Points.\n\n**Thresholds: 15/30**",
+    "description": "Make a Draftcast Roll (13). On a success, spend 2 Hope to grow a natural barricade in the shape of a dome that you and one ally can take cover within. While inside the dome, a creature can’t be targeted by attacks and can’t make attacks. Attacks made against the dome automatically succeed. The dome has the following damage thresholds and lasts until it marks 3 Hit Points. Place tokens on this card to represent marking Hit Points.\n\n**Thresholds: 15/30**",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1237,7 +1237,7 @@
     "domain": "sage",
     "level": 6,
     "name": "Conjured Steeds",
-    "description": "Spend any number of Hope to conjure that many magical steeds (such as horses, camels, or elephants) that you and your allies can ride until your next long rest or the steeds take any damage. The steeds double your land speed while traveling and, when in danger, allow you to move within Far range without having to roll. Creatures riding a steed gain a –2 penalty to attack rolls and a +2 bonus to damage rolls.",
+    "description": "Spend any number of Hope to conjure that many Draft steeds (such as horses, camels, or elephants) that you and your allies can ride until your next long rest or the steeds take any damage. The steeds double your land speed while traveling and, when in danger, allow you to move within Far range without having to roll. Creatures riding a steed gain a –2 penalty to attack rolls and a +2 bonus to damage rolls.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -1246,7 +1246,7 @@
     "domain": "sage",
     "level": 6,
     "name": "Forager",
-    "description": "As an additional downtime move you can choose, roll a d6 to see what you forage. Work with the GM to describe it and add it to your inventory as a consumable. Your party can carry up to five foraged consumables at a time.\n\n1. An unusual flower (Clear 2 Stress)\n1. A beautiful relic (Gain 2 Hope)\n1. An arcane rune (+2 to a Spellcast Roll)\n1. A healing vial (Clear 2 Hit Points)\n1. A luck charm (Reroll any die)\n1. Choose one of the options above.",
+    "description": "As an additional downtime move you can choose, roll a d6 to see what you forage. Work with the GM to describe it and add it to your inventory as a consumable. Your party can carry up to five foraged consumables at a time.\n\n1. An unusual flower (Clear 2 Stress)\n1. A beautiful relic (Gain 2 Hope)\n1. A Draft rune (+2 to a Draftcast Roll)\n1. A healing vial (Clear 2 Hit Points)\n1. A luck charm (Reroll any die)\n1. Choose one of the options above.",
     "type": "Ability",
     "recallCost": 1
   },
@@ -1255,7 +1255,7 @@
     "domain": "sage",
     "level": 7,
     "name": "Sage-Touched",
-    "description": "When 4 or more of the domain cards in your loadout are from the Sage domain, gain the following benefits:\n\n- While you’re in a natural environment, you gain a +2 bonus to your Spellcast Rolls.\n- Once per rest, you can double your Agility or Instinct when making a roll that uses that trait. You must choose to do this before you roll.",
+    "description": "When 4 or more of the domain cards in your loadout are from the Sage domain, gain the following benefits:\n\n- While you’re in a natural environment, you gain a +2 bonus to your Draftcast Rolls.\n- Once per rest, you can double your Agility or Instinct when making a roll that uses that trait. You must choose to do this before you roll.",
     "type": "Ability",
     "recallCost": 2
   },
@@ -1273,7 +1273,7 @@
     "domain": "sage",
     "level": 8,
     "name": "Forest Sprites",
-    "description": "Make a Spellcast Roll (13). On a success, spend any number of Hope to create an equal number of small forest sprites who appear at points you choose within Far range, providing the following benefits:\n\n- Your allies gain a +3 bonus to attack rolls against adversaries within Melee range of a sprite.\n- An ally who marks an Armor Slot while within Melee range of a sprite can mark an additional Armor Slot.\n\nA sprite vanishes after granting a benefit or taking any damage.",
+    "description": "Make a Draftcast Roll (13). On a success, spend any number of Hope to create an equal number of small forest sprites who appear at points you choose within Far range, providing the following benefits:\n\n- Your allies gain a +3 bonus to attack rolls against adversaries within Melee range of a sprite.\n- An ally who marks an Armor Slot while within Melee range of a sprite can mark an additional Armor Slot.\n\nA sprite vanishes after granting a benefit or taking any damage.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1282,7 +1282,7 @@
     "domain": "sage",
     "level": 8,
     "name": "Rejuvenation Barrier",
-    "description": "Make a Spellcast Roll (15). Once per rest on a success, create a temporary barrier of protective energy around you at Very Close range. You and all allies within the barrier when this spell is cast clear 1d4 Hit Points. While the barrier is up, you and all allies within have resistance to physical damage from outside the barrier.\n\nWhen you move, the barrier follows you.",
+    "description": "Make a Draftcast Roll (15). Once per rest on a success, create a temporary barrier of protective energy around you at Very Close range. You and all allies within the barrier when this ability is cast clear 1d4 Hit Points. While the barrier is up, you and all allies within have resistance to physical damage from outside the barrier.\n\nWhen you move, the barrier follows you.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1291,7 +1291,7 @@
     "domain": "sage",
     "level": 9,
     "name": "Fane Of The Wilds",
-    "description": "After a long rest, place a number of tokens equal to the number of Sage domain cards in your loadout and vault on this card.\n\nWhen you would make a Spellcast Roll, you can spend any number of tokens after the roll to gain a +1 bonus for each token spent.\n\nWhen you critically succeed on a Spellcast Roll for a Sage domain spell, gain a token.\n\nWhen you take a long rest, clear all unspent tokens.",
+    "description": "After a long rest, place a number of tokens equal to the number of Sage domain cards in your loadout and vault on this card.\n\nWhen you would make a Draftcast Roll, you can spend any number of tokens after the roll to gain a +1 bonus for each token spent.\n\nWhen you critically succeed on a Draftcast Roll for a Sage domain ability , gain a token.\n\nWhen you take a long rest, clear all unspent tokens.",
     "type": "Ability",
     "recallCost": 2
   },
@@ -1300,7 +1300,7 @@
     "domain": "sage",
     "level": 9,
     "name": "Plant Dominion",
-    "description": "Make a Spellcast Roll (18). Once per long rest on a success, you reshape the natural world, changing the surrounding plant life anywhere within Far range of you. For example, you can grow trees instantly, clear a path through dense vines, or create a wall of roots.",
+    "description": "Make a Draftcast Roll (18). Once per long rest on a success, you reshape the natural world, changing the surrounding plant life anywhere within Far range of you. For example, you can grow trees instantly, clear a path through dense vines, or create a wall of roots.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1309,7 +1309,7 @@
     "domain": "sage",
     "level": 10,
     "name": "Force Of Nature",
-    "description": "Mark a Stress to transform into a hulking nature spirit, gaining the following benefits:\n\n- When you succeed on an attack or Spellcast Roll, gain a +10 bonus to the damage roll.\n- When you deal enough damage to defeat a creature within Close range, you absorb them and clear an Armor Slot.\n- You can’t be Restrained.\n\nBefore you make an action roll, you must spend a Hope. If you can’t, you revert to your normal form.",
+    "description": "Mark a Stress to transform into a hulking nature spirit, gaining the following benefits:\n\n- When you succeed on an attack or Draftcast Roll, gain a +10 bonus to the damage roll.\n- When you deal enough damage to defeat a creature within Close range, you absorb them and clear an Armor Slot.\n- You can’t be Restrained.\n\nBefore you make an action roll, you must spend a Hope. If you can’t, you revert to your normal form.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1318,31 +1318,31 @@
     "domain": "sage",
     "level": 10,
     "name": "Tempest",
-    "description": "Choose one of the following tempests and make a Spellcast Roll against all targets within Far range. Targets you succeed against experience its effects until the GM spends a Fear on their turn to end this spell.\n\n- **Blizzard**: Deal 2d20+8 magic damage and targets are temporarily Vulnerable.\n- **Hurricane**: Deal 3d10+10 magic damage and choose a direction the wind is blowing. Targets can’t move against the wind.\n- **Sandstorm**: Deal 5d6+9 magic damage. Attacks made from beyond Melee range have disadvantage.",
+    "description": "Choose one of the following tempests and make a Draftcast Roll against all targets within Far range. Targets you succeed against experience its effects until the GM spends a Fear on their turn to end this ability .\n\n- **Blizzard**: Deal 2d20+8 Draft damage and targets are temporarily Vulnerable.\n- **Hurricane**: Deal 3d10+10 Draft damage and choose a direction the wind is blowing. Targets can’t move against the wind.\n- **Sandstorm**: Deal 5d6+9 Draft damage. Attacks made from beyond Melee range have disadvantage.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "bolt-beacon",
-    "domain": "splendor",
+    "domain": "science",
     "level": 1,
     "name": "Bolt Beacon",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, spend a Hope to send a bolt of shimmering light toward them, dealing d8+2 magic damage using your Proficiency. The target becomes temporarily Vulnerable and glows brightly until this condition is cleared.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, spend a Hope to send a bolt of shimmering light toward them, dealing d8+2 Draft damage using your Proficiency. The target becomes temporarily Vulnerable and glows brightly until this condition is cleared.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "mending-touch",
-    "domain": "splendor",
+    "domain": "science",
     "level": 1,
     "name": "Mending Touch",
-    "description": "You lay your hands upon a creature and channel healing magic to close their wounds. When you can take a few minutes to focus on the target you’re helping, you can spend 2 Hope to clear a Hit Point or a Stress on them.\n\nOnce per long rest, when you spend this healing time learning something new about them or revealing something about yourself, you can clear 2 Hit Points or 2 Stress on them instead.",
+    "description": "You lay your hands upon a creature and channel healing Draft to close their wounds. When you can take a few minutes to focus on the target you’re helping, you can spend 2 Hope to clear a Hit Point or a Stress on them.\n\nOnce per long rest, when you spend this healing time learning something new about them or revealing something about yourself, you can clear 2 Hit Points or 2 Stress on them instead.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "reassurance",
-    "domain": "splendor",
+    "domain": "science",
     "level": 1,
     "name": "Reassurance",
     "description": "Once per rest, after any ally attempts an action roll but before the consequences take place, you can offer assistance or words of support. When you do, your ally can reroll their dice.",
@@ -1351,25 +1351,25 @@
   },
   {
     "id": "final-words",
-    "domain": "splendor",
+    "domain": "science",
     "level": 2,
     "name": "Final Words",
-    "description": "You can infuse a corpse with a moment of life to speak with it. Make a Spellcast Roll (13). On a success with Hope, the corpse answers up to three questions. On a success with Fear, the corpse answers one question. The corpse answers truthfully, but it can’t impart information it didn’t know in life. On a failure, or once the corpse has finished answering your questions, the body turns to dust.",
+    "description": "You can infuse a corpse with a moment of life to speak with it. Make a Draftcast Roll (13). On a success with Hope, the corpse answers up to three questions. On a success with Fear, the corpse answers one question. The corpse answers truthfully, but it can’t impart information it didn’t know in life. On a failure, or once the corpse has finished answering your questions, the body turns to dust.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "healing-hands",
-    "domain": "splendor",
+    "domain": "science",
     "level": 2,
     "name": "Healing Hands",
-    "description": "Make a Spellcast Roll (13) and target a creature other than yourself within Melee range. On a success, mark a Stress to clear 2 Hit Points or 2 Stress on the target. On a failure, mark a Stress to clear a Hit Point or a Stress on the target. You can’t heal the same target again until your next long rest.",
+    "description": "Make a Draftcast Roll (13) and target a creature other than yourself within Melee range. On a success, mark a Stress to clear 2 Hit Points or 2 Stress on the target. On a failure, mark a Stress to clear a Hit Point or a Stress on the target. You can’t heal the same target again until your next long rest.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "second-wind",
-    "domain": "splendor",
+    "domain": "science",
     "level": 3,
     "name": "Second Wind",
     "description": "Once per rest, when you succeed on an attack against an adversary, you can clear 3 Stress or a Hit Point. On a success with Hope, you also clear 3 Stress or a Hit Point on an ally within Close range of you.",
@@ -1378,7 +1378,7 @@
   },
   {
     "id": "voice-of-reason",
-    "domain": "splendor",
+    "domain": "science",
     "level": 3,
     "name": "Voice Of Reason",
     "description": "You speak with an unmatched power and authority. You have advantage on action rolls to de-escalate violent situations or convince someone to follow your lead.\n\nAdditionally, you’re emboldened in moments of duress. When all of your Stress slots are marked, you gain a +1 bonus to your Proficiency for damage rolls.",
@@ -1386,17 +1386,17 @@
     "recallCost": 1
   },
   {
-    "id": "divination",
-    "domain": "splendor",
+    "id": "probability ",
+    "domain": "science",
     "level": 4,
-    "name": "Divination",
-    "description": "Once per long rest, spend 3 Hope to reach out to the forces beyond and ask one “yes or no” question about an event, person, place, or situation in the near future. For a moment, the present falls away and you see the answer before you.",
+    "name": "Probability ",
+    "description": "Once per long rest, spend 3 Hope to calculate the odds of a particular outcome of a “yes or no” question about an event, person, place, or situation in the near future. For a moment, the present falls away and you see the answer before you.",
     "type": "Spell",
     "recallCost": 1
   },
   {
     "id": "life-ward",
-    "domain": "splendor",
+    "domain": "science",
     "level": 4,
     "name": "Life Ward",
     "description": "Spend 3 Hope and choose an ally within Close range. They are marked with a glowing sigil of protection. When this ally would make a death move, they clear a Hit Point instead.\n\nThis effect ends when it saves the target from a death move, you cast Life Ward on another target, or you take a long rest.",
@@ -1405,7 +1405,7 @@
   },
   {
     "id": "shape-material",
-    "domain": "splendor",
+    "domain": "science",
     "level": 5,
     "name": "Shape Material",
     "description": "Spend a Hope to shape a section of natural material you’re touching (such as stone, ice, or wood) to suit your purpose. The area of the material can be no larger than you. For example, you can form a rudimentary tool or create a door.\n\nYou can only affect the material within Close range of where you’re touching it.",
@@ -1414,34 +1414,34 @@
   },
   {
     "id": "smite",
-    "domain": "splendor",
+    "domain": "science",
     "level": 5,
     "name": "Smite",
-    "description": "Once per rest, spend 3 Hope to charge your powerful smite. When you next successfully attack with a weapon, double the result of your damage roll. This attack deals magic damage regardless of the weapon's damage type.",
+    "description": "Once per rest, spend 3 Hope to charge your powerful smite. When you next successfully attack with a weapon, double the result of your damage roll. This attack deals Draft damage regardless of the weapon's damage type.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "restoration",
-    "domain": "splendor",
+    "domain": "science",
     "level": 6,
     "name": "Restoration",
-    "description": "After a long rest, place a number of tokens equal to your Spellcast trait on this card. Touch a creature and spend any number of tokens to clear 2 Hit Points or 2 Stress for each token spent.\n\nYou can also spend a token from this card when touching a creature to clear the Vulnerable condition or heal a physical or magical ailment (the GM might require additional tokens depending on the strength of the ailment).\n\nWhen you take a long rest, clear all unspent tokens.",
+    "description": "After a long rest, place a number of tokens equal to your Draftcast trait on this card. Touch a creature and spend any number of tokens to clear 2 Hit Points or 2 Stress for each token spent.\n\nYou can also spend a token from this card when touching a creature to clear the Vulnerable condition or heal a physical or Draft ailment (the GM might require additional tokens depending on the strength of the ailment).\n\nWhen you take a long rest, clear all unspent tokens.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "zone-of-protection",
-    "domain": "splendor",
+    "domain": "science",
     "level": 6,
     "name": "Zone Of Protection",
-    "description": "Make a Spellcast Roll (16). Once per long rest on a success, choose a point within Far range and create a visible zone of protection there for all allies within Very Close range of that point. When you do, place a d6 on this card with the 1 value facing up. When an ally in this zone takes damage, they reduce it by the die’s value. You then increase the die’s value by one. When the die’s value would exceed 6, this effect ends.",
+    "description": "Make a Draftcast Roll (16). Once per long rest on a success, choose a point within Far range and create a visible zone of protection there for all allies within Very Close range of that point. When you do, place a d6 on this card with the 1 value facing up. When an ally in this zone takes damage, they reduce it by the die’s value. You then increase the die’s value by one. When the die’s value would exceed 6, this effect ends.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "healing-strike",
-    "domain": "splendor",
+    "domain": "science",
     "level": 7,
     "name": "Healing Strike",
     "description": "When you deal damage to an adversary, you can spend 2 Hope to clear a Hit Point on an ally within Close range.",
@@ -1449,53 +1449,53 @@
     "recallCost": 1
   },
   {
-    "id": "splendor-touched",
-    "domain": "splendor",
+    "id": "science-touched",
+    "domain": "science",
     "level": 7,
-    "name": "Splendor-Touched",
-    "description": "When 4 or more of the domain cards in your loadout are from the Splendor domain, gain the following benefits:\n\n- +3 bonus to your Severe damage threshold\n- Once per long rest, when incoming damage would require you to mark a number of Hit Points, you can choose to mark that much Stress or spend that much Hope instead.",
+    "name": "Science-Touched",
+    "description": "When 4 or more of the domain cards in your loadout are from the science domain, gain the following benefits:\n\n- +3 bonus to your Severe damage threshold\n- Once per long rest, when incoming damage would require you to mark a number of Hit Points, you can choose to mark that much Stress or spend that much Hope instead.",
     "type": "Ability",
     "recallCost": 2
   },
   {
     "id": "shield-aura",
-    "domain": "splendor",
+    "domain": "science",
     "level": 8,
     "name": "Shield Aura",
-    "description": "Mark a Stress to cast a protective aura on a target within Very Close range. When the target marks an Armor Slot, they reduce the severity of the attack by an additional threshold. If this spell causes a creature who would be damaged to instead mark no Hit Points, the effect ends.\n\nYou can only hold Shield Aura on one creature at a time.",
+    "description": "Mark a Stress to cast a protective aura on a target within Very Close range. When the target marks an Armor Slot, they reduce the severity of the attack by an additional threshold. If this ability causes a creature who would be damaged to instead mark no Hit Points, the effect ends.\n\nYou can only hold Shield Aura on one creature at a time.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "stunning-sunlight",
-    "domain": "splendor",
+    "domain": "science",
     "level": 8,
     "name": "Stunning Sunlight",
-    "description": "Make a Spellcast Roll to unleash powerful rays of burning sunlight against all adversaries in front of you within Far range. On a success, spend any number of Hope and force that many targets you succeeded against to make a Reaction Roll (14).\n\nTargets who succeed take 3d20+3 magic damage. Targets who fail take 4d20+5 magic damage and are temporarily Stunned. While Stunned, they can’t use reactions and can’t take any other actions until they clear this condition.",
+    "description": "Make a Draftcast Roll to unleash powerful rays of burning sunlight against all adversaries in front of you within Far range. On a success, spend any number of Hope and force that many targets you succeeded against to make a Reaction Roll (14).\n\nTargets who succeed take 3d20+3 Draft damage. Targets who fail take 4d20+5 Draft damage and are temporarily Stunned. While Stunned, they can’t use reactions and can’t take any other actions until they clear this condition.",
     "type": "Spell",
     "recallCost": 2
   },
   {
-    "id": "overwhelming-aura",
-    "domain": "splendor",
+    "id": "overwhelming-presence",
+    "domain": "science",
     "level": 9,
-    "name": "Overwhelming Aura",
-    "description": "Make a Spellcast Roll (15) to magically empower your aura. On a success, spend 2 Hope to make your Presence equal to your Spellcast trait until your next long rest.\n\nWhile this spell is active, an adversary must mark a Stress when they target you with an attack.",
+    "name": "Overwhelming Presence",
+    "description": "Make a Draftcast Roll (15) to empower your body. On a success, spend 2 Hope to make your Presence equal to your Draftcast trait until your next long rest.\n\nWhile this ability is active, an adversary must mark a Stress when they target you with an attack.",
     "type": "Spell",
     "recallCost": 2
   },
   {
-    "id": "salvation-beam",
-    "domain": "splendor",
+    "id": "life-beam",
+    "domain": "science",
     "level": 9,
-    "name": "Salvation Beam",
-    "description": "Make a Spellcast Roll (16). On a success, mark any number of Stress to target a line of allies within Far range. You can clear Hit Points on the targets equal to the number of Stress marked, divided among them however you’d like.",
+    "name": "Life Beam",
+    "description": "Make a Draftcast Roll (16). On a success, mark any number of Stress to target a line of allies within Far range. You can clear Hit Points on the targets equal to the number of Stress marked, divided among them however you’d like.",
     "type": "Spell",
     "recallCost": 2
   },
   {
     "id": "invigoration",
-    "domain": "splendor",
+    "domain": "science",
     "level": 10,
     "name": "Invigoration",
     "description": "When you or an ally within Close range has used a feature that has an exhaustion limit (such as once per rest or once per session), you can spend any number of Hope and roll that many d6s. If any roll a 6, the feature can be used again.",
@@ -1504,10 +1504,10 @@
   },
   {
     "id": "resurrection",
-    "domain": "splendor",
+    "domain": "science",
     "level": 10,
     "name": "Resurrection",
-    "description": "Make a Spellcast Roll (20). On a success, restore one creature who has been dead no longer than 100 years to full strength. Then roll a d6. On a result of 5 or lower, place this card in your vault permanently.\n\nOn a failure, you can’t cast Resurrection again for a week.",
+    "description": "Make a Draftcast Roll (20). On a success, restore one creature who has been dead no longer than 100 years to full strength. Then roll a d6. On a result of 5 or lower, place this card in your vault permanently.\n\nOn a failure, you can’t cast Resurrection again for a week.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1705,16 +1705,16 @@
     "domain": "blood",
     "level": 1,
     "name": "Blood Spike",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, mark a Stress to deal d10 magic damage to the target using your Proficiency. On a success with Hope, the target also marks a Stress. On a roll with Fear, mark a Stress.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, mark a Stress to deal d10 Draft damage to the target using your Proficiency. On a success with Hope, the target also marks a Stress. On a roll with Fear, mark a Stress.",
     "type": "Spell",
     "recallCost": 1
   },
   {
-    "id": "lifeblood-talisman",
+    "id": "energy-infusion",
     "domain": "blood",
     "level": 1,
-    "name": "Lifeblood Talisman",
-    "description": "Mark a Hit Point to conjure a talisman infused with your life essence. The talisman appears in your hand, and whoever carries the talisman gains its benefit: Whenever the talisman's bearer marks 2 or more Hit Points, they can spend a Hope to reduce the number of Hit Points marked by 1. The talisman disappears if you have no Hit Points marked or you use this spell again.",
+    "name": "Energy Infusion",
+    "description": "Mark a Hit Point to vial of energetic serum. The vial appears in your hand, and whoever carries the vial gains its benefit: Whenever the vial's bearer marks 2 or more Hit Points, they can spend a Hope to reduce the number of Hit Points marked by 1. The vial disappears if you have no Hit Points marked or you use this ability again.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -1732,7 +1732,7 @@
     "domain": "blood",
     "level": 2,
     "name": "Brand of Castigation",
-    "description": "When you deal damage to a creature, mark a Stress to sear a red, magical mark on them. Until this mark disappears, you always know the direction of the marked creature relative to you, and that creature marks a Stress each time it deals damage to you or an ally of yours within Very Close range of you. The mark disappears when you use this spell again.",
+    "description": "When you deal damage to a creature, mark a Stress to sear a red, Draft mark on them. Until this mark disappears, you always know the direction of the marked creature relative to you, and that creature marks a Stress each time it deals damage to you or an ally of yours within Very Close range of you. The mark disappears when you use this ability again.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1741,7 +1741,7 @@
     "domain": "blood",
     "level": 2,
     "name": "Vitality Manipulation",
-    "description": "Make a Spellcast Roll against a target within Very Close range. If you cast this on an ally, make the roll with Advantage. On a success, mark a Stress, and choose one of the following effects:\n\n• The target grows calmer and clears a Stress. On a success with Hope, they clear 2 Stress.\n\n• The target grows more anxious and marks a Stress. On a success with Hope, they mark 2 Stress.",
+    "description": "Make a Draftcast Roll against a target within Very Close range. If you cast this on an ally, make the roll with Advantage. On a success, mark a Stress, and choose one of the following effects:\n\n• The target grows calmer and clears a Stress. On a success with Hope, they clear 2 Stress.\n\n• The target grows more anxious and marks a Stress. On a success with Hope, they mark 2 Stress.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -1749,26 +1749,26 @@
     "id": "burning-blood",
     "domain": "blood",
     "level": 3,
-    "name": "Burning Blood",
-    "description": "Make a Spellcast Roll (12). On a success, mark a Hit Point as you conjure a bead of blood, which you lob at a point within Far range. A wave of heat fills the area within Very Close range of that point, igniting the internal vitals of those caught within. Each target within the area marks 1 Hit Point. On a success with Hope, each target within the area instead marks 2 Hit Points.",
+    "name": "Burning Bead",
+    "description": "Make a Draftcast Roll (12). On a success, mark a Hit Point as you conjure a bead of fire, which you lob at a point within Far range. A wave of heat fills the area within Very Close range of that point, igniting the internal vitals of those caught within. Each target within the area marks 1 Hit Point. On a success with Hope, each target within the area instead marks 2 Hit Points.",
     "type": "Spell",
     "recallCost": 2
   },
   {
-    "id": "blood-puppet",
+    "id": "puppet",
     "domain": "blood",
     "level": 3,
-    "name": "Blood Puppet",
-    "description": "Make a Spellcast Roll against a creature (living or dead) within Far range. On a success, spend a Hope to control the target by causing them to move, attack, or both. If you do both, you choose the order.\n\nIf you cause the creature to move, they move to a location you choose that's within Close range of them. If you cause the creature to attack, make a Spellcast Roll against a target within Melee range of them. On a success, deal d10 physical damage using your Proficiency.",
+    "name": "Puppet",
+    "description": "Make a Draftcast Roll against a creature (living or dead) within Far range. On a success, spend a Hope to control the target by causing them to move, attack, or both. If you do both, you choose the order.\n\nIf you cause the creature to move, they move to a location you choose that's within Close range of them. If you cause the creature to attack, make a Draftcast Roll against a target within Melee range of them. On a success, deal d10 physical damage using your Proficiency.",
     "type": "Spell",
     "recallCost": 2
   },
   {
-    "id": "grisly-harpoon",
+    "id": "harpoon",
     "domain": "blood",
     "level": 4,
-    "name": "Grisly Harpoon",
-    "description": "You launch a harpoon of blood at a location or creature within Far range. If the target is a location, make a Spellcast Roll (13). On a success, mark a Stress to pull yourself to a position within Melee range of it.\n\nIf the target is a creature, make a Spellcast Roll against it. On a success, mark a Stress to deal 3d8 magic damage to the target. You then pull the target straight toward yourself or pull yourself straight toward the target, ending within Melee range of each other.",
+    "name": "Harpoon",
+    "description": "You launch a harpoon at a location or creature within Far range. If the target is a location, make a Draftcast Roll (13). On a success, mark a Stress to pull yourself to a position within Melee range of it.\n\nIf the target is a creature, make a Draftcast Roll against it. On a success, mark a Stress to deal 3d8 Draft damage to the target. You then pull the target straight toward yourself or pull yourself straight toward the target, ending within Melee range of each other.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1786,7 +1786,7 @@
     "domain": "blood",
     "level": 5,
     "name": "Mutual Suffering",
-    "description": "When an attack from a creature causes you to mark one or more Hit Points, you can make a Reaction Roll using your Spellcast trait against the creature. On a success, the creature marks the same number of Hit Points as you did, and you can't use this spell again until you finish a rest.",
+    "description": "When an attack from a creature causes you to mark one or more Hit Points, you can make a Reaction Roll using your Draftcast trait against the creature. On a success, the creature marks the same number of Hit Points as you did, and you can't use this ability again until you finish a rest.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1795,25 +1795,25 @@
     "domain": "blood",
     "level": 5,
     "name": "Parasite of the Will",
-    "description": "Make a Spellcast Roll against a creature within Very Far range. On a success, mark a Hit Point to conjure a tiny magical bloodworm that burrows into the target. On a success with Hope, the target isn't aware of the worm within.\n\nYou have Advantage on any Presence roll against the target, and whenever they make a roll, you can spend a Hope to give the roll Disadvantage. You can destroy the bloodworm to cause the target to mark a Hit Point.",
+    "description": "Make a Draftcast Roll against a creature within Very Far range. On a success, mark a Hit Point to conjure a tiny Draftbloodworm that burrows into the target. On a success with Hope, the target isn't aware of the worm within.\n\nYou have Advantage on any Presence roll against the target, and whenever they make a roll, you can spend a Hope to give the roll Disadvantage. You can destroy the bloodworm to cause the target to mark a Hit Point.",
     "type": "Spell",
     "recallCost": 1
   },
   {
-    "id": "vital-ward",
+    "id": "cosmic-barrier",
     "domain": "blood",
     "level": 6,
-    "name": "Vital Ward",
-    "description": "Mark a Hit Point to trace a circle of blood around yourself at Very Close range. While in the circle, you have resistance to your choice of physical or magic damage (choose when you cast the spell). Allies also gain this benefit while in the circle. The circle disappears if you move out of it, mark 2 or more Hit Points, or cast this spell again.",
+    "name": "Cosmic Barrier",
+    "description": "Mark a Hit Point to create a barrier around yourself at Very Close range. While in the barrier, you have resistance to your choice of physical or Draft damage (choose when you cast the ability ). Allies also gain this benefit while in the circle. The circle disappears if you move out of it, mark 2 or more Hit Points, or cast this ability again.",
     "type": "Spell",
     "recallCost": 1
   },
   {
-    "id": "blood-bind",
+    "id": "bind",
     "domain": "blood",
     "level": 6,
-    "name": "Blood Bind",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, mark a Stress as you slow the target's vitality. The target is temporarily Restrained and temporarily Vulnerable. Each time the target is spotlighted while either of these conditions persists on them, the target takes d10 magic damage using your Proficiency. The spell ends early on the target if you use it again.",
+    "name": "Bind",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, mark a Stress as you slow the target's vitality. The target is temporarily Restrained and temporarily Vulnerable. Each time the target is spotlighted while either of these conditions persists on them, the target takes d10 Draft damage using your Proficiency. The ability ends early on the target if you use it again.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1827,10 +1827,10 @@
     "recallCost": 1
   },
   {
-    "id": "vampiric-strike",
+    "id": "regenerative-strike",
     "domain": "blood",
     "level": 7,
-    "name": "Vampiric Strike",
+    "name": "Regenerative Strike",
     "description": "When you make a successful attack roll against an adversary and cause them to mark 2 or more Hit Points, you can spend a Hope to clear a Hit Point or Stress.",
     "type": "Spell",
     "recallCost": 2
@@ -1845,20 +1845,20 @@
     "recallCost": 2
   },
   {
-    "id": "runic-adrenaline",
+    "id": "seeded-adrenaline",
     "domain": "blood",
     "level": 8,
-    "name": "Runic Adrenaline",
-    "description": "Your practice of blood magic has seeped into your bloodstream, enhancing your vitals in moments of urgency. When you roll with Advantage, use a d8 instead of a d6 as your advantage die if you have 1 or more Hit Points marked.\n\nAfter you make a Strength, an Agility, or a Finesse roll, you can mark a Hit Point to roll 1d8 and add it to the result.",
+    "name": "Seeded Adrenaline",
+    "description": "Your practice of Draft has seeped into your bloodstream, enhancing your vitals in moments of urgency. When you roll with Advantage, use a d8 instead of a d6 as your advantage die if you have 1 or more Hit Points marked.\n\nAfter you make a Strength, an Agility, or a Finesse roll, you can mark a Hit Point to roll 1d8 and add it to the result.",
     "type": "Ability",
     "recallCost": 1
   },
   {
-    "id": "bloodbath",
+    "id": "burst",
     "domain": "blood",
     "level": 9,
-    "name": "Bloodbath",
-    "description": "Once per rest, spend a Hope to unleash waves of blood around yourself. Make a single Spellcast Roll against each adversary within Close range. On a success, a target marks a Hit Point and a Stress. On a failure, a target marks a Stress. Each ally within Close range marks a Stress but clears a Hit Point.",
+    "name": "Burst",
+    "description": "Once per rest, spend a Hope to unleash energy waves around yourself. Make a single Draftcast Roll against each adversary within Close range. On a success, a target marks a Hit Point and a Stress. On a failure, a target marks a Stress. Each ally within Close range marks a Stress but clears a Hit Point.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1867,7 +1867,7 @@
     "domain": "blood",
     "level": 9,
     "name": "Glyph of Hemorrhaging",
-    "description": "Make a Spellcast Roll against a creature within Far range. On a success, mark a Hit Point to sear the target with a magical glyph that lasts until the GM spends 2 Fear to remove it or you take Severe damage. Whenever the target marks any Hit Points while the glyph remains, you can mark a Stress to make them mark an additional Hit Point.",
+    "description": "Make a Draftcast Roll against a creature within Far range. On a success, mark a Hit Point to sear the target with a Draft glyph that lasts until the GM spends 2 Fear to remove it or you take Severe damage. Whenever the target marks any Hit Points while the glyph remains, you can mark a Stress to make them mark an additional Hit Point.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1885,7 +1885,7 @@
     "domain": "blood",
     "level": 10,
     "name": "Sanguine Feast",
-    "description": "Make a Spellcast Roll against an adversary within Close range. On a success, spend 2 Hope to mark 1–3 Hit Points, and the target marks twice the number of the Hit Points you marked. If this causes the target to mark their last Hit Point, you can clear the Hit Points you marked to cast this spell.",
+    "description": "Make a Draftcast Roll against an adversary within Close range. On a success, spend 2 Hope to mark 1–3 Hit Points, and the target marks twice the number of the Hit Points you marked. If this causes the target to mark their last Hit Point, you can clear the Hit Points you marked to cast this ability .",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1894,7 +1894,7 @@
     "domain": "dread",
     "level": 1,
     "name": "Blighting Strike",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, the target takes d6+1 magic damage using your Proficiency and the next time the target deals damage to an ally it is reduced by half. If you succeed with Fear, the target instead takes d10+1 magic damage using your Proficiency.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, the target takes d6+1 Draft damage using your Proficiency and the next time the target deals damage to an ally it is reduced by half. If you succeed with Fear, the target instead takes d10+1 Draft damage using your Proficiency.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1903,7 +1903,7 @@
     "domain": "dread",
     "level": 1,
     "name": "Voice of Dread",
-    "description": "You can magically speak directly into the ears of a creature you can see. To torment them with your words, make a Spellcast Roll against them. On a success, they must mark a Stress and become temporarily Vulnerable.",
+    "description": "You can speak directly into the ears of a creature you can see. To torment them with your words, make a Draftcast Roll against them. On a success, they must mark a Stress and become temporarily Vulnerable.",
     "type": "Spell",
     "recallCost": 0
   },
@@ -1921,7 +1921,7 @@
     "domain": "dread",
     "level": 2,
     "name": "Hideous Retribution",
-    "description": "When an ally within Close range takes damage from a target you can see, you can make a Spellcast Reaction Roll against the target. On a success, mark a Stress to deal them d6 magic damage using your Proficiency.",
+    "description": "When an ally within Close range takes damage from a target you can see, you can make a Draftcast Reaction Roll against the target. On a success, mark a Stress to deal them d6 Draft damage using your Proficiency.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1930,7 +1930,7 @@
     "domain": "dread",
     "level": 2,
     "name": "Siphon Essence",
-    "description": "Make a Spellcast Roll against a target within Very Close range. On a success, once per long rest, the target takes d20 magic damage using your Proficiency. You clear a number of Hit Points equal to the number of Hit Points the target marked from this attack. On a success with Fear, you gain a +1 bonus to your Proficiency for this attack.",
+    "description": "Make a Draftcast Roll against a target within Very Close range. On a success, once per long rest, the target takes d20 Draft damage using your Proficiency. You clear a number of Hit Points equal to the number of Hit Points the target marked from this attack. On a success with Fear, you gain a +1 bonus to your Proficiency for this attack.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1939,7 +1939,7 @@
     "domain": "dread",
     "level": 2,
     "name": "Terrify",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, the target marks 1d4 Stress and you can choose to make the target run one range away from you (Close to Far, Far to Very Far, etc). On a success with Fear, the target becomes temporarily Vulnerable.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, the target marks 1d4 Stress and you can choose to make the target run one range away from you (Close to Far, Far to Very Far, etc). On a success with Fear, the target becomes temporarily Vulnerable.",
     "type": "Spell",
     "recallCost": 1
   },
@@ -1966,7 +1966,7 @@
     "domain": "dread",
     "level": 4,
     "name": "Summon Horror",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, spend a Hope to call forth an otherworldly creature to attack them and deal d10 magic damage using your Proficiency. The target must succeed on a Reaction Roll (12) to steel themselves from the horror or mark 1d4 Stress.\n\nAfter making the attack, the creature dissipates.",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, spend a Hope to call forth an otherworldly creature to attack them and deal d10 Draft damage using your Proficiency. The target must succeed on a Reaction Roll (12) to steel themselves from the horror or mark 1d4 Stress.\n\nAfter making the attack, the creature dissipates.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -1993,7 +1993,7 @@
     "domain": "dread",
     "level": 6,
     "name": "Darkfire",
-    "description": "Make a Spellcast Roll against all adversaries within Close range. You can spend a Hope for any you succeed against, and they must make a Reaction Roll (14). On a failure, they take d8+6 magic damage using your Proficiency as they are engulfed in dark fire. On a success, they take half damage.",
+    "description": "Make a Draftcast Roll against all adversaries within Close range. You can spend a Hope for any you succeed against, and they must make a Reaction Roll (14). On a failure, they take d8+6 Draft damage using your Proficiency as they are engulfed in dark fire. On a success, they take half damage.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -2002,7 +2002,7 @@
     "domain": "dread",
     "level": 6,
     "name": "Jump Scare",
-    "description": "When you deal magic damage to a target, you can mark a Stress to immediately teleport into Melee range of them. When you do, they become Vulnerable until they mark one or more Hit Points.",
+    "description": "When you deal Draft damage to a target, you can mark a Stress to immediately teleport into Melee range of them. When you do, they become Vulnerable until they mark one or more Hit Points.",
     "type": "Ability",
     "recallCost": 0
   },
@@ -2020,7 +2020,7 @@
     "domain": "dread",
     "level": 7,
     "name": "Wall of Hunger",
-    "description": "Succeed a Spellcast Roll (13) to create a visible wall of writhing, necrotic energy in a line between two points within Far range that lasts until you mark a Hit Point or cast this spell again. Any creatures inside the wall when it appears or who try to pass through the wall must mark 2 Stress, then make a Reaction Roll (16). On a failure, they are temporarily Restrained by the wall.",
+    "description": "Succeed a Draftcast Roll (13) to create a visible wall of writhing, necrotic energy in a line between two points within Far range that lasts until you mark a Hit Point or cast this ability again. Any creatures inside the wall when it appears or who try to pass through the wall must mark 2 Stress, then make a Reaction Roll (16). On a failure, they are temporarily Restrained by the wall.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -2029,7 +2029,7 @@
     "domain": "dread",
     "level": 8,
     "name": "Dark Army",
-    "description": "Make a Spellcast Roll (14). Once per long rest, on a success you can summon a group of fiends that surround and move with you. Place 8 tokens on this card. When you deal damage to a target within Very Close range, you can spend a token to increase it by +1d8. Additionally, when you take damage, you can spend a token to reduce it by 1d8. Each time you spend a token, a fiend acts on your behalf, then disappears.\n\nRemove all tokens from this card on your next rest.",
+    "description": "Make a Draftcast Roll (14). Once per long rest, on a success you can summon a group of fiends that surround and move with you. Place 8 tokens on this card. When you deal damage to a target within Very Close range, you can spend a token to increase it by +1d8. Additionally, when you take damage, you can spend a token to reduce it by 1d8. Each time you spend a token, a fiend acts on your behalf, then disappears.\n\nRemove all tokens from this card on your next rest.",
     "type": "Spell",
     "recallCost": 2
   },
@@ -2043,11 +2043,11 @@
     "recallCost": 1
   },
   {
-    "id": "damnation",
+    "id": "execution",
     "domain": "dread",
     "level": 9,
-    "name": "Damnation",
-    "description": "Make a Spellcast Roll against a target within Far range. On a success, mark any number of Stress to roll an equal number of d20s, dealing magic damage equal to the total result. If the target is defeated as a result of this attack, all adversaries within Far range of the target mark a Stress.",
+    "name": "Execution",
+    "description": "Make a Draftcast Roll against a target within Far range. On a success, mark any number of Stress to roll an equal number of d20s, dealing Draft damage equal to the total result. If the target is defeated as a result of this attack, all adversaries within Far range of the target mark a Stress.",
     "type": "Spell",
     "recallCost": 2
   },
