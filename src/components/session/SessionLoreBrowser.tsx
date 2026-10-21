@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { LoreNote } from '../../types';
-import { filterLoreNotes, groupLoreBySubject, plainTextPreview } from '../../lib/lore';
+import { filterLoreNotes, firstMarkdownImage, groupLoreBySubject, plainTextPreview } from '../../lib/lore';
 import { Button } from '../ui/Button';
 import { MarkdownPreview } from '../lore/MarkdownPreview';
 
@@ -93,27 +93,38 @@ export function SessionLoreBrowser({ notes, isDm }: SessionLoreBrowserProps) {
                 {subject}
               </h3>
               <ul className="space-y-1">
-                {subjectNotes.map((note) => (
-                  <li key={note.id}>
-                    <button
-                      type="button"
-                      onClick={() => setActiveNoteId(note.id)}
-                      className="w-full rounded-lg border border-transparent px-3 py-2 text-left hover:border-slate-600 hover:bg-slate-800/80 transition-colors"
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-medium text-slate-100">{note.title}</span>
-                        {isDm && !note.playerVisible && (
-                          <span className="text-[10px] text-slate-500">private</span>
+                {subjectNotes.map((note) => {
+                  const imageUrl = firstMarkdownImage(note.body);
+                  const preview = plainTextPreview(note.body, 100);
+                  return (
+                    <li key={note.id}>
+                      <button
+                        type="button"
+                        onClick={() => setActiveNoteId(note.id)}
+                        className="w-full rounded-lg border border-transparent px-3 py-2 text-left hover:border-slate-600 hover:bg-slate-800/80 transition-colors"
+                      >
+                        <div className="flex items-center gap-2">
+                          {imageUrl && (
+                            <img
+                              src={imageUrl}
+                              alt=""
+                              className="h-8 w-8 shrink-0 rounded object-cover bg-slate-900"
+                            />
+                          )}
+                          <span className="min-w-0 flex-1 font-medium text-slate-100 truncate">{note.title}</span>
+                          {isDm && !note.playerVisible && (
+                            <span className="text-[10px] text-slate-500">private</span>
+                          )}
+                        </div>
+                        {preview && (
+                          <p className="mt-0.5 text-xs text-slate-500 line-clamp-1">
+                            {preview}
+                          </p>
                         )}
-                      </div>
-                      {note.body && (
-                        <p className="mt-0.5 text-xs text-slate-500 line-clamp-1">
-                          {plainTextPreview(note.body, 100)}
-                        </p>
-                      )}
-                    </button>
-                  </li>
-                ))}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           ))}

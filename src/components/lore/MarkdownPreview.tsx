@@ -33,6 +33,17 @@ export function MarkdownPreview({
         : source;
 
   const components: Components = {
+    img: ({ src, alt }) => {
+      if (!src || !/^https?:\/\//i.test(src)) return null;
+      return (
+        <img
+          src={src}
+          alt={alt ?? ''}
+          loading="lazy"
+          className="my-2 max-h-[28rem] max-w-full rounded-md border border-slate-700 bg-slate-900 object-contain"
+        />
+      );
+    },
     a: ({ href, children }) => {
       if (href?.startsWith('#lore-') && onNoteNavigate) {
         const noteId = href.slice('#lore-'.length);

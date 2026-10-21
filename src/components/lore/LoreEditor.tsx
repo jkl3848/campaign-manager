@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { LoreNote } from '../../types';
+import { imageAltFromFilename, insertMarkdownImage } from '../../lib/lore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card } from '../ui/Card';
@@ -8,22 +9,26 @@ import { MarkdownPreview } from './MarkdownPreview';
 
 interface LoreEditorProps {
   campaignId: string;
+  noteId: string;
   existingSubjects: string[];
   notes?: LoreNote[];
   existing?: LoreNote;
   readOnly?: boolean;
   onSave?: (note: LoreNote) => Promise<void>;
   onDelete?: () => Promise<void>;
+  onUploadImage?: (file: File) => Promise<string>;
 }
 
 export function LoreEditor({
   campaignId,
+  noteId,
   existingSubjects,
   notes = [],
   existing,
   readOnly = false,
   onSave,
   onDelete,
+  onUploadImage,
 }: LoreEditorProps) {
   const [title, setTitle] = useState(existing?.title ?? '');
   const [subject, setSubject] = useState(existing?.subject ?? '');
@@ -32,6 +37,12 @@ export function LoreEditor({
   const [mode, setMode] = useState<'edit' | 'preview'>(readOnly ? 'preview' : 'edit');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const bodyRef = useRef(body);
+  bodyRef.current = body;
 
   useEffect(() => {
     if (!existing) return;
@@ -45,7 +56,7 @@ export function LoreEditor({
     if (!onSave || !title.trim() || !subject.trim()) return;
     setSaving(true);
     const note: LoreNote = {
-      id: existing?.id ?? crypto.randomUUID(),
+      id: existing?.id ?? noteId,
       campaignId,
       title: title.trim(),
       subject: subject.trim(),
@@ -64,6 +75,43 @@ export function LoreEditor({
     setDeleting(true);
     await onDelete();
     setDeleting(false);
+  };
+
+  const handleImageFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file || !onUploadImage) return;
+    if (!file.type.startsWith('image/')) {
+      setUploadError('Choose an image file.');
+      return;
+    }
+
+    const snapshot = bodyRef.current;
+    const field = textareaRef.current;
+    const start = field?.selectionStart ?? snapshot.length;
+    const end = field?.selectionEnd ?? snapshot.length;
+
+    setUploadingImage(true);
+    setUploadError(null);
+    try {
+      const url = await onUploadImage(file);
+      const latest = bodyRef.current;
+      const inserted =
+        latest === snapshot
+          ? insertMarkdownImage(latest, start, end, imageAltFromFilename(file.name), url)
+          : insertMarkdownImage(latest, latest.length, latest.length, imageAltFromFilename(file.name), url);
+      setBody(inserted.body);
+      requestAnimationFrame(() => {
+        const node = textareaRef.current;
+        if (!node) return;
+        node.focus();
+        node.setSelectionRange(inserted.cursor, inserted.cursor);
+      });
+    } catch {
+      setUploadError('Couldn’t upload that image. Try a smaller photo.');
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   if (readOnly) {
@@ -148,11 +196,36 @@ export function LoreEditor({
         {mode === 'edit' ? (
           <div className="space-y-2">
             <Textarea
+              ref={textareaRef}
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder="Write markdown… Use [[Note Title]] to link other lore pages."
               className="min-h-[280px] font-mono text-sm"
             />
+            {onUploadImage && (
+              <div className="flex flex-wrap items-center gap-3">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageFile}
+                />
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingImage}
+                >
+                  {uploadingImage ? 'Uploading…' : 'Add image'}
+                </Button>
+                <p className="text-xs text-slate-500">
+                  Images are compressed on upload. Add as many as you need.
+                </p>
+              </div>
+            )}
+            {uploadError && <p className="text-xs text-red-400">{uploadError}</p>}
             <p className="text-xs text-slate-500">
               Tip: link another note with <code className="text-amber-300/80">[[Exact Title]]</code>
               {' '}or <code className="text-amber-300/80">[[Exact Title|display text]]</code>

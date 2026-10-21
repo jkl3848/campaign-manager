@@ -2,7 +2,7 @@ const MAX_SIZE_BYTES = 1024 * 1024;
 const MAX_DIMENSION = 1200;
 
 export async function compressImage(file: File): Promise<Blob> {
-  if (file.size <= MAX_SIZE_BYTES && file.type !== 'image/png') {
+  if (file.size < MAX_SIZE_BYTES && file.type !== 'image/png') {
     return file;
   }
 
@@ -25,12 +25,12 @@ export async function compressImage(file: File): Promise<Blob> {
   let quality = 0.85;
   let blob = await canvasToBlob(canvas, 'image/jpeg', quality);
 
-  while (blob.size > MAX_SIZE_BYTES && quality > 0.3) {
+  while (blob.size >= MAX_SIZE_BYTES && quality > 0.3) {
     quality -= 0.1;
     blob = await canvasToBlob(canvas, 'image/jpeg', quality);
   }
 
-  if (blob.size > MAX_SIZE_BYTES) {
+  if (blob.size >= MAX_SIZE_BYTES) {
     const scale = Math.sqrt(MAX_SIZE_BYTES / blob.size) * 0.9;
     const scaledWidth = Math.round(width * scale);
     const scaledHeight = Math.round(height * scale);

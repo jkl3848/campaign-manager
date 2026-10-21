@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { saveLoreNote, deleteLoreNote, getCampaign } from '../services/campaignService';
+import { saveLoreNote, deleteLoreNote, getCampaign, uploadImage } from '../services/campaignService';
 import { db } from '../lib/firebase';
 import { useAuth } from '../hooks/useAuth';
 import { useLoreNotes } from '../hooks/useLoreNotes';
@@ -21,6 +21,14 @@ export function LoreEditPage() {
   const [loadError, setLoadError] = useState(false);
   const [editing, setEditing] = useState(isNew);
   const { notes } = useLoreNotes(campaignId, isDm);
+  const draftIdRef = useRef('');
+  const draftScopeRef = useRef<string | null>(null);
+  const draftScope = isNew ? 'new' : (noteId ?? null);
+  if (draftScopeRef.current !== draftScope) {
+    draftScopeRef.current = draftScope;
+    if (isNew) draftIdRef.current = crypto.randomUUID();
+  }
+  const imageOwnerId = isNew ? draftIdRef.current : (noteId ?? '');
 
   useEffect(() => {
     if (!campaignId) return;
@@ -113,10 +121,21 @@ export function LoreEditPage() {
         ) : (
           <LoreEditor
             campaignId={campaignId}
+            noteId={imageOwnerId}
             existingSubjects={existingSubjects}
             notes={notes}
             existing={note}
             readOnly={!showEditor}
+            onUploadImage={
+              showEditor
+                ? (file) =>
+                    uploadImage(
+                      campaignId,
+                      file,
+                      `lore/${imageOwnerId}/${crypto.randomUUID()}.jpg`,
+                    )
+                : undefined
+            }
             onSave={
               isDm
                 ? async (n) => {

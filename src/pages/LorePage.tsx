@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useLoreNotes } from '../hooks/useLoreNotes';
 import { getCampaign } from '../services/campaignService';
 import { getPlayerSession } from '../lib/playerSession';
-import { plainTextPreview } from '../lib/lore';
+import { firstMarkdownImage, plainTextPreview } from '../lib/lore';
 import type { Campaign } from '../types';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -70,34 +70,49 @@ export function LorePage() {
                     </span>
                   </h2>
                   <div className="grid gap-3 md:grid-cols-2">
-                    {subjectNotes.map((note) => (
-                      <Link
-                        key={note.id}
-                        to={`/campaign/${campaignId}/lore/${note.id}`}
-                      >
-                        <Card className="hover:border-amber-500/50 transition-colors cursor-pointer h-full">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="font-semibold text-slate-100">{note.title}</h3>
-                            {isDm && (
-                              <span
-                                className={`shrink-0 text-xs px-2 py-0.5 rounded ${
-                                  note.playerVisible
-                                    ? 'text-sky-400 bg-sky-900/30'
-                                    : 'text-slate-400 bg-slate-700/50'
-                                }`}
-                              >
-                                {note.playerVisible ? 'Visible' : 'Private'}
-                              </span>
-                            )}
-                          </div>
-                          {note.body && (
-                            <p className="text-sm text-slate-400 line-clamp-2 mt-2">
-                              {plainTextPreview(note.body)}
-                            </p>
-                          )}
-                        </Card>
-                      </Link>
-                    ))}
+                    {subjectNotes.map((note) => {
+                      const imageUrl = firstMarkdownImage(note.body);
+                      const preview = plainTextPreview(note.body);
+                      return (
+                        <Link
+                          key={note.id}
+                          to={`/campaign/${campaignId}/lore/${note.id}`}
+                        >
+                          <Card className="hover:border-amber-500/50 transition-colors cursor-pointer h-full">
+                            <div className="flex gap-3">
+                              {imageUrl && (
+                                <img
+                                  src={imageUrl}
+                                  alt=""
+                                  className="h-16 w-16 shrink-0 rounded object-cover bg-slate-900"
+                                />
+                              )}
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-start justify-between gap-2">
+                                  <h3 className="font-semibold text-slate-100">{note.title}</h3>
+                                  {isDm && (
+                                    <span
+                                      className={`shrink-0 text-xs px-2 py-0.5 rounded ${
+                                        note.playerVisible
+                                          ? 'text-sky-400 bg-sky-900/30'
+                                          : 'text-slate-400 bg-slate-700/50'
+                                      }`}
+                                    >
+                                      {note.playerVisible ? 'Visible' : 'Private'}
+                                    </span>
+                                  )}
+                                </div>
+                                {preview && (
+                                  <p className="text-sm text-slate-400 line-clamp-2 mt-2">
+                                    {preview}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </Card>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </section>
               ))}
