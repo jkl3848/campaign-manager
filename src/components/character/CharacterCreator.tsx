@@ -91,6 +91,7 @@ export function CharacterCreator({
   const [armorId, setArmorId] = useState(existing?.armorId ?? 'none');
   const [description, setDescription] = useState(existing?.description ?? '');
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
   const [classPanelId, setClassPanelId] = useState<string | null>(null);
   const [panelSubclassId, setPanelSubclassId] = useState('');
 
@@ -145,88 +146,95 @@ export function CharacterCreator({
   const handleSave = async () => {
     if (!name || !ancestryId || !communityId || !classId || !subclassId) return;
     setSaving(true);
+    setSaveError('');
 
-    const cls = classes.find((c) => c.id === classId)!;
-    const weapon = equipment.weapons.find((w) => w.id === weaponId);
-    const armor = equipment.armor.find((a) => a.id === armorId);
-    const level = existing?.level ?? 1;
-    const armorStats = computeArmorStats(armorId, level);
+    try {
+      const cls = classes.find((c) => c.id === classId)!;
+      const weapon = equipment.weapons.find((w) => w.id === weaponId);
+      const armor = equipment.armor.find((a) => a.id === armorId);
+      const level = existing?.level ?? 1;
+      const armorStats = computeArmorStats(armorId, level);
 
-    const domainCards: DomainCard[] = selectedDomainCardIds.map((id) => {
-      const card = domainCardsCatalog.find((c) => c.id === id)!;
-      return {
-        id: card.id,
-        domainId: card.domain,
-        level: card.level,
-        name: card.name,
-        description: card.description,
-        type: card.type,
-        recallCost: card.recallCost,
+      const domainCards: DomainCard[] = selectedDomainCardIds.map((id) => {
+        const card = domainCardsCatalog.find((c) => c.id === id)!;
+        return {
+          id: card.id,
+          domainId: card.domain,
+          level: card.level,
+          name: card.name,
+          description: card.description,
+          type: card.type,
+          recallCost: card.recallCost,
+        };
+      });
+
+      const proficiency = existing?.proficiency ?? 1;
+      const primaryWeapon = weapon
+        ? toEquippedWeapon(weapon, proficiency)
+        : existing?.primaryWeapon;
+
+      const character: Character = {
+        id: existing?.id ?? crypto.randomUUID(),
+        campaignId,
+        playerId,
+        playerName,
+        name,
+        imageUrl: imageUrl || undefined,
+        ancestryId,
+        communityId,
+        classId,
+        subclassId,
+        transformationId: transformationId || undefined,
+        traits: characterTraits,
+        level,
+        hp: existing?.hp ?? { current: cls.startingHp, max: cls.startingHp },
+        stress: existing?.stress ?? { current: 0, max: cls.startingStress },
+        hope: existing?.hope ?? 2,
+        evasion: cls.startingEvasion,
+        armorId,
+        armorScore: armorStats.armorScore,
+        armorName: armor?.name,
+        armorSlots: existing?.armorSlots ?? armorStats.armorSlots,
+        damageThresholds: armorStats.damageThresholds,
+        primaryWeapon,
+        secondaryWeapon: existing?.secondaryWeapon,
+        weaponName: primaryWeapon?.name,
+        weaponDamage: primaryWeapon?.damage,
+        weaponTrait: primaryWeapon?.trait,
+        weaponPhysical: primaryWeapon?.physical,
+        weaponTwoHanded: primaryWeapon?.twoHanded,
+        weaponSecondary: primaryWeapon?.secondary,
+        weaponFeature: primaryWeapon?.feature,
+        hopeFeature: cls.hopeFeature,
+        abilities: cls.classFeatures.map((f) => ({
+          id: f.id,
+          name: f.name,
+          description: f.description,
+        })),
+        feats: existing?.feats ?? [],
+        domainCards,
+        experienceEntries: experiences.map((expName) => ({ name: expName, bonus: 2 })),
+        proficiency,
+        thresholdBonus: existing?.thresholdBonus ?? 0,
+        markedTraits: existing?.markedTraits ?? [],
+        advancementSlots: existing?.advancementSlots ?? {},
+        disabledAdvancements: existing?.disabledAdvancements ?? [],
+        subclassStage: existing?.subclassStage ?? 'foundation',
+        multiclass: existing?.multiclass,
+        inventory: existing?.inventory ?? [],
+        inParty: existing?.inParty !== false,
+        description: description || undefined,
+        createdAt: existing?.createdAt ?? Date.now(),
+        updatedAt: Date.now(),
       };
-    });
 
-    const proficiency = existing?.proficiency ?? 1;
-    const primaryWeapon = weapon
-      ? toEquippedWeapon(weapon, proficiency)
-      : existing?.primaryWeapon;
-
-    const character: Character = {
-      id: existing?.id ?? crypto.randomUUID(),
-      campaignId,
-      playerId,
-      playerName,
-      name,
-      imageUrl: imageUrl || undefined,
-      ancestryId,
-      communityId,
-      classId,
-      subclassId,
-      transformationId: transformationId || undefined,
-      traits: characterTraits,
-      level,
-      hp: existing?.hp ?? { current: cls.startingHp, max: cls.startingHp },
-      stress: existing?.stress ?? { current: 0, max: cls.startingStress },
-      hope: existing?.hope ?? 2,
-      evasion: cls.startingEvasion,
-      armorId,
-      armorScore: armorStats.armorScore,
-      armorName: armor?.name,
-      armorSlots: existing?.armorSlots ?? armorStats.armorSlots,
-      damageThresholds: armorStats.damageThresholds,
-      primaryWeapon,
-      secondaryWeapon: existing?.secondaryWeapon,
-      weaponName: primaryWeapon?.name,
-      weaponDamage: primaryWeapon?.damage,
-      weaponTrait: primaryWeapon?.trait,
-      weaponPhysical: primaryWeapon?.physical,
-      weaponTwoHanded: primaryWeapon?.twoHanded,
-      weaponSecondary: primaryWeapon?.secondary,
-      weaponFeature: primaryWeapon?.feature,
-      hopeFeature: cls.hopeFeature,
-      abilities: cls.classFeatures.map((f) => ({
-        id: f.id,
-        name: f.name,
-        description: f.description,
-      })),
-      feats: existing?.feats ?? [],
-      domainCards,
-      experienceEntries: experiences.map((name) => ({ name, bonus: 2 })),
-      proficiency,
-      thresholdBonus: existing?.thresholdBonus ?? 0,
-      markedTraits: existing?.markedTraits ?? [],
-      advancementSlots: existing?.advancementSlots ?? {},
-      disabledAdvancements: existing?.disabledAdvancements ?? [],
-      subclassStage: existing?.subclassStage ?? 'foundation',
-      multiclass: existing?.multiclass,
-      inventory: existing?.inventory ?? [],
-      inParty: existing?.inParty !== false,
-      description: description || undefined,
-      createdAt: existing?.createdAt ?? Date.now(),
-      updatedAt: Date.now(),
-    };
-
-    await onSave(character);
-    setSaving(false);
+      await onSave(character);
+    } catch (err) {
+      console.error(err);
+      setSaveError('Could not save this character. Check your connection and try again.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const canProceed = () => {
@@ -563,6 +571,10 @@ export function CharacterCreator({
             )}
           </div>
         </section>
+      )}
+
+      {saveError && (
+        <p className="font-serif text-sm text-oxblood" role="alert">{saveError}</p>
       )}
 
       <div className="flex justify-between">

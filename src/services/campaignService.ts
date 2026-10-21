@@ -15,13 +15,8 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { generateInviteCode } from '../lib/playerSession';
 import { compressImage } from '../lib/images';
+import { stripUndefined } from '../lib/stripUndefined';
 import type { Campaign, Character, Enemy, Npc, Encounter, Session, DiceRoll, LoreNote } from '../types';
-
-function stripUndefined<T extends object>(obj: T): T {
-  return Object.fromEntries(
-    Object.entries(obj as Record<string, unknown>).filter(([, v]) => v !== undefined),
-  ) as T;
-}
 
 export async function createCampaign(name: string, dmId: string, description?: string): Promise<Campaign> {
   const id = crypto.randomUUID();
