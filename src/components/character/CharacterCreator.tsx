@@ -16,6 +16,7 @@ import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
 import { ImageUpload } from '../ui/ImageUpload';
 import { GameCard } from '../ui/GameCard';
+import { cardImageCandidates } from '../../lib/cardAssets';
 import { SidePanel } from '../ui/SidePanel';
 import { Textarea } from '../ui/Textarea';
 import { FormattedText } from '../ui/FormattedText';
@@ -512,32 +513,14 @@ export function CharacterCreator({
             <span className="ml-2 text-oxblood">{selectedDomainCardIds.length}/2 selected</span>
           </p>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {availableDomainCards.map((card) => {
-              const selected = selectedDomainCardIds.includes(card.id);
-              const domain = domains.find((d) => d.id === card.domain);
-              return (
-                <button
-                  key={card.id}
-                  type="button"
-                  onClick={() => toggleDomainCard(card.id)}
-                  className={`border p-3 text-left transition-colors ${
-                    selected
-                      ? 'border-oxblood bg-oxblood/8'
-                      : 'border-ink/20 hover:border-ink/40'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-xs uppercase tracking-wider text-ink-faint">{domain?.name}</span>
-                    <span className="font-display text-xs text-oxblood">Lv.{card.level}</span>
-                  </div>
-                  <p className="mt-1 font-display font-semibold text-ink">{card.name}</p>
-                  <FormattedText
-                    source={card.description}
-                    className="mt-1 line-clamp-2 font-serif text-xs text-ink-muted"
-                  />
-                </button>
-              );
-            })}
+            {availableDomainCards.map((card) => (
+              <DomainCardOption
+                key={card.id}
+                card={card}
+                selected={selectedDomainCardIds.includes(card.id)}
+                onClick={() => toggleDomainCard(card.id)}
+              />
+            ))}
           </div>
         </section>
       )}
@@ -608,6 +591,9 @@ export function CharacterCreator({
       >
         {panelClass && (
           <div className="space-y-5 text-sm">
+            <div className="mx-auto aspect-[5/7] w-40 overflow-hidden border border-ink/20 bg-parchment-deep">
+              <Artwork folder="classes" id={panelClass.id} alt={panelClass.name} />
+            </div>
             <p className="font-serif text-ink">{panelClass.description}</p>
 
             <div className="grid grid-cols-2 gap-3">
@@ -653,6 +639,71 @@ export function CharacterCreator({
         )}
       </SidePanel>
     </>
+  );
+}
+
+function Artwork({
+  folder,
+  id,
+  alt,
+  className = 'h-full w-full object-cover',
+}: {
+  folder: string;
+  id: string;
+  alt: string;
+  className?: string;
+}) {
+  const candidates = cardImageCandidates(folder, id);
+  const [imgIndex, setImgIndex] = useState(0);
+  if (imgIndex >= candidates.length) return null;
+  return (
+    <img
+      src={candidates[imgIndex]}
+      alt={alt}
+      className={className}
+      onError={() => setImgIndex((i) => i + 1)}
+    />
+  );
+}
+
+function DomainCardOption({
+  card,
+  selected,
+  onClick,
+}: {
+  card: { id: string; domain: string; level: number; name: string; description: string };
+  selected: boolean;
+  onClick: () => void;
+}) {
+  const domain = domains.find((d) => d.id === card.domain);
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`overflow-hidden border text-left transition-colors ${
+        selected ? 'border-oxblood bg-oxblood/8' : 'border-ink/20 hover:border-ink/40'
+      }`}
+    >
+      <div className="flex h-28 items-center justify-center bg-black/[0.03]">
+        <Artwork
+          folder="domain-cards"
+          id={card.domain}
+          alt={domain?.name ?? card.domain}
+          className="h-24 w-24 object-contain"
+        />
+      </div>
+      <div className="p-3">
+        <div className="flex items-center justify-between">
+          <span className="font-display text-xs uppercase tracking-wider text-ink-faint">{domain?.name}</span>
+          <span className="font-display text-xs text-oxblood">Lv.{card.level}</span>
+        </div>
+        <p className="mt-1 font-display font-semibold text-ink">{card.name}</p>
+        <FormattedText
+          source={card.description}
+          className="mt-1 line-clamp-2 font-serif text-xs text-ink-muted"
+        />
+      </div>
+    </button>
   );
 }
 
