@@ -85,7 +85,8 @@ function DomainCardTile({
   onClick: () => void;
   onRemove?: () => void;
 }) {
-  const candidates = cardImageCandidates('domain-cards', card.domainId, { preferPng: true });
+  const artId = card.domainId || (card as DomainCard & { domain?: string }).domain || '';
+  const candidates = cardImageCandidates('domain-cards', artId);
   const [imgIndex, setImgIndex] = useState(0);
   const imgFailed = imgIndex >= candidates.length;
   const imgSrc = candidates[imgIndex];
@@ -113,7 +114,7 @@ function DomainCardTile({
               <img
                 src={imgSrc}
                 alt=""
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 onError={() => setImgIndex((i) => i + 1)}
               />
             ) : (
