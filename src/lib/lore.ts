@@ -16,6 +16,47 @@ export function groupLoreBySubject(notes: LoreNote[]): [string, LoreNote[]][] {
     ]);
 }
 
+/** Alt text for an uploaded file, safe to drop into markdown image syntax. */
+export function imageAltFromFilename(filename: string): string {
+  const base = filename.replace(/\.[^.]+$/, '');
+  const cleaned = base
+    .replace(/[[\]\r\n]/g, ' ')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return cleaned || 'image';
+}
+
+/** Insert `![alt](url)` at a selection, keeping it on its own lines. */
+export function insertMarkdownImage(
+  body: string,
+  start: number,
+  end: number,
+  alt: string,
+  url: string,
+): { body: string; cursor: number } {
+  const safeAlt = alt.replace(/[[\]\r\n]/g, ' ').replace(/\s+/g, ' ').trim() || 'image';
+  const snippet = `![${safeAlt}](${url})`;
+  const safeStart = Math.max(0, Math.min(start, body.length));
+  const safeEnd = Math.max(safeStart, Math.min(end, body.length));
+  const before = body.slice(0, safeStart);
+  const after = body.slice(safeEnd);
+  const prefix =
+    before.length === 0 ? '' : before.endsWith('\n\n') ? '' : before.endsWith('\n') ? '\n' : '\n\n';
+  const suffix = after.length === 0 ? '\n' : after.startsWith('\n') ? '' : '\n\n';
+  const next = `${before}${prefix}${snippet}${suffix}${after}`;
+  return { body: next, cursor: before.length + prefix.length + snippet.length };
+}
+
+export function firstMarkdownImage(body: string): string | undefined {
+  const match = /!\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/i.exec(body);
+  return match?.[1];
+}
+
+function bodyForSearch(body: string): string {
+  return body.replace(/!\[([^\]]*)\]\([^)]*\)/g, ' $1 ');
+}
+
 export function filterLoreNotes(notes: LoreNote[], query: string, subjectFilter: string | null): LoreNote[] {
   const q = query.trim().toLowerCase();
   return notes.filter((note) => {
@@ -24,7 +65,7 @@ export function filterLoreNotes(notes: LoreNote[], query: string, subjectFilter:
     return (
       note.title.toLowerCase().includes(q) ||
       note.subject.toLowerCase().includes(q) ||
-      note.body.toLowerCase().includes(q)
+      bodyForSearch(note.body).toLowerCase().includes(q)
     );
   });
 }
@@ -53,7 +94,11 @@ export function resolveWikiLinks(
 }
 
 export function plainTextPreview(body: string, maxLen = 140): string {
-  const text = body.replace(/[#*_`>\-\[\]()]/g, ' ').replace(/\s+/g, ' ').trim();
+  const text = body
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/[#*_`>\-\[\]()!]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
   if (text.length <= maxLen) return text;
   return `${text.slice(0, maxLen).trim()}…`;
 }
