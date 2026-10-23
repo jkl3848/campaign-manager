@@ -42,11 +42,20 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
 
-      - name: Authenticate to Google Cloud
+      - id: auth
+        name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: "projects/211209665085/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
           service_account: "github-actions-deployer@camp-man-74afd.iam.gserviceaccount.com"
+          # Firebase CLI picks up Application Default Credentials from
+          # GOOGLE_APPLICATION_CREDENTIALS, which these options set.
+          create_credentials_file: true
+          export_environment_variables: true
 
       - name: Deploy to Firebase Hosting
+        env:
+          # Pass the generated credentials file explicitly so the Firebase CLI
+          # always finds Application Default Credentials.
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: npx firebase-tools deploy --only hosting --project camp-man-74afd
