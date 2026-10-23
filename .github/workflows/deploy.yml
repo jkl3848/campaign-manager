@@ -48,16 +48,12 @@ jobs:
         with:
           workload_identity_provider: "projects/211209665085/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
           service_account: "github-actions-deployer@camp-man-74afd.iam.gserviceaccount.com"
-          # Mint a short-lived OAuth access token during this step. If the
-          # Workload Identity / IAM setup is wrong, the failure surfaces here
-          # with a clear message instead of inside the Firebase CLI.
-          token_format: access_token
-          access_token_scopes: "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/firebase"
-          create_credentials_file: false
-          export_environment_variables: false
+          # Write an ADC credentials file; the Firebase CLI reads it through
+          # GOOGLE_APPLICATION_CREDENTIALS.
+          create_credentials_file: true
+          export_environment_variables: true
 
       - name: Deploy to Firebase Hosting
         env:
-          # The Firebase CLI uses this token directly, bypassing ADC.
-          GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: npx firebase-tools@latest deploy --only hosting --project camp-man-74afd --debug
