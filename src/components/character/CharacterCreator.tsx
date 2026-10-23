@@ -10,6 +10,7 @@ import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
 import type { Character, Traits, TraitId, DomainCard } from '../../types';
 import { computeArmorStats } from '../../lib/characterArmor';
 import { toEquippedWeapon } from '../../lib/equipment';
+import { normalizeWealth } from '../../lib/wealth';
 import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -223,6 +224,7 @@ export function CharacterCreator({
         subclassStage: existing?.subclassStage ?? 'foundation',
         multiclass: existing?.multiclass,
         inventory: existing?.inventory ?? [],
+        wealth: normalizeWealth(existing?.wealth),
         inParty: existing?.inParty !== false,
         extraArmorSlots: existing?.extraArmorSlots,
         description: description || undefined,

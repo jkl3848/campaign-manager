@@ -102,6 +102,14 @@ export interface InventoryItem {
   kind?: EquipmentKind;
 }
 
+/** Gold carried on the character. Ten of a lower unit roll into one of the next. */
+export interface Wealth {
+  coins: number;
+  handfuls: number;
+  bags: number;
+  chests: number;
+}
+
 export interface Character {
   id: string;
   campaignId: string;
@@ -161,6 +169,8 @@ export interface Character {
   multiclass?: MulticlassInfo;
   pendingLevelUp?: PendingLevelUp;
   inventory: InventoryItem[];
+  /** Gold on the character. 10 coins = 1 handful, 10 handfuls = 1 bag, 10 bags = 1 chest. */
+  wealth: Wealth;
   /** When true, appears in the live-session party panel. Defaults to true. */
   inParty: boolean;
   description?: string;

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Character, Ability, DomainCard } from '../../types';
 import type { CatalogEntry } from '../../lib/equipment';
+import { formatWealth, type WealthUnit } from '../../lib/wealth';
 import { LevelUpWizard } from './LevelUpWizard';
 import { canInitiateLevelUp } from '../../lib/levelUp';
 import { stageLabel } from '../../lib/subclasses';
@@ -8,6 +9,7 @@ import { Button } from '../ui/Button';
 import { Textarea } from '../ui/Textarea';
 import { TickTrack } from '../ui/TickTrack';
 import { EquipmentPanel } from './EquipmentPanel';
+import { WealthPanel } from './WealthPanel';
 import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
 import { CHARACTER_HOPE_MAX } from '../../lib/hopeFear';
@@ -28,6 +30,7 @@ interface CharacterSheetSessionProps {
   onAdjustHp: (delta: number) => void;
   onAdjustStress: (delta: number) => void;
   onAdjustHope: (delta: number) => void;
+  onAdjustWealth: (unit: WealthUnit, delta: number) => boolean;
   onToggleArmorSlot: (index: number) => void;
   onAdjustExtraArmorSlots?: (delta: number) => void;
   onUpdateDescription: (description: string) => void;
@@ -64,6 +67,7 @@ export function CharacterSheetSession({
   onAdjustHp,
   onAdjustStress,
   onAdjustHope,
+  onAdjustWealth,
   onToggleArmorSlot,
   onAdjustExtraArmorSlots,
   onUpdateDescription,
@@ -164,6 +168,15 @@ export function CharacterSheetSession({
           rows={3}
         />
       )}
+
+      <SessionSection title="Wealth" aside={formatWealth(char.wealth)} defaultOpen>
+        <WealthPanel
+          wealth={char.wealth}
+          canEdit={canEdit}
+          compact
+          onAdjust={onAdjustWealth}
+        />
+      </SessionSection>
 
       {/* Equipment */}
       <SessionSection title="Equipment" defaultOpen>
@@ -426,10 +439,12 @@ export function CharacterSheetSession({
 
 function SessionSection({
   title,
+  aside,
   children,
   defaultOpen = false,
 }: {
   title: string;
+  aside?: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
 }) {
@@ -439,10 +454,15 @@ function SessionSection({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between px-2.5 py-2 text-left"
+        className="flex w-full items-center gap-2 px-2.5 py-2 text-left"
       >
         <span className="font-display text-xs font-semibold tracking-wide text-oxblood">{title}</span>
-        <span className="text-[10px] text-ink-faint">{open ? '▾' : '▸'}</span>
+        <span className="ml-auto flex min-w-0 items-center gap-2">
+          {aside && (
+            <span className="truncate text-[10px] font-medium text-brass">{aside}</span>
+          )}
+          <span className="text-[10px] text-ink-faint">{open ? '▾' : '▸'}</span>
+        </span>
       </button>
       {open && <div className="border-t border-ink/10 px-2.5 pb-2.5">{children}</div>}
     </div>
