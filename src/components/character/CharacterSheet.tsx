@@ -31,6 +31,8 @@ import {
   unequipWeapon,
 } from '../../lib/equipment';
 import { CharacterSheetSession } from './CharacterSheetSession';
+import { WealthPanel } from './WealthPanel';
+import { applyWealthDelta, type WealthUnit } from '../../lib/wealth';
 
 export type CharacterSheetLayout = 'full' | 'session';
 
@@ -102,7 +104,7 @@ export function CharacterSheet({
     setSaving(false);
   };
 
-  /** Immediate persist for live resources (HP, stress, hope, inventory, armor). */
+  /** Immediate persist for live resources (HP, stress, hope, wealth, inventory, armor). */
   const updateLive = (partial: Partial<Character>) => {
     const next = { ...charRef.current, ...partial };
     charRef.current = next;
@@ -129,6 +131,13 @@ export function CharacterSheet({
 
   const adjustHope = (delta: number) => {
     updateLive({ hope: clampHope(char.hope + delta) });
+  };
+
+  const adjustWealth = (unit: WealthUnit, delta: number) => {
+    const result = applyWealthDelta(charRef.current.wealth, unit, delta);
+    if (!result.ok) return false;
+    updateLive({ wealth: result.wealth });
+    return true;
   };
 
   /** Structural overrides — local until Save on the character page. */
@@ -331,6 +340,7 @@ export function CharacterSheet({
         onAdjustHp={adjustHp}
         onAdjustStress={adjustStress}
         onAdjustHope={adjustHope}
+        onAdjustWealth={adjustWealth}
         onToggleArmorSlot={toggleArmorSlot}
         onAdjustExtraArmorSlots={canEdit ? adjustExtraArmorSlots : undefined}
         onUpdateDescription={handleDescriptionChange}
@@ -522,6 +532,10 @@ export function CharacterSheet({
           </div>
         </div>
       </div>
+
+      <SheetSection title="Wealth">
+        <WealthPanel wealth={char.wealth} canEdit={canEdit} onAdjust={adjustWealth} />
+      </SheetSection>
 
       {/* Equipment */}
       <SheetSection title="Equipment">

@@ -2,6 +2,7 @@ import type { Character, DomainCard, Ability, ExperienceEntry } from '../types';
 import { computeArmorStats } from './characterArmor';
 import { equippedWeaponFromLegacy } from './equipment';
 import { normalizeWeaponDamage } from './weaponDamage';
+import { normalizeWealth } from './wealth';
 
 /** Migrate legacy fields and fill defaults for characters saved before schema updates. */
 export function normalizeCharacter(c: Character): Character {
@@ -76,6 +77,7 @@ export function normalizeCharacter(c: Character): Character {
     weaponSecondary: primaryWeapon?.secondary,
     weaponFeature: primaryWeapon?.feature,
     inventory: c.inventory ?? [],
+    wealth: normalizeWealth(c.wealth),
     inParty: c.inParty !== false,
   };
 }
