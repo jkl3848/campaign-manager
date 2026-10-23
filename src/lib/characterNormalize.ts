@@ -63,6 +63,7 @@ export function normalizeCharacter(c: Character): Character {
       : undefined,
     armorId,
     armorSlots: c.armorSlots ?? armorStats.armorSlots,
+    extraArmorSlots: c.extraArmorSlots ?? 0,
     damageThresholds: c.damageThresholds ?? armorStats.damageThresholds,
     armorScore: c.armorScore ?? armorStats.armorScore,
     primaryWeapon,

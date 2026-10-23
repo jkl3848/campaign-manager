@@ -224,6 +224,7 @@ export function CharacterCreator({
         multiclass: existing?.multiclass,
         inventory: existing?.inventory ?? [],
         inParty: existing?.inParty !== false,
+        extraArmorSlots: existing?.extraArmorSlots,
         description: description || undefined,
         createdAt: existing?.createdAt ?? Date.now(),
         updatedAt: Date.now(),
