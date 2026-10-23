@@ -29,6 +29,8 @@ interface CharacterSheetSessionProps {
   onAdjustStress: (delta: number) => void;
   onAdjustHope: (delta: number) => void;
   onToggleArmorSlot: (index: number) => void;
+  onAdjustExtraArmorSlots?: (delta: number) => void;
+  onUpdateDescription: (description: string) => void;
   onUpdateNotes: (notes: string) => void;
   onDmLevelUp: () => void;
   onCancelLevelUp: () => void;
@@ -63,6 +65,8 @@ export function CharacterSheetSession({
   onAdjustStress,
   onAdjustHope,
   onToggleArmorSlot,
+  onAdjustExtraArmorSlots,
+  onUpdateDescription,
   onUpdateNotes,
   onDmLevelUp,
   onCancelLevelUp,
@@ -139,6 +143,9 @@ export function CharacterSheetSession({
             {community && <Chip label={community.name} />}
             {transformation && <Chip label={transformation.name} accent />}
           </div>
+          {!canEdit && char.description && (
+            <p className="mt-1 line-clamp-3 text-[11px] italic leading-relaxed text-ink-muted">{char.description}</p>
+          )}
         </div>
         {isDm && canInitiateLevelUp(char) && (
           <Button size="sm" onClick={onDmLevelUp} disabled={saving}>
@@ -146,6 +153,17 @@ export function CharacterSheetSession({
           </Button>
         )}
       </div>
+
+      {canEdit && (
+        <Textarea
+          label="Description"
+          value={char.description ?? ''}
+          onChange={(e) => onUpdateDescription(e.target.value)}
+          placeholder="Appearance, personality, backstory..."
+          className="min-h-16 text-xs"
+          rows={3}
+        />
+      )}
 
       {/* Equipment */}
       <SessionSection title="Equipment" defaultOpen>
@@ -185,9 +203,36 @@ export function CharacterSheetSession({
           Score <span className="font-semibold text-ink">{char.armorScore}</span>
           {char.armorName && <span className="text-ink-faint"> · {char.armorName}</span>}
         </p>
-        {char.armorSlots.max > 0 && (
-          <div className="mb-2">
-            <p className="mb-1 text-[10px] text-ink-faint">Armor slots ({char.armorSlots.marked}/{char.armorSlots.max})</p>
+        {(char.armorSlots.max > 0 || (canEdit && onAdjustExtraArmorSlots)) && (
+        <div className="mb-2">
+          <div className="mb-1 flex flex-wrap items-center gap-2">
+            <p className="text-[10px] text-ink-faint">
+              Armor slots ({char.armorSlots.marked}/{char.armorSlots.max})
+            </p>
+            {canEdit && onAdjustExtraArmorSlots && (
+              <span className="inline-flex items-center gap-1 text-[11px] text-ink">
+                <button
+                  type="button"
+                  onClick={() => onAdjustExtraArmorSlots(-1)}
+                  disabled={(char.extraArmorSlots ?? 0) <= 0}
+                  className="text-ink-faint hover:text-ink disabled:opacity-30"
+                  title="Remove an extra armor slot"
+                >
+                  −
+                </button>
+                <span>{char.extraArmorSlots ?? 0} extra</span>
+                <button
+                  type="button"
+                  onClick={() => onAdjustExtraArmorSlots(1)}
+                  className="text-ink-faint hover:text-ink"
+                  title="Add an extra armor slot"
+                >
+                  +
+                </button>
+              </span>
+            )}
+          </div>
+          {char.armorSlots.max > 0 && (
             <div className="flex flex-wrap gap-1 text-oxblood">
               {Array.from({ length: char.armorSlots.max }).map((_, i) => (
                 <button
@@ -201,7 +246,8 @@ export function CharacterSheetSession({
                 />
               ))}
             </div>
-          </div>
+          )}
+        </div>
         )}
         <div className="grid grid-cols-2 gap-1.5">
           <div className="border border-ink/15 p-2 text-center">

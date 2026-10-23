@@ -7,7 +7,7 @@ import type {
   TraitId,
   WeaponDamage,
 } from '../types';
-import { computeArmorStats } from './characterArmor';
+import { armorSlotsWithExtra, computeArmorStats } from './characterArmor';
 import { formatWeaponDamage, normalizeWeaponDamage } from './weaponDamage';
 
 export interface CatalogWeapon {
@@ -350,16 +350,19 @@ export function equipArmorFromInventory(
   if (previous) inventory = [...inventory, previous];
 
   const stats = computeArmorStats(catalog.id, char.level);
+  const slots = armorSlotsWithExtra(
+    stats.armorSlots.max,
+    char.armorSlots.marked,
+    char.extraArmorSlots ?? 0,
+  );
   return {
     ...char,
     inventory,
     armorId: catalog.id,
     armorName: catalog.name,
     armorScore: stats.armorScore,
-    armorSlots: {
-      marked: Math.min(char.armorSlots.marked, stats.armorSlots.max),
-      max: stats.armorSlots.max,
-    },
+    extraArmorSlots: slots.extraArmorSlots,
+    armorSlots: slots.armorSlots,
     damageThresholds: {
       major: stats.damageThresholds.major + char.thresholdBonus,
       severe: stats.damageThresholds.severe + char.thresholdBonus,
@@ -372,13 +375,15 @@ export function unequipArmor(char: Character): Character {
   const returned = inventoryItemFromArmor(char.armorId, char.armorName);
   const inventory = returned ? [...char.inventory, returned] : char.inventory;
   const stats = computeArmorStats('none', char.level);
+  const slots = armorSlotsWithExtra(0, char.armorSlots.marked, char.extraArmorSlots ?? 0);
   return {
     ...char,
     inventory,
     armorId: 'none',
     armorName: 'Unarmored',
     armorScore: stats.armorScore,
-    armorSlots: { marked: 0, max: 0 },
+    extraArmorSlots: slots.extraArmorSlots,
+    armorSlots: slots.armorSlots,
     damageThresholds: {
       major: stats.damageThresholds.major + char.thresholdBonus,
       severe: stats.damageThresholds.severe + char.thresholdBonus,

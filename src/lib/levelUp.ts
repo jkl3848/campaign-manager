@@ -12,7 +12,7 @@ import type {
   TraitId,
   WeaponDamage,
 } from "../types";
-import { computeArmorStats } from "./characterArmor";
+import { armorSlotsWithExtra, computeArmorStats } from "./characterArmor";
 import {
   featuresForStage,
   getSubclassTracks,
@@ -559,7 +559,11 @@ export function completeLevelUp(
       major: armorStats.damageThresholds.major + updated.thresholdBonus,
       severe: armorStats.damageThresholds.severe + updated.thresholdBonus,
     },
-    armorSlots: { ...updated.armorSlots, max: armorStats.armorSlots.max },
+    armorSlots: armorSlotsWithExtra(
+      armorStats.armorSlots.max,
+      updated.armorSlots.marked,
+      updated.extraArmorSlots ?? 0,
+    ).armorSlots,
     armorScore: armorStats.armorScore,
     pendingLevelUp: undefined,
     updatedAt: Date.now(),

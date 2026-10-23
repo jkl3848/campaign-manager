@@ -18,6 +18,7 @@ import communities from '../../config/daggerheart/communities.json';
 import transformations from '../../config/daggerheart/transformations.json';
 import domains from '../../config/daggerheart/domains.json';
 import domainCardsCatalog from '../../config/daggerheart/domain-cards.json';
+import { armorSlotsWithExtra, baseArmorSlotMax } from '../../lib/characterArmor';
 import { normalizeCharacter } from '../../lib/characterNormalize';
 import { CHARACTER_HOPE_MAX, clampHope } from '../../lib/hopeFear';
 import {
@@ -62,7 +63,7 @@ export function CharacterSheet({
   const [char, setChar] = useState(() => normalizeCharacter(character));
   const [saving, setSaving] = useState(false);
   const [showLevelUpWizard, setShowLevelUpWizard] = useState(false);
-  const notesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const textTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const charRef = useRef(char);
   const effectiveLayout = compact ? 'session' : layout;
   const isSession = effectiveLayout === 'session';
@@ -84,7 +85,7 @@ export function CharacterSheet({
 
   useEffect(() => {
     return () => {
-      if (notesTimer.current) clearTimeout(notesTimer.current);
+      if (textTimer.current) clearTimeout(textTimer.current);
     };
   }, []);
 
@@ -147,6 +148,16 @@ export function CharacterSheet({
 
   const adjustArmorScore = (delta: number) => {
     updateLocal({ armorScore: Math.max(0, char.armorScore + delta) });
+  };
+
+  const adjustExtraArmorSlots = (delta: number) => {
+    const next = armorSlotsWithExtra(
+      baseArmorSlotMax(char.armorSlots.max, char.extraArmorSlots),
+      char.armorSlots.marked,
+      (char.extraArmorSlots ?? 0) + delta,
+    );
+    if (isSession) updateLive(next);
+    else updateLocal(next);
   };
 
   const adjustThreshold = (key: 'major' | 'severe', delta: number) => {
@@ -267,17 +278,30 @@ export function CharacterSheet({
     }
   };
 
+  const scheduleTextPersist = () => {
+    if (!isSession) return;
+    if (textTimer.current) clearTimeout(textTimer.current);
+    textTimer.current = setTimeout(() => {
+      void persist(charRef.current);
+    }, 500);
+  };
+
   const handleNotesChange = (notes: string) => {
     setChar((prev) => {
       const next = { ...prev, notes };
       charRef.current = next;
       return next;
     });
-    if (!isSession) return;
-    if (notesTimer.current) clearTimeout(notesTimer.current);
-    notesTimer.current = setTimeout(() => {
-      void persist(charRef.current);
-    }, 500);
+    scheduleTextPersist();
+  };
+
+  const handleDescriptionChange = (description: string) => {
+    setChar((prev) => {
+      const next = { ...prev, description: description || undefined };
+      charRef.current = next;
+      return next;
+    });
+    scheduleTextPersist();
   };
 
   const handleSave = async () => {
@@ -308,6 +332,8 @@ export function CharacterSheet({
         onAdjustStress={adjustStress}
         onAdjustHope={adjustHope}
         onToggleArmorSlot={toggleArmorSlot}
+        onAdjustExtraArmorSlots={canEdit ? adjustExtraArmorSlots : undefined}
+        onUpdateDescription={handleDescriptionChange}
         onUpdateNotes={handleNotesChange}
         onDmLevelUp={handleDmLevelUp}
         onCancelLevelUp={handleCancelLevelUp}
@@ -432,10 +458,22 @@ export function CharacterSheet({
             </div>
           </div>
         </div>
-        {char.description && (
-          <p className="mt-4 border-t border-ink/15 pt-4 font-serif text-sm italic text-ink">
-            {char.description}
-          </p>
+        {canEdit ? (
+          <div className="mt-4 border-t border-ink/15 pt-4">
+            <Textarea
+              label="Description"
+              value={char.description ?? ''}
+              onChange={(e) => updateLocal({ description: e.target.value || undefined })}
+              placeholder="Appearance, personality, backstory, goals..."
+              rows={4}
+            />
+          </div>
+        ) : (
+          char.description && (
+            <p className="mt-4 border-t border-ink/15 pt-4 font-serif text-sm italic text-ink">
+              {char.description}
+            </p>
+          )
         )}
       </div>
 
@@ -529,30 +567,57 @@ export function CharacterSheet({
               )}
               {char.armorName && <span className="text-ink-muted"> · {char.armorName}</span>}
             </div>
-            {char.armorSlots.max > 0 ? (
-              <div>
-                <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">Armor Slots</p>
-                <div className="flex flex-wrap gap-1.5 text-oxblood">
-                  {Array.from({ length: char.armorSlots.max }).map((_, i) => (
+            <div>
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <p className="font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">Armor Slots</p>
+                {canEdit && (
+                  <span className="inline-flex items-center gap-1 font-sans text-sm text-ink">
                     <button
-                      key={i}
                       type="button"
-                      disabled={!canEdit}
-                      onClick={() => toggleArmorSlot(i)}
-                      className={`tick tick-box ${
-                        i < char.armorSlots.marked ? 'tick-filled' : ''
-                      } ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}
-                      title={i < char.armorSlots.marked ? 'Marked — click to clear' : 'Available — click to mark'}
-                    />
-                  ))}
-                </div>
-                <p className="mt-1 text-sm text-ink-muted">
-                  {char.armorSlots.marked}/{char.armorSlots.max} marked
-                </p>
+                      onClick={() => adjustExtraArmorSlots(-1)}
+                      disabled={(char.extraArmorSlots ?? 0) <= 0}
+                      className="text-ink-faint hover:text-ink disabled:opacity-30"
+                      title="Remove an extra armor slot"
+                    >
+                      −
+                    </button>
+                    <span className="font-semibold">{char.extraArmorSlots ?? 0} extra</span>
+                    <button
+                      type="button"
+                      onClick={() => adjustExtraArmorSlots(1)}
+                      className="text-ink-faint hover:text-ink"
+                      title="Add an extra armor slot"
+                    >
+                      +
+                    </button>
+                  </span>
+                )}
               </div>
-            ) : (
-              <p className="font-serif text-sm text-ink-muted">Unarmored — no armor slots.</p>
-            )}
+              {char.armorSlots.max > 0 ? (
+                <>
+                  <div className="flex flex-wrap gap-1.5 text-oxblood">
+                    {Array.from({ length: char.armorSlots.max }).map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        disabled={!canEdit}
+                        onClick={() => toggleArmorSlot(i)}
+                        className={`tick tick-box ${
+                          i < char.armorSlots.marked ? 'tick-filled' : ''
+                        } ${canEdit ? 'cursor-pointer' : 'cursor-default'}`}
+                        title={i < char.armorSlots.marked ? 'Marked — click to clear' : 'Available — click to mark'}
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-1 text-sm text-ink-muted">
+                    {char.armorSlots.marked}/{char.armorSlots.max} marked
+                    {(char.extraArmorSlots ?? 0) > 0 && ` · ${char.extraArmorSlots} extra`}
+                  </p>
+                </>
+              ) : (
+                <p className="font-serif text-sm text-ink-muted">No armor slots.</p>
+              )}
+            </div>
           </div>
           <div>
             <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">Damage Thresholds</p>
@@ -650,7 +715,7 @@ export function CharacterSheet({
         </div>
         {canEdit && (
           <p className="mt-2 text-sm text-ink-muted">
-            Trait marks, trait scores, max HP/Stress, evasion, armor score, and thresholds require Save Changes.
+            Trait marks, trait scores, max HP/Stress, evasion, armor score, thresholds, description, and extra armor slots require Save Changes.
           </p>
         )}
       </SheetSection>

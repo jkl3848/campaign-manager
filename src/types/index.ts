@@ -124,6 +124,8 @@ export interface Character {
   armorScore: number;
   armorName?: string;
   armorSlots: { marked: number; max: number };
+  /** Bonus armor slots beyond the worn armor. Kept when armor changes. */
+  extraArmorSlots?: number;
   damageThresholds: { major: number; severe: number };
   primaryWeapon?: EquippedWeapon;
   secondaryWeapon?: EquippedWeapon;
