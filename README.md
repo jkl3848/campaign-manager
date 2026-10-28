@@ -49,6 +49,14 @@ firebase use your-project-id
 firebase deploy --only firestore:rules,storage
 ```
 
+Optional: apply Storage **CORS** if you ever need to fetch images with `getBlob`/`getBytes` or read canvas pixels (`crossOrigin` images). Plain `<img>` display does not need it:
+
+```bash
+gcloud storage buckets update gs://YOUR_STORAGE_BUCKET --cors-file=storage.cors.json
+```
+
+Replace `YOUR_STORAGE_BUCKET` with the value of `VITE_FIREBASE_STORAGE_BUCKET` (e.g. `camp-man-74afd.firebasestorage.app`). Edit `storage.cors.json` if you use a custom Hosting domain.
+
 ### 3. Run locally
 
 ```bash

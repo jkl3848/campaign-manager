@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storage:cors": "gcloud storage buckets update gs://camp-man-74afd.firebasestorage.app --cors-file=storage.cors.json"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
