@@ -47,18 +47,27 @@ export function LiveSessionPage() {
 
   const isDm = !!(user && campaign?.dmId === user.uid);
   const { notes: loreNotes } = useLoreNotes(campaignId, isDm);
-  const rollerName = isDm ? 'DM' : (playerSession?.playerName ?? 'Player');
   const selectedCharacter =
     partySelection?.kind === 'character'
       ? characters.find((c) => c.id === partySelection.id)
       : undefined;
   const partyHope = partyHopeTotal(characters);
+  const sessionActiveCharacter =
+    playerSession?.activeCharacterId && playerSession.playerId
+      ? characters.find(
+          (c) => c.id === playerSession.activeCharacterId && c.playerId === playerSession.playerId,
+        )
+      : undefined;
   const diceRollerCharacter = isDm
     ? undefined
-    : selectedCharacter && selectedCharacter.playerId === playerSession?.playerId
-      ? selectedCharacter
-      : characters.find((c) => c.inParty !== false && c.playerId === playerSession?.playerId)
-        ?? characters.find((c) => c.playerId === playerSession?.playerId);
+    : sessionActiveCharacter
+      ?? (selectedCharacter && selectedCharacter.playerId === playerSession?.playerId
+        ? selectedCharacter
+        : characters.find((c) => c.inParty !== false && c.playerId === playerSession?.playerId)
+          ?? characters.find((c) => c.playerId === playerSession?.playerId));
+  const rollerName = isDm
+    ? 'DM'
+    : (diceRollerCharacter?.playerName || diceRollerCharacter?.name || 'Player');
 
   useEffect(() => {
     if (campaignId) getCampaign(campaignId).then(setCampaign);

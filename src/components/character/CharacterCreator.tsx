@@ -26,7 +26,8 @@ import { SubclassStageList } from './SubclassStageList';
 interface CharacterCreatorProps {
   campaignId: string;
   playerId: string;
-  playerName: string;
+  /** Prefill for DM-created characters; players set this on the first step. */
+  defaultPlayerName?: string;
   onSave: (character: Character) => Promise<void>;
   onUploadImage: (file: File) => Promise<string>;
   existing?: Character;
@@ -57,13 +58,14 @@ const STEPS = [
 export function CharacterCreator({
   campaignId,
   playerId,
-  playerName,
+  defaultPlayerName = '',
   onSave,
   onUploadImage,
   existing,
 }: CharacterCreatorProps) {
   const [step, setStep] = useState(0);
   const [name, setName] = useState(existing?.name ?? '');
+  const [playerName, setPlayerName] = useState(existing?.playerName ?? defaultPlayerName);
   const [imageUrl, setImageUrl] = useState(existing?.imageUrl ?? '');
   const [ancestryId, setAncestryId] = useState(existing?.ancestryId ?? '');
   const [communityId, setCommunityId] = useState(existing?.communityId ?? '');
@@ -243,7 +245,7 @@ export function CharacterCreator({
 
   const canProceed = () => {
     switch (step) {
-      case 0: return !!name;
+      case 0: return !!name.trim() && !!playerName.trim();
       case 1: return !!classId && !!subclassId;
       case 2: return !!ancestryId;
       case 3: return !!communityId;
@@ -286,6 +288,13 @@ export function CharacterCreator({
           <h2 className="sheet-heading">Who are you?</h2>
           <div className="space-y-4">
             <Input label="Character Name" value={name} onChange={(e) => setName(e.target.value)} required />
+            <Input
+              label="Your Name"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              placeholder="Name shown at the table"
+              required
+            />
             <ImageUpload
               currentUrl={imageUrl}
               frame="portrait"

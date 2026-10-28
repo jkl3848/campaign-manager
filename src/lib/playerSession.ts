@@ -16,6 +16,27 @@ export function setPlayerSession(session: PlayerSession): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
 }
 
+/** Join or re-enter a campaign; keeps the same player id when already joined. */
+export function joinCampaign(campaignId: string): string {
+  const existing = getPlayerSession();
+  if (existing?.campaignId === campaignId) {
+    return existing.playerId;
+  }
+  const playerId = generatePlayerId();
+  setPlayerSession({ playerId, campaignId });
+  return playerId;
+}
+
+export function isDmPlayerId(playerId: string): boolean {
+  return playerId.startsWith('dm-');
+}
+
+export function setActiveCharacterId(characterId: string): void {
+  const session = getPlayerSession();
+  if (!session) return;
+  setPlayerSession({ ...session, activeCharacterId: characterId });
+}
+
 export function clearPlayerSession(): void {
   localStorage.removeItem(STORAGE_KEY);
 }

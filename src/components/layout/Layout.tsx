@@ -48,7 +48,7 @@ export function Layout() {
             )}
             {isPlayer && !isDm && (
               <span className="border border-brass/40 bg-black/20 px-2 py-0.5 font-display text-xs tracking-wide text-amber-200">
-                {playerSession.playerName}
+                Player
               </span>
             )}
             {user ? (

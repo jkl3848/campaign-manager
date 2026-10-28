@@ -341,6 +341,7 @@ export interface Campaign {
 
 export interface PlayerSession {
   playerId: string;
-  playerName: string;
   campaignId: string;
+  /** Character this browser is currently playing in the campaign. */
+  activeCharacterId?: string;
 }
