@@ -164,6 +164,10 @@ body {
 }
 
 .folio {
+  /* Reset parchment inheritance when a folio panel is nested in a paper sheet. */
+  --color-brass: #b8923f;
+  color-scheme: dark;
+  color: #f3ead8;
   background:
     var(--paper-grain),
     linear-gradient(180deg, rgba(255, 220, 170, 0.04), transparent),
@@ -283,6 +287,23 @@ body {
 .paper-sheet select option:disabled,
 .paper-sheet-compact select option:disabled {
   color: #5c4536;
+}
+
+/* Folio panels nested in paper sheets must not inherit parchment field colors. */
+.folio input,
+.folio textarea,
+.folio select {
+  color: inherit;
+}
+
+.folio select option,
+.folio select optgroup {
+  background-color: #1c1510;
+  color: #f3ead8;
+}
+
+.folio select option:disabled {
+  color: #a89078;
 }
 
 .creator-step {
