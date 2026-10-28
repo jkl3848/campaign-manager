@@ -32,7 +32,14 @@ import {
 } from '../../lib/equipment';
 import { CharacterSheetSession } from './CharacterSheetSession';
 import { WealthPanel } from './WealthPanel';
+import { CrafterWorkshop } from './CrafterWorkshop';
 import { applyWealthDelta, type WealthUnit } from '../../lib/wealth';
+import {
+  crafterStage,
+  effectiveEvasion,
+  instrumentExperiences,
+  traitBonuses as traitBonusesFromInstruments,
+} from '../../lib/crafter';
 
 export type CharacterSheetLayout = 'full' | 'session';
 
@@ -45,6 +52,8 @@ interface CharacterSheetProps {
   /** @deprecated Use layout="session" instead */
   compact?: boolean;
   layout?: CharacterSheetLayout;
+  /** Campaign characters — used for Crafter instrument ownership and bonuses. */
+  party?: Character[];
   onTraitRoll?: (traitName: string, modifier: number) => void;
   onWeaponAttack?: (label: string, modifier: number) => void;
   onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
@@ -58,6 +67,7 @@ export function CharacterSheet({
   isDm = false,
   compact = false,
   layout = 'full',
+  party = [],
   onTraitRoll,
   onWeaponAttack,
   onWeaponDamage,
@@ -97,6 +107,12 @@ export function CharacterSheet({
   const transformation = transformations.find((t) => t.id === char.transformationId);
   const subclass = cls?.subclasses.find((s) => s.id === char.subclassId);
   const hopeFeature = char.hopeFeature ?? cls?.hopeFeature;
+  const partyRoster = party.length > 0 ? party : [char];
+  const isCrafter = !!crafterStage(char);
+  const instrumentTraitBonuses = traitBonusesFromInstruments(char.id, partyRoster);
+  const displayedEvasion = effectiveEvasion(char, partyRoster);
+  const evasionInstrumentBonus = displayedEvasion - char.evasion;
+  const grantedExperiences = instrumentExperiences(char.id, partyRoster);
 
   const persist = async (next: Character) => {
     setSaving(true);
@@ -327,6 +343,7 @@ export function CharacterSheet({
     return (
       <CharacterSheetSession
         char={char}
+        party={partyRoster}
         canEdit={canEdit}
         isDm={isDm}
         saving={saving}
@@ -343,6 +360,7 @@ export function CharacterSheet({
         onAdjustWealth={adjustWealth}
         onToggleArmorSlot={toggleArmorSlot}
         onAdjustExtraArmorSlots={canEdit ? adjustExtraArmorSlots : undefined}
+        onUpdateCrafter={canEdit ? updateLive : undefined}
         onUpdateDescription={handleDescriptionChange}
         onUpdateNotes={handleNotesChange}
         onDmLevelUp={handleDmLevelUp}
@@ -523,13 +541,18 @@ export function CharacterSheet({
                 −
               </button>
             )}
-            <p className="font-display text-3xl font-semibold text-ink">{char.evasion}</p>
+            <p className="font-display text-3xl font-semibold text-ink">{displayedEvasion}</p>
             {canEdit && (
               <button type="button" onClick={() => adjustEvasion(1)} className="text-ink-faint hover:text-ink">
                 +
               </button>
             )}
           </div>
+          {evasionInstrumentBonus > 0 && (
+            <p className="mt-1 font-sans text-[10px] tracking-wide text-ink-muted">
+              +{evasionInstrumentBonus} instrument
+            </p>
+          )}
         </div>
       </div>
 
@@ -543,6 +566,7 @@ export function CharacterSheet({
           char={char}
           canEdit={canEdit}
           catalogOptions={catalogOptions}
+          traitBonuses={instrumentTraitBonuses}
           onAddCatalogItem={addCatalogItem}
           onEquipWeapon={handleEquipWeapon}
           onUnequipWeapon={handleUnequipWeapon}
@@ -664,7 +688,9 @@ export function CharacterSheet({
           {traits.map((t) => {
             const traitId = t.id as TraitId;
             const marked = char.markedTraits.includes(traitId);
-            const val = char.traits[traitId];
+            const base = char.traits[traitId];
+            const bonus = instrumentTraitBonuses[traitId] ?? 0;
+            const val = base + bonus;
             return (
               <div
                 key={t.id}
@@ -721,6 +747,11 @@ export function CharacterSheet({
                   <p className="font-display text-2xl font-semibold text-ink">
                     {val >= 0 ? '+' : ''}
                     {val}
+                  </p>
+                )}
+                {bonus > 0 && (
+                  <p className="mt-0.5 font-sans text-[10px] tracking-wide text-ink-muted">
+                    +{bonus} instrument
                   </p>
                 )}
               </div>
@@ -782,6 +813,19 @@ export function CharacterSheet({
         </SheetSection>
       ))}
 
+      {isCrafter && (
+        <SheetSection title="Crafter Workshop">
+          <CrafterWorkshop
+            char={char}
+            party={partyRoster}
+            canEdit={canEdit}
+            onChange={(partial) => {
+              if (canEdit) updateLive(partial);
+            }}
+          />
+        </SheetSection>
+      )}
+
       <SheetSection title="Class Abilities">
         <AbilityList abilities={char.abilities} />
       </SheetSection>
@@ -819,7 +863,7 @@ export function CharacterSheet({
         </SheetSection>
       )}
 
-      {char.experienceEntries.some((e) => e.name.trim()) && (
+      {(char.experienceEntries.some((e) => e.name.trim()) || grantedExperiences.length > 0) && (
         <SheetSection title="Experiences">
           <p className="mb-3 font-serif text-sm text-ink-muted">Spend Hope to add your Experience bonus to a related roll.</p>
           <div className="grid gap-3 md:grid-cols-2">
@@ -827,6 +871,14 @@ export function CharacterSheet({
               <div key={exp.name} className="border-b border-ink/25 pb-2">
                 <p className="font-serif italic text-ink">{exp.name}</p>
                 <p className="mt-1 font-sans text-xs tracking-wide text-ink-muted">+{exp.bonus} modifier</p>
+              </div>
+            ))}
+            {grantedExperiences.map((exp) => (
+              <div key={`inst-${exp.instrumentName}-${exp.name}`} className="border-b border-ink/25 pb-2">
+                <p className="font-serif italic text-ink">{exp.name}</p>
+                <p className="mt-1 font-sans text-xs tracking-wide text-ink-muted">
+                  +{exp.bonus} modifier · from {exp.instrumentName} ({exp.crafterName})
+                </p>
               </div>
             ))}
           </div>

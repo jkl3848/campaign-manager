@@ -6,6 +6,7 @@ import { JoinPage } from './pages/JoinPage';
 import { DmDashboardPage } from './pages/DmDashboardPage';
 import { CampaignDashboardPage } from './pages/CampaignDashboardPage';
 import { CharactersPage } from './pages/CharactersPage';
+import { PickCharacterPage } from './pages/PickCharacterPage';
 import { CharacterCreatePage } from './pages/CharacterCreatePage';
 import { CharacterSheetPage } from './pages/CharacterSheetPage';
 import { EnemiesPage } from './pages/EnemiesPage';
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="dm" element={<DmDashboardPage />} />
           <Route path="campaign/:campaignId" element={<CampaignDashboardPage />} />
           <Route path="campaign/:campaignId/characters" element={<CharactersPage />} />
+          <Route path="campaign/:campaignId/characters/pick" element={<PickCharacterPage />} />
           <Route path="campaign/:campaignId/characters/new" element={<CharacterCreatePage />} />
           <Route path="campaign/:campaignId/characters/:characterId" element={<CharacterSheetPage />} />
           <Route path="campaign/:campaignId/enemies" element={<EnemiesPage />} />

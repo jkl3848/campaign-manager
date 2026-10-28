@@ -13,7 +13,10 @@ import {
 } from '../services/campaignService';
 import { getPlayerSession } from '../lib/playerSession';
 import { createDiceRoll } from '../lib/dice';
+import { effectiveEvasion } from '../lib/crafter';
 import { clampFear, clampHope, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/hopeFear';
+import { isPlayable } from '../lib/rosterStatus';
+import { sessionJoinedCharacterIds } from '../lib/sessionParty';
 import { useCampaignData } from '../hooks/useCampaignData';
 import type { Session, DiceRoll, Combatant, Campaign, Character, Npc } from '../types';
 import { SessionCanvas } from '../components/session/SessionCanvas';
@@ -41,23 +44,39 @@ export function LiveSessionPage() {
   const [alertRoll, setAlertRoll] = useState<DiceRoll | null>(null);
   const seenRollIds = useRef(new Set<string>());
   const diceLogInitialized = useRef(false);
-  const { characters, enemies, npcs, encounters } = useCampaignData(campaignId);
-  const [partySelection, setPartySelection] = useState<PartySelection>(null);
-
   const isDm = !!(user && campaign?.dmId === user.uid);
+  const npcsForPlayer = !!(
+    playerSession?.campaignId === campaignId && campaign && !isDm
+  );
+  const { characters, enemies, npcs, encounters } = useCampaignData(campaignId, { npcsForPlayer });
+  const [partySelection, setPartySelection] = useState<PartySelection>(null);
   const { notes: loreNotes } = useLoreNotes(campaignId, isDm);
-  const rollerName = isDm ? 'DM' : (playerSession?.playerName ?? 'Player');
   const selectedCharacter =
     partySelection?.kind === 'character'
       ? characters.find((c) => c.id === partySelection.id)
       : undefined;
-  const partyHope = partyHopeTotal(characters);
+  const joinedIds = session
+    ? sessionJoinedCharacterIds(session, characters)
+    : new Set<string>();
+  const partyHope = partyHopeTotal(characters.filter((c) => joinedIds.has(c.id)));
+  const sessionActiveCharacter =
+    playerSession?.activeCharacterId && playerSession.playerId
+      ? characters.find(
+          (c) => c.id === playerSession.activeCharacterId && c.playerId === playerSession.playerId,
+        )
+      : undefined;
   const diceRollerCharacter = isDm
     ? undefined
-    : selectedCharacter && selectedCharacter.playerId === playerSession?.playerId
-      ? selectedCharacter
-      : characters.find((c) => c.inParty !== false && c.playerId === playerSession?.playerId)
-        ?? characters.find((c) => c.playerId === playerSession?.playerId);
+    : sessionActiveCharacter
+      ?? (selectedCharacter && selectedCharacter.playerId === playerSession?.playerId
+        ? selectedCharacter
+        : characters.find(
+            (c) => joinedIds.has(c.id) && c.playerId === playerSession?.playerId,
+          )
+          ?? characters.find((c) => c.playerId === playerSession?.playerId));
+  const rollerName = isDm
+    ? 'DM'
+    : (diceRollerCharacter?.playerName || diceRollerCharacter?.name || 'Player');
 
   useEffect(() => {
     if (campaignId) getCampaign(campaignId).then(setCampaign);
@@ -78,6 +97,35 @@ export function LiveSessionPage() {
     if (session.fear <= SESSION_FEAR_MAX) return;
     void updateSession(campaignId, sessionId, { fear: SESSION_FEAR_MAX });
   }, [campaignId, sessionId, session]);
+
+  useEffect(() => {
+    if (isDm || !playerSession || !session || !campaignId || !sessionId) return;
+    const char =
+      sessionActiveCharacter
+      ?? characters.find((c) => c.playerId === playerSession.playerId);
+    if (!char || !isPlayable(char)) return;
+
+    const current = session.joinedCharacterIds ?? [];
+    if (current.includes(char.id)) return;
+
+    const next =
+      session.joinedCharacterIds !== undefined
+        ? [...current, char.id]
+        : [
+            ...characters.filter((c) => c.inParty !== false).map((c) => c.id),
+            char.id,
+          ].filter((id, i, arr) => arr.indexOf(id) === i);
+
+    void updateSession(campaignId, sessionId, { joinedCharacterIds: next });
+  }, [
+    isDm,
+    playerSession,
+    session,
+    sessionActiveCharacter,
+    characters,
+    campaignId,
+    sessionId,
+  ]);
 
   const dismissAlert = useCallback(() => setAlertRoll(null), []);
 
@@ -173,10 +221,23 @@ export function LiveSessionPage() {
     );
   };
 
-  const handleToggleCharacterParty = async (character: Character, inParty: boolean) => {
-    if (!campaignId) return;
-    await saveCharacter(campaignId, { ...character, inParty, updatedAt: Date.now() });
-    if (!inParty && partySelection?.kind === 'character' && partySelection.id === character.id) {
+  const handleJoinSessionCharacter = async (character: Character) => {
+    if (!session || !isPlayable(character)) return;
+    const current = session.joinedCharacterIds ?? [];
+    if (current.includes(character.id)) return;
+    const base =
+      session.joinedCharacterIds !== undefined
+        ? current
+        : characters.filter((c) => c.inParty !== false).map((c) => c.id);
+    await update({ joinedCharacterIds: [...base, character.id] });
+  };
+
+  const handleLeaveSessionCharacter = async (character: Character) => {
+    if (!session) return;
+    const joined = sessionJoinedCharacterIds(session, characters);
+    joined.delete(character.id);
+    await update({ joinedCharacterIds: [...joined] });
+    if (partySelection?.kind === 'character' && partySelection.id === character.id) {
       setPartySelection(null);
     }
   };
@@ -202,7 +263,7 @@ export function LiveSessionPage() {
         refId: c.id,
         hp: { ...c.hp },
         stress: { ...c.stress },
-        evasion: c.evasion,
+        evasion: effectiveEvasion(c, characters),
         conditions: [],
       });
     });
@@ -314,13 +375,15 @@ export function LiveSessionPage() {
 
       {/* Party panel — right side */}
       <PartyPanel
+        session={session}
         characters={characters}
         npcs={npcs}
         isDm={!!isDm}
         playerId={playerSession?.playerId}
         selection={partySelection}
         onSelect={setPartySelection}
-        onToggleCharacterParty={handleToggleCharacterParty}
+        onJoinCharacter={handleJoinSessionCharacter}
+        onLeaveCharacter={handleLeaveSessionCharacter}
         onToggleNpcParty={handleToggleNpcParty}
         onSaveCharacter={(c) => saveCharacter(campaignId!, c)}
         onSaveNpc={(n) => saveNpc(campaignId!, n)}

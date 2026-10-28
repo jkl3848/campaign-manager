@@ -1,7 +1,13 @@
 import { useState } from 'react';
-import type { Character, Ability, DomainCard } from '../../types';
+import type { Character, Ability, DomainCard, TraitId } from '../../types';
 import type { CatalogEntry } from '../../lib/equipment';
 import { formatWealth, type WealthUnit } from '../../lib/wealth';
+import {
+  crafterStage,
+  effectiveEvasion,
+  instrumentExperiences,
+  traitBonuses as traitBonusesFromInstruments,
+} from '../../lib/crafter';
 import { LevelUpWizard } from './LevelUpWizard';
 import { canInitiateLevelUp } from '../../lib/levelUp';
 import { stageLabel } from '../../lib/subclasses';
@@ -10,6 +16,7 @@ import { Textarea } from '../ui/Textarea';
 import { TickTrack } from '../ui/TickTrack';
 import { EquipmentPanel } from './EquipmentPanel';
 import { WealthPanel } from './WealthPanel';
+import { CrafterWorkshop } from './CrafterWorkshop';
 import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
 import { CHARACTER_HOPE_MAX } from '../../lib/hopeFear';
@@ -17,6 +24,7 @@ import { FormattedText } from '../ui/FormattedText';
 
 interface CharacterSheetSessionProps {
   char: Character;
+  party?: Character[];
   canEdit: boolean;
   isDm: boolean;
   saving: boolean;
@@ -33,6 +41,7 @@ interface CharacterSheetSessionProps {
   onAdjustWealth: (unit: WealthUnit, delta: number) => boolean;
   onToggleArmorSlot: (index: number) => void;
   onAdjustExtraArmorSlots?: (delta: number) => void;
+  onUpdateCrafter?: (partial: Partial<Character>) => void;
   onUpdateDescription: (description: string) => void;
   onUpdateNotes: (notes: string) => void;
   onDmLevelUp: () => void;
@@ -54,6 +63,7 @@ interface CharacterSheetSessionProps {
 
 export function CharacterSheetSession({
   char,
+  party = [],
   canEdit,
   isDm,
   saving,
@@ -70,6 +80,7 @@ export function CharacterSheetSession({
   onAdjustWealth,
   onToggleArmorSlot,
   onAdjustExtraArmorSlots,
+  onUpdateCrafter,
   onUpdateDescription,
   onUpdateNotes,
   onDmLevelUp,
@@ -90,6 +101,12 @@ export function CharacterSheetSession({
 }: CharacterSheetSessionProps) {
   const [showLevelUpWizard, setShowLevelUpWizard] = useState(false);
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const partyRoster = party.length > 0 ? party : [char];
+  const isCrafter = !!crafterStage(char);
+  const instrumentTraitBonuses = traitBonusesFromInstruments(char.id, partyRoster);
+  const displayedEvasion = effectiveEvasion(char, partyRoster);
+  const evasionInstrumentBonus = displayedEvasion - char.evasion;
+  const grantedExperiences = instrumentExperiences(char.id, partyRoster);
 
   return (
     <div className="paper-sheet-compact space-y-3 p-3 text-sm">
@@ -185,6 +202,7 @@ export function CharacterSheetSession({
           canEdit={canEdit}
           compact
           catalogOptions={catalogOptions}
+          traitBonuses={instrumentTraitBonuses}
           onAddCatalogItem={onAddCatalogItem}
           onEquipWeapon={onEquipWeapon}
           onUnequipWeapon={onUnequipWeapon}
@@ -202,7 +220,10 @@ export function CharacterSheetSession({
         <SessionResource label="Hope" current={char.hope} max={CHARACTER_HOPE_MAX} color="text-hope" variant="diamond" onAdjust={canEdit ? onAdjustHope : undefined} />
         <div className="px-2 py-1.5 text-center">
           <p className="font-display text-[10px] uppercase tracking-[0.16em] text-ink-faint">Evasion</p>
-          <p className="font-display text-lg font-semibold text-ink">{char.evasion}</p>
+          <p className="font-display text-lg font-semibold text-ink">{displayedEvasion}</p>
+          {evasionInstrumentBonus > 0 && (
+            <p className="text-[10px] text-ink-faint">+{evasionInstrumentBonus} instrument</p>
+          )}
         </div>
       </div>
 
@@ -277,9 +298,10 @@ export function CharacterSheetSession({
       <SessionSection title="Traits" defaultOpen>
         <div className="grid grid-cols-2 gap-1">
           {traits.map((t) => {
-            const traitId = t.id as keyof typeof char.traits;
+            const traitId = t.id as TraitId;
             const marked = char.markedTraits.includes(traitId);
-            const val = char.traits[traitId];
+            const bonus = instrumentTraitBonuses[traitId] ?? 0;
+            const val = char.traits[traitId] + bonus;
             const clickable = !!onTraitRoll;
             const Tag = clickable ? 'button' : 'div';
             return (
@@ -296,7 +318,10 @@ export function CharacterSheetSession({
                     : ''
                 }`}
               >
-                <span className="truncate text-[11px] text-ink-muted">{t.name}</span>
+                <span className="truncate text-[11px] text-ink-muted">
+                  {t.name}
+                  {bonus > 0 ? ` (+${bonus})` : ''}
+                </span>
                 <span className="font-display text-sm font-semibold text-ink">
                   {val >= 0 ? '+' : ''}
                   {val}
@@ -407,13 +432,39 @@ export function CharacterSheetSession({
         </SessionSection>
       )}
 
-      {char.experienceEntries.some((e) => e.name.trim()) && (
+      {isCrafter && (
+        <SessionSection title="Crafter Workshop" defaultOpen>
+          <CrafterWorkshop
+            char={char}
+            party={partyRoster}
+            canEdit={canEdit && !!onUpdateCrafter}
+            compact
+            onChange={(partial) => onUpdateCrafter?.(partial)}
+          />
+        </SessionSection>
+      )}
+
+      {(char.experienceEntries.some((e) => e.name.trim()) || grantedExperiences.length > 0) && (
         <SessionSection title="Experiences">
           <div className="space-y-1">
             {char.experienceEntries.filter((e) => e.name.trim()).map((exp) => (
               <div key={exp.name} className="flex items-center justify-between border-b border-ink/15 px-1 py-1">
                 <span className="truncate text-[11px] italic text-ink">{exp.name}</span>
                 <span className="text-[11px] text-ink-faint">+{exp.bonus}</span>
+              </div>
+            ))}
+            {grantedExperiences.map((exp) => (
+              <div
+                key={`inst-${exp.instrumentName}-${exp.name}`}
+                className="border-b border-ink/15 px-1 py-1"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="truncate text-[11px] italic text-ink">{exp.name}</span>
+                  <span className="text-[11px] text-ink-faint">+{exp.bonus}</span>
+                </div>
+                <p className="truncate text-[10px] text-ink-faint">
+                  from {exp.instrumentName} ({exp.crafterName})
+                </p>
               </div>
             ))}
           </div>

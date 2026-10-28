@@ -26,15 +26,15 @@ export function Layout() {
                   <>
                     <NavLink to={`/campaign/${campaignId}`}>Dashboard</NavLink>
                     <NavLink to={`/campaign/${campaignId}/enemies`}>Enemies</NavLink>
-                    <NavLink to={`/campaign/${campaignId}/npcs`}>NPCs</NavLink>
                     <NavLink to={`/campaign/${campaignId}/encounters`}>Encounters</NavLink>
-                    <NavLink to={`/campaign/${campaignId}/sessions`}>Sessions</NavLink>
                   </>
                 )}
                 {(isPlayer || isDm) && (
                   <>
                     <NavLink to={`/campaign/${campaignId}/characters`}>Characters</NavLink>
                     <NavLink to={`/campaign/${campaignId}/lore`}>Lore</NavLink>
+                    <NavLink to={`/campaign/${campaignId}/npcs`}>NPCs</NavLink>
+                    <NavLink to={`/campaign/${campaignId}/sessions`}>Sessions</NavLink>
                   </>
                 )}
               </div>
@@ -48,7 +48,7 @@ export function Layout() {
             )}
             {isPlayer && !isDm && (
               <span className="border border-brass/40 bg-black/20 px-2 py-0.5 font-display text-xs tracking-wide text-amber-200">
-                {playerSession.playerName}
+                Player
               </span>
             )}
             {user ? (

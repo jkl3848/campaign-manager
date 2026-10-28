@@ -6,8 +6,10 @@ import { getPlayerSession } from '../lib/playerSession';
 import { getCampaign } from '../services/campaignService';
 import { useEffect } from 'react';
 import type { Campaign } from '../types';
+import { rosterStatus } from '../lib/rosterStatus';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { RosterStatusBadge } from '../components/ui/RosterStatusBadge';
 
 export function CharactersPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
@@ -29,18 +31,30 @@ export function CharactersPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-3xl font-semibold tracking-wide text-amber-100">Characters</h1>
-        {canCreate && (
-          <Link to={`/campaign/${campaignId}/characters/new`}>
-            <Button>Create Character</Button>
-          </Link>
-        )}
+        <div className="flex flex-wrap gap-2">
+          {!isDm && playerSession?.campaignId === campaignId && (
+            <Link to={`/campaign/${campaignId}/characters/pick`}>
+              <Button variant="secondary">Switch character</Button>
+            </Link>
+          )}
+          {canCreate && (
+            <Link to={`/campaign/${campaignId}/characters/new`}>
+              <Button>Create Character</Button>
+            </Link>
+          )}
+        </div>
       </div>
 
       {myCharacters.length === 0 ? (
         <Card>
-          <p className="font-serif text-slate-400">No characters yet.</p>
+          <p className="font-serif text-slate-400 mb-4">No characters linked to this device yet.</p>
+          {!isDm && (
+            <Link to={`/campaign/${campaignId}/characters/pick`}>
+              <Button>Pick a character</Button>
+            </Link>
+          )}
         </Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -58,7 +72,10 @@ export function CharactersPage() {
                     </div>
                   )}
                   <div>
-                    <h3 className="font-display text-xl font-semibold text-ink">{c.name}</h3>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="font-display text-xl font-semibold text-ink">{c.name}</h3>
+                      <RosterStatusBadge status={rosterStatus(c)} />
+                    </div>
                     <p className="font-serif text-sm text-ink-muted">{c.playerName}</p>
                     <p className="mt-1 font-display text-xs tracking-wide text-ink-faint">
                       Lv.{c.level ?? 1} · HP {c.hp.current}/{c.hp.max} · Hope {c.hope}

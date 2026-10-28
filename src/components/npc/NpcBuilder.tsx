@@ -23,6 +23,7 @@ export function NpcBuilder({ campaignId, onSave, onUploadImage, existing }: NpcB
       traits: {},
       abilities: [],
       inParty: false,
+      playerVisible: false,
     },
   );
   const [saving, setSaving] = useState(false);
@@ -56,6 +57,7 @@ export function NpcBuilder({ campaignId, onSave, onUploadImage, existing }: NpcB
       traits: npc.traits ?? {},
       abilities: npc.abilities ?? [],
       inParty: npc.inParty ?? false,
+      playerVisible: npc.playerVisible ?? false,
       notes: npc.notes,
       createdAt: existing?.createdAt ?? Date.now(),
       updatedAt: Date.now(),
@@ -83,6 +85,15 @@ export function NpcBuilder({ campaignId, onSave, onUploadImage, existing }: NpcB
               className="rounded"
             />
             Add to party
+          </label>
+          <label className="flex items-center gap-2 text-sm text-slate-300">
+            <input
+              type="checkbox"
+              checked={npc.playerVisible ?? false}
+              onChange={(e) => setNpc({ ...npc, playerVisible: e.target.checked })}
+              className="rounded"
+            />
+            Visible to players (shown in NPC codex)
           </label>
           <ImageUpload
             currentUrl={npc.imageUrl}

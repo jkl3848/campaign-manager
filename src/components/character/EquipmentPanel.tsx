@@ -1,4 +1,4 @@
-import type { Character } from '../../types';
+import type { Character, TraitId } from '../../types';
 import type { CatalogEntry } from '../../lib/equipment';
 import {
   formatEquippedWeaponSummary,
@@ -14,6 +14,8 @@ interface EquipmentPanelProps {
   canEdit: boolean;
   compact?: boolean;
   catalogOptions: CatalogEntry[];
+  /** Extra trait modifiers (e.g. Crafter instruments) applied to attack rolls. */
+  traitBonuses?: Partial<Record<TraitId, number>>;
   onAddCatalogItem: (entryId: string) => void;
   onEquipWeapon: (inventoryItemId: string, slot: 'primary' | 'secondary') => void;
   onUnequipWeapon: (slot: 'primary' | 'secondary') => void;
@@ -29,6 +31,7 @@ export function EquipmentPanel({
   canEdit,
   compact = false,
   catalogOptions,
+  traitBonuses,
   onAddCatalogItem,
   onEquipWeapon,
   onUnequipWeapon,
@@ -77,6 +80,7 @@ export function EquipmentPanel({
             weapon={char.primaryWeapon}
             proficiency={char.proficiency}
             traits={char.traits}
+            traitBonuses={traitBonuses}
             onWeaponAttack={onWeaponAttack}
             onWeaponDamage={onWeaponDamage}
           />
@@ -117,6 +121,7 @@ export function EquipmentPanel({
             weapon={char.secondaryWeapon}
             proficiency={char.proficiency}
             traits={char.traits}
+            traitBonuses={traitBonuses}
             onWeaponAttack={onWeaponAttack}
             onWeaponDamage={onWeaponDamage}
           />
@@ -283,16 +288,18 @@ function WeaponRollButtons({
   weapon,
   proficiency,
   traits,
+  traitBonuses,
   onWeaponAttack,
   onWeaponDamage,
 }: {
   weapon: NonNullable<Character['primaryWeapon']>;
   proficiency: number;
   traits: Character['traits'];
+  traitBonuses?: Partial<Record<TraitId, number>>;
   onWeaponAttack?: (label: string, modifier: number) => void;
   onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
 }) {
-  const attackMod = traits[weapon.trait];
+  const attackMod = traits[weapon.trait] + (traitBonuses?.[weapon.trait] ?? 0);
   const damage = {
     count: Math.max(1, proficiency),
     sides: weapon.damage.dice,

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { saveCharacter, uploadImage } from '../services/campaignService';
-import { getPlayerSession } from '../lib/playerSession';
+import { getPlayerSession, setActiveCharacterId } from '../lib/playerSession';
 import { useAuth } from '../hooks/useAuth';
 import { CharacterCreator } from '../components/character/CharacterCreator';
 import type { Character } from '../types';
@@ -12,7 +12,6 @@ export function CharacterCreatePage() {
   const playerSession = getPlayerSession();
 
   const playerId = playerSession?.playerId ?? (user ? `dm-${user.uid}` : '');
-  const playerName = playerSession?.playerName ?? (user ? 'DM' : '');
 
   if (!campaignId || !playerId) {
     return <p className="font-serif text-slate-400">Please join a campaign or login as DM first.</p>;
@@ -24,9 +23,10 @@ export function CharacterCreatePage() {
       <CharacterCreator
         campaignId={campaignId}
         playerId={playerId}
-        playerName={playerName}
+        defaultPlayerName={user ? 'DM' : ''}
         onSave={async (character: Character) => {
           await saveCharacter(campaignId, character);
+          setActiveCharacterId(character.id);
           navigate(`/campaign/${campaignId}/characters/${character.id}`);
         }}
         onUploadImage={(file) => uploadImage(campaignId, file, `characters/${crypto.randomUUID()}.jpg`)}

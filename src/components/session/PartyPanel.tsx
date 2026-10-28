@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import type { Character, Npc } from '../../types';
+import type { Character, Npc, Session } from '../../types';
+import { isPlayable } from '../../lib/rosterStatus';
+import { rosterNpcVisible, sessionJoinedCharacterIds } from '../../lib/sessionParty';
 import { Button } from '../ui/Button';
 import { Popup } from '../ui/Popup';
 import { CharacterSheet } from '../character/CharacterSheet';
@@ -12,13 +14,15 @@ export type PartySelection =
   | null;
 
 interface PartyPanelProps {
+  session: Session;
   characters: Character[];
   npcs: Npc[];
   isDm: boolean;
   playerId?: string;
   selection: PartySelection;
   onSelect: (selection: PartySelection) => void;
-  onToggleCharacterParty: (character: Character, inParty: boolean) => Promise<void>;
+  onJoinCharacter: (character: Character) => Promise<void>;
+  onLeaveCharacter: (character: Character) => Promise<void>;
   onToggleNpcParty: (npc: Npc, inParty: boolean) => Promise<void>;
   onSaveCharacter: (character: Character) => Promise<void>;
   onSaveNpc: (npc: Npc) => Promise<void>;
@@ -28,13 +32,15 @@ interface PartyPanelProps {
 }
 
 export function PartyPanel({
+  session,
   characters,
   npcs,
   isDm,
   playerId,
   selection,
   onSelect,
-  onToggleCharacterParty,
+  onJoinCharacter,
+  onLeaveCharacter,
   onToggleNpcParty,
   onSaveCharacter,
   onSaveNpc,
@@ -43,13 +49,18 @@ export function PartyPanel({
   onWeaponDamage,
 }: PartyPanelProps) {
   const [showAdd, setShowAdd] = useState(false);
+  const [rosterOpen, setRosterOpen] = useState(false);
 
-  const partyCharacters = characters.filter((c) => c.inParty !== false);
-  const partyNpcs = npcs.filter((n) => n.inParty);
+  const joinedIds = sessionJoinedCharacterIds(session, characters);
+  const partyCharacters = characters.filter((c) => joinedIds.has(c.id) && isPlayable(c));
+  const partyNpcs = npcs.filter((n) => n.inParty && isPlayable(n));
   const partyCount = partyCharacters.length + partyNpcs.length;
 
-  const availableCharacters = characters.filter((c) => c.inParty === false);
-  const availableNpcs = npcs.filter((n) => !n.inParty);
+  const rosterCharacters = characters.filter((c) => !joinedIds.has(c.id));
+  const rosterNpcs = npcs.filter((n) => !n.inParty && rosterNpcVisible(n, isDm));
+  const rosterCount = rosterCharacters.length + rosterNpcs.length;
+
+  const addableCharacters = rosterCharacters.filter((c) => isPlayable(c));
 
   const selectedCharacter =
     selection?.kind === 'character'
@@ -60,6 +71,9 @@ export function PartyPanel({
 
   const canEditCharacter = (c: Character) =>
     isDm || (!!playerId && c.playerId === playerId);
+
+  const canJoinCharacter = (c: Character) =>
+    isPlayable(c) && (isDm || (!!playerId && c.playerId === playerId));
 
   if (selectedCharacter) {
     return (
@@ -79,6 +93,7 @@ export function PartyPanel({
         <div className="flex-1 overflow-y-auto px-3 py-3">
           <CharacterSheet
             character={selectedCharacter}
+            party={characters}
             layout="session"
             canEdit={canEditCharacter(selectedCharacter)}
             isDm={isDm}
@@ -131,10 +146,10 @@ export function PartyPanel({
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1.5">
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
         {partyCount === 0 ? (
           <p className="text-xs italic text-slate-600">
-            {isDm ? 'Add players or NPCs to the party.' : 'No one is in the party yet.'}
+            {isDm ? 'Add players to the session party.' : 'Join with a character to appear here.'}
           </p>
         ) : (
           <>
@@ -149,7 +164,7 @@ export function PartyPanel({
                   accent="amber"
                   isDm={isDm}
                   onOpen={() => onSelect({ kind: 'character', id: c.id })}
-                  onRemove={() => onToggleCharacterParty(c, false)}
+                  onRemove={() => onLeaveCharacter(c)}
                 />
               );
             })}
@@ -157,7 +172,7 @@ export function PartyPanel({
               <PartyMemberRow
                 key={`npc-${n.id}`}
                 name={n.name}
-                subtitle="NPC"
+                subtitle="NPC · In party"
                 imageUrl={n.imageUrl}
                 accent="sky"
                 isDm={isDm}
@@ -167,60 +182,88 @@ export function PartyPanel({
             ))}
           </>
         )}
+
+        {rosterCount > 0 && (
+          <div className="border-t border-brass/15 pt-2">
+            <button
+              type="button"
+              onClick={() => setRosterOpen((o) => !o)}
+              className="flex w-full items-center justify-between rounded px-1 py-1.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-amber-200/90"
+            >
+              <span>Characters ({rosterCount})</span>
+              <span className="text-slate-600">{rosterOpen ? '▾' : '▸'}</span>
+            </button>
+            {rosterOpen && (
+              <div className="mt-1.5 space-y-1.5">
+                {rosterCharacters.map((c) => {
+                  const cls = classes.find((cl) => cl.id === c.classId);
+                  return (
+                    <RosterRow
+                      key={`roster-char-${c.id}`}
+                      name={c.name}
+                      detail={`${c.playerName} · ${cls?.name ?? ''}`}
+                      imageUrl={c.imageUrl}
+                      accent="amber"
+                      actionLabel={canJoinCharacter(c) ? 'Join' : undefined}
+                      onOpen={() => onSelect({ kind: 'character', id: c.id })}
+                      onAction={
+                        canJoinCharacter(c)
+                          ? async () => {
+                              await onJoinCharacter(c);
+                            }
+                          : undefined
+                      }
+                    />
+                  );
+                })}
+                {rosterNpcs.map((n) => (
+                  <RosterRow
+                    key={`roster-npc-${n.id}`}
+                    name={n.name}
+                    detail={isDm && !n.playerVisible ? 'NPC · Hidden from players' : 'NPC'}
+                    imageUrl={n.imageUrl}
+                    accent="sky"
+                    onOpen={() => onSelect({ kind: 'npc', id: n.id })}
+                    onAction={
+                      isDm
+                        ? async () => {
+                            await onToggleNpcParty(n, true);
+                          }
+                        : undefined
+                    }
+                    actionLabel={isDm ? 'To party' : undefined}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {isDm && (
-        <Popup open={showAdd} onClose={() => setShowAdd(false)} title="Add to Party" size="sm">
-          <div className="space-y-4 max-h-80 overflow-y-auto">
-            <section>
-              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                Players
-              </h3>
-              {availableCharacters.length === 0 ? (
-                <p className="text-xs italic text-slate-600">All players are already in the party.</p>
-              ) : (
-                <div className="space-y-1.5">
-                  {availableCharacters.map((c) => {
-                    const cls = classes.find((cl) => cl.id === c.classId);
-                    return (
-                      <AddRow
-                        key={c.id}
-                        name={c.name}
-                        detail={`${c.playerName} · ${cls?.name ?? ''}`}
-                        imageUrl={c.imageUrl}
-                        accent="amber"
-                        onAdd={async () => {
-                          await onToggleCharacterParty(c, true);
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              )}
-            </section>
-            <section>
-              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                NPCs
-              </h3>
-              {availableNpcs.length === 0 ? (
-                <p className="text-xs italic text-slate-600">All NPCs are already in the party.</p>
-              ) : (
-                <div className="space-y-1.5">
-                  {availableNpcs.map((n) => (
+        <Popup open={showAdd} onClose={() => setShowAdd(false)} title="Add to Session Party" size="sm">
+          <div className="max-h-80 overflow-y-auto">
+            {addableCharacters.length === 0 ? (
+              <p className="text-xs italic text-slate-600">Everyone is already in the session party.</p>
+            ) : (
+              <div className="space-y-1.5">
+                {addableCharacters.map((c) => {
+                  const cls = classes.find((cl) => cl.id === c.classId);
+                  return (
                     <AddRow
-                      key={n.id}
-                      name={n.name}
-                      detail="NPC"
-                      imageUrl={n.imageUrl}
-                      accent="sky"
+                      key={c.id}
+                      name={c.name}
+                      detail={`${c.playerName} · ${cls?.name ?? ''}`}
+                      imageUrl={c.imageUrl}
+                      accent="amber"
                       onAdd={async () => {
-                        await onToggleNpcParty(n, true);
+                        await onJoinCharacter(c);
                       }}
                     />
-                  ))}
-                </div>
-              )}
-            </section>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </Popup>
       )}
@@ -266,12 +309,66 @@ function PartyMemberRow({
       {isDm && (
         <button
           type="button"
-          title="Remove from party"
+          title="Remove from session party"
           onClick={onRemove}
           className="shrink-0 rounded px-1.5 py-0.5 text-[10px] text-slate-500 hover:bg-red-950/40 hover:text-red-300"
         >
           ✕
         </button>
+      )}
+    </div>
+  );
+}
+
+function RosterRow({
+  name,
+  detail,
+  imageUrl,
+  accent,
+  onOpen,
+  onAction,
+  actionLabel,
+}: {
+  name: string;
+  detail: string;
+  imageUrl?: string;
+  accent: 'amber' | 'sky';
+  onOpen: () => void;
+  onAction?: () => Promise<void>;
+  actionLabel?: string;
+}) {
+  const [busy, setBusy] = useState(false);
+  const avatarBg =
+    accent === 'amber' ? 'bg-amber-950/50 text-amber-400' : 'bg-sky-950/50 text-sky-400';
+
+  return (
+    <div className="flex items-center gap-2 rounded-lg bg-slate-900/40 px-2.5 py-2">
+      <button type="button" onClick={onOpen} className="flex min-w-0 flex-1 items-center gap-2 text-left">
+        {imageUrl ? (
+          <img src={imageUrl} alt="" className="h-7 w-7 rounded object-cover" />
+        ) : (
+          <div className={`flex h-7 w-7 items-center justify-center rounded text-[10px] font-bold ${avatarBg}`}>
+            {name.charAt(0)}
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-xs font-medium text-slate-300">{name}</p>
+          <p className="truncate text-[10px] text-slate-600">{detail}</p>
+        </div>
+      </button>
+      {actionLabel && onAction && (
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={busy}
+          onClick={async () => {
+            setBusy(true);
+            await onAction();
+            setBusy(false);
+          }}
+        >
+          {busy ? '…' : actionLabel}
+        </Button>
       )}
     </div>
   );

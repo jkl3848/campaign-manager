@@ -8,7 +8,10 @@ import {
 } from '../services/campaignService';
 import type { Character, Enemy, Npc, Encounter, Session } from '../types';
 
-export function useCampaignData(campaignId: string | undefined) {
+export function useCampaignData(
+  campaignId: string | undefined,
+  options?: { npcsForPlayer?: boolean; npcsCodexOnly?: boolean },
+) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [enemies, setEnemies] = useState<Enemy[]>([]);
   const [npcs, setNpcs] = useState<Npc[]>([]);
@@ -25,14 +28,17 @@ export function useCampaignData(campaignId: string | undefined) {
     const unsubs = [
       subscribeCharacters(campaignId, setCharacters),
       subscribeEnemies(campaignId, setEnemies),
-      subscribeNpcs(campaignId, setNpcs),
+      subscribeNpcs(campaignId, setNpcs, {
+        forPlayer: options?.npcsForPlayer,
+        codexOnly: options?.npcsCodexOnly,
+      }),
       subscribeEncounters(campaignId, setEncounters),
       subscribeSessions(campaignId, setSessions),
     ];
 
     setLoading(false);
     return () => unsubs.forEach((u) => u());
-  }, [campaignId]);
+  }, [campaignId, options?.npcsForPlayer, options?.npcsCodexOnly]);
 
   return { characters, enemies, npcs, encounters, sessions, loading };
 }

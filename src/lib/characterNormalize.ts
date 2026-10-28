@@ -79,5 +79,7 @@ export function normalizeCharacter(c: Character): Character {
     inventory: c.inventory ?? [],
     wealth: normalizeWealth(c.wealth),
     inParty: c.inParty !== false,
+    instruments: c.instruments ?? [],
+    technology: c.technology,
   };
 }
