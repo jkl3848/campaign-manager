@@ -6,7 +6,8 @@ import {
   updateSession,
   logDiceRoll,
   subscribeDiceLog,
-  uploadImage,
+  uploadBoardImage,
+  deleteStorageObject,
   getCampaign,
   saveCharacter,
   saveNpc,
@@ -350,16 +351,24 @@ export function LiveSessionPage() {
     >
       <SessionCanvas
         elements={session.canvasElements}
-        mapImageUrl={session.mapImageUrl}
         onElementsChange={(elements) => update({ canvasElements: elements })}
-        onMapUpload={
+        onImageUpload={
           isDm
-            ? async (file) => {
-                const url = await uploadImage(campaignId!, file, `sessions/${sessionId}/map.jpg`);
-                await update({ mapImageUrl: url });
+            ? (file) => uploadBoardImage(campaignId!, sessionId!, file)
+            : undefined
+        }
+        onImageDelete={
+          isDm
+            ? async (storagePath) => {
+                try {
+                  await deleteStorageObject(storagePath);
+                } catch {
+                  // Best-effort cleanup; element is already removed from the session.
+                }
               }
             : undefined
         }
+        viewportKey={`${campaignId}-${sessionId}`}
         readOnly={!isDm && !playerSession}
         fullscreen
       />
