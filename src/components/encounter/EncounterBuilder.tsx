@@ -80,7 +80,7 @@ export function EncounterBuilder({ campaignId, enemies, onSave, existing }: Enco
 
       <Card title="Encounter Roster">
         {encounterEnemies.length === 0 ? (
-          <p className="text-slate-500 italic">No enemies added yet.</p>
+          <p className="text-slate-400 italic">No enemies added yet.</p>
         ) : (
           <div className="space-y-2">
             {encounterEnemies.map((e) => (

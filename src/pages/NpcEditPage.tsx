@@ -91,7 +91,7 @@ export function NpcEditPage() {
       <div className="space-y-4">
         <Link
           to={`/campaign/${campaignId}/npcs`}
-          className="text-sm text-slate-500 hover:text-slate-300"
+          className="text-sm text-slate-400 hover:text-slate-300"
         >
           ← Back to NPCs
         </Link>

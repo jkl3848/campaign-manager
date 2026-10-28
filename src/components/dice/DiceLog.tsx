@@ -10,7 +10,7 @@ export function DiceLog({ rolls, isDm = false }: DiceLogProps) {
   const visibleRolls = rolls.filter((r) => !r.secret || isDm);
 
   if (visibleRolls.length === 0) {
-    return <p className="text-slate-500 text-sm italic">No rolls yet this session.</p>;
+    return <p className="text-slate-400 text-sm italic">No rolls yet this session.</p>;
   }
 
   return (
@@ -31,11 +31,11 @@ export function DiceLog({ rolls, isDm = false }: DiceLogProps) {
             {isDualityRoll(roll) ? (
               <span className="text-slate-400">
                 <span className="text-slate-200">{roll.white}</span>/
-                <span className="text-slate-500">{roll.black}</span>
+                <span className="text-slate-400">{roll.black}</span>
               </span>
             ) : (
               <span className="text-slate-400">
-                <span className="text-slate-500">
+                <span className="text-slate-400">
                   {formatDiceNotation(roll.count ?? 1, roll.sides ?? 20)}
                 </span>{' '}
                 <span className="text-slate-300">{roll.results?.join(', ')}</span>

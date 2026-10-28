@@ -118,7 +118,7 @@ function DomainCardTile({
                 onError={() => setImgIndex((i) => i + 1)}
               />
             ) : (
-              <span className="font-display text-[10px] uppercase tracking-wider text-ink-faint/50">
+              <span className="font-display text-[10px] uppercase tracking-wider text-ink-faint">
                 Art
               </span>
             )}

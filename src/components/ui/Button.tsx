@@ -14,7 +14,7 @@ const variants = {
   danger:
     'bg-oxblood/90 hover:bg-oxblood text-parchment border border-black/20',
   ghost:
-    'bg-transparent hover:bg-black/15 text-current/70 border border-transparent',
+    'bg-transparent hover:bg-black/15 text-current/85 hover:text-current border border-transparent',
 };
 
 const sizes = {

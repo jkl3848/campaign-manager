@@ -49,7 +49,7 @@ export function LoginPage() {
         >
           {isRegister ? 'Already have an account? Login' : 'Need an account? Register'}
         </button>
-        <Link to="/" className="block mt-3 text-sm text-slate-500 hover:text-slate-300 text-center">
+        <Link to="/" className="block mt-3 text-sm text-slate-400 hover:text-slate-300 text-center">
           Back to home
         </Link>
       </Card>

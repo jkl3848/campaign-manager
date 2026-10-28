@@ -30,19 +30,19 @@ export function NpcDetailView({ npc }: NpcDetailViewProps) {
             )}
             <dl className="grid grid-cols-3 gap-3 text-sm">
               <div>
-                <dt className="text-slate-500">HP</dt>
+                <dt className="text-slate-400">HP</dt>
                 <dd className="text-slate-200">
                   {npc.hp.current}/{npc.hp.max}
                 </dd>
               </div>
               <div>
-                <dt className="text-slate-500">Stress</dt>
+                <dt className="text-slate-400">Stress</dt>
                 <dd className="text-slate-200">
                   {npc.stress.current}/{npc.stress.max}
                 </dd>
               </div>
               <div>
-                <dt className="text-slate-500">Evasion</dt>
+                <dt className="text-slate-400">Evasion</dt>
                 <dd className="text-slate-200">{npc.evasion}</dd>
               </div>
             </dl>

@@ -20,7 +20,7 @@ export function Textarea({ label, className = '', id, ref, ...props }: TextareaP
       <textarea
         ref={ref}
         id={textareaId}
-        className={`ruled-field min-h-[80px] rounded-none border border-current/20 bg-transparent px-2 py-1 text-inherit placeholder:text-current/35 focus:border-brass focus:outline-none ${className}`}
+        className={`ruled-field min-h-[80px] rounded-none border border-current/50 bg-transparent px-2 py-1 text-inherit placeholder:text-current/65 focus:border-brass focus:outline-none ${className}`}
         {...props}
       />
     </div>

@@ -18,7 +18,7 @@ export function Input({ label, className = '', id, ...props }: InputProps) {
       )}
       <input
         id={inputId}
-        className={`rounded-none border-0 border-b border-current/30 bg-transparent px-0.5 py-1.5 text-inherit placeholder:text-current/35 focus:border-brass focus:outline-none ${className}`}
+        className={`rounded-none border-0 border-b border-current/50 bg-transparent px-0.5 py-1.5 text-inherit placeholder:text-current/65 focus:border-brass focus:outline-none ${className}`}
         {...props}
       />
     </div>

@@ -96,9 +96,9 @@ export function LoreEditPage() {
           </Link>
           {note && (
             <>
-              <span className="text-slate-600">/</span>
-              <span className="text-slate-500">{note.subject}</span>
-              <span className="text-slate-600">/</span>
+              <span className="text-slate-400">/</span>
+              <span className="text-slate-400">{note.subject}</span>
+              <span className="text-slate-400">/</span>
               <span className="text-slate-300">{note.title}</span>
             </>
           )}

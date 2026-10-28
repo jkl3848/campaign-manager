@@ -36,7 +36,7 @@ export function NpcSessionSheet({ npc, canEdit, onSave }: NpcSessionSheetProps) 
             className="h-12 w-12 shrink-0 rounded-lg object-cover ring-1 ring-sky-800/40"
           />
         ) : (
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-lg font-serif text-sky-500/60">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-lg font-serif text-sky-300">
             {local.name.charAt(0)}
           </div>
         )}
@@ -65,7 +65,7 @@ export function NpcSessionSheet({ npc, canEdit, onSave }: NpcSessionSheetProps) 
           onAdjust={canEdit ? (d) => adjust('stress', d) : undefined}
         />
         <div className="rounded-md bg-slate-900/60 px-2 py-1.5 text-center">
-          <p className="text-[10px] uppercase tracking-wide text-slate-500">Evasion</p>
+          <p className="text-[10px] uppercase tracking-wide text-slate-400">Evasion</p>
           <p className="text-lg font-bold text-slate-200">{local.evasion}</p>
         </div>
       </div>
@@ -99,7 +99,7 @@ export function NpcSessionSheet({ npc, canEdit, onSave }: NpcSessionSheetProps) 
             {local.abilities.map((a, i) => (
               <div key={a.id ?? i} className="rounded-md bg-slate-900/60 px-2 py-1.5">
                 <p className="text-[11px] font-medium text-slate-200">{a.name}</p>
-                <p className="mt-0.5 text-[10px] leading-relaxed text-slate-500 line-clamp-2">
+                <p className="mt-0.5 text-[10px] leading-relaxed text-slate-400 line-clamp-2">
                   {a.description}
                 </p>
               </div>
@@ -133,13 +133,13 @@ function Resource({
 }) {
   return (
     <div className="rounded-md bg-slate-900/60 px-2 py-1.5 text-center">
-      <p className="text-[10px] uppercase tracking-wide text-slate-500">{label}</p>
+      <p className="text-[10px] uppercase tracking-wide text-slate-400">{label}</p>
       <div className="flex items-center justify-center gap-1">
         {onAdjust && (
           <button
             type="button"
             onClick={() => onAdjust(-1)}
-            className="px-0.5 text-xs text-slate-500 hover:text-slate-200"
+            className="px-0.5 text-xs text-slate-400 hover:text-slate-200"
           >
             −
           </button>
@@ -151,7 +151,7 @@ function Resource({
           <button
             type="button"
             onClick={() => onAdjust(1)}
-            className="px-0.5 text-xs text-slate-500 hover:text-slate-200"
+            className="px-0.5 text-xs text-slate-400 hover:text-slate-200"
           >
             +
           </button>

@@ -152,7 +152,7 @@ export function LoreEditor({
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               placeholder="e.g. Locations, Factions"
-              className="rounded-lg bg-slate-800 border border-slate-600 px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
+              className="rounded-lg bg-slate-800 border border-slate-600 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
             />
             <datalist id="lore-subjects">
               {existingSubjects.map((s) => (
@@ -220,13 +220,13 @@ export function LoreEditor({
                 >
                   {uploadingImage ? 'Uploading…' : 'Add image'}
                 </Button>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-400">
                   Images are compressed on upload. Add as many as you need.
                 </p>
               </div>
             )}
             {uploadError && <p className="text-xs text-red-400">{uploadError}</p>}
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-400">
               Tip: link another note with <code className="text-amber-300/80">[[Exact Title]]</code>
               {' '}or <code className="text-amber-300/80">[[Exact Title|display text]]</code>
             </p>

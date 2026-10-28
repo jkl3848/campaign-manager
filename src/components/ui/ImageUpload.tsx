@@ -43,7 +43,7 @@ export function ImageUpload({
         </div>
       ) : (
         <div
-          className={`flex ${size} rotate-[-1.5deg] items-center justify-center border border-dashed border-current/30 bg-black/5 text-xs text-current/40`}
+          className={`flex ${size} rotate-[-1.5deg] items-center justify-center border border-dashed border-current/30 bg-black/5 text-xs text-current/70`}
         >
           Portrait
         </div>

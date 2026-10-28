@@ -19,7 +19,7 @@ export function Select({ label, className = '', id, children, ...props }: Select
       )}
       <select
         id={selectId}
-        className={`rounded-none border-0 border-b border-current/30 bg-transparent px-0.5 py-1.5 text-inherit focus:border-brass focus:outline-none ${className}`}
+        className={`rounded-none border-0 border-b border-current/50 bg-transparent px-0.5 py-1.5 text-inherit focus:border-brass focus:outline-none ${className}`}
         {...props}
       >
         {children}

@@ -522,12 +522,12 @@ function HopeFearTracker({
   const colors = { sky: 'text-sky-400', purple: 'text-purple-400' };
   return (
     <div className="flex items-center gap-1.5">
-      <span className="text-xs text-slate-500">{label}</span>
+      <span className="text-xs text-slate-400">{label}</span>
       {onAdjust && (
         <button
           onClick={() => onAdjust(-1)}
           disabled={value <= 0}
-          className="text-slate-600 hover:text-slate-300 text-xs disabled:opacity-30 disabled:hover:text-slate-600"
+          className="text-slate-400 hover:text-slate-300 text-xs disabled:opacity-30 disabled:hover:text-slate-400"
         >
           −
         </button>
@@ -539,7 +539,7 @@ function HopeFearTracker({
         <button
           onClick={() => onAdjust(1)}
           disabled={max != null && value >= max}
-          className="text-slate-600 hover:text-slate-300 text-xs disabled:opacity-30 disabled:hover:text-slate-600"
+          className="text-slate-400 hover:text-slate-300 text-xs disabled:opacity-30 disabled:hover:text-slate-400"
         >
           +
         </button>

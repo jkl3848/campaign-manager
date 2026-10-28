@@ -22,7 +22,7 @@ export function MarkdownPreview({
   onNoteNavigate,
 }: MarkdownPreviewProps) {
   if (!source.trim()) {
-    return <p className="text-slate-500 text-sm">Nothing to preview.</p>;
+    return <p className="text-slate-400 text-sm">Nothing to preview.</p>;
   }
 
   const resolved =

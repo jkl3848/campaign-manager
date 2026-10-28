@@ -103,7 +103,7 @@ export function DiceRoller({
         {rolling ? 'Rolling...' : `Roll ${notation}`}
       </Button>
       {count === 2 && sides === 12 && (
-        <p className="text-center text-[11px] text-slate-500">
+        <p className="text-center text-[11px] text-slate-400">
           Duality dice{isDm ? ' (no Hope/Fear for DM)' : ' — Hope or Fear on result'}
         </p>
       )}
