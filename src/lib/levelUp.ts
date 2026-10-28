@@ -300,26 +300,22 @@ function applyChoice(char: Character, choice: LevelUpChoice): Character {
       };
       break;
     }
-    case "hp-slot": {
-      const amount = data?.hpAmount ?? 1;
+    case "hp-slot":
       updated = {
         ...updated,
         hp: {
           ...updated.hp,
-          max: updated.hp.max + amount,
-          current: updated.hp.current + amount,
+          max: updated.hp.max + 1,
+          current: updated.hp.current + 1,
         },
       };
       break;
-    }
-    case "stress-slot": {
-      const amount = data?.stressAmount ?? 1;
+    case "stress-slot":
       updated = {
         ...updated,
-        stress: { ...updated.stress, max: updated.stress.max + amount },
+        stress: { ...updated.stress, max: updated.stress.max + 1 },
       };
       break;
-    }
     case "experience-boost": {
       const indices = data?.experienceIndices;
       if (!indices) break;
