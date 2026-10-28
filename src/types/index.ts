@@ -235,6 +235,8 @@ export interface Npc {
   traits: Partial<Traits>;
   abilities: Ability[];
   inParty: boolean;
+  /** When true, players can browse this NPC in the campaign codex. */
+  playerVisible: boolean;
   notes?: string;
   createdAt: number;
   updatedAt: number;

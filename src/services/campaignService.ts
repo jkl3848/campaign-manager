@@ -110,10 +110,53 @@ export async function deleteNpc(campaignId: string, npcId: string): Promise<void
   await deleteDoc(doc(db, 'campaigns', campaignId, 'npcs', npcId));
 }
 
-export function subscribeNpcs(campaignId: string, cb: (npcs: Npc[]) => void): Unsubscribe {
-  return onSnapshot(collection(db, 'campaigns', campaignId, 'npcs'), (snap) => {
-    cb(snap.docs.map((d) => d.data() as Npc));
-  });
+export function subscribeNpcs(
+  campaignId: string,
+  cb: (npcs: Npc[]) => void,
+  options?: { forPlayer?: boolean; codexOnly?: boolean },
+): Unsubscribe {
+  const col = collection(db, 'campaigns', campaignId, 'npcs');
+
+  if (!options?.forPlayer) {
+    return onSnapshot(col, (snap) => {
+      cb(snap.docs.map((d) => d.data() as Npc));
+    });
+  }
+
+  if (options.codexOnly) {
+    return onSnapshot(query(col, where('playerVisible', '==', true)), (snap) => {
+      cb(snap.docs.map((d) => d.data() as Npc));
+    });
+  }
+
+  let visible: Npc[] = [];
+  let inParty: Npc[] = [];
+
+  const emit = () => {
+    const byId = new Map<string, Npc>();
+    for (const n of [...visible, ...inParty]) byId.set(n.id, n);
+    cb([...byId.values()]);
+  };
+
+  const unsubVisible = onSnapshot(
+    query(col, where('playerVisible', '==', true)),
+    (snap) => {
+      visible = snap.docs.map((d) => d.data() as Npc);
+      emit();
+    },
+  );
+  const unsubParty = onSnapshot(
+    query(col, where('inParty', '==', true)),
+    (snap) => {
+      inParty = snap.docs.map((d) => d.data() as Npc);
+      emit();
+    },
+  );
+
+  return () => {
+    unsubVisible();
+    unsubParty();
+  };
 }
 
 // Encounters

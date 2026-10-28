@@ -32,7 +32,9 @@ service cloud.firestore {
       }
 
       match /npcs/{docId} {
-        allow read: if true;
+        allow read: if isCampaignDm(campaignId)
+          || resource.data.playerVisible == true
+          || resource.data.inParty == true;
         allow write: if isCampaignDm(campaignId);
       }
 

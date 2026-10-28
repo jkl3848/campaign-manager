@@ -42,10 +42,12 @@ export function LiveSessionPage() {
   const [alertRoll, setAlertRoll] = useState<DiceRoll | null>(null);
   const seenRollIds = useRef(new Set<string>());
   const diceLogInitialized = useRef(false);
-  const { characters, enemies, npcs, encounters } = useCampaignData(campaignId);
-  const [partySelection, setPartySelection] = useState<PartySelection>(null);
-
   const isDm = !!(user && campaign?.dmId === user.uid);
+  const npcsForPlayer = !!(
+    playerSession?.campaignId === campaignId && campaign && !isDm
+  );
+  const { characters, enemies, npcs, encounters } = useCampaignData(campaignId, { npcsForPlayer });
+  const [partySelection, setPartySelection] = useState<PartySelection>(null);
   const { notes: loreNotes } = useLoreNotes(campaignId, isDm);
   const selectedCharacter =
     partySelection?.kind === 'character'
