@@ -29,6 +29,7 @@ export function SessionCanvas({
   const [drawing, setDrawing] = useState(false);
   const [currentPath, setCurrentPath] = useState<{ x: number; y: number }[]>([]);
   const mapInputRef = useRef<HTMLInputElement>(null);
+  const [mapImage, setMapImage] = useState<HTMLImageElement | null>(null);
 
   const drawElements = useCallback((ctx: CanvasRenderingContext2D) => {
     for (const el of elements) {
@@ -55,26 +56,36 @@ export function SessionCanvas({
     }
   }, [elements]);
 
+  useEffect(() => {
+    setMapImage(null);
+    if (!mapImageUrl) return;
+
+    let cancelled = false;
+    // No crossOrigin: the bucket has no CORS config, and this canvas never reads pixels back.
+    const img = new Image();
+    img.onload = () => {
+      if (!cancelled) setMapImage(img);
+    };
+    img.src = mapImageUrl;
+    return () => {
+      cancelled = true;
+    };
+  }, [mapImageUrl]);
+
   const redraw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d')!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (mapImageUrl) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        drawElements(ctx);
-      };
-      img.src = mapImageUrl;
+    if (mapImage) {
+      ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
     } else {
       ctx.fillStyle = '#1e293b';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      drawElements(ctx);
     }
-  }, [drawElements, mapImageUrl]);
+    drawElements(ctx);
+  }, [drawElements, mapImage]);
 
   useEffect(() => {
     redraw();
