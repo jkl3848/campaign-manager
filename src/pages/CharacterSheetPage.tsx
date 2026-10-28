@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useAuth } from '../hooks/useAuth';
-import { saveCharacter, uploadImage, getCampaign } from '../services/campaignService';
+import { saveCharacter, uploadImage, getCampaign, subscribeCharacters } from '../services/campaignService';
 import { getPlayerSession } from '../lib/playerSession';
 import { db } from '../lib/firebase';
 import type { Character, Campaign } from '../types';
@@ -13,6 +13,7 @@ export function CharacterSheetPage() {
   const { user } = useAuth();
   const playerSession = getPlayerSession();
   const [character, setCharacter] = useState<Character | null>(null);
+  const [party, setParty] = useState<Character[]>([]);
   const [campaign, setCampaign] = useState<Campaign | null>(null);
 
   useEffect(() => {
@@ -27,6 +28,11 @@ export function CharacterSheetPage() {
     });
   }, [campaignId, characterId]);
 
+  useEffect(() => {
+    if (!campaignId) return;
+    return subscribeCharacters(campaignId, setParty);
+  }, [campaignId]);
+
   if (!character) return <p className="text-slate-400">Loading character...</p>;
 
   const isDm = user && campaign?.dmId === user.uid;
@@ -37,6 +43,7 @@ export function CharacterSheetPage() {
     <div className="mx-auto max-w-5xl">
       <CharacterSheet
         character={character}
+        party={party}
         canEdit={!!canEdit}
         isDm={!!isDm}
         onSave={(c) => saveCharacter(campaignId!, c)}

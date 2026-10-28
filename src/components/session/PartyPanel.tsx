@@ -79,6 +79,7 @@ export function PartyPanel({
         <div className="flex-1 overflow-y-auto px-3 py-3">
           <CharacterSheet
             character={selectedCharacter}
+            party={characters}
             layout="session"
             canEdit={canEditCharacter(selectedCharacter)}
             isDm={isDm}

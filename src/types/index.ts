@@ -9,6 +9,19 @@ export interface ExperienceEntry {
   bonus: number;
 }
 
+export type InstrumentTarget = 'experience' | 'evasion' | 'trait';
+
+/** Artificer Crafter Dedicated Instrument. Bonuses resolve from the Crafter's stage. */
+export interface CrafterInstrument {
+  id: string;
+  name: string;
+  /** Character id of the owner (Crafter or a party member). */
+  ownerId: string;
+  target: InstrumentTarget;
+  experienceName?: string;
+  traitId?: TraitId;
+}
+
 export interface MulticlassInfo {
   classId: string;
   domainId: string;
@@ -61,6 +74,13 @@ export interface DomainCard {
   description: string;
   type?: string;
   recallCost?: number;
+}
+
+/** Artificer Crafter Master Technology project that replicates a domain card. */
+export interface CrafterTechnology {
+  card: DomainCard;
+  /** Remaining countdown ticks; 0 means ready to use. */
+  countdown: number;
 }
 
 export interface Attack {
@@ -173,6 +193,10 @@ export interface Character {
   wealth: Wealth;
   /** When true, appears in the live-session party panel. Defaults to true. */
   inParty: boolean;
+  /** Active Dedicated Instruments (Artificer Crafter). */
+  instruments?: CrafterInstrument[];
+  /** Active Master Crafter Technology project, if any. */
+  technology?: CrafterTechnology;
   description?: string;
   notes?: string;
   createdAt: number;

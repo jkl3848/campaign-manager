@@ -13,6 +13,7 @@ import {
 } from '../services/campaignService';
 import { getPlayerSession } from '../lib/playerSession';
 import { createDiceRoll } from '../lib/dice';
+import { effectiveEvasion } from '../lib/crafter';
 import { clampFear, clampHope, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/hopeFear';
 import { useCampaignData } from '../hooks/useCampaignData';
 import type { Session, DiceRoll, Combatant, Campaign, Character, Npc } from '../types';
@@ -202,7 +203,7 @@ export function LiveSessionPage() {
         refId: c.id,
         hp: { ...c.hp },
         stress: { ...c.stress },
-        evasion: c.evasion,
+        evasion: effectiveEvasion(c, characters),
         conditions: [],
       });
     });
