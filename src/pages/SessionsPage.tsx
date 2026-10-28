@@ -43,6 +43,7 @@ export function SessionsPage() {
       fear: 0,
       canvasElements: [],
       notes: '',
+      joinedCharacterIds: [],
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };

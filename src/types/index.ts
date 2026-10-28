@@ -301,6 +301,8 @@ export interface Session {
   canvasElements: CanvasElement[];
   notes: string;
   mapImageUrl?: string;
+  /** Player characters who have joined this live session (shown in the main party). */
+  joinedCharacterIds?: string[];
   createdAt: number;
   updatedAt: number;
 }
