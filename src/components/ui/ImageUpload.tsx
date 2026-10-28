@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Button } from './Button';
+import { ExpandableImage } from './ImageLightbox';
 
 interface ImageUploadProps {
   currentUrl?: string;
@@ -34,13 +35,17 @@ export function ImageUpload({
   return (
     <div className="flex flex-col gap-2">
       {currentUrl ? (
-        <div className={`${size} rotate-[-1.5deg] bg-parchment p-1.5 shadow-md`}>
+        <ExpandableImage
+          src={currentUrl}
+          alt="Portrait"
+          frameClassName={`${size} rotate-[-1.5deg] cursor-zoom-in bg-parchment p-1.5 shadow-md`}
+        >
           <img
             src={currentUrl}
-            alt="Upload preview"
+            alt="Portrait"
             className="h-full w-full object-cover"
           />
-        </div>
+        </ExpandableImage>
       ) : (
         <div
           className={`flex ${size} rotate-[-1.5deg] items-center justify-center border border-dashed border-current/30 bg-black/5 text-xs text-current/70`}

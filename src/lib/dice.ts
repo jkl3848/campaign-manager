@@ -66,6 +66,8 @@ export function createDiceRoll(params: {
   /** When true, duality rolls never generate Hope/Fear. */
   isDm?: boolean;
   characterId?: string;
+  /** Advanced NPC sheet owner for Hope gains. */
+  npcId?: string;
   count?: number;
   sides?: DieSides | number;
 }): DiceRoll {
@@ -82,6 +84,7 @@ export function createDiceRoll(params: {
       sessionId: params.sessionId,
       rollerName: params.rollerName,
       characterId: params.characterId,
+      npcId: params.npcId,
       white: result.white,
       black: result.black,
       modifier: result.modifier,
@@ -101,6 +104,7 @@ export function createDiceRoll(params: {
     sessionId: params.sessionId,
     rollerName: params.rollerName,
     characterId: params.characterId,
+    npcId: params.npcId,
     white: 0,
     black: 0,
     results: result.results,

@@ -13,6 +13,7 @@ import { EnemiesPage } from './pages/EnemiesPage';
 import { EnemyEditPage } from './pages/EnemyEditPage';
 import { NpcsPage } from './pages/NpcsPage';
 import { NpcEditPage } from './pages/NpcEditPage';
+import { AdvancedNpcCreatePage } from './pages/AdvancedNpcCreatePage';
 import { EncountersPage } from './pages/EncountersPage';
 import { EncounterEditPage } from './pages/EncounterEditPage';
 import { SessionsPage } from './pages/SessionsPage';
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="campaign/:campaignId/enemies" element={<EnemiesPage />} />
           <Route path="campaign/:campaignId/enemies/:enemyId" element={<EnemyEditPage />} />
           <Route path="campaign/:campaignId/npcs" element={<NpcsPage />} />
+          <Route path="campaign/:campaignId/npcs/advanced/new" element={<AdvancedNpcCreatePage />} />
           <Route path="campaign/:campaignId/npcs/:npcId" element={<NpcEditPage />} />
           <Route path="campaign/:campaignId/encounters" element={<EncountersPage />} />
           <Route path="campaign/:campaignId/encounters/:encounterId" element={<EncounterEditPage />} />

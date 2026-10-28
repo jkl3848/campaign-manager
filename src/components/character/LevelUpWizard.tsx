@@ -49,8 +49,6 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
   const [traitPick, setTraitPick] = useState<[TraitId | '', TraitId | '']>(['', '']);
   const [expPick, setExpPick] = useState<[number | '', number | '']>(['', '']);
   const [domainCardId, setDomainCardId] = useState('');
-  const [hpAmount, setHpAmount] = useState(1);
-  const [stressAmount, setStressAmount] = useState(1);
   const [multiclassForm, setMulticlassForm] = useState<MulticlassInfo>({
     classId: '',
     domainId: '',
@@ -76,8 +74,6 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
     setTraitPick(['', '']);
     setExpPick(['', '']);
     setDomainCardId('');
-    setHpAmount(1);
-    setStressAmount(1);
     setMulticlassForm({ classId: '', domainId: '', subclassId: '' });
     setSubclassUpgradeSource('primary');
     setPhase('pick');
@@ -95,7 +91,7 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
       ? getSubclassUpgradeTargets(previewChar, targetLevel)
       : [];
     const needsConfig =
-      ['trait-increase', 'experience-boost', 'domain-card', 'hp-slot', 'stress-slot', 'multiclass'].includes(item.def.id)
+      ['trait-increase', 'experience-boost', 'domain-card', 'multiclass'].includes(item.def.id)
       || (item.def.id === 'subclass-upgrade' && subclassTargets.length > 1);
 
     if (needsConfig) {
@@ -154,10 +150,6 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
         return;
       }
       confirmAdvancement(pendingAdvancement, { domainCardId });
-    } else if (def.id === 'hp-slot') {
-      confirmAdvancement(pendingAdvancement, { hpAmount: Math.max(1, hpAmount) });
-    } else if (def.id === 'stress-slot') {
-      confirmAdvancement(pendingAdvancement, { stressAmount: Math.max(1, stressAmount) });
     } else if (def.id === 'multiclass') {
       if (!multiclassForm.classId || !multiclassForm.domainId || !multiclassForm.subclassId) {
         setError('Complete multiclass selection.');
@@ -371,28 +363,6 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
                     </option>
                   ))}
                 </Select>
-              )}
-
-              {pendingAdvancement.def.id === 'hp-slot' && (
-                <Input
-                  label="Hit Point slots to add"
-                  type="number"
-                  min={1}
-                  max={3}
-                  value={hpAmount}
-                  onChange={(e) => setHpAmount(parseInt(e.target.value) || 1)}
-                />
-              )}
-
-              {pendingAdvancement.def.id === 'stress-slot' && (
-                <Input
-                  label="Stress slots to add"
-                  type="number"
-                  min={1}
-                  max={3}
-                  value={stressAmount}
-                  onChange={(e) => setStressAmount(parseInt(e.target.value) || 1)}
-                />
               )}
 
               {pendingAdvancement.def.id === 'subclass-upgrade' && (

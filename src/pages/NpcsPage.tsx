@@ -5,10 +5,13 @@ import { useCampaignData } from '../hooks/useCampaignData';
 import { getPlayerSession } from '../lib/playerSession';
 import { getCampaign, saveNpc } from '../services/campaignService';
 import type { Campaign, Npc } from '../types';
+import { isAdvancedNpc } from '../lib/advancedNpc';
 import { rosterStatus } from '../lib/rosterStatus';
+import classes from '../config/daggerheart/classes.json';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { RosterStatusBadge } from '../components/ui/RosterStatusBadge';
+import { ExpandableImage } from '../components/ui/ImageLightbox';
 
 export function NpcsPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
@@ -59,9 +62,14 @@ export function NpcsPage() {
           </p>
         </div>
         {isDm && (
-          <Link to={`/campaign/${campaignId}/npcs/new`}>
-            <Button>Create NPC</Button>
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link to={`/campaign/${campaignId}/npcs/new`}>
+              <Button variant="secondary">Create NPC</Button>
+            </Link>
+            <Link to={`/campaign/${campaignId}/npcs/advanced/new`}>
+              <Button>Create Advanced NPC</Button>
+            </Link>
+          </div>
         )}
       </div>
 
@@ -79,7 +87,13 @@ export function NpcsPage() {
             <Card key={n.id} className="h-full">
               <div className="flex items-start gap-3">
                 {n.imageUrl && (
-                  <img src={n.imageUrl} alt={n.name} className="w-12 h-12 rounded-lg object-cover shrink-0" />
+                  <ExpandableImage
+                    src={n.imageUrl}
+                    alt={n.name}
+                    frameClassName="shrink-0 cursor-zoom-in"
+                  >
+                    <img src={n.imageUrl} alt={n.name} className="w-12 h-12 rounded-lg object-cover" />
+                  </ExpandableImage>
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
@@ -104,7 +118,15 @@ export function NpcsPage() {
                       </span>
                     )}
                   </div>
-                  {n.inParty && <span className="text-xs text-sky-400">In Party</span>}
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
+                    {n.inParty && <span className="text-xs text-sky-400">In Party</span>}
+                    {isAdvancedNpc(n) && (
+                      <span className="text-xs text-amber-400/90">
+                        Advanced · Lv {n.sheet.level}{' '}
+                        {classes.find((c) => c.id === n.sheet.classId)?.name ?? ''}
+                      </span>
+                    )}
+                  </div>
                   {n.description && (
                     <p className="text-sm text-slate-400 line-clamp-2 mt-1">{n.description}</p>
                   )}

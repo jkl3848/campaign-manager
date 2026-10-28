@@ -21,6 +21,7 @@ import traits from '../../config/daggerheart/traits.json';
 import domains from '../../config/daggerheart/domains.json';
 import { CHARACTER_HOPE_MAX } from '../../lib/hopeFear';
 import { FormattedText } from '../ui/FormattedText';
+import { ExpandableImage } from '../ui/ImageLightbox';
 
 interface CharacterSheetSessionProps {
   char: Character;
@@ -145,9 +146,13 @@ export function CharacterSheetSession({
       {/* Identity */}
       <div className="flex items-start gap-2.5">
         {char.imageUrl ? (
-          <div className="h-12 w-10 shrink-0 rotate-[-1deg] bg-parchment p-0.5 shadow-sm">
-            <img src={char.imageUrl} alt="" className="h-full w-full object-cover" />
-          </div>
+          <ExpandableImage
+            src={char.imageUrl}
+            alt={char.name}
+            frameClassName="h-12 w-10 shrink-0 rotate-[-1deg] cursor-zoom-in bg-parchment p-0.5 shadow-sm"
+          >
+            <img src={char.imageUrl} alt={char.name} className="h-full w-full object-cover" />
+          </ExpandableImage>
         ) : (
           <div className="flex h-12 w-10 shrink-0 rotate-[-1deg] items-center justify-center border border-ink/20 font-display text-lg text-oxblood/50">
             {char.name.charAt(0)}

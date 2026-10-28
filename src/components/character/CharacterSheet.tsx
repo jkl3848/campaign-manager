@@ -6,6 +6,7 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
 import { ImageUpload } from '../ui/ImageUpload';
+import { ExpandableImage } from '../ui/ImageLightbox';
 import { TickTrack } from '../ui/TickTrack';
 import { DomainCardHand } from './DomainCardHand';
 import { SubclassStageList } from './SubclassStageList';
@@ -434,13 +435,17 @@ export function CharacterSheet({
                 }}
               />
             ) : char.imageUrl ? (
-              <div className="h-32 w-28 rotate-[-1.5deg] bg-parchment p-1.5 shadow-md">
+              <ExpandableImage
+                src={char.imageUrl}
+                alt={char.name}
+                frameClassName="h-32 w-28 rotate-[-1.5deg] cursor-zoom-in bg-parchment p-1.5 shadow-md"
+              >
                 <img
                   src={char.imageUrl}
                   alt={char.name}
                   className="h-full w-full object-cover"
                 />
-              </div>
+              </ExpandableImage>
             ) : (
               <div className="flex h-32 w-28 rotate-[-1.5deg] items-center justify-center border border-dashed border-ink/25 bg-black/5">
                 <span className="font-display text-4xl text-oxblood/50">{char.name.charAt(0)}</span>

@@ -9,16 +9,16 @@
     },
     {
       "id": "hp-slot",
-      "name": "Add Hit Point Slots",
-      "description": "Permanently add 1 or more Hit Point slots.",
-      "totalSlots": 4,
+      "name": "Add Hit Point Slot",
+      "description": "Permanently add 1 Hit Point slot. Can be taken up to twice per tier.",
+      "totalSlots": 2,
       "pickCost": 1
     },
     {
       "id": "stress-slot",
-      "name": "Add Stress Slots",
-      "description": "Permanently add 1 or more Stress slots.",
-      "totalSlots": 4,
+      "name": "Add Stress Slot",
+      "description": "Permanently add 1 Stress slot. Can be taken up to twice per tier.",
+      "totalSlots": 2,
       "pickCost": 1
     },
     {
