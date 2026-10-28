@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Character, Npc, Session } from '../../types';
+import { isAdvancedNpc, npcFromSheet } from '../../lib/advancedNpc';
 import { isPlayable } from '../../lib/rosterStatus';
 import { rosterNpcVisible, sessionJoinedCharacterIds } from '../../lib/sessionParty';
 import { Button } from '../ui/Button';
@@ -108,6 +109,7 @@ export function PartyPanel({
   }
 
   if (selectedNpc) {
+    const advanced = isAdvancedNpc(selectedNpc);
     return (
       <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-brass/25 bg-[#140e0a]/92 backdrop-blur-sm">
         <div className="flex items-center gap-2 border-b border-brass/20 px-3 py-2.5">
@@ -123,11 +125,27 @@ export function PartyPanel({
           </h2>
         </div>
         <div className="flex-1 overflow-y-auto px-3 py-3">
-          <NpcSessionSheet
-            npc={selectedNpc}
-            canEdit={isDm}
-            onSave={onSaveNpc}
-          />
+          {advanced ? (
+            <CharacterSheet
+              character={selectedNpc.sheet}
+              party={characters}
+              layout="session"
+              canEdit={isDm}
+              isDm={isDm}
+              onSave={async (s) => {
+                await onSaveNpc(npcFromSheet(s, selectedNpc));
+              }}
+              onTraitRoll={onTraitRoll}
+              onWeaponAttack={onWeaponAttack}
+              onWeaponDamage={onWeaponDamage}
+            />
+          ) : (
+            <NpcSessionSheet
+              npc={selectedNpc}
+              canEdit={isDm}
+              onSave={onSaveNpc}
+            />
+          )}
         </div>
       </aside>
     );
@@ -168,18 +186,27 @@ export function PartyPanel({
                 />
               );
             })}
-            {partyNpcs.map((n) => (
-              <PartyMemberRow
-                key={`npc-${n.id}`}
-                name={n.name}
-                subtitle="NPC · In party"
-                imageUrl={n.imageUrl}
-                accent="sky"
-                isDm={isDm}
-                onOpen={() => onSelect({ kind: 'npc', id: n.id })}
-                onRemove={() => onToggleNpcParty(n, false)}
-              />
-            ))}
+            {partyNpcs.map((n) => {
+              const sheet = isAdvancedNpc(n) ? n.sheet : undefined;
+              const cls = sheet
+                ? classes.find((cl) => cl.id === sheet.classId)
+                : undefined;
+              const subtitle = sheet
+                ? `NPC · Lv ${sheet.level} ${cls?.name ?? ''}`
+                : 'NPC · In party';
+              return (
+                <PartyMemberRow
+                  key={`npc-${n.id}`}
+                  name={n.name}
+                  subtitle={subtitle}
+                  imageUrl={n.imageUrl}
+                  accent="sky"
+                  isDm={isDm}
+                  onOpen={() => onSelect({ kind: 'npc', id: n.id })}
+                  onRemove={() => onToggleNpcParty(n, false)}
+                />
+              );
+            })}
           </>
         )}
 
@@ -216,24 +243,34 @@ export function PartyPanel({
                     />
                   );
                 })}
-                {rosterNpcs.map((n) => (
-                  <RosterRow
-                    key={`roster-npc-${n.id}`}
-                    name={n.name}
-                    detail={isDm && !n.playerVisible ? 'NPC · Hidden from players' : 'NPC'}
-                    imageUrl={n.imageUrl}
-                    accent="sky"
-                    onOpen={() => onSelect({ kind: 'npc', id: n.id })}
-                    onAction={
-                      isDm
-                        ? async () => {
-                            await onToggleNpcParty(n, true);
-                          }
-                        : undefined
-                    }
-                    actionLabel={isDm ? 'To party' : undefined}
-                  />
-                ))}
+                {rosterNpcs.map((n) => {
+                  const sheet = isAdvancedNpc(n) ? n.sheet : undefined;
+                  const cls = sheet
+                    ? classes.find((cl) => cl.id === sheet.classId)
+                    : undefined;
+                  let detail = isDm && !n.playerVisible ? 'NPC · Hidden from players' : 'NPC';
+                  if (sheet) {
+                    detail = `${detail} · Lv ${sheet.level} ${cls?.name ?? ''}`.trim();
+                  }
+                  return (
+                    <RosterRow
+                      key={`roster-npc-${n.id}`}
+                      name={n.name}
+                      detail={detail}
+                      imageUrl={n.imageUrl}
+                      accent="sky"
+                      onOpen={() => onSelect({ kind: 'npc', id: n.id })}
+                      onAction={
+                        isDm
+                          ? async () => {
+                              await onToggleNpcParty(n, true);
+                            }
+                          : undefined
+                      }
+                      actionLabel={isDm ? 'To party' : undefined}
+                    />
+                  );
+                })}
               </div>
             )}
           </div>

@@ -23,12 +23,19 @@ import { Textarea } from '../ui/Textarea';
 import { FormattedText } from '../ui/FormattedText';
 import { SubclassStageList } from './SubclassStageList';
 
+export interface CharacterCreatorSaveOptions {
+  /** Starting level for advanced NPCs (1–10). Defaults to 1. */
+  targetLevel?: number;
+}
+
 interface CharacterCreatorProps {
   campaignId: string;
   playerId: string;
   /** Prefill for DM-created characters; players set this on the first step. */
   defaultPlayerName?: string;
-  onSave: (character: Character) => Promise<void>;
+  /** Player characters vs advanced NPCs built through the same creator. */
+  variant?: 'player' | 'npc';
+  onSave: (character: Character, options?: CharacterCreatorSaveOptions) => Promise<void>;
   onUploadImage: (file: File) => Promise<string>;
   existing?: Character;
 }
@@ -59,13 +66,16 @@ export function CharacterCreator({
   campaignId,
   playerId,
   defaultPlayerName = '',
+  variant = 'player',
   onSave,
   onUploadImage,
   existing,
 }: CharacterCreatorProps) {
+  const isNpc = variant === 'npc';
   const [step, setStep] = useState(0);
   const [name, setName] = useState(existing?.name ?? '');
   const [playerName, setPlayerName] = useState(existing?.playerName ?? defaultPlayerName);
+  const [targetLevel, setTargetLevel] = useState(existing?.level ?? 1);
   const [imageUrl, setImageUrl] = useState(existing?.imageUrl ?? '');
   const [ancestryId, setAncestryId] = useState(existing?.ancestryId ?? '');
   const [communityId, setCommunityId] = useState(existing?.communityId ?? '');
@@ -181,7 +191,7 @@ export function CharacterCreator({
         id: existing?.id ?? crypto.randomUUID(),
         campaignId,
         playerId,
-        playerName,
+        playerName: isNpc ? 'NPC' : playerName,
         name,
         imageUrl: imageUrl || undefined,
         ancestryId,
@@ -227,17 +237,21 @@ export function CharacterCreator({
         multiclass: existing?.multiclass,
         inventory: existing?.inventory ?? [],
         wealth: normalizeWealth(existing?.wealth),
-        inParty: existing?.inParty !== false,
+        inParty: isNpc ? false : existing?.inParty !== false,
         extraArmorSlots: existing?.extraArmorSlots,
         description: description || undefined,
         createdAt: existing?.createdAt ?? Date.now(),
         updatedAt: Date.now(),
       };
 
-      await onSave(character);
+      await onSave(character, isNpc ? { targetLevel } : undefined);
     } catch (err) {
       console.error(err);
-      setSaveError('Could not save this character. Check your connection and try again.');
+      setSaveError(
+        isNpc
+          ? 'Could not save this NPC. Check your connection and try again.'
+          : 'Could not save this character. Check your connection and try again.',
+      );
     } finally {
       setSaving(false);
     }
@@ -245,7 +259,10 @@ export function CharacterCreator({
 
   const canProceed = () => {
     switch (step) {
-      case 0: return !!name.trim() && !!playerName.trim();
+      case 0:
+        if (!name.trim()) return false;
+        if (isNpc) return targetLevel >= 1 && targetLevel <= 10;
+        return !!playerName.trim();
       case 1: return !!classId && !!subclassId;
       case 2: return !!ancestryId;
       case 3: return !!communityId;
@@ -257,6 +274,13 @@ export function CharacterCreator({
       case 9: return true;
       default: return true;
     }
+  };
+
+  const saveButtonLabel = () => {
+    if (saving) return 'Saving...';
+    if (existing) return isNpc ? 'Update NPC' : 'Update Character';
+    if (isNpc && targetLevel > 1) return 'Continue to Level Up';
+    return isNpc ? 'Create NPC' : 'Create Character';
   };
 
   const domainName = (id: string) => domains.find((d) => d.id === id)?.name ?? id;
@@ -285,20 +309,40 @@ export function CharacterCreator({
 
       {step === 0 && (
         <section>
-          <h2 className="sheet-heading">Who are you?</h2>
+          <h2 className="sheet-heading">{isNpc ? 'Who are they?' : 'Who are you?'}</h2>
           <div className="space-y-4">
-            <Input label="Character Name" value={name} onChange={(e) => setName(e.target.value)} required />
             <Input
-              label="Your Name"
-              value={playerName}
-              onChange={(e) => setPlayerName(e.target.value)}
-              placeholder="Name shown at the table"
+              label={isNpc ? 'NPC Name' : 'Character Name'}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
+            {!isNpc && (
+              <Input
+                label="Your Name"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                placeholder="Name shown at the table"
+                required
+              />
+            )}
+            {isNpc && (
+              <Select
+                label="Starting Level"
+                value={String(targetLevel)}
+                onChange={(e) => setTargetLevel(parseInt(e.target.value, 10) || 1)}
+              >
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+                  <option key={n} value={n}>
+                    Level {n}
+                  </option>
+                ))}
+              </Select>
+            )}
             <ImageUpload
               currentUrl={imageUrl}
               frame="portrait"
-              label="Character Portrait"
+              label={isNpc ? 'NPC Portrait' : 'Character Portrait'}
               onUpload={async (file) => {
                 const url = await onUploadImage(file);
                 setImageUrl(url);
@@ -547,9 +591,9 @@ export function CharacterCreator({
 
       {step === 9 && (
         <section>
-          <h2 className="sheet-heading">Character Description</h2>
+          <h2 className="sheet-heading">{isNpc ? 'NPC Description' : 'Character Description'}</h2>
           <Textarea
-            label="Describe your character"
+            label={isNpc ? 'Describe this NPC' : 'Describe your character'}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Appearance, personality, backstory, goals..."
@@ -582,7 +626,7 @@ export function CharacterCreator({
           </Button>
         ) : (
           <Button onClick={handleSave} disabled={saving || !canProceed()}>
-            {saving ? 'Saving...' : existing ? 'Update Character' : 'Create Character'}
+            {saveButtonLabel()}
           </Button>
         )}
       </div>

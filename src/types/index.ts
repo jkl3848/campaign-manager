@@ -243,6 +243,12 @@ export interface Npc {
   playerVisible: boolean;
   status?: RosterStatus;
   notes?: string;
+  /**
+   * Full character sheet for advanced NPCs created via the character creator.
+   * When present, the NPC uses CharacterSheet and level-up like a PC, but
+   * party membership still lives on this Npc document.
+   */
+  sheet?: Character;
   createdAt: number;
   updatedAt: number;
 }
@@ -319,6 +325,8 @@ export interface DiceRoll {
   rollerName: string;
   /** Character who made this roll, when Hope/Fear should apply to them. */
   characterId?: string;
+  /** Advanced NPC who made this roll, when Hope should apply to their sheet. */
+  npcId?: string;
   /** Duality (2d12) hope die. Unused for standard NdS rolls. */
   white: number;
   /** Duality (2d12) fear die. Unused for standard NdS rolls. */

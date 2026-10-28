@@ -15,6 +15,7 @@ import { getPlayerSession } from '../lib/playerSession';
 import { createDiceRoll } from '../lib/dice';
 import { effectiveEvasion } from '../lib/crafter';
 import { clampFear, clampHope, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/hopeFear';
+import { isAdvancedNpc, npcFromSheet } from '../lib/advancedNpc';
 import { isPlayable } from '../lib/rosterStatus';
 import { sessionJoinedCharacterIds } from '../lib/sessionParty';
 import { useCampaignData } from '../hooks/useCampaignData';
@@ -55,6 +56,16 @@ export function LiveSessionPage() {
     partySelection?.kind === 'character'
       ? characters.find((c) => c.id === partySelection.id)
       : undefined;
+  const selectedNpc =
+    partySelection?.kind === 'npc'
+      ? npcs.find((n) => n.id === partySelection.id)
+      : undefined;
+  const rollTarget: { name: string; characterId?: string; npcId?: string } | null =
+    selectedCharacter
+      ? { name: selectedCharacter.name, characterId: selectedCharacter.id }
+      : selectedNpc && isAdvancedNpc(selectedNpc)
+        ? { name: selectedNpc.name, npcId: selectedNpc.id }
+        : null;
   const joinedIds = session
     ? sessionJoinedCharacterIds(session, characters)
     : new Set<string>();
@@ -164,6 +175,17 @@ export function LiveSessionPage() {
           await saveCharacter(campaignId, { ...character, hope: nextHope, updatedAt: Date.now() });
         }
       }
+    } else if (roll.hopeGain === 'player' && roll.npcId) {
+      const npc = npcs.find((n) => n.id === roll.npcId);
+      if (npc && isAdvancedNpc(npc)) {
+        const nextHope = clampHope(npc.sheet.hope + 1);
+        if (nextHope !== npc.sheet.hope) {
+          await saveNpc(
+            campaignId,
+            npcFromSheet({ ...npc.sheet, hope: nextHope }, npc),
+          );
+        }
+      }
     } else if (roll.hopeGain === 'dm') {
       const nextFear = clampFear(session.fear + 1);
       if (nextFear !== session.fear) {
@@ -173,29 +195,31 @@ export function LiveSessionPage() {
   };
 
   const handleTraitRoll = (traitName: string, modifier: number) => {
-    if (!campaignId || !sessionId || !selectedCharacter) return;
+    if (!campaignId || !sessionId || !rollTarget) return;
     handleRoll(
       createDiceRoll({
         campaignId,
         sessionId,
-        rollerName: `${rollerName} · ${selectedCharacter.name}`,
+        rollerName: `${rollerName} · ${rollTarget.name}`,
         modifier,
         label: traitName,
-        characterId: selectedCharacter.id,
+        characterId: rollTarget.characterId,
+        npcId: rollTarget.npcId,
       }),
     );
   };
 
   const handleWeaponAttack = (label: string, modifier: number) => {
-    if (!campaignId || !sessionId || !selectedCharacter) return;
+    if (!campaignId || !sessionId || !rollTarget) return;
     handleRoll(
       createDiceRoll({
         campaignId,
         sessionId,
-        rollerName: `${rollerName} · ${selectedCharacter.name}`,
+        rollerName: `${rollerName} · ${rollTarget.name}`,
         modifier,
         label,
-        characterId: selectedCharacter.id,
+        characterId: rollTarget.characterId,
+        npcId: rollTarget.npcId,
       }),
     );
   };
@@ -206,17 +230,18 @@ export function LiveSessionPage() {
     sides: number,
     modifier: number,
   ) => {
-    if (!campaignId || !sessionId || !selectedCharacter) return;
+    if (!campaignId || !sessionId || !rollTarget) return;
     handleRoll(
       createDiceRoll({
         campaignId,
         sessionId,
-        rollerName: `${rollerName} · ${selectedCharacter.name}`,
+        rollerName: `${rollerName} · ${rollTarget.name}`,
         count,
         sides,
         modifier,
         label,
-        characterId: selectedCharacter.id,
+        characterId: rollTarget.characterId,
+        npcId: rollTarget.npcId,
       }),
     );
   };

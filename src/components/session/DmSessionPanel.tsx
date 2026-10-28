@@ -1,4 +1,5 @@
 import type { Enemy, Npc, Encounter, Session } from '../../types';
+import { isAdvancedNpc } from '../../lib/advancedNpc';
 import { Button } from '../ui/Button';
 import { Select } from '../ui/Select';
 
@@ -130,26 +131,34 @@ export function DmSessionPanel({
             <p className="text-xs italic text-slate-400">No NPCs in campaign.</p>
           ) : (
             <div className="space-y-1.5">
-              {npcs.map((n) => (
-                <div key={n.id} className="flex items-center gap-2 rounded-lg bg-slate-900/70 px-2.5 py-2">
-                  {n.imageUrl ? (
-                    <img src={n.imageUrl} alt="" className="h-8 w-8 rounded object-cover" />
-                  ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-sky-950/50 text-xs font-bold text-sky-400">
-                      {n.name.charAt(0)}
+              {npcs.map((n) => {
+                const advanced = isAdvancedNpc(n);
+                return (
+                  <div key={n.id} className="flex items-center gap-2 rounded-lg bg-slate-900/70 px-2.5 py-2">
+                    {n.imageUrl ? (
+                      <img src={n.imageUrl} alt="" className="h-8 w-8 rounded object-cover" />
+                    ) : (
+                      <div className="flex h-8 w-8 items-center justify-center rounded bg-sky-950/50 text-xs font-bold text-sky-400">
+                        {n.name.charAt(0)}
+                      </div>
+                    )}
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-xs font-medium text-slate-200">{n.name}</p>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        {advanced && (
+                          <span className="text-[10px] text-amber-400/90">Lv {n.sheet.level}</span>
+                        )}
+                        {n.inParty && (
+                          <span className="text-[10px] text-sky-400">In party</span>
+                        )}
+                      </div>
+                      {!advanced && n.description && (
+                        <p className="truncate text-[10px] text-slate-400">{n.description}</p>
+                      )}
                     </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-medium text-slate-200">{n.name}</p>
-                    {n.inParty && (
-                      <span className="text-[10px] text-sky-400">In party</span>
-                    )}
-                    {n.description && (
-                      <p className="truncate text-[10px] text-slate-400">{n.description}</p>
-                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>
