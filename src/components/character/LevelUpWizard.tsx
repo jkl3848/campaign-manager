@@ -273,12 +273,12 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
                   />
                 ))}
                 {available.length === 0 && (
-                  <p className="text-sm text-slate-500">No advancements available.</p>
+                  <p className="text-sm text-slate-400">No advancements available.</p>
                 )}
               </div>
               {choices.length > 0 && (
                 <div className="border-t border-slate-700/40 pt-3">
-                  <p className="mb-2 text-xs text-slate-500">Selected</p>
+                  <p className="mb-2 text-xs text-slate-400">Selected</p>
                   <SelectedChoicesList choices={choices} />
                 </div>
               )}
@@ -458,7 +458,7 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
                       </Select>
                     </>
                   )}
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-400">
                     Uses both advancement picks. You cannot have Mastery in more than one subclass.
                   </p>
                 </div>
@@ -475,7 +475,7 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
             <>
               {isMilestone && newExperienceName && (
                 <div className="rounded-lg bg-amber-950/30 p-3">
-                  <p className="text-xs text-slate-500">New Experience</p>
+                  <p className="text-xs text-slate-400">New Experience</p>
                   <p className="text-amber-200">{newExperienceName} (+2)</p>
                 </div>
               )}
@@ -487,7 +487,7 @@ export function LevelUpWizard({ character, onComplete, onCancel }: LevelUpWizard
                     {(targetLevel === 5 || targetLevel === 8) && <li>Clear marked traits</li>}
                   </ul>
                 ) : (
-                  <p className="text-sm text-slate-500">Level {targetLevel} — advancement choices only.</p>
+                  <p className="text-sm text-slate-400">Level {targetLevel} — advancement choices only.</p>
                 )}
               </div>
               <SelectedChoicesList choices={choices} />
@@ -541,12 +541,12 @@ function AdvancementOptionCard({
       className={`rounded-lg border p-4 text-left transition-all ${
         isDouble
           ? 'border-amber-600/60 bg-amber-950/20 hover:border-amber-500/80'
-          : 'border-slate-700 bg-slate-800/40 hover:border-slate-500'
-      } ${disabled ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}`}
+          : 'border-slate-500 bg-slate-800/40 hover:border-slate-400'
+      } ${disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
     >
       <div className="flex items-start justify-between gap-2">
         <p className="font-medium text-slate-100">{def.name}</p>
-        <span className="shrink-0 text-xs text-slate-500">Tier {tier}</span>
+        <span className="shrink-0 text-xs text-slate-400">Tier {tier}</span>
       </div>
       <p className="mt-1 text-sm text-slate-400">{description ?? def.description}</p>
       {isDouble && (

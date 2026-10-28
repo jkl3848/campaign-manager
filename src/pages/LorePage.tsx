@@ -65,7 +65,7 @@ export function LorePage() {
                 <section key={subject} className="space-y-3">
                   <h2 className="text-lg font-semibold text-amber-400/90 border-b border-slate-800 pb-2">
                     {subject}
-                    <span className="ml-2 text-sm font-normal text-slate-500">
+                    <span className="ml-2 text-sm font-normal text-slate-400">
                       {subjectNotes.length}
                     </span>
                   </h2>
@@ -120,7 +120,7 @@ export function LorePage() {
           )}
 
           {campaign && !isDm && !isPlayer && (
-            <p className="text-sm text-slate-500">Join this campaign to view shared lore.</p>
+            <p className="text-sm text-slate-400">Join this campaign to view shared lore.</p>
           )}
         </div>
       )}

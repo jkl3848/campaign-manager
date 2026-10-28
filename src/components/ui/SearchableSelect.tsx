@@ -72,7 +72,7 @@ export function SearchableSelect({
           setOpen(true);
         }}
         onFocus={() => setOpen(true)}
-        className="rounded-none border-0 border-b border-current/30 bg-transparent px-0.5 py-1.5 text-inherit placeholder:text-current/35 focus:border-brass focus:outline-none disabled:opacity-50"
+        className="rounded-none border-0 border-b border-current/50 bg-transparent px-0.5 py-1.5 text-inherit placeholder:text-current/65 focus:border-brass focus:outline-none disabled:opacity-50"
       />
       {open && !disabled && (
         <ul className="absolute left-0 right-0 top-full z-40 mt-1 max-h-56 overflow-y-auto border border-ink/20 bg-parchment shadow-lg">

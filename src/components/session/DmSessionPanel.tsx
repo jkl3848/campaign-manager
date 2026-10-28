@@ -34,7 +34,7 @@ export function DmSessionPanel({
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-4">
         {/* Combat */}
         <section>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
             Combat
           </h3>
           {session.combatActive ? (
@@ -93,11 +93,11 @@ export function DmSessionPanel({
 
         {/* Enemies */}
         <section>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
             Enemies ({enemies.length})
           </h3>
           {enemies.length === 0 ? (
-            <p className="text-xs italic text-slate-600">No enemies in campaign.</p>
+            <p className="text-xs italic text-slate-400">No enemies in campaign.</p>
           ) : (
             <div className="space-y-1.5">
               {enemies.map((e) => (
@@ -111,7 +111,7 @@ export function DmSessionPanel({
                   )}
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-xs font-medium text-slate-200">{e.name}</p>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="text-[10px] text-slate-400">
                       T{e.tier} · HP {e.hp.max} · Evade {e.evasion}
                     </p>
                   </div>
@@ -123,11 +123,11 @@ export function DmSessionPanel({
 
         {/* NPCs */}
         <section>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
             NPCs ({npcs.length})
           </h3>
           {npcs.length === 0 ? (
-            <p className="text-xs italic text-slate-600">No NPCs in campaign.</p>
+            <p className="text-xs italic text-slate-400">No NPCs in campaign.</p>
           ) : (
             <div className="space-y-1.5">
               {npcs.map((n) => (
@@ -145,7 +145,7 @@ export function DmSessionPanel({
                       <span className="text-[10px] text-sky-400">In party</span>
                     )}
                     {n.description && (
-                      <p className="truncate text-[10px] text-slate-500">{n.description}</p>
+                      <p className="truncate text-[10px] text-slate-400">{n.description}</p>
                     )}
                   </div>
                 </div>
@@ -171,14 +171,14 @@ function ResourceControl({
 }) {
   return (
     <div className="flex items-center gap-0.5">
-      <span className="text-slate-600">{label}</span>
-      <button onClick={() => onAdjust(-1)} className="text-slate-600 hover:text-slate-300 px-0.5">
+      <span className="text-slate-400">{label}</span>
+      <button onClick={() => onAdjust(-1)} className="text-slate-400 hover:text-slate-300 px-0.5">
         −
       </button>
       <span className="text-slate-300">
         {current}/{max}
       </span>
-      <button onClick={() => onAdjust(1)} className="text-slate-600 hover:text-slate-300 px-0.5">
+      <button onClick={() => onAdjust(1)} className="text-slate-400 hover:text-slate-300 px-0.5">
         +
       </button>
     </div>

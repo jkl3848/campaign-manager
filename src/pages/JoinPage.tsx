@@ -93,7 +93,7 @@ export function JoinPage() {
             {loading ? 'Joining...' : 'Join Campaign'}
           </Button>
         </form>
-        <Link to="/" className="block mt-4 text-sm text-slate-500 hover:text-slate-300 text-center">
+        <Link to="/" className="block mt-4 text-sm text-slate-400 hover:text-slate-300 text-center">
           Back to home
         </Link>
       </Card>

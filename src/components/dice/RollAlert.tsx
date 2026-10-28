@@ -32,7 +32,7 @@ export function RollAlert({ roll, onDismiss }: RollAlertProps) {
             <p className="text-[10px] uppercase tracking-wider text-purple-400/80">Secret roll</p>
           )}
           {!duality && roll.count && roll.sides && (
-            <p className="text-[10px] uppercase tracking-wider text-slate-500">
+            <p className="text-[10px] uppercase tracking-wider text-slate-400">
               {formatDiceNotation(roll.count, roll.sides)}
             </p>
           )}
@@ -44,7 +44,7 @@ export function RollAlert({ roll, onDismiss }: RollAlertProps) {
             <div className="text-center">
               <p className="text-3xl font-bold text-amber-400">{roll.total}</p>
               {roll.modifier !== 0 && (
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-400">
                   {roll.white} + {roll.black} {roll.modifier > 0 ? '+' : ''}
                   {roll.modifier}
                 </p>

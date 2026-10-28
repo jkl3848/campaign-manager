@@ -148,7 +148,7 @@ export function PartyPanel({
 
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
         {partyCount === 0 ? (
-          <p className="text-xs italic text-slate-600">
+          <p className="text-xs italic text-slate-400">
             {isDm ? 'Add players to the session party.' : 'Join with a character to appear here.'}
           </p>
         ) : (
@@ -188,10 +188,10 @@ export function PartyPanel({
             <button
               type="button"
               onClick={() => setRosterOpen((o) => !o)}
-              className="flex w-full items-center justify-between rounded px-1 py-1.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-amber-200/90"
+              className="flex w-full items-center justify-between rounded px-1 py-1.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-amber-200/90"
             >
               <span>Characters ({rosterCount})</span>
-              <span className="text-slate-600">{rosterOpen ? '▾' : '▸'}</span>
+              <span className="text-slate-400">{rosterOpen ? '▾' : '▸'}</span>
             </button>
             {rosterOpen && (
               <div className="mt-1.5 space-y-1.5">
@@ -244,7 +244,7 @@ export function PartyPanel({
         <Popup open={showAdd} onClose={() => setShowAdd(false)} title="Add to Session Party" size="sm">
           <div className="max-h-80 overflow-y-auto">
             {addableCharacters.length === 0 ? (
-              <p className="text-xs italic text-slate-600">Everyone is already in the session party.</p>
+              <p className="text-xs italic text-slate-400">Everyone is already in the session party.</p>
             ) : (
               <div className="space-y-1.5">
                 {addableCharacters.map((c) => {
@@ -303,7 +303,7 @@ function PartyMemberRow({
         )}
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs font-medium text-slate-200">{name}</p>
-          <p className="truncate text-[10px] text-slate-500">{subtitle}</p>
+          <p className="truncate text-[10px] text-slate-400">{subtitle}</p>
         </div>
       </button>
       {isDm && (
@@ -311,7 +311,7 @@ function PartyMemberRow({
           type="button"
           title="Remove from session party"
           onClick={onRemove}
-          className="shrink-0 rounded px-1.5 py-0.5 text-[10px] text-slate-500 hover:bg-red-950/40 hover:text-red-300"
+          className="shrink-0 rounded px-1.5 py-0.5 text-[10px] text-slate-400 hover:bg-red-950/40 hover:text-red-300"
         >
           ✕
         </button>
@@ -353,7 +353,7 @@ function RosterRow({
         )}
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs font-medium text-slate-300">{name}</p>
-          <p className="truncate text-[10px] text-slate-600">{detail}</p>
+          <p className="truncate text-[10px] text-slate-400">{detail}</p>
         </div>
       </button>
       {actionLabel && onAction && (
@@ -402,7 +402,7 @@ function AddRow({
       )}
       <div className="min-w-0 flex-1">
         <p className="truncate text-xs font-medium text-slate-200">{name}</p>
-        <p className="truncate text-[10px] text-slate-500">{detail}</p>
+        <p className="truncate text-[10px] text-slate-400">{detail}</p>
       </div>
       <Button
         size="sm"

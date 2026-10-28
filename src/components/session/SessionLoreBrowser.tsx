@@ -40,9 +40,9 @@ export function SessionLoreBrowser({ notes, isDm }: SessionLoreBrowserProps) {
           <Button size="sm" variant="ghost" onClick={() => setActiveNoteId(null)}>
             ← Index
           </Button>
-          <span className="text-xs text-slate-500">{activeNote.subject}</span>
+          <span className="text-xs text-slate-400">{activeNote.subject}</span>
           {isDm && !activeNote.playerVisible && (
-            <span className="text-xs text-slate-500 bg-slate-800 px-2 py-0.5 rounded">Private</span>
+            <span className="text-xs text-slate-400 bg-slate-800 px-2 py-0.5 rounded">Private</span>
           )}
         </div>
         <h2 className="text-xl font-semibold text-slate-100">{activeNote.title}</h2>
@@ -62,7 +62,7 @@ export function SessionLoreBrowser({ notes, isDm }: SessionLoreBrowserProps) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search lore…"
-        className="w-full rounded-lg bg-slate-800 border border-slate-600 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
+        className="w-full rounded-lg bg-slate-800 border border-slate-600 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
       />
 
       {subjects.length > 0 && (
@@ -89,7 +89,7 @@ export function SessionLoreBrowser({ notes, isDm }: SessionLoreBrowserProps) {
         <div className="space-y-5">
           {grouped.map(([subject, subjectNotes]) => (
             <section key={subject}>
-              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
                 {subject}
               </h3>
               <ul className="space-y-1">
@@ -113,11 +113,11 @@ export function SessionLoreBrowser({ notes, isDm }: SessionLoreBrowserProps) {
                           )}
                           <span className="min-w-0 flex-1 font-medium text-slate-100 truncate">{note.title}</span>
                           {isDm && !note.playerVisible && (
-                            <span className="text-[10px] text-slate-500">private</span>
+                            <span className="text-[10px] text-slate-400">private</span>
                           )}
                         </div>
                         {preview && (
-                          <p className="mt-0.5 text-xs text-slate-500 line-clamp-1">
+                          <p className="mt-0.5 text-xs text-slate-400 line-clamp-1">
                             {preview}
                           </p>
                         )}

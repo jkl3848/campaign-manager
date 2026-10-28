@@ -76,7 +76,7 @@ export function LoreWikiShell({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search notes…"
-          className="w-full rounded-lg bg-slate-800 border border-slate-600 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
+          className="w-full rounded-lg bg-slate-800 border border-slate-600 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
         />
         {isDm && (
           <Link to={`/campaign/${campaignId}/lore/new`} onClick={() => setNavOpen(false)}>
@@ -87,7 +87,7 @@ export function LoreWikiShell({
 
       {subjects.length > 0 && (
         <div className="space-y-1">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Subjects</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Subjects</p>
           <div className="flex flex-wrap gap-1.5">
             <SubjectChip
               label="All"
@@ -108,7 +108,7 @@ export function LoreWikiShell({
 
       <nav className="flex-1 overflow-y-auto space-y-4 pr-1">
         {grouped.length === 0 ? (
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-400">
             {notes.length === 0 ? 'No notes yet.' : 'No matching notes.'}
           </p>
         ) : (
@@ -117,7 +117,7 @@ export function LoreWikiShell({
               <button
                 type="button"
                 onClick={() => setSubjectFilter(subject)}
-                className="mb-1.5 w-full text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-amber-400"
+                className="mb-1.5 w-full text-left text-xs font-semibold uppercase tracking-wide text-slate-400 hover:text-amber-400"
               >
                 {subject}
               </button>
@@ -137,7 +137,7 @@ export function LoreWikiShell({
                       >
                         <span className="line-clamp-1">{note.title}</span>
                         {isDm && !note.playerVisible && (
-                          <span className="ml-1 text-[10px] text-slate-500">private</span>
+                          <span className="ml-1 text-[10px] text-slate-400">private</span>
                         )}
                       </Link>
                     </li>
