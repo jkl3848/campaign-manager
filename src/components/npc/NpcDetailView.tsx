@@ -2,6 +2,7 @@ import type { Npc } from '../../types';
 import { rosterStatus } from '../../lib/rosterStatus';
 import { RosterStatusBadge } from '../ui/RosterStatusBadge';
 import { Card } from '../ui/Card';
+import { ExpandableImage } from '../ui/ImageLightbox';
 
 interface NpcDetailViewProps {
   npc: Npc;
@@ -18,11 +19,17 @@ export function NpcDetailView({ npc }: NpcDetailViewProps) {
         )}
         <div className="flex flex-col gap-4 sm:flex-row">
           {npc.imageUrl && (
-            <img
+            <ExpandableImage
               src={npc.imageUrl}
               alt={npc.name}
-              className="h-40 w-32 shrink-0 rounded-lg object-cover bg-slate-900"
-            />
+              frameClassName="shrink-0 cursor-zoom-in"
+            >
+              <img
+                src={npc.imageUrl}
+                alt={npc.name}
+                className="h-40 w-32 rounded-lg object-cover bg-slate-900"
+              />
+            </ExpandableImage>
           )}
           <div className="space-y-3 min-w-0 flex-1">
             {npc.description && (

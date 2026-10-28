@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Npc } from '../../types';
+import { ExpandableImage } from '../ui/ImageLightbox';
 
 interface NpcSessionSheetProps {
   npc: Npc;
@@ -30,11 +31,17 @@ export function NpcSessionSheet({ npc, canEdit, onSave }: NpcSessionSheetProps) 
     <div className="space-y-3 text-sm">
       <div className="flex items-start gap-2.5">
         {local.imageUrl ? (
-          <img
+          <ExpandableImage
             src={local.imageUrl}
-            alt=""
-            className="h-12 w-12 shrink-0 rounded-lg object-cover ring-1 ring-sky-800/40"
-          />
+            alt={local.name}
+            frameClassName="shrink-0 cursor-zoom-in"
+          >
+            <img
+              src={local.imageUrl}
+              alt={local.name}
+              className="h-12 w-12 rounded-lg object-cover ring-1 ring-sky-800/40"
+            />
+          </ExpandableImage>
         ) : (
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-lg font-serif text-sky-300">
             {local.name.charAt(0)}

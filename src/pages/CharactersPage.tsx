@@ -10,6 +10,7 @@ import { rosterStatus } from '../lib/rosterStatus';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { RosterStatusBadge } from '../components/ui/RosterStatusBadge';
+import { ExpandableImage } from '../components/ui/ImageLightbox';
 
 export function CharactersPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
@@ -63,9 +64,17 @@ export function CharactersPage() {
               <div className="paper-sheet p-4 transition-transform hover:-translate-y-0.5">
                 <div className="flex items-center gap-3">
                   {c.imageUrl ? (
-                    <div className="h-16 w-12 shrink-0 rotate-[-1.5deg] bg-parchment p-1 shadow-sm">
-                      <img src={c.imageUrl} alt={c.name} className="h-full w-full object-cover" />
-                    </div>
+                    <ExpandableImage
+                      src={c.imageUrl}
+                      alt={c.name}
+                      frameClassName="h-16 w-12 shrink-0 rotate-[-1.5deg] cursor-zoom-in bg-parchment p-1 shadow-sm"
+                    >
+                      <img
+                        src={c.imageUrl}
+                        alt={c.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </ExpandableImage>
                   ) : (
                     <div className="flex h-16 w-12 shrink-0 rotate-[-1.5deg] items-center justify-center border border-ink/20 font-display text-xl text-oxblood/50">
                       {c.name.charAt(0)}

@@ -11,6 +11,7 @@ import classes from '../config/daggerheart/classes.json';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { RosterStatusBadge } from '../components/ui/RosterStatusBadge';
+import { ExpandableImage } from '../components/ui/ImageLightbox';
 
 export function NpcsPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
@@ -86,7 +87,13 @@ export function NpcsPage() {
             <Card key={n.id} className="h-full">
               <div className="flex items-start gap-3">
                 {n.imageUrl && (
-                  <img src={n.imageUrl} alt={n.name} className="w-12 h-12 rounded-lg object-cover shrink-0" />
+                  <ExpandableImage
+                    src={n.imageUrl}
+                    alt={n.name}
+                    frameClassName="shrink-0 cursor-zoom-in"
+                  >
+                    <img src={n.imageUrl} alt={n.name} className="w-12 h-12 rounded-lg object-cover" />
+                  </ExpandableImage>
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
