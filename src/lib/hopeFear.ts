@@ -1,4 +1,5 @@
 import type { Character } from '../types';
+import { isPlayable } from './rosterStatus';
 
 export const CHARACTER_HOPE_MAX = 6;
 export const SESSION_FEAR_MAX = 12;
@@ -12,7 +13,7 @@ export function clampFear(value: number): number {
 }
 
 export function isPartyCharacter(character: Character): boolean {
-  return character.inParty !== false;
+  return character.inParty !== false && isPlayable(character);
 }
 
 export function partyHopeTotal(characters: Character[]): number {

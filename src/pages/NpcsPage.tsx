@@ -5,8 +5,10 @@ import { useCampaignData } from '../hooks/useCampaignData';
 import { getPlayerSession } from '../lib/playerSession';
 import { getCampaign, saveNpc } from '../services/campaignService';
 import type { Campaign, Npc } from '../types';
+import { rosterStatus } from '../lib/rosterStatus';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { RosterStatusBadge } from '../components/ui/RosterStatusBadge';
 
 export function NpcsPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
@@ -81,12 +83,15 @@ export function NpcsPage() {
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
-                    <Link
-                      to={`/campaign/${campaignId}/npcs/${n.id}`}
-                      className="font-semibold text-slate-100 hover:text-amber-200 transition-colors"
-                    >
-                      {n.name}
-                    </Link>
+                    <div className="flex flex-wrap items-center gap-2 min-w-0">
+                      <Link
+                        to={`/campaign/${campaignId}/npcs/${n.id}`}
+                        className="font-semibold text-slate-100 hover:text-amber-200 transition-colors truncate"
+                      >
+                        {n.name}
+                      </Link>
+                      <RosterStatusBadge status={rosterStatus(n)} />
+                    </div>
                     {isDm && (
                       <span
                         className={`shrink-0 text-xs px-2 py-0.5 rounded ${

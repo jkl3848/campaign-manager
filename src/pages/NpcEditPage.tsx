@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { saveNpc, uploadImage, getCampaign } from '../services/campaignService';
+import { saveNpc, uploadImage, getCampaign, deleteNpc } from '../services/campaignService';
+import { applyStatusSideEffects } from '../lib/rosterStatus';
+import type { RosterStatus } from '../types';
+import { DmRosterControls } from '../components/dm/DmRosterControls';
 import { db } from '../lib/firebase';
 import { useAuth } from '../hooks/useAuth';
 import { getPlayerSession } from '../lib/playerSession';
@@ -102,6 +105,20 @@ export function NpcEditPage() {
       <h1 className="text-2xl font-bold text-slate-100 mb-6">
         {isNew ? 'Create NPC' : `Edit ${npc?.name ?? 'NPC'}`}
       </h1>
+      {!isNew && npc && (
+        <DmRosterControls
+          entityLabel="NPC"
+          name={npc.name}
+          status={npc.status}
+          onStatusChange={async (next: RosterStatus) => {
+            await saveNpc(campaignId, applyStatusSideEffects(npc, next));
+          }}
+          onDelete={async () => {
+            await deleteNpc(campaignId, npc.id);
+            navigate(`/campaign/${campaignId}/npcs`);
+          }}
+        />
+      )}
       {(!isNew && !npc) ? (
         <p className="text-slate-400">Loading...</p>
       ) : (

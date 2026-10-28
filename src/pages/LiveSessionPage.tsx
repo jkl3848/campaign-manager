@@ -15,6 +15,7 @@ import { getPlayerSession } from '../lib/playerSession';
 import { createDiceRoll } from '../lib/dice';
 import { effectiveEvasion } from '../lib/crafter';
 import { clampFear, clampHope, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/hopeFear';
+import { isPlayable } from '../lib/rosterStatus';
 import { sessionJoinedCharacterIds } from '../lib/sessionParty';
 import { useCampaignData } from '../hooks/useCampaignData';
 import type { Session, DiceRoll, Combatant, Campaign, Character, Npc } from '../types';
@@ -102,7 +103,7 @@ export function LiveSessionPage() {
     const char =
       sessionActiveCharacter
       ?? characters.find((c) => c.playerId === playerSession.playerId);
-    if (!char) return;
+    if (!char || !isPlayable(char)) return;
 
     const current = session.joinedCharacterIds ?? [];
     if (current.includes(char.id)) return;
@@ -221,7 +222,7 @@ export function LiveSessionPage() {
   };
 
   const handleJoinSessionCharacter = async (character: Character) => {
-    if (!session) return;
+    if (!session || !isPlayable(character)) return;
     const current = session.joinedCharacterIds ?? [];
     if (current.includes(character.id)) return;
     const base =

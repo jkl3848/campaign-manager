@@ -4,6 +4,7 @@ import classes from '../config/daggerheart/classes.json';
 import { useAuth } from '../hooks/useAuth';
 import { useCampaignData } from '../hooks/useCampaignData';
 import { getPlayerSession, isDmPlayerId, setActiveCharacterId } from '../lib/playerSession';
+import { isPlayable } from '../lib/rosterStatus';
 import { getCampaign, saveCharacter } from '../services/campaignService';
 import type { Campaign, Character } from '../types';
 import { Button } from '../components/ui/Button';
@@ -36,7 +37,7 @@ export function PickCharacterPage() {
     return <Navigate to="/join" replace />;
   }
 
-  const pickable = characters.filter((c) => !isDmPlayerId(c.playerId));
+  const pickable = characters.filter((c) => !isDmPlayerId(c.playerId) && isPlayable(c));
 
   const handlePick = async (character: Character) => {
     setError('');

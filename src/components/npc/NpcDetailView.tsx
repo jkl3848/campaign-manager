@@ -1,4 +1,6 @@
 import type { Npc } from '../../types';
+import { rosterStatus } from '../../lib/rosterStatus';
+import { RosterStatusBadge } from '../ui/RosterStatusBadge';
 import { Card } from '../ui/Card';
 
 interface NpcDetailViewProps {
@@ -9,6 +11,11 @@ export function NpcDetailView({ npc }: NpcDetailViewProps) {
   return (
     <div className="max-w-2xl space-y-4">
       <Card title={npc.name}>
+        {rosterStatus(npc) !== 'active' && (
+          <div className="mb-3">
+            <RosterStatusBadge status={rosterStatus(npc)} />
+          </div>
+        )}
         <div className="flex flex-col gap-4 sm:flex-row">
           {npc.imageUrl && (
             <img

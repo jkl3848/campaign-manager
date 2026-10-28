@@ -130,6 +130,8 @@ export interface Wealth {
   chests: number;
 }
 
+export type RosterStatus = 'active' | 'deceased' | 'retired';
+
 export interface Character {
   id: string;
   campaignId: string;
@@ -193,6 +195,8 @@ export interface Character {
   wealth: Wealth;
   /** When true, appears in the live-session party panel. Defaults to true. */
   inParty: boolean;
+  /** Deceased/retired characters stay viewable but cannot join sessions or be picked. */
+  status?: RosterStatus;
   /** Active Dedicated Instruments (Artificer Crafter). */
   instruments?: CrafterInstrument[];
   /** Active Master Crafter Technology project, if any. */
@@ -237,6 +241,7 @@ export interface Npc {
   inParty: boolean;
   /** When true, players can browse this NPC in the campaign codex. */
   playerVisible: boolean;
+  status?: RosterStatus;
   notes?: string;
   createdAt: number;
   updatedAt: number;

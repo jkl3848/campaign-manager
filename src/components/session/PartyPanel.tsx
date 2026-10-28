@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Character, Npc, Session } from '../../types';
+import { isPlayable } from '../../lib/rosterStatus';
 import { rosterNpcVisible, sessionJoinedCharacterIds } from '../../lib/sessionParty';
 import { Button } from '../ui/Button';
 import { Popup } from '../ui/Popup';
@@ -51,15 +52,15 @@ export function PartyPanel({
   const [rosterOpen, setRosterOpen] = useState(false);
 
   const joinedIds = sessionJoinedCharacterIds(session, characters);
-  const partyCharacters = characters.filter((c) => joinedIds.has(c.id));
-  const partyNpcs = npcs.filter((n) => n.inParty);
+  const partyCharacters = characters.filter((c) => joinedIds.has(c.id) && isPlayable(c));
+  const partyNpcs = npcs.filter((n) => n.inParty && isPlayable(n));
   const partyCount = partyCharacters.length + partyNpcs.length;
 
   const rosterCharacters = characters.filter((c) => !joinedIds.has(c.id));
   const rosterNpcs = npcs.filter((n) => !n.inParty && rosterNpcVisible(n, isDm));
   const rosterCount = rosterCharacters.length + rosterNpcs.length;
 
-  const addableCharacters = rosterCharacters;
+  const addableCharacters = rosterCharacters.filter((c) => isPlayable(c));
 
   const selectedCharacter =
     selection?.kind === 'character'
@@ -72,7 +73,7 @@ export function PartyPanel({
     isDm || (!!playerId && c.playerId === playerId);
 
   const canJoinCharacter = (c: Character) =>
-    isDm || (!!playerId && c.playerId === playerId);
+    isPlayable(c) && (isDm || (!!playerId && c.playerId === playerId));
 
   if (selectedCharacter) {
     return (
