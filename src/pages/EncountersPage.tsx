@@ -1,11 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCampaignData } from '../hooks/useCampaignData';
+import { spentBattlePoints } from '../lib/enemies';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 
 export function EncountersPage() {
   const { campaignId } = useParams<{ campaignId: string }>();
-  const { encounters } = useCampaignData(campaignId);
+  const { encounters, enemies } = useCampaignData(campaignId);
 
   return (
     <div className="space-y-6">
@@ -17,19 +18,26 @@ export function EncountersPage() {
       </div>
 
       {encounters.length === 0 ? (
-        <Card><p className="text-slate-400">No encounters yet. Build one from your enemies.</p></Card>
+        <Card>
+          <p className="text-slate-400">No encounters yet. Build one from your enemies.</p>
+        </Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
-          {encounters.map((enc) => (
-            <Link key={enc.id} to={`/campaign/${campaignId}/encounters/${enc.id}`}>
-              <Card className="hover:border-amber-500/50 transition-colors cursor-pointer">
-                <h3 className="font-semibold text-slate-100">{enc.name}</h3>
-                <p className="text-sm text-slate-400 mt-1">
-                  {enc.enemies.map((e) => `${e.count}× ${e.name}`).join(', ') || 'Empty encounter'}
-                </p>
-              </Card>
-            </Link>
-          ))}
+          {encounters.map((enc) => {
+            const bp = spentBattlePoints(enemies, enc.enemies);
+            return (
+              <Link key={enc.id} to={`/campaign/${campaignId}/encounters/${enc.id}`}>
+                <Card className="hover:border-amber-500/50 transition-colors cursor-pointer">
+                  <h3 className="font-semibold text-slate-100">{enc.name}</h3>
+                  <p className="text-sm text-slate-400 mt-1">
+                    {enc.enemies.map((e) => `${e.count}× ${e.name}`).join(', ') ||
+                      'Empty encounter'}
+                  </p>
+                  <p className="mt-2 text-xs text-amber-400/80">{bp} Battle Points</p>
+                </Card>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>

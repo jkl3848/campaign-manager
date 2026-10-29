@@ -1,6 +1,23 @@
 import { useState } from 'react';
-import enemyTemplates from '../../config/daggerheart/enemy-templates.json';
-import type { Enemy, Attack, Ability, TraitId } from '../../types';
+import { DIE_SIDES } from '../../lib/dice';
+import {
+  ATTACK_RANGES,
+  DAMAGE_TYPES,
+  ENEMY_TYPES,
+  FEATURE_TYPES,
+  labelForType,
+  pointsForType,
+} from '../../lib/enemies';
+import type {
+  DamageType,
+  Enemy,
+  EnemyAttack,
+  EnemyFeature,
+  EnemyType,
+  FeatureType,
+  Tier,
+  WeaponDamage,
+} from '../../types';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
@@ -15,50 +32,61 @@ interface EnemyBuilderProps {
   existing?: Enemy;
 }
 
+function emptyAttack(): EnemyAttack {
+  return {
+    id: crypto.randomUUID(),
+    name: '',
+    range: 'Melee',
+    attackBonus: 0,
+    damage: { count: 1, dice: 6, modifier: 0 },
+    damageType: 'physical',
+  };
+}
+
+function emptyFeature(): EnemyFeature {
+  return {
+    id: crypto.randomUUID(),
+    name: '',
+    type: 'action',
+    description: '',
+  };
+}
+
 export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: EnemyBuilderProps) {
   const [enemy, setEnemy] = useState<Partial<Enemy>>(
     existing ?? {
       name: '',
       tier: 1,
+      type: 'standard',
+      description: '',
+      tactics: '',
+      difficulty: 10,
       hp: { current: 3, max: 3 },
       stress: { current: 0, max: 2 },
-      evasion: 10,
-      difficulty: 10,
-      damageThresholds: { minor: 4, major: 8 },
+      damageThresholds: { major: 4, severe: 8 },
       attacks: [],
-      abilities: [],
-      tags: [],
+      features: [],
     },
   );
   const [saving, setSaving] = useState(false);
 
-  const loadTemplate = (templateId: string) => {
-    const t = enemyTemplates.find((e) => e.id === templateId);
-    if (!t) return;
-    setEnemy({
-      ...enemy,
-      name: t.name,
-      tier: t.tier,
-      hp: { current: t.hp, max: t.hp },
-      stress: { current: 0, max: t.stress },
-      evasion: t.evasion,
-      difficulty: t.difficulty,
-      damageThresholds: t.damageThresholds,
-      attacks: t.attacks.map((a) => ({ ...a, trait: a.trait as TraitId })),
-      abilities: t.abilities,
-      tags: t.tags,
-      templateId: t.id,
-    });
-  };
+  const major = enemy.damageThresholds?.major ?? 4;
+  const severe = enemy.damageThresholds?.severe ?? 8;
+  const thresholdsValid = severe > major;
+  const type = (enemy.type ?? 'standard') as EnemyType;
 
-  const addAttack = () => {
-    const attacks = [...(enemy.attacks ?? []), { name: '', range: 'Melee', damage: 'd6', trait: 'strength' as TraitId }];
+  const updateAttack = (index: number, patch: Partial<EnemyAttack>) => {
+    const attacks = [...(enemy.attacks ?? [])];
+    attacks[index] = { ...attacks[index], ...patch };
     setEnemy({ ...enemy, attacks });
   };
 
-  const updateAttack = (index: number, field: keyof Attack, value: string) => {
+  const updateAttackDamage = (index: number, patch: Partial<WeaponDamage>) => {
     const attacks = [...(enemy.attacks ?? [])];
-    attacks[index] = { ...attacks[index], [field]: value };
+    attacks[index] = {
+      ...attacks[index],
+      damage: { ...attacks[index].damage, ...patch },
+    };
     setEnemy({ ...enemy, attacks });
   };
 
@@ -66,40 +94,36 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
     setEnemy({ ...enemy, attacks: enemy.attacks?.filter((_, i) => i !== index) });
   };
 
-  const addAbility = () => {
-    const abilities = [...(enemy.abilities ?? []), { name: '', description: '' }];
-    setEnemy({ ...enemy, abilities });
+  const updateFeature = (index: number, patch: Partial<EnemyFeature>) => {
+    const features = [...(enemy.features ?? [])];
+    features[index] = { ...features[index], ...patch };
+    setEnemy({ ...enemy, features });
   };
 
-  const updateAbility = (index: number, field: keyof Ability, value: string) => {
-    const abilities = [...(enemy.abilities ?? [])];
-    abilities[index] = { ...abilities[index], [field]: value };
-    setEnemy({ ...enemy, abilities });
-  };
-
-  const removeAbility = (index: number) => {
-    setEnemy({ ...enemy, abilities: enemy.abilities?.filter((_, i) => i !== index) });
+  const removeFeature = (index: number) => {
+    setEnemy({ ...enemy, features: enemy.features?.filter((_, i) => i !== index) });
   };
 
   const handleSave = async () => {
-    if (!enemy.name) return;
+    if (!enemy.name || !thresholdsValid) return;
     setSaving(true);
+    const hpMax = enemy.hp?.max ?? 3;
+    const stressMax = enemy.stress?.max ?? 2;
     const full: Enemy = {
       id: existing?.id ?? crypto.randomUUID(),
       campaignId,
       name: enemy.name!,
       imageUrl: enemy.imageUrl,
-      tier: enemy.tier ?? 1,
-      hp: enemy.hp!,
-      stress: enemy.stress!,
-      evasion: enemy.evasion ?? 10,
+      tier: (enemy.tier ?? 1) as Tier,
+      type,
+      description: enemy.description || undefined,
+      tactics: enemy.tactics || undefined,
       difficulty: enemy.difficulty ?? 10,
-      damageThresholds: enemy.damageThresholds!,
+      damageThresholds: { major, severe },
+      hp: { current: hpMax, max: hpMax },
+      stress: { current: enemy.stress?.current ?? 0, max: stressMax },
       attacks: enemy.attacks ?? [],
-      abilities: enemy.abilities ?? [],
-      tags: enemy.tags ?? [],
-      notes: enemy.notes,
-      templateId: enemy.templateId,
+      features: enemy.features ?? [],
       createdAt: existing?.createdAt ?? Date.now(),
       updatedAt: Date.now(),
     };
@@ -109,30 +133,99 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
 
   return (
     <div className="space-y-4 max-w-3xl">
-      <Card title="Load Template">
-        <Select
-          label="Start from template"
-          value={enemy.templateId ?? ''}
-          onChange={(e) => loadTemplate(e.target.value)}
-        >
-          <option value="">Custom enemy...</option>
-          {enemyTemplates.map((t) => (
-            <option key={t.id} value={t.id}>{t.name} (Tier {t.tier})</option>
-          ))}
-        </Select>
-      </Card>
+      <div className="flex items-center gap-2 text-sm text-slate-400">
+        <span className="rounded-md bg-red-950/50 px-2 py-0.5 text-xs font-medium text-red-300">
+          {labelForType(type)} · {pointsForType(type)} pts
+        </span>
+        <span>Tier {enemy.tier ?? 1}</span>
+      </div>
 
       <Card title="Basic Info">
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Name" value={enemy.name ?? ''} onChange={(e) => setEnemy({ ...enemy, name: e.target.value })} />
-          <Input label="Tier" type="number" min={1} max={4} value={enemy.tier ?? 1} onChange={(e) => setEnemy({ ...enemy, tier: parseInt(e.target.value) })} />
-          <Input label="HP Max" type="number" value={enemy.hp?.max ?? 3} onChange={(e) => setEnemy({ ...enemy, hp: { current: parseInt(e.target.value), max: parseInt(e.target.value) } })} />
-          <Input label="Stress Max" type="number" value={enemy.stress?.max ?? 2} onChange={(e) => setEnemy({ ...enemy, stress: { current: enemy.stress?.current ?? 0, max: parseInt(e.target.value) } })} />
-          <Input label="Evasion" type="number" value={enemy.evasion ?? 10} onChange={(e) => setEnemy({ ...enemy, evasion: parseInt(e.target.value) })} />
-          <Input label="Difficulty" type="number" value={enemy.difficulty ?? 10} onChange={(e) => setEnemy({ ...enemy, difficulty: parseInt(e.target.value) })} />
-          <Input label="Minor Threshold" type="number" value={enemy.damageThresholds?.minor ?? 4} onChange={(e) => setEnemy({ ...enemy, damageThresholds: { ...enemy.damageThresholds!, minor: parseInt(e.target.value) } })} />
-          <Input label="Major Threshold" type="number" value={enemy.damageThresholds?.major ?? 8} onChange={(e) => setEnemy({ ...enemy, damageThresholds: { ...enemy.damageThresholds!, major: parseInt(e.target.value) } })} />
+          <Input
+            label="Name"
+            value={enemy.name ?? ''}
+            onChange={(e) => setEnemy({ ...enemy, name: e.target.value })}
+          />
+          <Select
+            label="Tier"
+            value={String(enemy.tier ?? 1)}
+            onChange={(e) => setEnemy({ ...enemy, tier: parseInt(e.target.value, 10) as Tier })}
+          >
+            <option value={1}>1</option>
+            <option value={2}>2</option>
+            <option value={3}>3</option>
+          </Select>
+          <Select
+            label="Type"
+            value={type}
+            onChange={(e) => setEnemy({ ...enemy, type: e.target.value as EnemyType })}
+          >
+            {ENEMY_TYPES.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label} ({t.points} pts)
+              </option>
+            ))}
+          </Select>
+          <Input
+            label="Difficulty"
+            type="number"
+            value={enemy.difficulty ?? 10}
+            onChange={(e) => setEnemy({ ...enemy, difficulty: parseInt(e.target.value, 10) || 0 })}
+          />
+          <Input
+            label="HP Max"
+            type="number"
+            value={enemy.hp?.max ?? 3}
+            onChange={(e) => {
+              const max = parseInt(e.target.value, 10) || 0;
+              setEnemy({ ...enemy, hp: { current: max, max } });
+            }}
+          />
+          <Input
+            label="Stress Max"
+            type="number"
+            value={enemy.stress?.max ?? 2}
+            onChange={(e) => {
+              const max = parseInt(e.target.value, 10) || 0;
+              setEnemy({
+                ...enemy,
+                stress: { current: enemy.stress?.current ?? 0, max },
+              });
+            }}
+          />
+          <Input
+            label="Major Threshold"
+            type="number"
+            value={major}
+            onChange={(e) =>
+              setEnemy({
+                ...enemy,
+                damageThresholds: {
+                  major: parseInt(e.target.value, 10) || 0,
+                  severe,
+                },
+              })
+            }
+          />
+          <Input
+            label="Severe Threshold"
+            type="number"
+            value={severe}
+            onChange={(e) =>
+              setEnemy({
+                ...enemy,
+                damageThresholds: {
+                  major,
+                  severe: parseInt(e.target.value, 10) || 0,
+                },
+              })
+            }
+          />
         </div>
+        {!thresholdsValid && (
+          <p className="mt-2 text-sm text-red-400">Severe threshold must be higher than Major.</p>
+        )}
         <div className="mt-4">
           <ImageUpload
             currentUrl={enemy.imageUrl}
@@ -144,47 +237,175 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
         </div>
       </Card>
 
+      <Card title="Description & Tactics">
+        <div className="space-y-4">
+          <Textarea
+            label="Description"
+            value={enemy.description ?? ''}
+            onChange={(e) => setEnemy({ ...enemy, description: e.target.value })}
+          />
+          <Textarea
+            label="Tactics"
+            value={enemy.tactics ?? ''}
+            onChange={(e) => setEnemy({ ...enemy, tactics: e.target.value })}
+          />
+        </div>
+      </Card>
+
       <Card
         title="Attacks"
-        actions={<Button size="sm" variant="secondary" onClick={addAttack}>+ Add</Button>}
+        actions={
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => setEnemy({ ...enemy, attacks: [...(enemy.attacks ?? []), emptyAttack()] })}
+          >
+            + Add
+          </Button>
+        }
       >
-        <div className="space-y-3">
-          {enemy.attacks?.map((a, i) => (
-            <div key={i} className="grid grid-cols-5 gap-2 items-end bg-slate-900/50 rounded-lg p-3">
-              <Input label="Name" value={a.name} onChange={(e) => updateAttack(i, 'name', e.target.value)} />
-              <Input label="Range" value={a.range} onChange={(e) => updateAttack(i, 'range', e.target.value)} />
-              <Input label="Damage" value={a.damage} onChange={(e) => updateAttack(i, 'damage', e.target.value)} />
-              <Select label="Trait" value={a.trait} onChange={(e) => updateAttack(i, 'trait', e.target.value)}>
-                {['agility', 'strength', 'finesse', 'instinct', 'presence', 'knowledge'].map((t) => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </Select>
-              <Button size="sm" variant="danger" onClick={() => removeAttack(i)}>Remove</Button>
-            </div>
-          ))}
-        </div>
+        {(enemy.attacks?.length ?? 0) === 0 ? (
+          <p className="text-sm italic text-slate-500">No attacks yet.</p>
+        ) : (
+          <div className="space-y-3">
+            {enemy.attacks?.map((a, i) => (
+              <div key={a.id} className="space-y-2 rounded-lg bg-slate-900/50 p-3">
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  <Input
+                    label="Name"
+                    value={a.name}
+                    onChange={(e) => updateAttack(i, { name: e.target.value })}
+                  />
+                  <Select
+                    label="Range"
+                    value={a.range}
+                    onChange={(e) =>
+                      updateAttack(i, { range: e.target.value as EnemyAttack['range'] })
+                    }
+                  >
+                    {ATTACK_RANGES.map((r) => (
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </Select>
+                  <Input
+                    label="Attack Bonus"
+                    type="number"
+                    value={a.attackBonus}
+                    onChange={(e) =>
+                      updateAttack(i, { attackBonus: parseInt(e.target.value, 10) || 0 })
+                    }
+                  />
+                  <Select
+                    label="Damage Type"
+                    value={a.damageType}
+                    onChange={(e) =>
+                      updateAttack(i, { damageType: e.target.value as DamageType })
+                    }
+                  >
+                    {DAMAGE_TYPES.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.label}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 items-end">
+                  <Input
+                    label="Damage Dice"
+                    type="number"
+                    min={1}
+                    value={a.damage.count}
+                    onChange={(e) =>
+                      updateAttackDamage(i, { count: Math.max(1, parseInt(e.target.value, 10) || 1) })
+                    }
+                  />
+                  <Select
+                    label="Die"
+                    value={String(a.damage.dice)}
+                    onChange={(e) =>
+                      updateAttackDamage(i, { dice: parseInt(e.target.value, 10) })
+                    }
+                  >
+                    {DIE_SIDES.map((s) => (
+                      <option key={s} value={s}>
+                        d{s}
+                      </option>
+                    ))}
+                  </Select>
+                  <Input
+                    label="Damage Mod"
+                    type="number"
+                    value={a.damage.modifier}
+                    onChange={(e) =>
+                      updateAttackDamage(i, { modifier: parseInt(e.target.value, 10) || 0 })
+                    }
+                  />
+                  <Button size="sm" variant="danger" onClick={() => removeAttack(i)}>
+                    Remove
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </Card>
 
       <Card
-        title="Abilities"
-        actions={<Button size="sm" variant="secondary" onClick={addAbility}>+ Add</Button>}
+        title="Features"
+        actions={
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() =>
+              setEnemy({ ...enemy, features: [...(enemy.features ?? []), emptyFeature()] })
+            }
+          >
+            + Add
+          </Button>
+        }
       >
-        <div className="space-y-3">
-          {enemy.abilities?.map((a, i) => (
-            <div key={i} className="bg-slate-900/50 rounded-lg p-3 space-y-2">
-              <div className="flex gap-2">
-                <Input label="Name" value={a.name} onChange={(e) => updateAbility(i, 'name', e.target.value)} className="flex-1" />
-                <Button size="sm" variant="danger" onClick={() => removeAbility(i)}>Remove</Button>
+        {(enemy.features?.length ?? 0) === 0 ? (
+          <p className="text-sm italic text-slate-500">No features.</p>
+        ) : (
+          <div className="space-y-3">
+            {enemy.features?.map((f, i) => (
+              <div key={f.id} className="space-y-2 rounded-lg bg-slate-900/50 p-3">
+                <div className="flex flex-wrap gap-2 items-end">
+                  <Input
+                    label="Name"
+                    value={f.name}
+                    onChange={(e) => updateFeature(i, { name: e.target.value })}
+                    className="flex-1 min-w-[10rem]"
+                  />
+                  <Select
+                    label="Type"
+                    value={f.type}
+                    onChange={(e) => updateFeature(i, { type: e.target.value as FeatureType })}
+                  >
+                    {FEATURE_TYPES.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.label}
+                      </option>
+                    ))}
+                  </Select>
+                  <Button size="sm" variant="danger" onClick={() => removeFeature(i)}>
+                    Remove
+                  </Button>
+                </div>
+                <Textarea
+                  label="Description"
+                  value={f.description}
+                  onChange={(e) => updateFeature(i, { description: e.target.value })}
+                />
               </div>
-              <Textarea label="Description" value={a.description} onChange={(e) => updateAbility(i, 'description', e.target.value)} />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </Card>
 
-      <Textarea label="Notes" value={enemy.notes ?? ''} onChange={(e) => setEnemy({ ...enemy, notes: e.target.value })} />
-
-      <Button onClick={handleSave} disabled={saving || !enemy.name}>
+      <Button onClick={handleSave} disabled={saving || !enemy.name || !thresholdsValid}>
         {saving ? 'Saving...' : existing ? 'Update Enemy' : 'Create Enemy'}
       </Button>
     </div>

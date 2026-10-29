@@ -207,22 +207,56 @@ export interface Character {
   updatedAt: number;
 }
 
+export type EnemyType =
+  | 'minion'
+  | 'social'
+  | 'support'
+  | 'horde'
+  | 'ranged'
+  | 'skulk'
+  | 'standard'
+  | 'leader'
+  | 'bruiser'
+  | 'solo';
+
+export type DamageType = 'physical' | 'draft';
+
+export type AttackRange = 'Melee' | 'Very Close' | 'Close' | 'Far' | 'Very Far';
+
+export type FeatureType = 'action' | 'passive' | 'reaction';
+
+export interface EnemyAttack {
+  id: string;
+  name: string;
+  range: AttackRange;
+  /** To-hit modifier. */
+  attackBonus: number;
+  damage: WeaponDamage;
+  damageType: DamageType;
+}
+
+export interface EnemyFeature {
+  id: string;
+  name: string;
+  type: FeatureType;
+  description: string;
+}
+
 export interface Enemy {
   id: string;
   campaignId: string;
   name: string;
   imageUrl?: string;
-  tier: number;
+  tier: Tier;
+  type: EnemyType;
+  description?: string;
+  tactics?: string;
+  difficulty: number;
+  damageThresholds: { major: number; severe: number };
   hp: { current: number; max: number };
   stress: { current: number; max: number };
-  evasion: number;
-  difficulty: number;
-  damageThresholds: { minor: number; major: number };
-  attacks: Attack[];
-  abilities: Ability[];
-  tags: string[];
-  notes?: string;
-  templateId?: string;
+  attacks: EnemyAttack[];
+  features: EnemyFeature[];
   createdAt: number;
   updatedAt: number;
 }

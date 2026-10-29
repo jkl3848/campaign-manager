@@ -4,6 +4,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { saveEnemy, uploadImage, getCampaign, deleteEnemy } from '../services/campaignService';
 import { db } from '../lib/firebase';
 import { useAuth } from '../hooks/useAuth';
+import { normalizeEnemy } from '../lib/enemies';
 import type { Campaign, Enemy } from '../types';
 import { EnemyBuilder } from '../components/enemy/EnemyBuilder';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
@@ -28,7 +29,7 @@ export function EnemyEditPage() {
   useEffect(() => {
     if (isNew || !campaignId || !enemyId) return;
     return onSnapshot(doc(db, 'campaigns', campaignId, 'enemies', enemyId), (snap) => {
-      setEnemy(snap.exists() ? (snap.data() as Enemy) : undefined);
+      setEnemy(snap.exists() ? normalizeEnemy({ id: snap.id, ...snap.data() }) : undefined);
     });
   }, [campaignId, enemyId, isNew]);
 

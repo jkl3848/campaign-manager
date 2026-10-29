@@ -16,6 +16,7 @@ import { db, storage } from '../lib/firebase';
 import { generateInviteCode } from '../lib/playerSession';
 import { compressImage, compressBoardImage } from '../lib/images';
 import { stripUndefined } from '../lib/stripUndefined';
+import { normalizeEnemy } from '../lib/enemies';
 import type { Campaign, Character, Enemy, Npc, Encounter, Session, DiceRoll, LoreNote } from '../types';
 
 export async function createCampaign(name: string, dmId: string, description?: string): Promise<Campaign> {
@@ -111,7 +112,7 @@ export async function deleteEnemy(campaignId: string, enemyId: string): Promise<
 
 export function subscribeEnemies(campaignId: string, cb: (enemies: Enemy[]) => void): Unsubscribe {
   return onSnapshot(collection(db, 'campaigns', campaignId, 'enemies'), (snap) => {
-    cb(snap.docs.map((d) => d.data() as Enemy));
+    cb(snap.docs.map((d) => normalizeEnemy({ id: d.id, ...d.data() })));
   });
 }
 
