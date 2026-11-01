@@ -257,6 +257,7 @@ export interface Enemy {
   stress: { current: number; max: number };
   attacks: EnemyAttack[];
   features: EnemyFeature[];
+  experiences: ExperienceEntry[];
   createdAt: number;
   updatedAt: number;
 }

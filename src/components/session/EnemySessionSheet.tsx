@@ -164,6 +164,41 @@ export function EnemySessionSheet({
           </div>
         </div>
       )}
+
+      {(enemy.experiences?.length ?? 0) > 0 && (
+        <div className="rounded-lg border border-slate-700/40 bg-slate-900/40 px-2.5 py-2">
+          <p className="mb-1.5 font-serif text-xs font-semibold text-amber-200/90">Experiences</p>
+          <div className="space-y-1">
+            {enemy.experiences.map((exp, i) => (
+              <div
+                key={`${exp.name}-${i}`}
+                className="flex items-center justify-between gap-2 rounded-md bg-slate-900/60 px-2 py-1.5"
+              >
+                <p className="min-w-0 truncate text-[11px] font-medium text-slate-200">
+                  {exp.name || 'Experience'}
+                </p>
+                <div className="flex shrink-0 items-center gap-1.5">
+                  <span className="text-sm font-bold text-amber-400">
+                    {exp.bonus >= 0 ? '+' : ''}
+                    {exp.bonus}
+                  </span>
+                  {onAttackRoll && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onAttackRoll(`${enemy.name}: ${exp.name || 'Experience'}`, exp.bonus)
+                      }
+                      className="rounded px-1.5 py-0.5 text-[10px] font-medium text-amber-200 bg-amber-950/40 hover:bg-amber-900/50"
+                    >
+                      Roll
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

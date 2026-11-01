@@ -7,6 +7,7 @@ import type {
   EnemyAttack,
   EnemyFeature,
   EnemyType,
+  ExperienceEntry,
   FeatureType,
   Tier,
   WeaponDamage,
@@ -154,9 +155,18 @@ export function normalizeEnemy(raw: unknown): Enemy {
     : Array.isArray(e.abilities)
       ? e.abilities
       : [];
+  const experiencesRaw = Array.isArray(e.experiences) ? e.experiences : [];
 
   const hpMax = asNumber(hpRaw.max ?? e.hp, 3);
   const stressMax = asNumber(stressRaw.max ?? e.stress, 2);
+
+  const experiences: ExperienceEntry[] = experiencesRaw.map((raw) => {
+    const x = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+    return {
+      name: typeof x.name === 'string' ? x.name : '',
+      bonus: asNumber(x.bonus ?? x.modifier, 0),
+    };
+  });
 
   return {
     id: typeof e.id === 'string' ? e.id : '',
@@ -184,6 +194,7 @@ export function normalizeEnemy(raw: unknown): Enemy {
     },
     attacks: attacksRaw.map(normalizeAttack),
     features: featuresRaw.map(normalizeFeature),
+    experiences,
     createdAt: asNumber(e.createdAt, Date.now()),
     updatedAt: asNumber(e.updatedAt, Date.now()),
   };
