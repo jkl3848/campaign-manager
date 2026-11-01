@@ -1,5 +1,6 @@
 import type { Enemy, Npc, Encounter, Session } from '../../types';
 import { isAdvancedNpc } from '../../lib/advancedNpc';
+import { labelForType } from '../../lib/enemies';
 import { Button } from '../ui/Button';
 import { Select } from '../ui/Select';
 
@@ -12,6 +13,7 @@ interface DmSessionPanelProps {
   onEndCombat: () => void;
   onNextRound: () => void;
   onAdjustCombatant: (id: string, field: 'hp' | 'stress', delta: number) => void;
+  onSelectEnemy: (enemyId: string, combatantId?: string) => void;
 }
 
 export function DmSessionPanel({
@@ -23,6 +25,7 @@ export function DmSessionPanel({
   onEndCombat,
   onNextRound,
   onAdjustCombatant,
+  onSelectEnemy,
 }: DmSessionPanelProps) {
   return (
     <aside className="absolute left-0 top-0 bottom-0 z-20 flex w-72 flex-col border-r border-slate-700/60 bg-slate-950/90 backdrop-blur-md">
@@ -43,7 +46,17 @@ export function DmSessionPanel({
               <p className="text-sm font-medium text-amber-200">Round {session.round}</p>
               {session.combatants.map((c) => (
                 <div key={c.id} className="rounded-lg bg-slate-900/70 px-3 py-2 text-xs">
-                  <p className="font-medium text-slate-200 truncate">{c.name}</p>
+                  {c.type === 'enemy' ? (
+                    <button
+                      type="button"
+                      onClick={() => onSelectEnemy(c.refId, c.id)}
+                      className="w-full text-left font-medium text-slate-200 truncate hover:text-amber-200"
+                    >
+                      {c.name}
+                    </button>
+                  ) : (
+                    <p className="font-medium text-slate-200 truncate">{c.name}</p>
+                  )}
                   <div className="mt-1 flex items-center gap-2 text-slate-400">
                     <ResourceControl
                       label="HP"
@@ -102,7 +115,12 @@ export function DmSessionPanel({
           ) : (
             <div className="space-y-1.5">
               {enemies.map((e) => (
-                <div key={e.id} className="flex items-center gap-2 rounded-lg bg-slate-900/70 px-2.5 py-2">
+                <button
+                  key={e.id}
+                  type="button"
+                  onClick={() => onSelectEnemy(e.id)}
+                  className="flex w-full items-center gap-2 rounded-lg bg-slate-900/70 px-2.5 py-2 text-left hover:bg-slate-800/80"
+                >
                   {e.imageUrl ? (
                     <img src={e.imageUrl} alt="" className="h-8 w-8 rounded object-cover" />
                   ) : (
@@ -113,10 +131,10 @@ export function DmSessionPanel({
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-xs font-medium text-slate-200">{e.name}</p>
                     <p className="text-[10px] text-slate-400">
-                      T{e.tier} · HP {e.hp.max} · Evade {e.evasion}
+                      T{e.tier} · {labelForType(e.type)} · HP {e.hp.max} · Diff {e.difficulty}
                     </p>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           )}

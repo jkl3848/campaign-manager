@@ -297,6 +297,45 @@ export function LiveSessionPage() {
     );
   };
 
+  const handleEnemyAttackRoll = (label: string, modifier: number) => {
+    if (!campaignId || !sessionId) return;
+    handleRoll(
+      createDiceRoll({
+        campaignId,
+        sessionId,
+        rollerName: 'DM',
+        count: 1,
+        sides: 20,
+        modifier,
+        label,
+        secret: true,
+        isDm: true,
+      }),
+    );
+  };
+
+  const handleEnemyDamageRoll = (
+    label: string,
+    count: number,
+    sides: number,
+    modifier: number,
+  ) => {
+    if (!campaignId || !sessionId) return;
+    handleRoll(
+      createDiceRoll({
+        campaignId,
+        sessionId,
+        rollerName: 'DM',
+        count,
+        sides,
+        modifier,
+        label,
+        secret: true,
+        isDm: true,
+      }),
+    );
+  };
+
   const handleJoinSessionCharacter = async (character: Character) => {
     if (!session || !isPlayable(character)) return;
     const current = session.joinedCharacterIds ?? [];
@@ -407,7 +446,7 @@ export function LiveSessionPage() {
             refId: enemy.id,
             hp: { current: enemy.hp.max, max: enemy.hp.max },
             stress: { current: 0, max: enemy.stress.max },
-            evasion: enemy.evasion,
+            evasion: enemy.difficulty,
             conditions: [],
           });
         }
@@ -505,6 +544,9 @@ export function LiveSessionPage() {
           onEndCombat={endCombat}
           onNextRound={() => update({ round: session.round + 1 })}
           onAdjustCombatant={adjustCombatant}
+          onSelectEnemy={(enemyId, combatantId) =>
+            setPartySelection({ kind: 'enemy', id: enemyId, combatantId })
+          }
         />
       )}
 
@@ -513,6 +555,8 @@ export function LiveSessionPage() {
         session={session}
         characters={characters}
         npcs={npcs}
+        enemies={enemies}
+        combatants={session.combatants}
         isDm={!!isDm}
         playerId={playerSession?.playerId}
         selection={partySelection}
@@ -522,9 +566,12 @@ export function LiveSessionPage() {
         onToggleNpcParty={handleToggleNpcParty}
         onSaveCharacter={(c) => saveCharacter(campaignId!, c)}
         onSaveNpc={(n) => saveNpc(campaignId!, n)}
+        onAdjustCombatant={adjustCombatant}
         onTraitRoll={handleTraitRoll}
         onWeaponAttack={handleWeaponAttack}
         onWeaponDamage={handleWeaponDamage}
+        onEnemyAttackRoll={handleEnemyAttackRoll}
+        onEnemyDamageRoll={handleEnemyDamageRoll}
       />
 
       {/* Floating action buttons */}

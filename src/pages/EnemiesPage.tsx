@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCampaignData } from '../hooks/useCampaignData';
+import { labelForType, pointsForType } from '../lib/enemies';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 
@@ -17,7 +18,9 @@ export function EnemiesPage() {
       </div>
 
       {enemies.length === 0 ? (
-        <Card><p className="text-slate-400">No enemies yet. Create one or load from a template.</p></Card>
+        <Card>
+          <p className="text-slate-400">No enemies yet. Create one to get started.</p>
+        </Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
           {enemies.map((e) => (
@@ -30,7 +33,8 @@ export function EnemiesPage() {
                   <div>
                     <h3 className="font-semibold text-slate-100">{e.name}</h3>
                     <p className="text-sm text-slate-400">
-                      Tier {e.tier} · HP {e.hp.max} · Difficulty {e.difficulty}
+                      Tier {e.tier} · {labelForType(e.type)} ({pointsForType(e.type)} pts) · HP{' '}
+                      {e.hp.max} · Diff {e.difficulty}
                     </p>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Character, Npc, Session } from '../../types';
+import type { Character, Combatant, Enemy, Npc, Session } from '../../types';
 import { isAdvancedNpc, npcFromSheet } from '../../lib/advancedNpc';
 import { isPlayable } from '../../lib/rosterStatus';
 import { rosterNpcVisible, sessionJoinedCharacterIds } from '../../lib/sessionParty';
@@ -7,17 +7,21 @@ import { Button } from '../ui/Button';
 import { Popup } from '../ui/Popup';
 import { CharacterSheet } from '../character/CharacterSheet';
 import { NpcSessionSheet } from './NpcSessionSheet';
+import { EnemySessionSheet } from './EnemySessionSheet';
 import classes from '../../config/daggerheart/classes.json';
 
 export type PartySelection =
   | { kind: 'character'; id: string }
   | { kind: 'npc'; id: string }
+  | { kind: 'enemy'; id: string; combatantId?: string }
   | null;
 
 interface PartyPanelProps {
   session: Session;
   characters: Character[];
   npcs: Npc[];
+  enemies?: Enemy[];
+  combatants?: Combatant[];
   isDm: boolean;
   playerId?: string;
   selection: PartySelection;
@@ -27,15 +31,20 @@ interface PartyPanelProps {
   onToggleNpcParty: (npc: Npc, inParty: boolean) => Promise<void>;
   onSaveCharacter: (character: Character) => Promise<void>;
   onSaveNpc: (npc: Npc) => Promise<void>;
+  onAdjustCombatant?: (id: string, field: 'hp' | 'stress', delta: number) => void;
   onTraitRoll?: (traitName: string, modifier: number) => void;
   onWeaponAttack?: (label: string, modifier: number) => void;
   onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
+  onEnemyAttackRoll?: (label: string, modifier: number) => void;
+  onEnemyDamageRoll?: (label: string, count: number, sides: number, modifier: number) => void;
 }
 
 export function PartyPanel({
   session,
   characters,
   npcs,
+  enemies = [],
+  combatants = [],
   isDm,
   playerId,
   selection,
@@ -45,9 +54,12 @@ export function PartyPanel({
   onToggleNpcParty,
   onSaveCharacter,
   onSaveNpc,
+  onAdjustCombatant,
   onTraitRoll,
   onWeaponAttack,
   onWeaponDamage,
+  onEnemyAttackRoll,
+  onEnemyDamageRoll,
 }: PartyPanelProps) {
   const [showAdd, setShowAdd] = useState(false);
   const [rosterOpen, setRosterOpen] = useState(false);
@@ -69,6 +81,14 @@ export function PartyPanel({
       : undefined;
   const selectedNpc =
     selection?.kind === 'npc' ? npcs.find((n) => n.id === selection.id) : undefined;
+  const selectedEnemy =
+    selection?.kind === 'enemy' && isDm
+      ? enemies.find((e) => e.id === selection.id)
+      : undefined;
+  const selectedCombatant =
+    selection?.kind === 'enemy' && selection.combatantId
+      ? combatants.find((c) => c.id === selection.combatantId)
+      : undefined;
 
   const canEditCharacter = (c: Character) =>
     isDm || (!!playerId && c.playerId === playerId);
@@ -146,6 +166,38 @@ export function PartyPanel({
               onSave={onSaveNpc}
             />
           )}
+        </div>
+      </aside>
+    );
+  }
+
+  if (selectedEnemy) {
+    return (
+      <aside className="absolute right-0 top-0 bottom-0 z-20 flex w-80 flex-col border-l border-brass/25 bg-[#140e0a]/92 backdrop-blur-sm">
+        <div className="flex items-center gap-2 border-b border-brass/20 px-3 py-2.5">
+          <button
+            type="button"
+            onClick={() => onSelect(null)}
+            className="shrink-0 rounded px-1.5 py-0.5 text-xs text-slate-400 hover:bg-slate-800 hover:text-amber-200"
+          >
+            ← Party
+          </button>
+          <h2 className="min-w-0 flex-1 truncate font-display text-sm font-semibold tracking-wide text-amber-100">
+            {selectedEnemy.name}
+          </h2>
+        </div>
+        <div className="flex-1 overflow-y-auto px-3 py-3">
+          <EnemySessionSheet
+            enemy={selectedEnemy}
+            combatant={selectedCombatant}
+            onAdjustCombatant={
+              selectedCombatant && onAdjustCombatant
+                ? (field, delta) => onAdjustCombatant(selectedCombatant.id, field, delta)
+                : undefined
+            }
+            onAttackRoll={onEnemyAttackRoll}
+            onDamageRoll={onEnemyDamageRoll}
+          />
         </div>
       </aside>
     );

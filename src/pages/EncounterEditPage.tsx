@@ -11,7 +11,7 @@ export function EncounterEditPage() {
   const { campaignId, encounterId } = useParams<{ campaignId: string; encounterId: string }>();
   const navigate = useNavigate();
   const isNew = encounterId === 'new';
-  const { enemies } = useCampaignData(campaignId);
+  const { enemies, characters, npcs } = useCampaignData(campaignId);
   const [encounter, setEncounter] = useState<Encounter | undefined>();
 
   useEffect(() => {
@@ -34,6 +34,8 @@ export function EncounterEditPage() {
         <EncounterBuilder
           campaignId={campaignId}
           enemies={enemies}
+          characters={characters}
+          npcs={npcs}
           existing={encounter}
           onSave={async (e) => {
             await saveEncounter(campaignId, e);
