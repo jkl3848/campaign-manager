@@ -298,6 +298,15 @@ export interface CanvasElement {
   data: Record<string, unknown>;
 }
 
+/** Announcement when the DM assigns loot from a session loot chart. */
+export interface LootDrop {
+  id: string;
+  itemName: string;
+  kind: EquipmentKind;
+  recipientName: string;
+  timestamp: number;
+}
+
 export interface Session {
   id: string;
   campaignId: string;
@@ -313,6 +322,8 @@ export interface Session {
   notes: string;
   /** Player characters who have joined this live session (shown in the main party). */
   joinedCharacterIds?: string[];
+  /** Latest loot assignment announcement (DM loot chart). */
+  lootDrop?: LootDrop;
   createdAt: number;
   updatedAt: number;
 }
