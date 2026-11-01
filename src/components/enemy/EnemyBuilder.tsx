@@ -14,6 +14,7 @@ import type {
   EnemyAttack,
   EnemyFeature,
   EnemyType,
+  ExperienceEntry,
   FeatureType,
   Tier,
   WeaponDamage,
@@ -66,6 +67,7 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
       damageThresholds: { major: 4, severe: 8 },
       attacks: [],
       features: [],
+      experiences: [],
     },
   );
   const [saving, setSaving] = useState(false);
@@ -104,6 +106,16 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
     setEnemy({ ...enemy, features: enemy.features?.filter((_, i) => i !== index) });
   };
 
+  const updateExperience = (index: number, patch: Partial<ExperienceEntry>) => {
+    const experiences = [...(enemy.experiences ?? [])];
+    experiences[index] = { ...experiences[index], ...patch };
+    setEnemy({ ...enemy, experiences });
+  };
+
+  const removeExperience = (index: number) => {
+    setEnemy({ ...enemy, experiences: enemy.experiences?.filter((_, i) => i !== index) });
+  };
+
   const handleSave = async () => {
     if (!enemy.name || !thresholdsValid) return;
     setSaving(true);
@@ -124,6 +136,7 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
       stress: { current: enemy.stress?.current ?? 0, max: stressMax },
       attacks: enemy.attacks ?? [],
       features: enemy.features ?? [],
+      experiences: enemy.experiences ?? [],
       createdAt: existing?.createdAt ?? Date.now(),
       updatedAt: Date.now(),
     };
@@ -399,6 +412,55 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
                   value={f.description}
                   onChange={(e) => updateFeature(i, { description: e.target.value })}
                 />
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+
+      <Card
+        title="Experiences"
+        actions={
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() =>
+              setEnemy({
+                ...enemy,
+                experiences: [...(enemy.experiences ?? []), { name: '', bonus: 2 }],
+              })
+            }
+          >
+            + Add
+          </Button>
+        }
+      >
+        {(enemy.experiences?.length ?? 0) === 0 ? (
+          <p className="text-sm italic text-slate-500">No experiences.</p>
+        ) : (
+          <div className="space-y-3">
+            {enemy.experiences?.map((exp, i) => (
+              <div
+                key={i}
+                className="flex flex-wrap gap-2 items-end rounded-lg bg-slate-900/50 p-3"
+              >
+                <Input
+                  label="Name"
+                  value={exp.name}
+                  onChange={(e) => updateExperience(i, { name: e.target.value })}
+                  className="flex-1 min-w-[10rem]"
+                />
+                <Input
+                  label="Modifier"
+                  type="number"
+                  value={exp.bonus}
+                  onChange={(e) =>
+                    updateExperience(i, { bonus: parseInt(e.target.value, 10) || 0 })
+                  }
+                />
+                <Button size="sm" variant="danger" onClick={() => removeExperience(i)}>
+                  Remove
+                </Button>
               </div>
             ))}
           </div>
