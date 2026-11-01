@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
-import type { Npc } from '../../types';
+import type { Npc, SessionCondition } from '../../types';
 import { ExpandableImage } from '../ui/ImageLightbox';
+import { SessionConditionTags } from './SessionConditionTags';
 
 interface NpcSessionSheetProps {
   npc: Npc;
   canEdit: boolean;
   onSave: (npc: Npc) => Promise<void>;
+  isDm?: boolean;
+  sessionConditions?: SessionCondition[];
+  onToggleSessionCondition?: (condition: SessionCondition) => void;
 }
 
-export function NpcSessionSheet({ npc, canEdit, onSave }: NpcSessionSheetProps) {
+export function NpcSessionSheet({
+  npc,
+  canEdit,
+  onSave,
+  isDm = false,
+  sessionConditions = [],
+  onToggleSessionCondition,
+}: NpcSessionSheetProps) {
   const [local, setLocal] = useState(npc);
 
   useEffect(() => {
@@ -55,6 +66,14 @@ export function NpcSessionSheet({ npc, canEdit, onSave }: NpcSessionSheetProps) 
           )}
         </div>
       </div>
+
+      {(sessionConditions.length > 0 || (isDm && onToggleSessionCondition)) && (
+        <SessionConditionTags
+          active={sessionConditions}
+          isDm={isDm}
+          onToggle={onToggleSessionCondition}
+        />
+      )}
 
       <div className="grid grid-cols-2 gap-1.5">
         <Resource

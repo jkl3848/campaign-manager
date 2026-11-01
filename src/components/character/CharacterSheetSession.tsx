@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import type { Character, Ability, DomainCard, TraitId } from '../../types';
+import type { Character, Ability, DomainCard, TraitId, SessionCondition } from '../../types';
+import { SessionConditionTags } from '../session/SessionConditionTags';
 import type { CatalogEntry } from '../../lib/equipment';
 import { formatWealth, type WealthUnit } from '../../lib/wealth';
 import {
@@ -60,6 +61,8 @@ interface CharacterSheetSessionProps {
   onTraitRoll?: (traitName: string, modifier: number) => void;
   onWeaponAttack?: (label: string, modifier: number) => void;
   onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
+  sessionConditions?: SessionCondition[];
+  onToggleSessionCondition?: (condition: SessionCondition) => void;
 }
 
 export function CharacterSheetSession({
@@ -99,6 +102,8 @@ export function CharacterSheetSession({
   onTraitRoll,
   onWeaponAttack,
   onWeaponDamage,
+  sessionConditions = [],
+  onToggleSessionCondition,
 }: CharacterSheetSessionProps) {
   const [showLevelUpWizard, setShowLevelUpWizard] = useState(false);
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
@@ -179,6 +184,14 @@ export function CharacterSheetSession({
           </Button>
         )}
       </div>
+
+      {(sessionConditions.length > 0 || (isDm && onToggleSessionCondition)) && (
+        <SessionConditionTags
+          active={sessionConditions}
+          isDm={isDm}
+          onToggle={onToggleSessionCondition}
+        />
+      )}
 
       {canEdit && (
         <Textarea

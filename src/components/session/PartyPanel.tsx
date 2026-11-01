@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import type { Character, Combatant, Enemy, Npc, Session } from '../../types';
+import type { Character, Combatant, Enemy, Npc, Session, SessionCondition } from '../../types';
+import { getSessionConditions } from '../../lib/sessionConditions';
 import { isAdvancedNpc, npcFromSheet } from '../../lib/advancedNpc';
 import { isPlayable } from '../../lib/rosterStatus';
 import { rosterNpcVisible, sessionJoinedCharacterIds } from '../../lib/sessionParty';
@@ -37,6 +38,11 @@ interface PartyPanelProps {
   onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
   onEnemyAttackRoll?: (label: string, modifier: number) => void;
   onEnemyDamageRoll?: (label: string, count: number, sides: number, modifier: number) => void;
+  onTogglePartyCondition?: (
+    kind: 'character' | 'npc',
+    memberId: string,
+    condition: SessionCondition,
+  ) => void;
 }
 
 export function PartyPanel({
@@ -60,6 +66,7 @@ export function PartyPanel({
   onWeaponDamage,
   onEnemyAttackRoll,
   onEnemyDamageRoll,
+  onTogglePartyCondition,
 }: PartyPanelProps) {
   const [showAdd, setShowAdd] = useState(false);
   const [rosterOpen, setRosterOpen] = useState(false);
@@ -122,6 +129,13 @@ export function PartyPanel({
             onTraitRoll={onTraitRoll}
             onWeaponAttack={onWeaponAttack}
             onWeaponDamage={onWeaponDamage}
+            sessionConditions={getSessionConditions(session, 'character', selectedCharacter.id)}
+            onToggleSessionCondition={
+              isDm && onTogglePartyCondition
+                ? (condition) =>
+                    onTogglePartyCondition('character', selectedCharacter.id, condition)
+                : undefined
+            }
           />
         </div>
       </aside>
@@ -158,12 +172,25 @@ export function PartyPanel({
               onTraitRoll={onTraitRoll}
               onWeaponAttack={onWeaponAttack}
               onWeaponDamage={onWeaponDamage}
+              sessionConditions={getSessionConditions(session, 'npc', selectedNpc.id)}
+              onToggleSessionCondition={
+                isDm && onTogglePartyCondition
+                  ? (condition) => onTogglePartyCondition('npc', selectedNpc.id, condition)
+                  : undefined
+              }
             />
           ) : (
             <NpcSessionSheet
               npc={selectedNpc}
               canEdit={isDm}
+              isDm={isDm}
               onSave={onSaveNpc}
+              sessionConditions={getSessionConditions(session, 'npc', selectedNpc.id)}
+              onToggleSessionCondition={
+                isDm && onTogglePartyCondition
+                  ? (condition) => onTogglePartyCondition('npc', selectedNpc.id, condition)
+                  : undefined
+              }
             />
           )}
         </div>
