@@ -51,6 +51,11 @@ export function pointsForType(type: EnemyType): number {
   return ENEMY_TYPES.find((t) => t.id === type)?.points ?? 2;
 }
 
+/** Effective Battle Points for an enemy: type base + override. */
+export function pointsForEnemy(enemy: Pick<Enemy, 'type' | 'pointsOverride'>): number {
+  return pointsForType(enemy.type) + (enemy.pointsOverride ?? 0);
+}
+
 export function labelForType(type: EnemyType): string {
   return ENEMY_TYPES.find((t) => t.id === type)?.label ?? type;
 }
@@ -175,6 +180,7 @@ export function normalizeEnemy(raw: unknown): Enemy {
     imageUrl: typeof e.imageUrl === 'string' ? e.imageUrl : undefined,
     tier: asTier(e.tier),
     type: asEnemyType(e.type),
+    pointsOverride: asNumber(e.pointsOverride, 0),
     description:
       typeof e.description === 'string'
         ? e.description
@@ -248,7 +254,7 @@ export function calculateEncounterBudget(params: {
   for (const row of roster) {
     const enemy = enemyById.get(row.enemyId);
     if (!enemy) continue;
-    const pts = pointsForType(enemy.type);
+    const pts = pointsForEnemy(enemy);
     spent += pts * row.count;
     if (enemy.type === 'solo') soloCount += row.count;
     if (enemy.tier < partyTier) hasLowerTier = true;
@@ -287,6 +293,6 @@ export function spentBattlePoints(enemies: Enemy[], roster: EncounterEnemy[]): n
   return roster.reduce((sum, row) => {
     const enemy = enemyById.get(row.enemyId);
     if (!enemy) return sum;
-    return sum + pointsForType(enemy.type) * row.count;
+    return sum + pointsForEnemy(enemy) * row.count;
   }, 0);
 }

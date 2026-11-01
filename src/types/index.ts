@@ -249,6 +249,8 @@ export interface Enemy {
   imageUrl?: string;
   tier: Tier;
   type: EnemyType;
+  /** Added to (or subtracted from) the type's base Battle Point value. */
+  pointsOverride: number;
   description?: string;
   tactics?: string;
   difficulty: number;

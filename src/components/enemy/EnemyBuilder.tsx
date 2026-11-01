@@ -6,6 +6,7 @@ import {
   ENEMY_TYPES,
   FEATURE_TYPES,
   labelForType,
+  pointsForEnemy,
   pointsForType,
 } from '../../lib/enemies';
 import type {
@@ -59,6 +60,7 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
       name: '',
       tier: 1,
       type: 'standard',
+      pointsOverride: 0,
       description: '',
       tactics: '',
       difficulty: 10,
@@ -76,6 +78,8 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
   const severe = enemy.damageThresholds?.severe ?? 8;
   const thresholdsValid = severe > major;
   const type = (enemy.type ?? 'standard') as EnemyType;
+  const pointsOverride = enemy.pointsOverride ?? 0;
+  const effectivePoints = pointsForEnemy({ type, pointsOverride });
 
   const updateAttack = (index: number, patch: Partial<EnemyAttack>) => {
     const attacks = [...(enemy.attacks ?? [])];
@@ -128,6 +132,7 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
       imageUrl: enemy.imageUrl,
       tier: (enemy.tier ?? 1) as Tier,
       type,
+      pointsOverride,
       description: enemy.description || undefined,
       tactics: enemy.tactics || undefined,
       difficulty: enemy.difficulty ?? 10,
@@ -148,7 +153,15 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
     <div className="space-y-4 max-w-3xl">
       <div className="flex items-center gap-2 text-sm text-slate-400">
         <span className="rounded-md bg-red-950/50 px-2 py-0.5 text-xs font-medium text-red-300">
-          {labelForType(type)} · {pointsForType(type)} pts
+          {labelForType(type)} · {effectivePoints} pts
+          {pointsOverride !== 0 && (
+            <span className="text-red-400/70">
+              {' '}
+              ({pointsForType(type)}
+              {pointsOverride > 0 ? '+' : ''}
+              {pointsOverride})
+            </span>
+          )}
         </span>
         <span>Tier {enemy.tier ?? 1}</span>
       </div>
@@ -180,6 +193,16 @@ export function EnemyBuilder({ campaignId, onSave, onUploadImage, existing }: En
               </option>
             ))}
           </Select>
+          <Input
+            label="Points Override"
+            type="number"
+            step={0.5}
+            value={pointsOverride}
+            onChange={(e) => {
+              const n = Number(e.target.value);
+              setEnemy({ ...enemy, pointsOverride: Number.isFinite(n) ? n : 0 });
+            }}
+          />
           <Input
             label="Difficulty"
             type="number"

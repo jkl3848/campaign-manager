@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCampaignData } from '../hooks/useCampaignData';
-import { labelForType, pointsForType } from '../lib/enemies';
+import { labelForType, pointsForEnemy } from '../lib/enemies';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 
@@ -33,7 +33,7 @@ export function EnemiesPage() {
                   <div>
                     <h3 className="font-semibold text-slate-100">{e.name}</h3>
                     <p className="text-sm text-slate-400">
-                      Tier {e.tier} · {labelForType(e.type)} ({pointsForType(e.type)} pts) · HP{' '}
+                      Tier {e.tier} · {labelForType(e.type)} ({pointsForEnemy(e)} pts) · HP{' '}
                       {e.hp.max} · Diff {e.difficulty}
                     </p>
                   </div>

@@ -3,7 +3,7 @@ import type { Character, Encounter, Enemy, EncounterEnemy, Npc, Tier } from '../
 import {
   calculateEncounterBudget,
   labelForType,
-  pointsForType,
+  pointsForEnemy,
 } from '../../lib/enemies';
 import { getTierForLevel } from '../../lib/levelUp';
 import { Button } from '../ui/Button';
@@ -202,7 +202,7 @@ export function EncounterBuilder({
           <option value="">Choose an enemy...</option>
           {enemies.map((e) => (
             <option key={e.id} value={e.id}>
-              {e.name} (T{e.tier} {labelForType(e.type)}, {pointsForType(e.type)})
+              {e.name} (T{e.tier} {labelForType(e.type)}, {pointsForEnemy(e)})
             </option>
           ))}
         </Select>
@@ -215,7 +215,7 @@ export function EncounterBuilder({
           <div className="space-y-2">
             {encounterEnemies.map((row) => {
               const enemy = enemies.find((e) => e.id === row.enemyId);
-              const pts = enemy ? pointsForType(enemy.type) : 0;
+              const pts = enemy ? pointsForEnemy(enemy) : 0;
               const rowTotal = pts * row.count;
               return (
                 <div
