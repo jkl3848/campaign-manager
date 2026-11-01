@@ -338,6 +338,15 @@ export interface CanvasElement {
 /** Session-scoped status on party members (characters or NPCs). */
 export type SessionCondition = 'hidden' | 'restrained' | 'vulnerable' | 'poisoned';
 
+/** Announcement when the DM assigns loot from a session loot chart. */
+export interface LootDrop {
+  id: string;
+  itemName: string;
+  kind: EquipmentKind;
+  recipientName: string;
+  timestamp: number;
+}
+
 export interface Session {
   id: string;
   campaignId: string;
@@ -355,6 +364,8 @@ export interface Session {
   joinedCharacterIds?: string[];
   /** Keys: `character:{id}` or `npc:{id}` → active conditions for that party member. */
   partyConditions?: Record<string, SessionCondition[]>;
+  /** Latest loot assignment announcement (DM loot chart). */
+  lootDrop?: LootDrop;
   createdAt: number;
   updatedAt: number;
 }

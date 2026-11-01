@@ -558,6 +558,87 @@
       "thresholdSevere": 17,
       "description": "Very Heavy: −2 to Evasion; −1 to Agility.",
       "tier": 1
+    },
+    {
+      "id": "banded",
+      "name": "Banded Armor",
+      "score": 4,
+      "thresholdMajor": 8,
+      "thresholdSevere": 16,
+      "description": "Bulky: −1 to Evasion; when you take Severe damage, you must mark a Stress.",
+      "tier": 1
+    },
+    {
+      "id": "brigandine",
+      "name": "Brigandine Armor",
+      "score": 3,
+      "thresholdMajor": 6,
+      "thresholdSevere": 12,
+      "description": "Lined: Mark a Stress to negate Minor damage.",
+      "tier": 1
+    },
+    {
+      "id": "leather-apron",
+      "name": "Leather Apron",
+      "score": 3,
+      "thresholdMajor": 6,
+      "thresholdSevere": 13,
+      "description": "",
+      "tier": 1
+    },
+    {
+      "id": "leather-longcoat",
+      "name": "Leather Longcoat",
+      "score": 3,
+      "thresholdMajor": 5,
+      "thresholdSevere": 12,
+      "description": "Quiet: Gain a +2 bonus to rolls you make to move silently.",
+      "tier": 1
+    },
+    {
+      "id": "mage-robes",
+      "name": "Mage Robes",
+      "score": 2,
+      "thresholdMajor": 4,
+      "thresholdSevere": 10,
+      "description": "Enchanted: Gain a bonus to your damage thresholds equal to your Spellcast trait.",
+      "tier": 1
+    },
+    {
+      "id": "quilted",
+      "name": "Quilted Clothing",
+      "score": 3,
+      "thresholdMajor": 5,
+      "thresholdSevere": 11,
+      "description": "Flexible: +1 to Evasion.",
+      "tier": 1
+    },
+    {
+      "id": "scale-mail",
+      "name": "Scale Mail Armor",
+      "score": 3,
+      "thresholdMajor": 7,
+      "thresholdSevere": 14,
+      "description": "Cumbersome: −1 to Finesse.",
+      "tier": 1
+    },
+    {
+      "id": "silverweave",
+      "name": "Silverweave Armor",
+      "score": 3,
+      "thresholdMajor": 5,
+      "thresholdSevere": 11,
+      "description": "Warded: You reduce incoming magic damage by your Armor Score before applying it to your damage thresholds.",
+      "tier": 1
+    },
+    {
+      "id": "tree-bark",
+      "name": "Tree Bark Armor",
+      "score": 4,
+      "thresholdMajor": 7,
+      "thresholdSevere": 15,
+      "description": "Heavy: −1 to Evasion.",
+      "tier": 1
     }
   ],
   "items": [

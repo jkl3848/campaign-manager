@@ -113,6 +113,37 @@ export function listCatalogEntries(maxTier: number): CatalogEntry[] {
   return [...weapons, ...armor, ...items].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+export interface LootChartOptions {
+  kinds: EquipmentKind[];
+  maxTier: number;
+}
+
+/** Shuffle a pool and fill `size` rows, preferring unique entries before repeats. */
+export function generateLootChart(
+  { kinds, maxTier }: LootChartOptions,
+  size = 24,
+): CatalogEntry[] {
+  if (kinds.length === 0 || size <= 0) return [];
+  const kindSet = new Set(kinds);
+  const pool = listCatalogEntries(maxTier).filter((e) => kindSet.has(e.kind));
+  if (pool.length === 0) return [];
+
+  const shuffled = [...pool];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  const chart: CatalogEntry[] = [];
+  while (chart.length < size) {
+    for (const entry of shuffled) {
+      if (chart.length >= size) break;
+      chart.push(entry);
+    }
+  }
+  return chart;
+}
+
 export function findCatalogWeapon(id: string): CatalogWeapon | undefined {
   return getCatalogWeapons().find((w) => w.id === id);
 }

@@ -15,6 +15,11 @@ import {
 import { getPlayerSession } from '../lib/playerSession';
 import { createDiceRoll } from '../lib/dice';
 import { effectiveEvasion } from '../lib/crafter';
+import {
+  addCatalogToInventory,
+  generateLootChart,
+  type CatalogEntry,
+} from '../lib/equipment';
 import { clampFear, clampHope, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/hopeFear';
 import { isAdvancedNpc, npcFromSheet } from '../lib/advancedNpc';
 import { isPlayable } from '../lib/rosterStatus';
@@ -29,10 +34,17 @@ import type {
   Character,
   Npc,
   SessionCondition,
+  LootDrop,
 } from '../types';
 import { SessionCanvas } from '../components/session/SessionCanvas';
 import { DmSessionPanel } from '../components/session/DmSessionPanel';
 import { PartyPanel, type PartySelection } from '../components/session/PartyPanel';
+import {
+  LootChart,
+  type LootChartFilters,
+  type LootRecipient,
+} from '../components/session/LootChart';
+import { LootAlert } from '../components/session/LootAlert';
 import { DiceRoller } from '../components/dice/DiceRoller';
 import { DiceLog } from '../components/dice/DiceLog';
 import { RollAlert } from '../components/dice/RollAlert';
@@ -42,7 +54,12 @@ import { Textarea } from '../components/ui/Textarea';
 import { useLoreNotes } from '../hooks/useLoreNotes';
 import { SessionLoreBrowser } from '../components/session/SessionLoreBrowser';
 
-type ActivePopup = 'dice' | 'log' | 'notes' | 'lore' | null;
+type ActivePopup = 'dice' | 'log' | 'notes' | 'lore' | 'loot' | null;
+
+const DEFAULT_LOOT_FILTERS: LootChartFilters = {
+  kinds: ['weapon', 'armor', 'item'],
+  maxTier: 4,
+};
 
 export function LiveSessionPage() {
   const { campaignId, sessionId } = useParams<{ campaignId: string; sessionId: string }>();
@@ -61,6 +78,14 @@ export function LiveSessionPage() {
   );
   const { characters, enemies, npcs, encounters } = useCampaignData(campaignId, { npcsForPlayer });
   const [partySelection, setPartySelection] = useState<PartySelection>(null);
+  const [lootChart, setLootChart] = useState<CatalogEntry[]>([]);
+  const [lootFilters, setLootFilters] = useState<LootChartFilters>(DEFAULT_LOOT_FILTERS);
+  const [lootGiven, setLootGiven] = useState<Record<number, string>>({});
+  const [lootRecipient, setLootRecipient] = useState<LootRecipient | null>(null);
+  const [lootAssigningIndex, setLootAssigningIndex] = useState<number | null>(null);
+  const [alertLoot, setAlertLoot] = useState<LootDrop | null>(null);
+  const seenLootDropId = useRef<string | null>(null);
+  const lootDropInitialized = useRef(false);
   const { notes: loreNotes } = useLoreNotes(campaignId, isDm);
   const selectedCharacter =
     partySelection?.kind === 'character'
@@ -149,6 +174,7 @@ export function LiveSessionPage() {
   ]);
 
   const dismissAlert = useCallback(() => setAlertRoll(null), []);
+  const dismissLootAlert = useCallback(() => setAlertLoot(null), []);
 
   useEffect(() => {
     if (diceRolls.length === 0) return;
@@ -167,6 +193,23 @@ export function LiveSessionPage() {
       setAlertRoll(newest);
     }
   }, [diceRolls, isDm]);
+
+  useEffect(() => {
+    if (!session) return;
+    const drop = session.lootDrop;
+    if (!drop) {
+      lootDropInitialized.current = true;
+      return;
+    }
+    if (!lootDropInitialized.current) {
+      seenLootDropId.current = drop.id;
+      lootDropInitialized.current = true;
+      return;
+    }
+    if (seenLootDropId.current === drop.id) return;
+    seenLootDropId.current = drop.id;
+    setAlertLoot(drop);
+  }, [session]);
 
   const update = async (data: Partial<Session>) => {
     if (!campaignId || !sessionId) return;
@@ -332,6 +375,57 @@ export function LiveSessionPage() {
     if (!session || !isDm) return;
     const partyConditions = toggleSessionConditionMap(session, kind, memberId, condition);
     await update({ partyConditions });
+  };
+
+  const handleGenerateLootChart = () => {
+    setLootChart(generateLootChart(lootFilters));
+    setLootGiven({});
+  };
+
+  const handleAssignLoot = async (
+    index: number,
+    entry: CatalogEntry,
+    recipient: LootRecipient,
+  ) => {
+    if (!campaignId || !sessionId) return;
+    setLootAssigningIndex(index);
+    try {
+      if (recipient.kind === 'character') {
+        const character = characters.find((c) => c.id === recipient.id);
+        if (!character) return;
+        await saveCharacter(campaignId, {
+          ...character,
+          inventory: addCatalogToInventory(character.inventory, entry),
+          updatedAt: Date.now(),
+        });
+      } else {
+        const npc = npcs.find((n) => n.id === recipient.id);
+        if (!npc || !isAdvancedNpc(npc)) return;
+        await saveNpc(
+          campaignId,
+          npcFromSheet(
+            {
+              ...npc.sheet,
+              inventory: addCatalogToInventory(npc.sheet.inventory, entry),
+              updatedAt: Date.now(),
+            },
+            npc,
+          ),
+        );
+      }
+
+      const drop: LootDrop = {
+        id: crypto.randomUUID(),
+        itemName: entry.name,
+        kind: entry.kind,
+        recipientName: recipient.name,
+        timestamp: Date.now(),
+      };
+      await update({ lootDrop: drop });
+      setLootGiven((prev) => ({ ...prev, [index]: recipient.name }));
+    } finally {
+      setLootAssigningIndex(null);
+    }
   };
 
   const startCombat = async (encounterId?: string) => {
@@ -519,6 +613,14 @@ export function LiveSessionPage() {
         />
         {isDm && (
           <ToolbarButton
+            label="Loot Chart"
+            icon="✧"
+            active={activePopup === 'loot'}
+            onClick={() => setActivePopup(activePopup === 'loot' ? null : 'loot')}
+          />
+        )}
+        {isDm && (
+          <ToolbarButton
             label="Session Notes"
             icon="✎"
             active={activePopup === 'notes'}
@@ -529,6 +631,7 @@ export function LiveSessionPage() {
 
       {/* Session-wide roll alert */}
       <RollAlert roll={alertRoll} onDismiss={dismissAlert} />
+      <LootAlert drop={alertLoot} onDismiss={dismissLootAlert} />
 
       {/* Corner dice roller — no backdrop */}
       <CornerDialog
@@ -559,6 +662,25 @@ export function LiveSessionPage() {
       <Popup open={activePopup === 'lore'} onClose={() => setActivePopup(null)} title="Lore Wiki" size="xl">
         <SessionLoreBrowser notes={loreNotes} isDm={isDm} />
       </Popup>
+
+      {isDm && (
+        <Popup open={activePopup === 'loot'} onClose={() => setActivePopup(null)} title="Loot Chart" size="xl">
+          <LootChart
+            session={session}
+            characters={characters}
+            npcs={npcs}
+            entries={lootChart}
+            filters={lootFilters}
+            given={lootGiven}
+            recipient={lootRecipient}
+            assigningIndex={lootAssigningIndex}
+            onFiltersChange={setLootFilters}
+            onGenerate={handleGenerateLootChart}
+            onRecipientChange={setLootRecipient}
+            onAssign={handleAssignLoot}
+          />
+        </Popup>
+      )}
 
       {isDm && (
         <Popup open={activePopup === 'notes'} onClose={() => setActivePopup(null)} title="Session Notes" size="lg">
