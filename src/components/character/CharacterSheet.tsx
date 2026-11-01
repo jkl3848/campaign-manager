@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import type { Character, DomainCard, Ability, TraitId, EquipmentKind } from '../../types';
+import type { Character, DomainCard, Ability, TraitId, EquipmentKind, SessionCondition } from '../../types';
 import { LevelUpWizard } from './LevelUpWizard';
 import { canInitiateLevelUp, cancelLevelUp, initiateLevelUp, getTierForLevel } from '../../lib/levelUp';
 import { Button } from '../ui/Button';
@@ -58,6 +58,8 @@ interface CharacterSheetProps {
   onTraitRoll?: (traitName: string, modifier: number) => void;
   onWeaponAttack?: (label: string, modifier: number) => void;
   onWeaponDamage?: (label: string, count: number, sides: number, modifier: number) => void;
+  sessionConditions?: SessionCondition[];
+  onToggleSessionCondition?: (condition: SessionCondition) => void;
 }
 
 export function CharacterSheet({
@@ -72,6 +74,8 @@ export function CharacterSheet({
   onTraitRoll,
   onWeaponAttack,
   onWeaponDamage,
+  sessionConditions,
+  onToggleSessionCondition,
 }: CharacterSheetProps) {
   const [char, setChar] = useState(() => normalizeCharacter(character));
   const [saving, setSaving] = useState(false);
@@ -379,6 +383,8 @@ export function CharacterSheet({
         onTraitRoll={onTraitRoll}
         onWeaponAttack={onWeaponAttack}
         onWeaponDamage={onWeaponDamage}
+        sessionConditions={sessionConditions}
+        onToggleSessionCondition={onToggleSessionCondition}
       />
     );
   }

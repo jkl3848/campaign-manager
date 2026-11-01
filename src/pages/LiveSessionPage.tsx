@@ -19,8 +19,17 @@ import { clampFear, clampHope, partyHopeTotal, SESSION_FEAR_MAX } from '../lib/h
 import { isAdvancedNpc, npcFromSheet } from '../lib/advancedNpc';
 import { isPlayable } from '../lib/rosterStatus';
 import { sessionJoinedCharacterIds } from '../lib/sessionParty';
+import { toggleSessionConditionMap, type PartyConditionMemberKind } from '../lib/sessionConditions';
 import { useCampaignData } from '../hooks/useCampaignData';
-import type { Session, DiceRoll, Combatant, Campaign, Character, Npc } from '../types';
+import type {
+  Session,
+  DiceRoll,
+  Combatant,
+  Campaign,
+  Character,
+  Npc,
+  SessionCondition,
+} from '../types';
 import { SessionCanvas } from '../components/session/SessionCanvas';
 import { DmSessionPanel } from '../components/session/DmSessionPanel';
 import { PartyPanel, type PartySelection } from '../components/session/PartyPanel';
@@ -315,6 +324,16 @@ export function LiveSessionPage() {
     }
   };
 
+  const handleTogglePartyCondition = async (
+    kind: PartyConditionMemberKind,
+    memberId: string,
+    condition: SessionCondition,
+  ) => {
+    if (!session || !isDm) return;
+    const partyConditions = toggleSessionConditionMap(session, kind, memberId, condition);
+    await update({ partyConditions });
+  };
+
   const startCombat = async (encounterId?: string) => {
     if (!session) return;
     const encounter = encounters.find((e) => e.id === encounterId);
@@ -471,6 +490,7 @@ export function LiveSessionPage() {
         onWeaponDamage={handleWeaponDamage}
         onEnemyAttackRoll={handleEnemyAttackRoll}
         onEnemyDamageRoll={handleEnemyDamageRoll}
+        onTogglePartyCondition={isDm ? handleTogglePartyCondition : undefined}
       />
 
       {/* Floating action buttons */}
