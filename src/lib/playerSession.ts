@@ -27,10 +27,6 @@ export function joinCampaign(campaignId: string): string {
   return playerId;
 }
 
-export function isDmPlayerId(playerId: string): boolean {
-  return playerId.startsWith('dm-');
-}
-
 export function setActiveCharacterId(characterId: string): void {
   const session = getPlayerSession();
   if (!session) return;
