@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import classes from '../config/daggerheart/classes.json';
 import { useAuth } from '../hooks/useAuth';
 import { useCampaignData } from '../hooks/useCampaignData';
-import { getPlayerSession, isDmPlayerId, setActiveCharacterId } from '../lib/playerSession';
+import { getPlayerSession, setActiveCharacterId } from '../lib/playerSession';
 import { isPlayable } from '../lib/rosterStatus';
 import { getCampaign, saveCharacter } from '../services/campaignService';
 import type { Campaign, Character } from '../types';
@@ -37,7 +37,7 @@ export function PickCharacterPage() {
     return <Navigate to="/join" replace />;
   }
 
-  const pickable = characters.filter((c) => !isDmPlayerId(c.playerId) && isPlayable(c));
+  const pickable = characters.filter(isPlayable);
 
   const handlePick = async (character: Character) => {
     setError('');
