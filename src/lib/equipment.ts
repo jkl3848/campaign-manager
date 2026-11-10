@@ -262,6 +262,39 @@ export function addCatalogToInventory(
   ];
 }
 
+/** Freeform key item (no catalog id). Stacks with same name, case-insensitive. */
+export function addCustomToInventory(
+  inventory: InventoryItem[],
+  name: string,
+  description?: string,
+): InventoryItem[] {
+  const trimmedName = name.trim();
+  if (!trimmedName) return inventory;
+
+  const trimmedDescription = description?.trim() || undefined;
+  const existing = inventory.find(
+    (i) =>
+      !i.equipmentId &&
+      (i.kind ?? 'item') === 'item' &&
+      i.name.toLowerCase() === trimmedName.toLowerCase(),
+  );
+  if (existing) {
+    return inventory.map((i) =>
+      i.id === existing.id ? { ...i, quantity: i.quantity + 1 } : i,
+    );
+  }
+  return [
+    ...inventory,
+    {
+      id: crypto.randomUUID(),
+      kind: 'item' as const,
+      name: trimmedName,
+      description: trimmedDescription,
+      quantity: 1,
+    },
+  ];
+}
+
 export function removeFromInventory(
   inventory: InventoryItem[],
   itemId: string,

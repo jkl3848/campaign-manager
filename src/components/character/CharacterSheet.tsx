@@ -24,6 +24,7 @@ import { normalizeCharacter } from '../../lib/characterNormalize';
 import { CHARACTER_HOPE_MAX, clampHope } from '../../lib/hopeFear';
 import {
   addCatalogToInventory,
+  addCustomToInventory,
   equipArmorFromInventory,
   equipWeaponFromInventory,
   listCatalogEntries,
@@ -257,6 +258,12 @@ export function CharacterSheet({
     updateLive({ inventory: addCatalogToInventory(charRef.current.inventory, entry) });
   };
 
+  const addCustomItem = (name: string, description?: string) => {
+    updateLive({
+      inventory: addCustomToInventory(charRef.current.inventory, name, description),
+    });
+  };
+
   const handleEquipWeapon = (inventoryItemId: string, slot: 'primary' | 'secondary') => {
     updateLive(equipWeaponFromInventory(charRef.current, inventoryItemId, slot));
   };
@@ -375,6 +382,7 @@ export function CharacterSheet({
         onRemoveDomainCard={canEdit ? removeDomainCard : undefined}
         catalogOptions={catalogOptions}
         onAddCatalogItem={addCatalogItem}
+        onAddCustomItem={addCustomItem}
         onEquipWeapon={handleEquipWeapon}
         onUnequipWeapon={handleUnequipWeapon}
         onEquipArmor={handleEquipArmor}
@@ -576,9 +584,11 @@ export function CharacterSheet({
         <EquipmentPanel
           char={char}
           canEdit={canEdit}
+          isDm={isDm}
           catalogOptions={catalogOptions}
           traitBonuses={instrumentTraitBonuses}
           onAddCatalogItem={addCatalogItem}
+          onAddCustomItem={addCustomItem}
           onEquipWeapon={handleEquipWeapon}
           onUnequipWeapon={handleUnequipWeapon}
           onEquipArmor={handleEquipArmor}

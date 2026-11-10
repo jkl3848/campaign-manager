@@ -53,6 +53,7 @@ interface CharacterSheetSessionProps {
   onRemoveDomainCard?: (cardId: string) => void;
   catalogOptions: CatalogEntry[];
   onAddCatalogItem: (entryKey: string) => void;
+  onAddCustomItem?: (name: string, description?: string) => void;
   onEquipWeapon: (inventoryItemId: string, slot: 'primary' | 'secondary') => void;
   onUnequipWeapon: (slot: 'primary' | 'secondary') => void;
   onEquipArmor: (inventoryItemId: string) => void;
@@ -94,6 +95,7 @@ export function CharacterSheetSession({
   onRemoveDomainCard,
   catalogOptions,
   onAddCatalogItem,
+  onAddCustomItem,
   onEquipWeapon,
   onUnequipWeapon,
   onEquipArmor,
@@ -219,9 +221,11 @@ export function CharacterSheetSession({
           char={char}
           canEdit={canEdit}
           compact
+          isDm={isDm}
           catalogOptions={catalogOptions}
           traitBonuses={instrumentTraitBonuses}
           onAddCatalogItem={onAddCatalogItem}
+          onAddCustomItem={onAddCustomItem}
           onEquipWeapon={onEquipWeapon}
           onUnequipWeapon={onUnequipWeapon}
           onEquipArmor={onEquipArmor}
