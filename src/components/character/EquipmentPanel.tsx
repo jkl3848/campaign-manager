@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Character, TraitId } from '../../types';
 import type { CatalogEntry } from '../../lib/equipment';
 import {
@@ -8,15 +9,18 @@ import {
 import { formatWeaponDamage } from '../../lib/weaponDamage';
 import { SearchableSelect } from '../ui/SearchableSelect';
 import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
 
 interface EquipmentPanelProps {
   char: Character;
   canEdit: boolean;
   compact?: boolean;
+  isDm?: boolean;
   catalogOptions: CatalogEntry[];
   /** Extra trait modifiers (e.g. Crafter instruments) applied to attack rolls. */
   traitBonuses?: Partial<Record<TraitId, number>>;
   onAddCatalogItem: (entryId: string) => void;
+  onAddCustomItem?: (name: string, description?: string) => void;
   onEquipWeapon: (inventoryItemId: string, slot: 'primary' | 'secondary') => void;
   onUnequipWeapon: (slot: 'primary' | 'secondary') => void;
   onEquipArmor: (inventoryItemId: string) => void;
@@ -30,9 +34,11 @@ export function EquipmentPanel({
   char,
   canEdit,
   compact = false,
+  isDm = false,
   catalogOptions,
   traitBonuses,
   onAddCatalogItem,
+  onAddCustomItem,
   onEquipWeapon,
   onUnequipWeapon,
   onEquipArmor,
@@ -41,6 +47,9 @@ export function EquipmentPanel({
   onWeaponAttack,
   onWeaponDamage,
 }: EquipmentPanelProps) {
+  const [customName, setCustomName] = useState('');
+  const [customDescription, setCustomDescription] = useState('');
+
   const primaryOptions = inventoryWeaponsForSlot(char.inventory, 'primary');
   const secondaryOptions = inventoryWeaponsForSlot(char.inventory, 'secondary');
   const armorOptions = inventoryArmorItems(char.inventory);
@@ -48,6 +57,13 @@ export function EquipmentPanel({
 
   const textSize = compact ? 'text-[11px]' : 'text-sm';
   const muted = compact ? 'text-ink-faint' : 'text-ink-muted';
+
+  const submitCustomItem = () => {
+    if (!onAddCustomItem || !customName.trim()) return;
+    onAddCustomItem(customName, customDescription);
+    setCustomName('');
+    setCustomDescription('');
+  };
 
   return (
     <div className="space-y-3">
@@ -174,8 +190,12 @@ export function EquipmentPanel({
                       <span className={`ml-1 ${muted}`}>×{item.quantity}</span>
                     )}
                   </p>
-                  {item.description && !compact && (
-                    <p className="text-[11px] text-ink-muted line-clamp-2">{item.description}</p>
+                  {item.description && (
+                    <p
+                      className={`text-[11px] text-ink-muted ${compact ? 'line-clamp-1' : 'line-clamp-2'}`}
+                    >
+                      {item.description}
+                    </p>
                   )}
                 </div>
                 {canEdit && onRemoveInventoryItem && (
@@ -193,7 +213,7 @@ export function EquipmentPanel({
           )}
         </div>
         {canEdit && (
-          <div className="mt-2">
+          <div className="mt-2 space-y-2">
             <SearchableSelect
               placeholder="Add from equipment catalog..."
               options={catalogOptions.map((entry) => ({
@@ -205,6 +225,40 @@ export function EquipmentPanel({
               onSelect={(value) => onAddCatalogItem(value)}
               emptyText="No equipment at your tier"
             />
+            {isDm && onAddCustomItem && (
+              <form
+                className="space-y-1.5 border border-ink/15 p-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  submitCustomItem();
+                }}
+              >
+                <p className={`font-display text-[10px] uppercase tracking-[0.16em] ${muted}`}>
+                  Custom item
+                </p>
+                <Input
+                  value={customName}
+                  onChange={(e) => setCustomName(e.target.value)}
+                  placeholder="Custom item…"
+                  className={compact ? 'text-xs' : 'text-sm'}
+                />
+                <Input
+                  value={customDescription}
+                  onChange={(e) => setCustomDescription(e.target.value)}
+                  placeholder="Note, optional"
+                  className={compact ? 'text-xs' : 'text-sm'}
+                />
+                <Button
+                  type="submit"
+                  size="sm"
+                  variant="secondary"
+                  disabled={!customName.trim()}
+                  className="w-full"
+                >
+                  Give
+                </Button>
+              </form>
+            )}
           </div>
         )}
       </div>
