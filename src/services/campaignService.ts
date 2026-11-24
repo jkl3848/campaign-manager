@@ -11,10 +11,12 @@ import {
   onSnapshot,
   type Unsubscribe,
 } from 'firebase/firestore';
+import { signInAnonymously } from 'firebase/auth';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { db, storage } from '../lib/firebase';
+import { auth, db, storage } from '../lib/firebase';
 import { generateInviteCode } from '../lib/playerSession';
 import { compressImage, compressBoardImage } from '../lib/images';
+import { clampFear } from '../lib/hopeFear';
 import { stripUndefined } from '../lib/stripUndefined';
 import { normalizeEnemy } from '../lib/enemies';
 import type { Campaign, Character, Enemy, Npc, Encounter, Session, DiceRoll, LoreNote } from '../types';
@@ -63,11 +65,28 @@ export async function uploadImage(campaignId: string, file: File, path: string):
   return getDownloadURL(storageRef);
 }
 
+/** Ensure Storage writes succeed for players who have no Firebase user yet. */
+export async function ensureStorageAuth(): Promise<void> {
+  if (auth.currentUser) return;
+  try {
+    await signInAnonymously(auth);
+  } catch (err) {
+    const code = err && typeof err === 'object' && 'code' in err ? String((err as { code: unknown }).code) : '';
+    if (code === 'auth/operation-not-allowed' || code === 'auth/admin-restricted-operation') {
+      throw new Error(
+        'Anonymous sign-in is disabled for this Firebase project. Enable it in Authentication → Sign-in method to allow player board uploads.',
+      );
+    }
+    throw err;
+  }
+}
+
 export async function uploadBoardImage(
   campaignId: string,
   sessionId: string,
   file: File,
 ): Promise<{ url: string; storagePath: string }> {
+  await ensureStorageAuth();
   const compressed = await compressBoardImage(file);
   const storagePath = `campaigns/${campaignId}/sessions/${sessionId}/board/${crypto.randomUUID()}.webp`;
   const storageRef = ref(storage, storagePath);
@@ -77,6 +96,7 @@ export async function uploadBoardImage(
 }
 
 export async function deleteStorageObject(path: string): Promise<void> {
+  await ensureStorageAuth();
   await deleteObject(ref(storage, path));
 }
 
@@ -208,6 +228,54 @@ export async function updateSession(campaignId: string, sessionId: string, data:
     doc(db, 'campaigns', campaignId, 'sessions', sessionId),
     stripUndefined({ ...data, updatedAt: Date.now() }),
   );
+}
+
+export async function endSession(campaignId: string, sessionId: string): Promise<void> {
+  const now = Date.now();
+  await updateSession(campaignId, sessionId, {
+    active: false,
+    endedAt: now,
+    combatActive: false,
+  });
+}
+
+/** Mark every active session in the campaign as ended (except optionally one id). */
+export async function archiveOtherActiveSessions(
+  campaignId: string,
+  exceptSessionId?: string,
+): Promise<void> {
+  const snap = await getDocs(collection(db, 'campaigns', campaignId, 'sessions'));
+  const now = Date.now();
+  const updates = snap.docs
+    .map((d) => d.data() as Session)
+    .filter((s) => s.active && s.id !== exceptSessionId)
+    .map((s) =>
+      updateDoc(doc(db, 'campaigns', campaignId, 'sessions', s.id), {
+        active: false,
+        endedAt: now,
+        combatActive: false,
+        updatedAt: now,
+      }),
+    );
+  await Promise.all(updates);
+}
+
+export async function listSessions(campaignId: string): Promise<Session[]> {
+  const snap = await getDocs(collection(db, 'campaigns', campaignId, 'sessions'));
+  return snap.docs.map((d) => d.data() as Session);
+}
+
+/** Resolve the campaign fear pool, seeding from the newest session if missing. */
+export async function resolveCampaignFear(campaignId: string, campaign: Campaign | null): Promise<number> {
+  if (typeof campaign?.fear === 'number') {
+    return clampFear(campaign.fear);
+  }
+  const sessions = await listSessions(campaignId);
+  if (sessions.length === 0) return 0;
+  const newest = [...sessions].sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
+  const seeded = clampFear(newest?.fear ?? 0);
+  await updateCampaign(campaignId, { fear: seeded });
+  return seeded;
 }
 
 export function subscribeSession(campaignId: string, sessionId: string, cb: (s: Session | null) => void): Unsubscribe {

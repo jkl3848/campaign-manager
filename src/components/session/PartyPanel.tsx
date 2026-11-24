@@ -27,11 +27,11 @@ interface PartyPanelProps {
   playerId?: string;
   selection: PartySelection;
   onSelect: (selection: PartySelection) => void;
-  onJoinCharacter: (character: Character) => Promise<void>;
-  onLeaveCharacter: (character: Character) => Promise<void>;
-  onToggleNpcParty: (npc: Npc, inParty: boolean) => Promise<void>;
-  onSaveCharacter: (character: Character) => Promise<void>;
-  onSaveNpc: (npc: Npc) => Promise<void>;
+  onJoinCharacter?: (character: Character) => Promise<void>;
+  onLeaveCharacter?: (character: Character) => Promise<void>;
+  onToggleNpcParty?: (npc: Npc, inParty: boolean) => Promise<void>;
+  onSaveCharacter?: (character: Character) => Promise<void>;
+  onSaveNpc?: (npc: Npc) => Promise<void>;
   onAdjustCombatant?: (id: string, field: 'hp' | 'stress', delta: number) => void;
   onTraitRoll?: (traitName: string, modifier: number) => void;
   onWeaponAttack?: (label: string, modifier: number) => void;
@@ -98,10 +98,12 @@ export function PartyPanel({
       : undefined;
 
   const canEditCharacter = (c: Character) =>
-    isDm || (!!playerId && c.playerId === playerId);
+    !!onSaveCharacter && (isDm || (!!playerId && c.playerId === playerId));
 
   const canJoinCharacter = (c: Character) =>
-    isPlayable(c) && (isDm || (!!playerId && c.playerId === playerId));
+    !!onJoinCharacter &&
+    isPlayable(c) &&
+    (isDm || (!!playerId && c.playerId === playerId));
 
   if (selectedCharacter) {
     return (
@@ -125,7 +127,7 @@ export function PartyPanel({
             layout="session"
             canEdit={canEditCharacter(selectedCharacter)}
             isDm={isDm}
-            onSave={onSaveCharacter}
+            onSave={onSaveCharacter ?? (async () => undefined)}
             onTraitRoll={onTraitRoll}
             onWeaponAttack={onWeaponAttack}
             onWeaponDamage={onWeaponDamage}
@@ -164,11 +166,15 @@ export function PartyPanel({
               character={selectedNpc.sheet}
               party={characters}
               layout="session"
-              canEdit={isDm}
+              canEdit={isDm && !!onSaveNpc}
               isDm={isDm}
-              onSave={async (s) => {
-                await onSaveNpc(npcFromSheet(s, selectedNpc));
-              }}
+              onSave={
+                onSaveNpc
+                  ? async (s) => {
+                      await onSaveNpc(npcFromSheet(s, selectedNpc));
+                    }
+                  : async () => undefined
+              }
               onTraitRoll={onTraitRoll}
               onWeaponAttack={onWeaponAttack}
               onWeaponDamage={onWeaponDamage}
@@ -182,9 +188,9 @@ export function PartyPanel({
           ) : (
             <NpcSessionSheet
               npc={selectedNpc}
-              canEdit={isDm}
+              canEdit={isDm && !!onSaveNpc}
               isDm={isDm}
-              onSave={onSaveNpc}
+              onSave={onSaveNpc ?? (async () => undefined)}
               sessionConditions={getSessionConditions(session, 'npc', selectedNpc.id)}
               onToggleSessionCondition={
                 isDm && onTogglePartyCondition
@@ -259,9 +265,15 @@ export function PartyPanel({
                   subtitle={`${c.playerName} · Lv ${c.level} ${cls?.name ?? ''}`}
                   imageUrl={c.imageUrl}
                   accent="amber"
-                  isDm={isDm}
+                  isDm={isDm && !!onLeaveCharacter}
                   onOpen={() => onSelect({ kind: 'character', id: c.id })}
-                  onRemove={() => onLeaveCharacter(c)}
+                  onRemove={
+                    onLeaveCharacter
+                      ? () => {
+                          void onLeaveCharacter(c);
+                        }
+                      : undefined
+                  }
                 />
               );
             })}
@@ -280,9 +292,15 @@ export function PartyPanel({
                   subtitle={subtitle}
                   imageUrl={n.imageUrl}
                   accent="sky"
-                  isDm={isDm}
+                  isDm={isDm && !!onToggleNpcParty}
                   onOpen={() => onSelect({ kind: 'npc', id: n.id })}
-                  onRemove={() => onToggleNpcParty(n, false)}
+                  onRemove={
+                    onToggleNpcParty
+                      ? () => {
+                          void onToggleNpcParty(n, false);
+                        }
+                      : undefined
+                  }
                 />
               );
             })}
@@ -313,7 +331,7 @@ export function PartyPanel({
                       actionLabel={canJoinCharacter(c) ? 'Join' : undefined}
                       onOpen={() => onSelect({ kind: 'character', id: c.id })}
                       onAction={
-                        canJoinCharacter(c)
+                        canJoinCharacter(c) && onJoinCharacter
                           ? async () => {
                               await onJoinCharacter(c);
                             }
@@ -340,13 +358,13 @@ export function PartyPanel({
                       accent="sky"
                       onOpen={() => onSelect({ kind: 'npc', id: n.id })}
                       onAction={
-                        isDm
+                        isDm && onToggleNpcParty
                           ? async () => {
                               await onToggleNpcParty(n, true);
                             }
                           : undefined
                       }
-                      actionLabel={isDm ? 'To party' : undefined}
+                      actionLabel={isDm && onToggleNpcParty ? 'To party' : undefined}
                     />
                   );
                 })}
@@ -373,7 +391,7 @@ export function PartyPanel({
                       imageUrl={c.imageUrl}
                       accent="amber"
                       onAdd={async () => {
-                        await onJoinCharacter(c);
+                        await onJoinCharacter?.(c);
                       }}
                     />
                   );
@@ -402,7 +420,7 @@ function PartyMemberRow({
   accent: 'amber' | 'sky';
   isDm: boolean;
   onOpen: () => void;
-  onRemove: () => void;
+  onRemove?: () => void;
 }) {
   const avatarBg =
     accent === 'amber' ? 'bg-amber-950/50 text-amber-400' : 'bg-sky-950/50 text-sky-400';
@@ -422,7 +440,7 @@ function PartyMemberRow({
           <p className="truncate text-[10px] text-slate-400">{subtitle}</p>
         </div>
       </button>
-      {isDm && (
+      {isDm && onRemove && (
         <button
           type="button"
           title="Remove from session party"
