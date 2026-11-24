@@ -8,7 +8,10 @@ import {
   subscribeDiceLog,
   uploadBoardImage,
   deleteStorageObject,
-  getCampaign,
+  subscribeCampaign,
+  updateCampaign,
+  resolveCampaignFear,
+  endSession,
   saveCharacter,
   saveNpc,
 } from '../services/campaignService';
@@ -125,7 +128,8 @@ export function LiveSessionPage() {
     : (diceRollerCharacter?.playerName || diceRollerCharacter?.name || 'Player');
 
   useEffect(() => {
-    if (campaignId) getCampaign(campaignId).then(setCampaign);
+    if (!campaignId) return;
+    return subscribeCampaign(campaignId, setCampaign);
   }, [campaignId]);
 
   useEffect(() => {
@@ -138,14 +142,32 @@ export function LiveSessionPage() {
     return subscribeDiceLog(campaignId, sessionId, setDiceRolls);
   }, [campaignId, sessionId]);
 
+  const sessionLive = !!session?.active;
+  const canEditBoard = sessionLive && (isDm || (!!playerSession && playerSession.campaignId === campaignId));
+  // Live sessions use the campaign fear pool; archives show the session snapshot.
+  const fearValue = clampFear(
+    sessionLive && typeof campaign?.fear === 'number' ? campaign.fear : (session?.fear ?? 0),
+  );
+
+  // Seed campaign.fear once for older campaigns that never stored it.
   useEffect(() => {
-    if (!campaignId || !sessionId || !session) return;
-    if (session.fear <= SESSION_FEAR_MAX) return;
-    void updateSession(campaignId, sessionId, { fear: SESSION_FEAR_MAX });
-  }, [campaignId, sessionId, session]);
+    if (!campaignId || !campaign || !sessionLive) return;
+    if (typeof campaign.fear === 'number') return;
+    void resolveCampaignFear(campaignId, campaign);
+  }, [campaignId, campaign, sessionLive]);
+
+  // Keep the live session's fear snapshot in sync with the campaign pool.
+  useEffect(() => {
+    if (!campaignId || !sessionId || !session || !sessionLive) return;
+    if (typeof campaign?.fear !== 'number') return;
+    const next = clampFear(campaign.fear);
+    if (session.fear === next) return;
+    void updateSession(campaignId, sessionId, { fear: next });
+  }, [campaignId, sessionId, session, sessionLive, campaign?.fear]);
 
   useEffect(() => {
     if (isDm || !playerSession || !session || !campaignId || !sessionId) return;
+    if (!session.active) return;
     const char =
       sessionActiveCharacter
       ?? characters.find((c) => c.playerId === playerSession.playerId);
@@ -212,12 +234,25 @@ export function LiveSessionPage() {
   }, [session]);
 
   const update = async (data: Partial<Session>) => {
-    if (!campaignId || !sessionId) return;
+    if (!campaignId || !sessionId || !session?.active) return;
     await updateSession(campaignId, sessionId, data);
   };
 
+  const setFear = async (nextFear: number) => {
+    if (!campaignId || !sessionId || !session?.active) return;
+    const clamped = clampFear(nextFear);
+    await updateCampaign(campaignId, { fear: clamped });
+    await updateSession(campaignId, sessionId, { fear: clamped });
+  };
+
+  const handleEndSession = async () => {
+    if (!campaignId || !sessionId || !isDm || !session?.active) return;
+    if (!confirm('End this session? It will stay viewable as an archive.')) return;
+    await endSession(campaignId, sessionId);
+  };
+
   const handleRoll = async (roll: DiceRoll) => {
-    if (!campaignId || !sessionId || !session) return;
+    if (!campaignId || !sessionId || !session?.active) return;
     await logDiceRoll(campaignId, sessionId, roll);
 
     if (roll.hopeGain === 'player' && roll.characterId) {
@@ -240,9 +275,9 @@ export function LiveSessionPage() {
         }
       }
     } else if (roll.hopeGain === 'dm') {
-      const nextFear = clampFear(session.fear + 1);
-      if (nextFear !== session.fear) {
-        await update({ fear: nextFear });
+      const nextFear = clampFear(fearValue + 1);
+      if (nextFear !== fearValue) {
+        await setFear(nextFear);
       }
     }
   };
@@ -339,7 +374,7 @@ export function LiveSessionPage() {
   };
 
   const handleJoinSessionCharacter = async (character: Character) => {
-    if (!session || !isPlayable(character)) return;
+    if (!session?.active || !isPlayable(character)) return;
     const current = session.joinedCharacterIds ?? [];
     if (current.includes(character.id)) return;
     const base =
@@ -350,7 +385,7 @@ export function LiveSessionPage() {
   };
 
   const handleLeaveSessionCharacter = async (character: Character) => {
-    if (!session) return;
+    if (!session?.active) return;
     const joined = sessionJoinedCharacterIds(session, characters);
     joined.delete(character.id);
     await update({ joinedCharacterIds: [...joined] });
@@ -372,7 +407,7 @@ export function LiveSessionPage() {
     memberId: string,
     condition: SessionCondition,
   ) => {
-    if (!session || !isDm) return;
+    if (!session?.active || !isDm) return;
     const partyConditions = toggleSessionConditionMap(session, kind, memberId, condition);
     await update({ partyConditions });
   };
@@ -387,7 +422,7 @@ export function LiveSessionPage() {
     entry: CatalogEntry,
     recipient: LootRecipient,
   ) => {
-    if (!campaignId || !sessionId) return;
+    if (!campaignId || !sessionId || !session?.active) return;
     setLootAssigningIndex(index);
     try {
       if (recipient.kind === 'character') {
@@ -429,7 +464,7 @@ export function LiveSessionPage() {
   };
 
   const startCombat = async (encounterId?: string) => {
-    if (!session) return;
+    if (!session?.active) return;
     const encounter = encounters.find((e) => e.id === encounterId);
     const combatants: Combatant[] = [];
 
@@ -468,10 +503,13 @@ export function LiveSessionPage() {
     await update({ combatActive: true, combatants, round: 1 });
   };
 
-  const endCombat = () => update({ combatActive: false, combatants: [], round: 0 });
+  const endCombat = () => {
+    if (!session?.active) return;
+    void update({ combatActive: false, combatants: [], round: 0 });
+  };
 
   const adjustCombatant = (id: string, field: 'hp' | 'stress', delta: number) => {
-    if (!session) return;
+    if (!session?.active) return;
     const combatants = session.combatants.map((c) => {
       if (c.id !== id) return c;
       const resource = c[field];
@@ -494,7 +532,7 @@ export function LiveSessionPage() {
     );
   }
 
-  const dmPanelWidth = isDm ? '18rem' : '0px';
+  const dmPanelWidth = isDm && sessionLive ? '18rem' : '0px';
 
   return (
     <div
@@ -505,12 +543,12 @@ export function LiveSessionPage() {
         elements={session.canvasElements}
         onElementsChange={(elements) => update({ canvasElements: elements })}
         onImageUpload={
-          isDm
+          canEditBoard
             ? (file) => uploadBoardImage(campaignId!, sessionId!, file)
             : undefined
         }
         onImageDelete={
-          isDm
+          canEditBoard
             ? async (storagePath) => {
                 try {
                   await deleteStorageObject(storagePath);
@@ -521,32 +559,57 @@ export function LiveSessionPage() {
             : undefined
         }
         viewportKey={`${campaignId}-${sessionId}`}
-        readOnly={!isDm && !playerSession}
+        readOnly={!canEditBoard}
         fullscreen
       />
 
       {/* Top center overlay — session title & hope/fear */}
       <div className="pointer-events-none absolute top-3 left-1/2 z-30 -translate-x-1/2">
-        <div className="pointer-events-auto flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-950/85 px-4 py-2 backdrop-blur-md">
-          <h1 className="font-serif text-sm font-bold text-amber-100">{session.name}</h1>
-          <div className="h-4 w-px bg-slate-700" />
-          <HopeFearTracker
-            label="Hope"
-            value={partyHope}
-            color="sky"
-          />
-          <HopeFearTracker
-            label="Fear"
-            value={clampFear(session.fear)}
-            max={SESSION_FEAR_MAX}
-            color="purple"
-            onAdjust={isDm ? (d) => update({ fear: clampFear(session.fear + d) }) : undefined}
-          />
+        <div className="pointer-events-auto flex flex-col items-center gap-1">
+          {!sessionLive && (
+            <div className="rounded-lg border border-slate-600/70 bg-slate-900/90 px-3 py-1 text-xs font-medium text-slate-300 backdrop-blur-md">
+              Archived session — view only
+            </div>
+          )}
+          <div className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-950/85 px-4 py-2 backdrop-blur-md">
+            <h1 className="font-serif text-sm font-bold text-amber-100">{session.name}</h1>
+            <div className="h-4 w-px bg-slate-700" />
+            <HopeFearTracker
+              label="Hope"
+              value={partyHope}
+              color="sky"
+            />
+            <HopeFearTracker
+              label="Fear"
+              value={fearValue}
+              max={SESSION_FEAR_MAX}
+              color="purple"
+              onAdjust={
+                isDm && sessionLive
+                  ? (d) => {
+                      void setFear(fearValue + d);
+                    }
+                  : undefined
+              }
+            />
+            {isDm && sessionLive && (
+              <>
+                <div className="h-4 w-px bg-slate-700" />
+                <button
+                  type="button"
+                  onClick={() => void handleEndSession()}
+                  className="text-xs text-slate-400 hover:text-amber-200"
+                >
+                  End session
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
       {/* DM left panel */}
-      {isDm && (
+      {isDm && sessionLive && (
         <DmSessionPanel
           enemies={enemies}
           npcs={npcs}
@@ -569,35 +632,37 @@ export function LiveSessionPage() {
         npcs={npcs}
         enemies={enemies}
         combatants={session.combatants}
-        isDm={!!isDm}
+        isDm={!!isDm && sessionLive}
         playerId={playerSession?.playerId}
         selection={partySelection}
         onSelect={setPartySelection}
-        onJoinCharacter={handleJoinSessionCharacter}
-        onLeaveCharacter={handleLeaveSessionCharacter}
-        onToggleNpcParty={handleToggleNpcParty}
-        onSaveCharacter={(c) => saveCharacter(campaignId!, c)}
-        onSaveNpc={(n) => saveNpc(campaignId!, n)}
-        onAdjustCombatant={adjustCombatant}
-        onTraitRoll={handleTraitRoll}
-        onWeaponAttack={handleWeaponAttack}
-        onWeaponDamage={handleWeaponDamage}
-        onEnemyAttackRoll={handleEnemyAttackRoll}
-        onEnemyDamageRoll={handleEnemyDamageRoll}
-        onTogglePartyCondition={isDm ? handleTogglePartyCondition : undefined}
+        onJoinCharacter={sessionLive ? handleJoinSessionCharacter : undefined}
+        onLeaveCharacter={sessionLive ? handleLeaveSessionCharacter : undefined}
+        onToggleNpcParty={sessionLive ? handleToggleNpcParty : undefined}
+        onSaveCharacter={sessionLive ? (c) => saveCharacter(campaignId!, c) : undefined}
+        onSaveNpc={sessionLive ? (n) => saveNpc(campaignId!, n) : undefined}
+        onAdjustCombatant={sessionLive ? adjustCombatant : undefined}
+        onTraitRoll={sessionLive ? handleTraitRoll : undefined}
+        onWeaponAttack={sessionLive ? handleWeaponAttack : undefined}
+        onWeaponDamage={sessionLive ? handleWeaponDamage : undefined}
+        onEnemyAttackRoll={sessionLive ? handleEnemyAttackRoll : undefined}
+        onEnemyDamageRoll={sessionLive ? handleEnemyDamageRoll : undefined}
+        onTogglePartyCondition={isDm && sessionLive ? handleTogglePartyCondition : undefined}
       />
 
       {/* Floating action buttons */}
       <div
         className="absolute bottom-4 z-30 flex flex-col gap-2"
-        style={{ left: isDm ? 'calc(18rem + 12px)' : '12px' }}
+        style={{ left: isDm && sessionLive ? 'calc(18rem + 12px)' : '12px' }}
       >
-        <ToolbarButton
-          label="Roll Dice"
-          icon="⚀"
-          active={activePopup === 'dice'}
-          onClick={() => setActivePopup(activePopup === 'dice' ? null : 'dice')}
-        />
+        {sessionLive && (
+          <ToolbarButton
+            label="Roll Dice"
+            icon="⚀"
+            active={activePopup === 'dice'}
+            onClick={() => setActivePopup(activePopup === 'dice' ? null : 'dice')}
+          />
+        )}
         <ToolbarButton
           label="Roll Log"
           icon="☰"
@@ -611,7 +676,7 @@ export function LiveSessionPage() {
           active={activePopup === 'lore'}
           onClick={() => setActivePopup(activePopup === 'lore' ? null : 'lore')}
         />
-        {isDm && (
+        {isDm && sessionLive && (
           <ToolbarButton
             label="Loot Chart"
             icon="✧"
@@ -635,11 +700,11 @@ export function LiveSessionPage() {
 
       {/* Corner dice roller — no backdrop */}
       <CornerDialog
-        open={activePopup === 'dice'}
+        open={sessionLive && activePopup === 'dice'}
         onClose={() => setActivePopup(null)}
         title="Dice Roller"
         style={{
-          left: isDm ? 'calc(18rem + 12px)' : '12px',
+          left: isDm && sessionLive ? 'calc(18rem + 12px)' : '12px',
           bottom: 'calc(2.5rem + 3.5rem)',
         }}
       >
@@ -686,7 +751,11 @@ export function LiveSessionPage() {
         <Popup open={activePopup === 'notes'} onClose={() => setActivePopup(null)} title="Session Notes" size="lg">
           <Textarea
             value={session.notes}
-            onChange={(e) => update({ notes: e.target.value })}
+            onChange={(e) => {
+              if (!sessionLive) return;
+              void update({ notes: e.target.value });
+            }}
+            readOnly={!sessionLive}
             placeholder="Session notes..."
             className="min-h-48"
           />

@@ -1,8 +1,9 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import type { CanvasElement } from '../../types';
+import { erasePolyline } from '../../lib/canvasEraser';
 import { Button } from '../ui/Button';
 
-type Tool = 'pen' | 'pan' | 'select';
+type Tool = 'pen' | 'eraser' | 'pan' | 'select';
 type HandleCorner = 'nw' | 'ne' | 'sw' | 'se';
 
 interface Viewport {
@@ -106,6 +107,7 @@ export function SessionCanvas({
   const interactionRef = useRef<
     | { kind: 'pan'; lastX: number; lastY: number }
     | { kind: 'draw'; path: { x: number; y: number }[] }
+    | { kind: 'erase'; path: { x: number; y: number }[] }
     | {
         kind: 'move';
         id: string;
@@ -293,7 +295,14 @@ export function SessionCanvas({
     }
 
     if (currentPath.length > 1) {
-      drawPath(ctx, currentPath, color, lineWidth);
+      if (tool === 'eraser') {
+        ctx.save();
+        ctx.globalAlpha = 0.45;
+        drawPath(ctx, currentPath, '#e2e8f0', lineWidth);
+        ctx.restore();
+      } else {
+        drawPath(ctx, currentPath, color, lineWidth);
+      }
     }
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -508,11 +517,11 @@ export function SessionCanvas({
       return;
     }
 
-    if (readOnly || tool !== 'pen') return;
+    if (readOnly || (tool !== 'pen' && tool !== 'eraser')) return;
 
     canvas.setPointerCapture(e.pointerId);
     const path = [world];
-    interactionRef.current = { kind: 'draw', path };
+    interactionRef.current = { kind: tool === 'eraser' ? 'erase' : 'draw', path };
     setCurrentPath(path);
   };
 
@@ -530,7 +539,7 @@ export function SessionCanvas({
       return;
     }
 
-    if (interaction.kind === 'draw') {
+    if (interaction.kind === 'draw' || interaction.kind === 'erase') {
       const world = screenToWorld(screen.x, screen.y);
       interaction.path.push(world);
       setCurrentPath([...interaction.path]);
@@ -622,6 +631,51 @@ export function SessionCanvas({
       return;
     }
 
+    if (interaction.kind === 'erase') {
+      const eraserPath = interaction.path;
+      setCurrentPath([]);
+      if (eraserPath.length < 2) return;
+
+      const eraserRadius = lineWidth / 2;
+      const next: CanvasElement[] = [];
+      let pathsChanged = false;
+
+      for (const el of elements) {
+        if (el.type !== 'path') {
+          next.push(el);
+          continue;
+        }
+        const points = el.data.points as { x: number; y: number }[] | undefined;
+        const strokeColor = el.data.color as string | undefined;
+        const strokeWidth = typeof el.data.lineWidth === 'number' ? el.data.lineWidth : 3;
+        if (!Array.isArray(points) || points.length < 2) {
+          next.push(el);
+          continue;
+        }
+
+        const runs = erasePolyline(points, eraserPath, strokeWidth, eraserRadius);
+        if (runs.length === 1 && runs[0].length === points.length) {
+          next.push(el);
+          continue;
+        }
+        pathsChanged = true;
+        for (const run of runs) {
+          next.push({
+            id: crypto.randomUUID(),
+            type: 'path',
+            data: {
+              points: run,
+              color: strokeColor ?? '#f59e0b',
+              lineWidth: strokeWidth,
+            },
+          });
+        }
+      }
+
+      if (pathsChanged) onElementsChange(next);
+      return;
+    }
+
     if (interaction.kind === 'move' || interaction.kind === 'scale') {
       onElementsChange(interaction.draft);
       setDraftElements(null);
@@ -642,7 +696,15 @@ export function SessionCanvas({
       let index = 0;
       for (const file of files) {
         if (!file.type.startsWith('image/')) continue;
-        const { url, storagePath } = await onImageUpload(file);
+        let uploaded: { url: string; storagePath: string };
+        try {
+          uploaded = await onImageUpload(file);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Image upload failed.';
+          window.alert(message);
+          break;
+        }
+        const { url, storagePath } = uploaded;
         const img = ensureCachedImage(url);
         await new Promise<void>((resolve) => {
           if (img.complete && img.naturalWidth > 0) resolve();
@@ -707,7 +769,7 @@ export function SessionCanvas({
   const cursorClass = (() => {
     if (spaceDown || tool === 'pan') return 'cursor-grab';
     if (tool === 'select') return 'cursor-default';
-    if (tool === 'pen' && !readOnly) return 'cursor-crosshair';
+    if ((tool === 'pen' || tool === 'eraser') && !readOnly) return 'cursor-crosshair';
     return 'cursor-default';
   })();
 
@@ -723,6 +785,13 @@ export function SessionCanvas({
       <Button variant={tool === 'pen' ? 'primary' : 'ghost'} size="sm" onClick={() => setTool('pen')}>
         Draw
       </Button>
+      <Button
+        variant={tool === 'eraser' ? 'primary' : 'ghost'}
+        size="sm"
+        onClick={() => setTool('eraser')}
+      >
+        Eraser
+      </Button>
       <Button variant={tool === 'pan' ? 'primary' : 'ghost'} size="sm" onClick={() => setTool('pan')}>
         Pan
       </Button>
@@ -735,13 +804,15 @@ export function SessionCanvas({
           Move
         </Button>
       )}
-      <input
-        type="color"
-        value={color}
-        onChange={(e) => setColor(e.target.value)}
-        className="h-7 w-7 cursor-pointer rounded"
-        title="Color"
-      />
+      {tool !== 'eraser' && (
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          className="h-7 w-7 cursor-pointer rounded"
+          title="Color"
+        />
+      )}
       <input
         type="range"
         min={1}
@@ -749,7 +820,7 @@ export function SessionCanvas({
         value={lineWidth}
         onChange={(e) => setLineWidth(parseInt(e.target.value))}
         className="w-16"
-        title="Line width"
+        title={tool === 'eraser' ? 'Eraser size' : 'Line width'}
       />
       <Button variant="ghost" size="sm" onClick={handleClear}>
         Clear

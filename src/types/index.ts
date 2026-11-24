@@ -352,11 +352,14 @@ export interface Session {
   campaignId: string;
   name: string;
   active: boolean;
+  /** Set when the DM ends/archives the session. */
+  endedAt?: number;
   combatActive: boolean;
   combatants: Combatant[];
   currentTurn?: string;
   round: number;
   hope: number;
+  /** Snapshot of fear while live; mirrors campaign.fear. Kept after archive for history. */
   fear: number;
   canvasElements: CanvasElement[];
   notes: string;
@@ -404,6 +407,8 @@ export interface Campaign {
   description?: string;
   dmId: string;
   inviteCode: string;
+  /** Persistent GM fear pool (0–12). Carries across sessions. */
+  fear?: number;
   createdAt: number;
   updatedAt: number;
 }
